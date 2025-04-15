@@ -1,0 +1,23 @@
+{
+  "name": "birbnb-futbol-y-negocios",
+  "version": "1.0.0",
+  "description": "BIRBNB\r ======",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LucasSArias/BirBnB-Futbol-y-Negocios.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LucasSArias/BirBnB-Futbol-y-Negocios/issues"
+  },
+  "homepage": "https://github.com/LucasSArias/BirBnB-Futbol-y-Negocios#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
