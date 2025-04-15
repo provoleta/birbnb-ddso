@@ -43,3 +43,19 @@ BIRBNB
     🔳 v0.4.1
 
         - Se agrega manejo de errores al crear notificacion
+
+    🔳 v0.4.2
+
+        - Correcion de las clases que funcionaban como ENUM, en vez de clases son constantes que toman valores
+    
+    🔳 v0.4.3
+
+        - Se agregó la creación de una excepción para cuando haya un estado no válido en FactoryNotification
+
+    🔳 v0.5.0
+
+        - Reestructuracion en la logica para que el usuario reserve, se delega la resposabilidad al alojamiento para que cree la reserva
+        - Se agrega lista de notificaciones como atributo al usuario, para que en un futuro se puedan gestionar estas
+        - Se agrega logica en el usuario de crear notificacion
+
+        > Pendiente: Esperar respuesta de atributo fecha alta y del contenido de la notificacion para poder terminar esa logica. Explicar GitFlow. Repreguntar si se puede agregar lista de notificaciones
