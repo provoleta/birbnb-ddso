@@ -36,14 +36,14 @@ router.put('/crearReserva', (req, res) => crearReservaController.create(req, res
 
 const eliminarReservaController = new ReservaController.EliminarReserva()
 
-router.delete('/elimiarReserva', (req, res) => eliminarReservaController.delete(req, res))
+router.delete('/eliminarReserva' + '/:id', (req, res) => eliminarReservaController.delete(req, res)) //El campo id podria ser el nombre del alojamiento, habria que definir eso.
 
 // const ConsultaReservaController = require('./controllers/consultaReserva.controller')
 
 const consultaReservaController = new ReservaController.ConsultaReserva()
 
 // En consultaReserva se debería pasar al usuario por query param para buscar las reservas del mismo.
-router.get('/consultaReserva', (req, res) => consultaReservaController.consultar(req, res))
+router.get('/consultaReserva' + '/:user', (req, res) => consultaReservaController.consultar(req, res))
 
 // const ModificarReservaController = require('./controllers/modificarReserva.controller')
 
