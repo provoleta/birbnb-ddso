@@ -5,7 +5,7 @@ const app = express();
 const port = 9000 // * Puerto arbitrario para el servidor
 
 
-const SaludController = require('./controllers/health.controller')
+const SaludController = require('./BirBnB/controllers/health.controller')
 
 const router = express.Router();
 
