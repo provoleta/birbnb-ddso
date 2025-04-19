@@ -1,0 +1,1 @@
+class ListarDisponibles {} //Hay que aplicarle filtros en caso que corresponda.
