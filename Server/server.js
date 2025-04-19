@@ -21,3 +21,35 @@ app.listen(port, () => {
     console.log('Servidor escuchando en el puerto ' + port);
     console.log('Endpoint de salud: http://localhost:' + port + '/health');
 })
+
+// Quizás sea más útil usar un mismo controller para consultas y que maneje las distinas acciones sobre las consultas
+
+const ReservaController = require('./controllers/reservas.controller')
+
+// const CrearReservaController = require('./controllers/crearReserva.controller')
+
+const crearReservaController = new ReservaController.CrearReserva()
+
+router.put('/crearReserva', (req, res) => crearReservaController.create(req, res))
+
+// const EliminarReservaController = require('./controllers/eliminarReseva.controller')
+
+const eliminarReservaController = new ReservaController.EliminarReserva()
+
+router.delete('/elimiarReserva', (req, res) => eliminarReservaController.delete(req, res))
+
+// const ConsultaReservaController = require('./controllers/consultaReserva.controller')
+
+const consultaReservaController = new ReservaController.ConsultaReserva()
+
+// En consultaReserva se debería pasar al usuario por query param para buscar las reservas del mismo.
+router.get('/consultaReserva', (req, res) => consultaReservaController.consultar(req, res))
+
+// const ModificarReservaController = require('./controllers/modificarReserva.controller')
+
+const modificarReservaController = new ReservaController.ModificarReserva()
+
+
+// Se deberia pasar qué atributos modificar y también validar que siga en período donde se pueda modificar la reserva
+router.post('/modificarReserva', (req, res) => modificarReservaController.modificar(req, res))
+
