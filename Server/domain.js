@@ -31,8 +31,8 @@ class Alojamiento {
         // Los datos de tipo Date se pueden comparar directamente con operadores <, >, =....
         // ? Propongo algo tipo esto y comparar los dias de la reserva con ese rango (si uno es true, q de false (no se la sintaxis xd))
 
-        return this.reservas.some(
-            unaReserva => unaReserva.estaLibreEn(rangoDeFechas)
+        return this.reservas.every(
+            unaReserva => ! unaReserva.seSuperponeCon(rangoDeFechas)
         )
 
 
@@ -102,15 +102,26 @@ class Reserva {
         this.estado = EstadoReserva
     }
 
-    estaLibreEn(fechaSolicitada) {
+
+// Reserva: 10 a 21
+// 
+// 
+
+
+
+// 12 a 13
+
+    // Tengo que verificar si fecha solicitada se superpone el rango de fechas de la reserva
+    seSuperponeCon(fechaSolicitada) {
+        
         // Verdadero en caso que la fecha solicitada sea antes de una reserva existente
-        let fechaLibreAntes = fechaSolicitada.fechaFin < this.fechaAlta.fechaInicio
+        let fechaLibreAntes = fechaSolicitada.fechaFin < this.rangoFechas.fechaInicio
 
         // Verdadero en caso de que la fecha solicitada sea despues de una reserva existente
-        let fechaLibreDespues = fechaSolicitada.fechaInicio > this.fechaAlta.fechaFin
+        let fechaLibreDespues = fechaSolicitada.fechaInicio > this.rangoFechas.fechaFin
+        
 
-
-        return fechaLibreAntes || fechaLibreDespues
+        return !(fechaLibreAntes || fechaLibreDespues)
     }
 
     get anfitrion() {
@@ -164,12 +175,13 @@ class FactoryNotificacion {
 class Notificacion {
 
     #fechaLeida
+
     constructor(mensaje, usuario, fechaAlta) {
         this.mensaje = mensaje;       // String
         this.usuario = usuario;       // Usuario
         this.fechaAlta = fechaAlta;   // Date
         this.leida = false;           // Boolean
-        // this.fechaLeida = fechaLeida; // Date
+            
     }
 
     marcarComoLeida() {
