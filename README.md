@@ -73,5 +73,10 @@ BIRBNB
         - Método crearCambioEstado implementado en la reserva, además de tener una lista de los cambios de estados para poner tener un seguimiento
         - Metodos auxiliares para calcular la cantidad de dias y getters sobre fechaInicio y fechaFin en la Reserva
         - crearSegunReserva en FactoryNotificacion como metodo static para no tener que instanciar a la clase
+
+    🔳 v0.6.1
+
+        - Cambio logica de seSuperponeCon de un fecha
+        - Agrego esto aca como le gusta a thiago!
     
         

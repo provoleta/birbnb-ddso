@@ -107,26 +107,14 @@ class Reserva {
 
     }
 
-
-// Reserva: 10 a 21
-// 
-// 
-
-
-
-// 12 a 13
-
     // Tengo que verificar si fecha solicitada se superpone el rango de fechas de la reserva
     seSuperponeCon(fechaSolicitada) {
         
-        // Verdadero en caso que la fecha solicitada sea antes de una reserva existente
-        let fechaLibreAntes = fechaSolicitada.fechaFin < this.rangoFechas.fechaInicio
-
-        // Verdadero en caso de que la fecha solicitada sea despues de una reserva existente
-        let fechaLibreDespues = fechaSolicitada.fechaInicio > this.rangoFechas.fechaFin
+        let superponeFin = fechaSolicitada.fechaFin > this.rangoFechas.fechaInicio
         
-
-        return !(fechaLibreAntes || fechaLibreDespues)
+        let superponeInicio = fechaSolicitada.fechaInicio < this.rangoFechas.fechaFin
+        
+        return superponeFin && superponeInicio
     }
 
     get anfitrion() {
@@ -227,7 +215,7 @@ class MensajeSobreUsuario {
     }
 
     get contenido() {
-        return this.texto.replace("{nombre}", this.usuario.nombre)  // Que hace esta linea: reemplaza el {nombre} por el nombre del usuario
+        return this.texto.replace("{nombre}", this.usuario.nombre)  
     }
 }
 
@@ -254,12 +242,8 @@ class Notificacion {
             
     }
 
-    // mostrar() {
-    //     console.log(this.mensaje.contenido())
-    // }
-
+    // Setter de atributo "leida" 
     marcarComoLeida() {
-        // Setter de atributo "leida" 
         this.leida = true
         this.fechaLeida = new Date()
     }
@@ -268,9 +252,6 @@ class Notificacion {
         return this.#fechaLeida
     }
 }
-
-// Esto dice el enunciado:
-// Cada vez que se realice una reserva es necesario enviarle una notificación al Anfitrión, donde se le indique quién realizó la reserva, para cuándo, por cuántos días y sobre qué alojamiento.
 
 class Usuario {
     constructor(nombre, email, tipo) {
@@ -281,17 +262,15 @@ class Usuario {
     }
 
     reservar(alojamiento, rangoFechas) {
-        //let reserva = new Reserva(new Date(), this, alojamiento, rangoFechas, EstadoReserva.PENDIENTE, alojamiento.precioPorNoche)
         let reserva = alojamiento.crearReserva(this, rangoFechas)
         let notificacion = FactoryNotificacion.crearSegunReserva(reserva)
 
         this.agregarNotificacion(notificacion)
     }
 
-    //Si un huésped decide cancelar una reserva, es necesario enviarle una notificación al Anfitrión para darle aviso de este hecho, contándole el motivo de la cancelación si es que fue especificado.
     cancelarReserva(reserva, motivo) {
-        if (new Date() < reserva.rangoDeFechas.fechaInicio()) {
-            reserva.actualizarEstado(EstadoReserva.CANCELADA, motivo)
+        if (new Date() < reserva.rangoDeFechas.fechaInicio()) { // TODO: discutir esto
+            reserva.actualizarEstado(EstadoReserva.CANCELADA, motivo) 
         }
     }
 
