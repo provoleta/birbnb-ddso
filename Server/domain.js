@@ -29,14 +29,9 @@ class Alojamiento {
 
     estasDisponibleEn(rangoDeFechas) {
         // Los datos de tipo Date se pueden comparar directamente con operadores <, >, =....
-        // ? Propongo algo tipo esto y comparar los dias de la reserva con ese rango (si uno es true, q de false (no se la sintaxis xd))
-
         return this.reservas.some(
             unaReserva => unaReserva.estaLibreEn(rangoDeFechas)
         )
-
-
-
     }
 
     tuPrecioEstaDentroDe(valorMinimo, valorMaximo) {
@@ -51,9 +46,11 @@ class Alojamiento {
         return cantHuespedes <= this.cantHuespedesMax
     }
 
-    crearReserva(huesped, rangoFechas){
-        let reserva = new Reserva(new Date(), huesped, this, rangoFechas, EstadoReserva.PENDIENTE, this.precioPorNoche)
-        return reserva
+    crearReserva(huesped, rangoFechas) {
+        if (this.estasDisponibleEn(rangoFechas)) {
+            let reserva = new Reserva(new Date(), huesped, this, rangoFechas, EstadoReserva.PENDIENTE, this.precioPorNoche)
+            return reserva
+        } else throw new Error("El alojamiento no esta disponible en las fechas solicitadas")
     }
 }
 
@@ -88,6 +85,8 @@ class Pais {
 }
 
 class Reserva {
+    #cambiosEstadoReserva = []  // CambiosEstadoReserva[]
+    
     constructor(fechaAlta, huespedReservador, alojamiento, rangoFechas, estado, precioPorNoche) {
         this.fechaAlta = fechaAlta;           // Date
         this.huespedReservador = huespedReservador;               // Usuario
@@ -95,11 +94,16 @@ class Reserva {
         this.rangoFechas = rangoFechas;       // RangoFechas
         this.estado = estado;                 // EstadoReserva
         this.precioPorNoche = precioPorNoche; // Double
+
     }
 
-    actualizarEstado(EstadoReserva) {
-        // Imagino que actualizar estado es el setter del atributo estado (CONSULTAR)
+    // 1) Actualizar el estado | 2) Crear una notificacion | 3) Enviar la notificacion al destinatario | 4) Crear una instancia de CambioEstadoReserva | 5) Agregar la instancia a la Reserva
+    actualizarEstado(EstadoReserva, MotivoCambio) {
         this.estado = EstadoReserva
+        let notificacion = FactoryNotificacion.crearSegunReserva(this); // arma la notificacion con el estado nuevo
+        notificacion.usuario.agregarNotificacion(notificacion)
+        crearCambioEstado(notificacion.usuario, EstadoReserva, MotivoCambio) // crea el cambio de estado y lo agrega a la reserva
+
     }
 
     estaLibreEn(fechaSolicitada) {
@@ -115,6 +119,28 @@ class Reserva {
 
     get anfitrion() {
         return this.alojamiento.anfitrion
+    }
+
+    calcularCantidadDias() {
+        const diferenciaFechas = this.rangoFechas.fechaFin - this.rangoFechas.fechaInicio
+
+        // Convierto la diferencia a días
+        const cantidadDias = diferenciaFechas / (1000 * 60 * 60 * 24)
+
+        return cantidadDias
+    }
+
+    fechaInicio() {
+        return this.rangoFechas.fechaInicio
+    }
+
+    fechaFin() {
+        return this.rangoFechas.fechaFin
+    }
+
+    crearCambioEstado(usuario, estado, motivo) {
+        let cambioEstadoReserva = new CambioEstadoReserva(new Date(), estado, this, motivo, usuario) 
+        this.#cambiosEstadoReserva.push(cambioEstadoReserva)
     }
 
 }
@@ -137,37 +163,48 @@ class CambioEstadoReserva {
 }
 
 class FactoryNotificacion {
-    
+
     mensajeSegunEstado(reserva) {
         switch (reserva.estado) {
-            
+
             case EstadoReserva.PENDIENTE:
-                const mensaje = new MensajeSobreUsuario(`{nombre} quiere reservar el alojamiento ${reserva.alojamiento}!`, reserva.huespedReservador)
-                return { contenido: mensaje, destinatario: reserva.anfitrion };
-            
+                const cantidadDias = reserva.calcularCantidadDias()
+                const inicioReserva = reserva.fechaInicio()
+                const mensaje = new MensajeSobreUsuario(`{nombre} quiere reservar el alojamiento ${reserva.alojamiento}, 
+                    en la fecha: ${inicioReserva}, 
+                    por la cantidad de dias de: ${cantidadDias}`,
+                    reserva.huespedReservador)
+
+                return {
+                    contenido: mensaje,
+                    destinatario: reserva.anfitrion
+                };
+
             case EstadoReserva.CONFIRMADA:
-                return { contenido: new MensajePlano(`Su reserva para ${reserva.alojamiento} ha sido confirmada.`), destinatario: reserva.huespedReservador };
-            
+                return {
+                    contenido: new MensajePlano(`Su reserva para ${reserva.alojamiento} ha sido confirmada.`),
+                    destinatario: reserva.huespedReservador
+                };
+
             case EstadoReserva.CANCELADA:
-                return { contenido: new MensajePlano("Su reserva ha sido cancelada."), destinatario: reserva.anfitrion }
-            
+                return {
+                    contenido: new MensajePlano(`La reserva para ${reserva.alojamiento} fue cancelada`),
+                    destinatario: reserva.anfitrion
+                }
+
             default:
                 console.error("Estado de reserva no valido ", error);
                 throw new Error("Estado de reserva no valido");
         }
     }
 
-
-
-    crearSegunReserva(reserva) {
+    static crearSegunReserva(reserva) {
         const mensaje = this.mensajeSegunEstado(reserva)
-        return new Notificacion(mensaje.contenido, mensaje.destinatario, new Date())  
+        return new Notificacion(mensaje.contenido, mensaje.destinatario, new Date())
     }
 
 
 }
-
-// Idea de asociar a un Usuario y una Notificacion a traves de un mensaje, para que 
 
 // Idea: Que el mensaje maneje el contenido de su string. La notificacion, si necesita ese contenido, se la pide al mensaje. Si no tiene parametros, devuelve el string plano, sino, contruye ese string con la informacion dada.
 class MensajeSobreUsuario {
@@ -178,7 +215,7 @@ class MensajeSobreUsuario {
     }
 
     get contenido() {
-        return this.texto.replace("La reserva a nombre de : {nombre}", this.usuario.nombre)  // Que hace esta linea: reemplaza el {nombre} por el nombre del usuario
+        return this.texto.replace("{nombre}", this.usuario.nombre)  // Que hace esta linea: reemplaza el {nombre} por el nombre del usuario
     }
 }
 
@@ -200,12 +237,11 @@ class Notificacion {
         this.usuario = usuario;       // Usuario
         this.fechaAlta = fechaAlta;   // Date
         this.leida = false;           // Boolean
-        // this.fechaLeida = fechaLeida; // Date
     }
 
-    mostrar() {
-        console.log(this.mensaje.contenido())
-    }
+    // mostrar() {
+    //     console.log(this.mensaje.contenido())
+    // }
 
     marcarComoLeida() {
         // Setter de atributo "leida" 
@@ -228,14 +264,20 @@ class Usuario {
         this.tipo = tipo;         // ENUM: TipoUsuario
         this.notificaciones = []  // Notificacion[]
     }
-    
+
     reservar(alojamiento, rangoFechas) {
         //let reserva = new Reserva(new Date(), this, alojamiento, rangoFechas, EstadoReserva.PENDIENTE, alojamiento.precioPorNoche)
         let reserva = alojamiento.crearReserva(this, rangoFechas)
-        let notificacion = FactoryNotificacion.crearSegunReserva(reserva) //? Será así?
+        let notificacion = FactoryNotificacion.crearSegunReserva(reserva)
 
-        this.agregarNotificacion(notificacion) 
-        // TODO : Chequear que no haya mas logica para implementar en siguientes entregas
+        this.agregarNotificacion(notificacion)
+    }
+
+    //Si un huésped decide cancelar una reserva, es necesario enviarle una notificación al Anfitrión para darle aviso de este hecho, contándole el motivo de la cancelación si es que fue especificado.
+    cancelarReserva(reserva, motivo) {
+        if (new Date() < reserva.rangoDeFechas.fechaInicio()) {
+            reserva.actualizarEstado(EstadoReserva.CANCELADA, motivo)
+        }
     }
 
     agregarNotificacion(unaNotificacion) {
