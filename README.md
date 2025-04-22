@@ -65,3 +65,13 @@ BIRBNB
         - Se hace mas declarativo el metodo estaDisponibleEn(rangoFechas)
 
         > Pendiente: Terminar logica del Mensaje en la notificacion.
+
+    🔳 v0.6.0
+
+        - Lógica de mensaje con el usuario includo en FactoryNotificacion terminada
+        - Métodos crearReserva y cancelarReserva para el usuario implementado
+        - Método crearCambioEstado implementado en la reserva, además de tener una lista de los cambios de estados para poner tener un seguimiento
+        - Metodos auxiliares para calcular la cantidad de dias y getters sobre fechaInicio y fechaFin en la Reserva
+        - crearSegunReserva en FactoryNotificacion como metodo static para no tener que instanciar a la clase
+    
+        
