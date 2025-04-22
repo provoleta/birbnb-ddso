@@ -1,3 +1,5 @@
+import {z} from "zod"
+
 const express = require('express');
 const app = express();
 const port = 9000 // * Puerto arbitrario para el servidor

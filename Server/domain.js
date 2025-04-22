@@ -29,8 +29,9 @@ class Alojamiento {
 
     estasDisponibleEn(rangoDeFechas) {
         // Los datos de tipo Date se pueden comparar directamente con operadores <, >, =....
-        return this.reservas.some(
-            unaReserva => unaReserva.estaLibreEn(rangoDeFechas)
+        return this.reservas.every(
+            unaReserva => ! unaReserva.seSuperponeCon(rangoDeFechas)
+
         )
     }
 
@@ -106,15 +107,26 @@ class Reserva {
 
     }
 
-    estaLibreEn(fechaSolicitada) {
+
+// Reserva: 10 a 21
+// 
+// 
+
+
+
+// 12 a 13
+
+    // Tengo que verificar si fecha solicitada se superpone el rango de fechas de la reserva
+    seSuperponeCon(fechaSolicitada) {
+        
         // Verdadero en caso que la fecha solicitada sea antes de una reserva existente
-        let fechaLibreAntes = fechaSolicitada.fechaFin < this.fechaAlta.fechaInicio
+        let fechaLibreAntes = fechaSolicitada.fechaFin < this.rangoFechas.fechaInicio
 
         // Verdadero en caso de que la fecha solicitada sea despues de una reserva existente
-        let fechaLibreDespues = fechaSolicitada.fechaInicio > this.fechaAlta.fechaFin
+        let fechaLibreDespues = fechaSolicitada.fechaInicio > this.rangoFechas.fechaFin
+        
 
-
-        return fechaLibreAntes || fechaLibreDespues
+        return !(fechaLibreAntes || fechaLibreDespues)
     }
 
     get anfitrion() {
@@ -232,11 +244,14 @@ class MensajePlano {
 class Notificacion {
 
     #fechaLeida
+
     constructor(mensaje, usuario, fechaAlta) {
         this.mensaje = mensaje;       // Mensaje (MensajeCpnUsuario || MensajePlano)
         this.usuario = usuario;       // Usuario
         this.fechaAlta = fechaAlta;   // Date
         this.leida = false;           // Boolean
+
+            
     }
 
     // mostrar() {

@@ -59,3 +59,9 @@ BIRBNB
         - Se agrega logica en el usuario de crear notificacion
 
         > Pendiente: Esperar respuesta de atributo fecha alta y del contenido de la notificacion para poder terminar esa logica. Explicar GitFlow. Repreguntar si se puede agregar lista de notificaciones
+
+    🔳 v0.5.1
+
+        - Se hace mas declarativo el metodo estaDisponibleEn(rangoFechas)
+
+        > Pendiente: Terminar logica del Mensaje en la notificacion.
