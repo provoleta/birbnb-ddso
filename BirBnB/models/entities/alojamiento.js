@@ -1,4 +1,19 @@
 class Alojamiento {
+    /**
+     * 
+     * @param {Usuario} anfitrion 
+     * @param {String} nombre 
+     * @param {String} descripcion 
+     * @param {Double} precioPorNoche 
+     * @param {Moneda} moneda 
+     * @param {String} horarioCheckIn 
+     * @param {String} horarioCheckOut 
+     * @param {Direccion} direccion 
+     * @param {Number} cantHuespedesMax 
+     * @param {Caracteristica[]} caracteristicas 
+     * @param {Reserva[]} reservas 
+     * @param {Foto[]} fotos 
+     */
     constructor(
         anfitrion,
         nombre,
@@ -56,6 +71,12 @@ class Alojamiento {
 }
 
 class Foto {
+    /**
+     * 
+     * @param {String} descripcion 
+     * @param {String} path 
+     */
+
     constructor(descripcion, path) {
         this.descripcion = descripcion; // String
         this.path = path;               // String
@@ -63,6 +84,14 @@ class Foto {
 }
 
 class Direccion {
+    /**
+     * 
+     * @param {String} calle 
+     * @param {String} numero 
+     * @param {Ciudad} ciudad 
+     * @param {Double} lat 
+     * @param {String} long 
+     */
     constructor(calle, numero, ciudad, lat, long) {
         this.calle = calle;   // String
         this.numero = numero; // String
@@ -73,6 +102,11 @@ class Direccion {
 }
 
 class Ciudad {
+    /**
+     * 
+     * @param {String} nombre 
+     * @param {Pais} pais 
+     */
     constructor(nombre, pais) {
         this.nombre = nombre; // String
         this.pais = pais;     // Pais
@@ -80,6 +114,10 @@ class Ciudad {
 }
 
 class Pais {
+    /**
+     * 
+     * @param {String} nombre 
+     */
     constructor(nombre) {
         this.nombre = nombre; // String
     }
