@@ -1,6 +1,6 @@
 // import Usuario from './usuario.js'
 import Notificacion from './notificacion.js'
-import EstadoReserva from './estado-reserva.js'
+import {EstadoReserva} from './reserva.js'
 // Idea: Que el mensaje maneje el contenido de su string. La notificacion, si necesita ese contenido, se la pide al mensaje. Si no tiene parametros, devuelve el string plano, sino, contruye ese string con la informacion dada.
 class FactoryNotificacion {
   mensajeSegunEstado (reserva) {
@@ -72,4 +72,4 @@ class MensajePlano {
   }
 }
 
-module.exports = { FactoryNotificacion, MensajeSobreUsuario, MensajePlano }
+export { FactoryNotificacion, MensajeSobreUsuario, MensajePlano };

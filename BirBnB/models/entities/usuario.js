@@ -1,5 +1,5 @@
 import { FactoryNotificacion } from './factory-notificacion.js'
-import { EstadoReserva } from './estado-reserva.js'
+import { EstadoReserva } from './reserva.js'
 class Usuario {
   /**
      *
@@ -40,7 +40,4 @@ const TipoUsuario = {
   ANFITRION: 'ANFITRION'
 }
 
-module.exports = {
-  Usuario,
-  TipoUsuario
-}
+export { Usuario, TipoUsuario };

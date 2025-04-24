@@ -1,5 +1,4 @@
-import Reserva from './reserva.js'
-import EstadoReserva from './estado-reserva.js'
+import { Reserva, EstadoReserva } from './reserva.js'
 class Alojamiento {
   /**
      *
@@ -138,12 +137,4 @@ const Caracteristica = {
   ESTACIONAMIENTO: 'ESTACIONAMIENTO'
 }
 
-module.exports = {
-  Alojamiento,
-  Foto,
-  Direccion,
-  Ciudad,
-  Pais,
-  Moneda,
-  Caracteristica
-}
+export { Alojamiento, Foto, Direccion, Ciudad, Pais, Moneda, Caracteristica }
