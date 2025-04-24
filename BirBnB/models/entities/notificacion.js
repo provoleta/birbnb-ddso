@@ -1,33 +1,32 @@
-const { Usuario } = require("./usuario")
+// const { Usuario } = require('./usuario')
 
 class Notificacion {
+  #fechaLeida
 
-    #fechaLeida
-
-    /**
-     * 
-     * @param {String} mensaje 
-     * @param {Usuario} usuario 
-     * @param {Date} fechaAlta 
+  /**
+     *
+     * @param {String} mensaje
+     * @param {Usuario} usuario
+     * @param {Date} fechaAlta
      * @param {Boolean} leida
      * @param {Date} fechaLeida
      */
-    constructor(mensaje, usuario, fechaAlta) {
-        this.mensaje = mensaje       
-        this.usuario = usuario    
-        this.fechaAlta = fechaAlta   
-        this.leida = false                      
-    }
+  constructor (mensaje, usuario, fechaAlta) {
+    this.mensaje = mensaje
+    this.usuario = usuario
+    this.fechaAlta = fechaAlta
+    this.leida = false
+  }
 
+  // Setter de atributo "leida"
+  marcarComoLeida () {
+    this.leida = true
+    this.fechaLeida = new Date()
+  }
 
-    // Setter de atributo "leida" 
-    marcarComoLeida() {
-        this.leida = true
-        this.fechaLeida = new Date()
-    }
-
-    get fechaLeida() {
-        return this.#fechaLeida
-    }
+  get fechaLeida () {
+    return this.#fechaLeida
+  }
 }
 
+module.exports = Notificacion
