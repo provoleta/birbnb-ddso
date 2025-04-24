@@ -109,12 +109,11 @@ class Reserva {
 
     // Tengo que verificar si fecha solicitada se superpone el rango de fechas de la reserva
     seSuperponeCon(fechaSolicitada) {
-        
         let superponeFin = fechaSolicitada.fechaFin > this.rangoFechas.fechaInicio
         
         let superponeInicio = fechaSolicitada.fechaInicio < this.rangoFechas.fechaFin
         
-        return superponeFin && superponeInicio
+        return superponeFin && superponeInicio 
     }
 
     get anfitrion() {
@@ -154,10 +153,10 @@ class RangoFechas {
 
 class CambioEstadoReserva {
     constructor(fecha, estado, reserva, motivo, usuario) {
-        this.fecha = fecha; // Date
-        this.estado = estado; // EstadoReserva
+        this.fecha = fecha;     // Date
+        this.estado = estado;   // EstadoReserva
         this.reserva = reserva; // Reserva
-        this.motivo = motivo; // String
+        this.motivo = motivo;   // String
         this.usuario = usuario; // Usuario
     }
 }
@@ -269,9 +268,9 @@ class Usuario {
     }
 
     cancelarReserva(reserva, motivo) {
-        if (new Date() < reserva.rangoDeFechas.fechaInicio()) { // TODO: discutir esto
+        if (new Date() < reserva.rangoDeFechas.fechaInicio()) { 
             reserva.actualizarEstado(EstadoReserva.CANCELADA, motivo) 
-        }
+        } 
     }
 
     agregarNotificacion(unaNotificacion) {
@@ -279,11 +278,11 @@ class Usuario {
     }
 }
 
-// ENUMS. Son similares a los constructores en haskell para crear un "nuevo tipo de dato"
+// ENUMS. Son similares a los constructores en haskell para crear un "nuevo tipo de dato\
 // cada static es un valor que puede tomar el tipo de dato.
 const TipoUsuario = {
     HUESPED: "HUESPED",
-    ANFITRION: "ANFITRION"
+    ANFITRION: "ANFITRION" 
 };
 
 const Moneda = {
@@ -304,9 +303,6 @@ const EstadoReserva = {
     CONFIRMADA: "CONFIRMADA",
     CANCELADA: "CANCELADA"
 };
-
-
-
 
 module.exports = {
     Alojamiento,
