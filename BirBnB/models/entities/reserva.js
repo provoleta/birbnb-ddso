@@ -1,12 +1,11 @@
 const RangoFechas = require('./rangoFechas')
 const Alojamiento = require('./alojamiento')
-const cambiosEstadoReserva = require('./cambiosEstadoReserva')
+const CambioEstadoReserva = require('./cambiosEstadoReserva')
 const { Usuario } = require('./usuario')
 const FactoryNotificacion = require('./factory-notificacion')
-const { EstadoReserva } = require('./reserva').EstadoReserva
 
 class Reserva {
-      
+
     /**
      * 
      * @param {Date} fechaAlta 
@@ -17,19 +16,19 @@ class Reserva {
      * @param {Double} precioPorNoche 
      * 
      */
-    
+
     constructor(fechaAlta, huespedReservador, alojamiento, rangoFechas, estado, precioPorNoche) {
-        this.fechaAlta = fechaAlta     
-        this.huespedReservador = huespedReservador              
-        this.alojamiento = alojamiento       
-        this.rangoFechas = rangoFechas       
-        this.estado = estado     
-        this.precioPorNoche = precioPorNoche 
+        this.fechaAlta = fechaAlta
+        this.huespedReservador = huespedReservador
+        this.alojamiento = alojamiento
+        this.rangoFechas = rangoFechas
+        this.estado = estado
+        this.precioPorNoche = precioPorNoche
         this.cambiosEstadoReserva = []
 
     }
 
-    
+
 
     // 1) Actualizar el estado | 2) Crear una notificacion | 3) Enviar la notificacion al destinatario | 4) Crear una instancia de cambiosEstadoReserva | 5) Agregar la instancia a la Reserva
     actualizarEstado(EstadoReserva, MotivoCambio) {
@@ -43,10 +42,10 @@ class Reserva {
     // Tengo que verificar si fecha solicitada se superpone el rango de fechas de la reserva
     seSuperponeCon(fechaSolicitada) {
         let superponeFin = fechaSolicitada.fechaFin > this.rangoFechas.fechaInicio
-        
+
         let superponeInicio = fechaSolicitada.fechaInicio < this.rangoFechas.fechaFin
-        
-        return superponeFin && superponeInicio 
+
+        return superponeFin && superponeInicio
     }
 
     get anfitrion() {
@@ -72,7 +71,7 @@ class Reserva {
     }
 
     crearCambioEstado(usuario, estado, motivo) {
-        let cambiosEstadoReserva = new cambiosEstadoReserva(new Date(), estado, this, motivo, usuario) 
+        let cambiosEstadoReserva = new CambioEstadoReserva(new Date(), estado, this, motivo, usuario)
         this.cambiosEstadoReserva.push(cambiosEstadoReserva)
     }
 
