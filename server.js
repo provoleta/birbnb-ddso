@@ -1,10 +1,11 @@
 // import { z } from "zod"
+require('dotenv').config() // * Cargar las variables de entorno desde el archivo .env
 
 const express = require('express')
 const app = express()
-const port = 9000 // * Puerto arbitrario para el servidor
+const port = process.env.PORT || 9000 // * Puerto arbitrario para el servidor
 
-const SaludController = require('./controllers/health.controller')
+const SaludController = require('./BirBnB/controllers/health.controller.js')
 
 const router = express.Router()
 

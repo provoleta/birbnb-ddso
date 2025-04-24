@@ -74,4 +74,7 @@
         - Cambio logica de seSuperponeCon de un fecha
         - Agrego esto aca como le gusta a thiago!
     
+    🔳 v0.6.2
+
+        - El puerto del servidor se levanta desde un archivo .env (en caso default se levantara en el puerto 9000)
         
