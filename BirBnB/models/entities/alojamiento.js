@@ -1,3 +1,5 @@
+const Reserva = require("./reserva")
+
 class Alojamiento {
     /**
      * 
@@ -28,18 +30,18 @@ class Alojamiento {
         reservas = [],
         fotos = []
     ) {
-        this.anfitrion = anfitrion;               // Usuario
-        this.nombre = nombre;                     // String
-        this.descripcion = descripcion;           // String
-        this.precioPorNoche = precioPorNoche;     // Double
-        this.moneda = moneda;                     // ENUM:  Moneda
-        this.horarioCheckIn = horarioCheckIn;     // String
-        this.horarioCheckOut = horarioCheckOut;   // String
-        this.direccion = direccion;               // Direccion
-        this.cantHuespedesMax = cantHuespedesMax; // number
-        this.caracteristicas = caracteristicas;   // Caracteristica[]
-        this.reservas = reservas;                 // Reserva[]
-        this.fotos = fotos;                       // Foto[]
+        this.anfitrion = anfitrion               
+        this.nombre = nombre                  
+        this.descripcion = descripcion           
+        this.precioPorNoche = precioPorNoche    
+        this.moneda = moneda       
+        this.horarioCheckIn = horarioCheckIn    
+        this.horarioCheckOut = horarioCheckOut  
+        this.direccion = direccion        
+        this.cantHuespedesMax = cantHuespedesMax
+        this.caracteristicas = caracteristicas   
+        this.reservas = reservas                
+        this.fotos = fotos                  
     }
 
     estasDisponibleEn(rangoDeFechas) {
@@ -78,8 +80,8 @@ class Foto {
      */
 
     constructor(descripcion, path) {
-        this.descripcion = descripcion; // String
-        this.path = path;               // String
+        this.descripcion = descripcion
+        this.path = path        
     }
 }
 
@@ -93,11 +95,11 @@ class Direccion {
      * @param {String} long 
      */
     constructor(calle, numero, ciudad, lat, long) {
-        this.calle = calle;   // String
-        this.numero = numero; // String
-        this.ciudad = ciudad; // Ciudad
-        this.lat = lat;       // Double
-        this.long = long;     // String
+        this.calle = calle 
+        this.numero = numero 
+        this.ciudad = ciudad 
+        this.lat = lat       
+        this.long = long     
     }
 }
 
@@ -108,8 +110,8 @@ class Ciudad {
      * @param {Pais} pais 
      */
     constructor(nombre, pais) {
-        this.nombre = nombre; // String
-        this.pais = pais;     // Pais
+        this.nombre = nombre 
+        this.pais = pais 
     }
 }
 
@@ -119,7 +121,7 @@ class Pais {
      * @param {String} nombre 
      */
     constructor(nombre) {
-        this.nombre = nombre; // String
+        this.nombre = nombre 
     }
 }
 
@@ -127,14 +129,14 @@ const Moneda = {
     DOLAR_USA: "DOLAR_USA",
     PESO_ARG: "PESO_ARG",
     REALES: "REALES"
-};
+}
 
 const Caracteristica = {
     WIFI: "WIFI",
     PISCINA: "PISCINA",
     MASCOTAS_PERMITIDAS: "MASCOTAS_PERMITIDAS",
     ESTACIONAMIENTO: "ESTACIONAMIENTO"
-};
+}
 
 module.exports = {
     Alojamiento,
@@ -144,4 +146,4 @@ module.exports = {
     Pais,
     Moneda,
     Caracteristica
-};
+}

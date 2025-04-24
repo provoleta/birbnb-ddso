@@ -1,15 +1,24 @@
+const { Usuario } = require("./usuario")
+
 class Notificacion {
 
     #fechaLeida
 
+    /**
+     * 
+     * @param {String} mensaje 
+     * @param {Usuario} usuario 
+     * @param {Date} fechaAlta 
+     * @param {Boolean} leida
+     * @param {Date} fechaLeida
+     */
     constructor(mensaje, usuario, fechaAlta) {
-        this.mensaje = mensaje;       // Mensaje (MensajeCpnUsuario || MensajePlano)
-        this.usuario = usuario;       // Usuario
-        this.fechaAlta = fechaAlta;   // Date
-        this.leida = false;           // Boolean
-
-            
+        this.mensaje = mensaje       
+        this.usuario = usuario    
+        this.fechaAlta = fechaAlta   
+        this.leida = false                      
     }
+
 
     // Setter de atributo "leida" 
     marcarComoLeida() {

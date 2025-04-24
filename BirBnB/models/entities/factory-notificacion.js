@@ -1,3 +1,8 @@
+const { EstadoReserva } = require('./reserva').EstadoReserva
+const Notificacion = require('./notificacion').Notificacion
+const { Usuario } = require('./usuario')
+
+
 // Idea: Que el mensaje maneje el contenido de su string. La notificacion, si necesita ese contenido, se la pide al mensaje. Si no tiene parametros, devuelve el string plano, sino, contruye ese string con la informacion dada.
 class FactoryNotificacion {
 
@@ -15,13 +20,13 @@ class FactoryNotificacion {
                 return {
                     contenido: mensaje,
                     destinatario: reserva.anfitrion
-                };
+                }
 
             case EstadoReserva.CONFIRMADA:
                 return {
                     contenido: new MensajePlano(`Su reserva para ${reserva.alojamiento} ha sido confirmada.`),
                     destinatario: reserva.huespedReservador
-                };
+                }
 
             case EstadoReserva.CANCELADA:
                 return {
@@ -30,8 +35,8 @@ class FactoryNotificacion {
                 }
 
             default:
-                console.error("Estado de reserva no valido ", error);
-                throw new Error("Estado de reserva no valido");
+                console.error("Estado de reserva no valido ", error) //TODO: Agregar trazabilidad error
+                throw new Error("Estado de reserva no valido")
         }
     }
 
@@ -43,11 +48,19 @@ class FactoryNotificacion {
 
 }
 
+
+
+
 class MensajeSobreUsuario {
 
+    /**
+     * 
+     * @param {String} texto 
+     * @param {Usuario} usuario 
+     */
     constructor(texto, usuario) {
-        this.texto = texto;
-        this.usuario = usuario;   // Usuario
+        this.texto = texto
+        this.usuario = usuario
     }
 
     get contenido() {
@@ -56,8 +69,13 @@ class MensajeSobreUsuario {
 }
 
 class MensajePlano {
+    
+    /**
+     * 
+     * @param {String} texto 
+     */
     constructor(texto) {
-        this.texto = texto;       // String
+        this.texto = texto     
     }
 
     get contenido() {

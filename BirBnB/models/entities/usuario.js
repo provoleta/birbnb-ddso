@@ -1,10 +1,19 @@
 class Usuario {
+
+    /**
+     * 
+     * @param {String} nombre 
+     * @param {String} email 
+     * @param {TipoUsuario} tipo 
+     * 
+     */
     constructor(nombre, email, tipo) {
-        this.nombre = nombre;     // String
-        this.email = email;       // String
-        this.tipo = tipo;         // ENUM: TipoUsuario
-        this.notificaciones = []  // Notificacion[]
+        this.nombre = nombre     
+        this.email = email       
+        this.tipo = tipo 
+        this.notificaciones = []       
     }
+
 
     reservar(alojamiento, rangoFechas) {
         let reserva = alojamiento.crearReserva(this, rangoFechas)
@@ -29,7 +38,7 @@ class Usuario {
 const TipoUsuario = {
     HUESPED: "HUESPED",
     ANFITRION: "ANFITRION" 
-};
+}
 
 module.exports = {
     Usuario,

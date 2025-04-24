@@ -1,24 +1,40 @@
 const RangoFechas = require('./rangoFechas')
 const Alojamiento = require('./alojamiento')
-const CambioEstadoReserva = require('./cambioEstadoReserva')
+const cambiosEstadoReserva = require('./cambiosEstadoReserva')
+const { Usuario } = require('./usuario')
+const FactoryNotificacion = require('./factory-notificacion')
+const { EstadoReserva } = require('./reserva').EstadoReserva
 
 class Reserva {
-    #cambiosEstadoReserva = []  // CambiosEstadoReserva[]
+      
+    /**
+     * 
+     * @param {Date} fechaAlta 
+     * @param {Usuario} huespedReservador 
+     * @param {Alojamiento} alojamiento 
+     * @param {Date} rangoFechas 
+     * @param {EstadoReserva} estado 
+     * @param {Double} precioPorNoche 
+     * 
+     */
     
     constructor(fechaAlta, huespedReservador, alojamiento, rangoFechas, estado, precioPorNoche) {
-        this.fechaAlta = fechaAlta;           // Date
-        this.huespedReservador = huespedReservador;               // Usuario
-        this.alojamiento = alojamiento;       // Alojamiento
-        this.rangoFechas = rangoFechas;       // RangoFechas
-        this.estado = estado;                 // EstadoReserva
-        this.precioPorNoche = precioPorNoche; // Double
+        this.fechaAlta = fechaAlta     
+        this.huespedReservador = huespedReservador              
+        this.alojamiento = alojamiento       
+        this.rangoFechas = rangoFechas       
+        this.estado = estado     
+        this.precioPorNoche = precioPorNoche 
+        this.cambiosEstadoReserva = []
 
     }
 
-    // 1) Actualizar el estado | 2) Crear una notificacion | 3) Enviar la notificacion al destinatario | 4) Crear una instancia de CambioEstadoReserva | 5) Agregar la instancia a la Reserva
+    
+
+    // 1) Actualizar el estado | 2) Crear una notificacion | 3) Enviar la notificacion al destinatario | 4) Crear una instancia de cambiosEstadoReserva | 5) Agregar la instancia a la Reserva
     actualizarEstado(EstadoReserva, MotivoCambio) {
         this.estado = EstadoReserva
-        let notificacion = FactoryNotificacion.crearSegunReserva(this); // arma la notificacion con el estado nuevo
+        let notificacion = FactoryNotificacion.crearSegunReserva(this) // arma la notificacion con el estado nuevo
         notificacion.usuario.agregarNotificacion(notificacion)
         crearCambioEstado(notificacion.usuario, EstadoReserva, MotivoCambio) // crea el cambio de estado y lo agrega a la reserva
 
@@ -37,6 +53,7 @@ class Reserva {
         return this.alojamiento.anfitrion
     }
 
+    // TODO: Usar una biblioteca
     calcularCantidadDias() {
         const diferenciaFechas = this.rangoFechas.fechaFin - this.rangoFechas.fechaInicio
 
@@ -46,17 +63,17 @@ class Reserva {
         return cantidadDias
     }
 
-    fechaInicio() {
+    get fechaInicio() {
         return this.rangoFechas.fechaInicio
     }
 
-    fechaFin() {
+    get fechaFin() {
         return this.rangoFechas.fechaFin
     }
 
     crearCambioEstado(usuario, estado, motivo) {
-        let cambioEstadoReserva = new CambioEstadoReserva(new Date(), estado, this, motivo, usuario) 
-        this.#cambiosEstadoReserva.push(cambioEstadoReserva)
+        let cambiosEstadoReserva = new cambiosEstadoReserva(new Date(), estado, this, motivo, usuario) 
+        this.cambiosEstadoReserva.push(cambiosEstadoReserva)
     }
 
 }
@@ -65,7 +82,7 @@ const EstadoReserva = {
     PENDIENTE: "PENDIENTE",
     CONFIRMADA: "CONFIRMADA",
     CANCELADA: "CANCELADA"
-};
+}
 
 module.exports = {
     Reserva,
