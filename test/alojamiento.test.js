@@ -53,11 +53,11 @@ describe('Alojamiento', () => {
     const reserva = alojamiento.crearReserva(huesped, rangoFechas)
 
     expect(reserva).toBeInstanceOf(Reserva)
-    expect(reserva.huesped).toBe(huesped)
+    expect(reserva.huespedReservador).toBe(huesped)
     expect(reserva.alojamiento).toBe(alojamiento)
     expect(reserva.rangoFechas).toEqual(rangoFechas)
     expect(reserva.estado).toBe(EstadoReserva.PENDIENTE)
-    expect(reserva.precio).toBe(alojamiento.precioPorNoche)
+    expect(reserva.precioPorNoche).toBe(alojamiento.precioPorNoche)
   })
 
   test('debería lanzar un error si se intenta crear una reserva en fechas no disponibles', () => {
