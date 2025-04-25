@@ -77,4 +77,12 @@
     🔳 v0.6.2
 
         - El puerto del servidor se levanta desde un archivo .env (en caso default se levantara en el puerto 9000)
+    
+    🔳 v0.7.0
+
+        - Arreglo de todos los imports/exports para que funcionen como corresponde
+        - Se agrega jest como dependencia (solo en dev) para hacer tests
+        - Archivo jest.config.js para permitir a Jest importar archivos usando ESM
+        - Primer test unitario sobre alojamiento (incluyendo una reserva y usuario)
+        
         
