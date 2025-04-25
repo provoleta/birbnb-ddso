@@ -11,4 +11,4 @@ class RangoFechas {
   }
 }
 
-module.exports = RangoFechas
+export default RangoFechas;

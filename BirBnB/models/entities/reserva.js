@@ -2,7 +2,7 @@
 // import Alojamiento from './alojamiento.js'
 import CambioEstadoReserva from './cambio-estado-reserva.js'
 // import Usuario from './usuario.js'
-import FactoryNotificacion from './factory-notificacion.js'
+import { FactoryNotificacion } from './factory-notificacion.js'
 
 class Reserva {
   /**
@@ -77,7 +77,4 @@ const EstadoReserva = {
   CANCELADA: 'CANCELADA'
 }
 
-module.exports = {
-  Reserva,
-  EstadoReserva
-}
+export { Reserva, EstadoReserva };

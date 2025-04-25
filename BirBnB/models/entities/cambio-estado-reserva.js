@@ -20,4 +20,4 @@ class CambioEstadoReserva {
   }
 }
 
-module.exports = CambioEstadoReserva
+export default CambioEstadoReserva

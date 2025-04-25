@@ -29,4 +29,4 @@ class Notificacion {
   }
 }
 
-module.exports = Notificacion
+export default Notificacion;
