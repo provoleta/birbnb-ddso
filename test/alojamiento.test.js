@@ -1,5 +1,6 @@
 import { Alojamiento, Direccion, Ciudad, Pais, Moneda, Caracteristica } from '../BirBnB/models/entities/alojamiento.js'
 import { Reserva, EstadoReserva } from '../BirBnB/models/entities/reserva.js'
+import dayjs from 'dayjs'
 
 describe('Alojamiento', () => {
   let alojamiento
@@ -28,7 +29,7 @@ describe('Alojamiento', () => {
   })
 
   test('debería verificar si el alojamiento está disponible en un rango de fechas', () => {
-    const rangoDeFechas = { inicio: new Date('2023-12-01'), fin: new Date('2023-12-10') }
+    const rangoDeFechas = { inicio: dayjs('2023-12-01'), fin: dayjs('2023-12-10') }
     expect(alojamiento.estasDisponibleEn(rangoDeFechas)).toBe(true)
   })
 
@@ -49,7 +50,7 @@ describe('Alojamiento', () => {
 
   test('debería crear una reserva si el alojamiento está disponible', () => {
     const huesped = { nombre: 'Huesped1', email: 'huesped1@example.com' }
-    const rangoFechas = { inicio: new Date('2023-12-01'), fin: new Date('2023-12-10') }
+    const rangoFechas = { inicio: dayjs('2023-12-01'), fin: dayjs('2023-12-10') }
     const reserva = alojamiento.crearReserva(huesped, rangoFechas)
 
     expect(reserva).toBeInstanceOf(Reserva)
@@ -62,7 +63,7 @@ describe('Alojamiento', () => {
 
   test('debería lanzar un error si se intenta crear una reserva en fechas no disponibles', () => {
     const huesped = 'Huesped1'
-    const rangoFechas = { inicio: new Date('2023-12-01'), fin: new Date('2023-12-10') }
+    const rangoFechas = { inicio: dayjs('2023-12-01'), fin: dayjs('2023-12-10') }
     alojamiento.reservas.push({
       seSuperponeCon: () => true
     })
