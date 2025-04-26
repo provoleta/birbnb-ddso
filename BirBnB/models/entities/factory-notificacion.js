@@ -1,9 +1,9 @@
 // import Usuario from './usuario.js'
 import Notificacion from './notificacion.js'
-import {EstadoReserva} from './reserva.js'
+import { EstadoReserva } from './reserva.js'
 // Idea: Que el mensaje maneje el contenido de su string. La notificacion, si necesita ese contenido, se la pide al mensaje. Si no tiene parametros, devuelve el string plano, sino, contruye ese string con la informacion dada.
 class FactoryNotificacion {
-  mensajeSegunEstado (reserva) {
+  mensajeSegunEstado(reserva) {
     const cantidadDias = reserva.calcularCantidadDias()
     const inicioReserva = reserva.fechaInicio()
 
@@ -14,7 +14,7 @@ class FactoryNotificacion {
           contenido: new MensajeSobreUsuario(`{nombre} quiere reservar el alojamiento ${reserva.alojamiento}, 
             en la fecha: ${inicioReserva}, 
             por la cantidad de dias de: ${cantidadDias}`,
-          reserva.huespedReservador),
+            reserva.huespedReservador),
           destinatario: reserva.anfitrion
         }
 
@@ -36,7 +36,7 @@ class FactoryNotificacion {
     }
   }
 
-  static crearSegunReserva (reserva) {
+  static crearSegunReserva(reserva) {
     const mensaje = this.mensajeSegunEstado(reserva)
     return new Notificacion(mensaje.contenido, mensaje.destinatario, new Date())
   }
@@ -48,12 +48,12 @@ class MensajeSobreUsuario {
      * @param {String} texto
      * @param {Usuario} usuario
      */
-  constructor (texto, usuario) {
+  constructor(texto, usuario) {
     this.texto = texto
     this.usuario = usuario
   }
 
-  get contenido () {
+  get contenido() {
     return this.texto.replace('{nombre}', this.usuario.nombre)
   }
 }
@@ -63,11 +63,11 @@ class MensajePlano {
      *
      * @param {String} texto
      */
-  constructor (texto) {
+  constructor(texto) {
     this.texto = texto
   }
 
-  get contenido () {
+  get contenido() {
     return this.texto
   }
 }

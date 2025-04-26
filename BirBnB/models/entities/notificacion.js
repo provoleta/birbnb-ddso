@@ -1,7 +1,7 @@
 // const { Usuario } = require('./usuario')
 
 class Notificacion {
-  #fechaLeida
+  fechaLeida
 
   /**
      *
@@ -11,7 +11,7 @@ class Notificacion {
      * @param {Boolean} leida
      * @param {Date} fechaLeida
      */
-  constructor (mensaje, usuario, fechaAlta) {
+  constructor(mensaje, usuario, fechaAlta) {
     this.mensaje = mensaje
     this.usuario = usuario
     this.fechaAlta = fechaAlta
@@ -19,13 +19,13 @@ class Notificacion {
   }
 
   // Setter de atributo "leida"
-  marcarComoLeida () {
+  marcarComoLeida() {
     this.leida = true
     this.fechaLeida = new Date()
   }
 
-  get fechaLeida () {
-    return this.#fechaLeida
+  get fechaLeida() {
+    return this.fechaLeida
   }
 }
 
