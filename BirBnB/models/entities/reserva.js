@@ -3,13 +3,13 @@
 import CambioEstadoReserva from './cambio-estado-reserva.js'
 // import Usuario from './usuario.js'
 import { FactoryNotificacion } from './factory-notificacion.js'
-import dayjs from 'dayjs';
-import isBetween from 'dayjs/plugin/isBetween';
+import dayjs from 'dayjs'
+import RangoFechas from './rango-fechas.js'
 
 class Reserva {
   /**
      *
-     * @param {Date} fechaAlta
+     * @param {dayjs.Dayjs} fechaAlta
      * @param {Usuario} huespedReservador
      * @param {Alojamiento} alojamiento
      * @param {RangoFechas} rangoFechas
