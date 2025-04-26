@@ -84,5 +84,10 @@
         - Se agrega jest como dependencia (solo en dev) para hacer tests
         - Archivo jest.config.js para permitir a Jest importar archivos usando ESM
         - Primer test unitario sobre alojamiento (incluyendo una reserva y usuario)
+    
+    🔳 v0.7.1
+
+        - El estado de la reserva al crearse es siempre PENDIENTE, asi que saco el atributo del parametro del constructor
+        - Formateo el codigo un poco
         
         
