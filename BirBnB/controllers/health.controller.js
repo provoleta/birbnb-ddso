@@ -4,4 +4,4 @@ class SaludController {
   }
 }
 
-module.exports = SaludController
+export default SaludController
