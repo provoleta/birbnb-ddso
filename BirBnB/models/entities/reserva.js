@@ -18,7 +18,7 @@ class Reserva {
      *
      */
 
-  constructor (fechaAlta, huespedReservador, alojamiento, rangoFechas, estado, precioPorNoche) {
+  constructor(fechaAlta, huespedReservador, alojamiento, rangoFechas, estado, precioPorNoche) {
     this.fechaAlta = fechaAlta
     this.huespedReservador = huespedReservador
     this.alojamiento = alojamiento
@@ -29,7 +29,7 @@ class Reserva {
   }
 
   // 1) Actualizar el estado | 2) Crear una notificacion | 3) Enviar la notificacion al destinatario | 4) Crear una instancia de cambiosEstadoReserva | 5) Agregar la instancia a la Reserva
-  actualizarEstado (EstadoReserva, MotivoCambio) {
+  actualizarEstado(EstadoReserva, MotivoCambio) {
     this.estado = EstadoReserva
     const notificacion = FactoryNotificacion.crearSegunReserva(this) // arma la notificacion con el estado nuevo
     notificacion.usuario.agregarNotificacion(notificacion)
@@ -37,33 +37,34 @@ class Reserva {
   }
 
   // Tengo que verificar si fecha solicitada se superpone el rango de fechas de la reserva
-  seSuperponeCon (fechaSolicitada) {
-    const inicioSeSuperpone = fechaSolicitada.fechaInicio.isBetween(this.rangoFechas.fechaInicio, this.rangoFechas.fechaFin, "day", '[]')
-    const finSeSuperpone = fechaSolicitada.fechaFin.isBetween(this.rangoFechas.fechaInicio, this.rangoFechas.fechaFin, "day", '[]')
+
+  seSuperponeCon(fechaSolicitada) {
+    const superponeFin = fechaSolicitada.fechaFin.isAfter(this.rangoFechas.fechaInicio, 'day')
+    const superponeInicio = fechaSolicitada.fechaInicio.isBefore(this.rangoFechas.fechaFin, 'day')
 
     return superponeFin && superponeInicio
   }
 
-  get anfitrion () {
+  get anfitrion() {
     return this.alojamiento.anfitrion
   }
 
   // TODO: Usar una biblioteca
-  calcularCantidadDias () {
+  calcularCantidadDias() {
     const cantidadDias = rangoFechas.fechaFin.diff(dayjs(this.rangoFechas.fechaInicio), 'day')
 
     return cantidadDias
   }
 
-  get fechaInicio () {
+  get fechaInicio() {
     return this.rangoFechas.fechaInicio
   }
 
-  get fechaFin () {
+  get fechaFin() {
     return this.rangoFechas.fechaFin
   }
 
-  crearCambioEstado (usuario, estado, motivo) {
+  crearCambioEstado(usuario, estado, motivo) {
     const cambiosEstadoReserva = new CambioEstadoReserva(dayjs(), estado, this, motivo, usuario)
     this.cambiosEstadoReserva.push(cambiosEstadoReserva)
   }
