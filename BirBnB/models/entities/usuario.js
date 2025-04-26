@@ -1,5 +1,5 @@
-import { FactoryNotificacion } from './factory-notificacion.js'
-import { EstadoReserva } from './reserva.js'
+import { FactoryNotificacion } from `./factory-notificacion.js`
+import { EstadoReserva } from `./reserva.js`
 class Usuario {
   /**
      *
@@ -36,8 +36,8 @@ class Usuario {
 // ENUMS. Son similares a los constructores en haskell para crear un "nuevo tipo de dato\
 // cada static es un valor que puede tomar el tipo de dato.
 const TipoUsuario = {
-  HUESPED: 'HUESPED',
-  ANFITRION: 'ANFITRION'
+  HUESPED: `HUESPED`,
+  ANFITRION: `ANFITRION`
 }
 
 export { Usuario, TipoUsuario };

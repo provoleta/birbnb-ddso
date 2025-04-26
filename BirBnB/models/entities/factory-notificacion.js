@@ -1,6 +1,6 @@
-// import Usuario from './usuario.js'
-import Notificacion from './notificacion.js'
-import { EstadoReserva } from './reserva.js'
+// import Usuario from `./usuario.js`
+import Notificacion from `./notificacion.js`
+import { EstadoReserva } from `./reserva.js`
 // Idea: Que el mensaje maneje el contenido de su string. La notificacion, si necesita ese contenido, se la pide al mensaje. Si no tiene parametros, devuelve el string plano, sino, contruye ese string con la informacion dada.
 class FactoryNotificacion {
   mensajeSegunEstado(reserva) {
@@ -32,7 +32,7 @@ class FactoryNotificacion {
 
       default:
         // TODO: Agregar trazabilidad error
-        throw new Error('Estado de reserva no valido')
+        throw new Error(`Estado de reserva no valido`)
     }
   }
 
@@ -54,7 +54,7 @@ class MensajeSobreUsuario {
   }
 
   get contenido() {
-    return this.texto.replace('{nombre}', this.usuario.nombre)
+    return this.texto.replace(`{nombre}`, this.usuario.nombre)
   }
 }
 

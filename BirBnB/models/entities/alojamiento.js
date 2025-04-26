@@ -1,4 +1,4 @@
-import { Reserva, EstadoReserva } from './reserva.js'
+import { Reserva, EstadoReserva } from `./reserva.js`
 class Alojamiento {
   /**
      *
@@ -67,7 +67,7 @@ class Alojamiento {
     if (this.estasDisponibleEn(rangoFechas)) {
       const reserva = new Reserva(new Date(), huesped, this, rangoFechas, this.precioPorNoche)
       return reserva
-    } else throw new Error('El alojamiento no esta disponible en las fechas solicitadas')
+    } else throw new Error(`El alojamiento no esta disponible en las fechas solicitadas`)
   }
 }
 
@@ -125,16 +125,16 @@ class Pais {
 }
 
 const Moneda = {
-  DOLAR_USA: 'DOLAR_USA',
-  PESO_ARG: 'PESO_ARG',
-  REALES: 'REALES'
+  DOLAR_USA: `DOLAR_USA`,
+  PESO_ARG: `PESO_ARG`,
+  REALES: `REALES`
 }
 
 const Caracteristica = {
-  WIFI: 'WIFI',
-  PISCINA: 'PISCINA',
-  MASCOTAS_PERMITIDAS: 'MASCOTAS_PERMITIDAS',
-  ESTACIONAMIENTO: 'ESTACIONAMIENTO'
+  WIFI: `WIFI`,
+  PISCINA: `PISCINA`,
+  MASCOTAS_PERMITIDAS: `MASCOTAS_PERMITIDAS`,
+  ESTACIONAMIENTO: `ESTACIONAMIENTO`
 }
 
 export { Alojamiento, Foto, Direccion, Ciudad, Pais, Moneda, Caracteristica }

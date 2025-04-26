@@ -1,8 +1,8 @@
-// import RangoFechas from './rango-fechas.js'
-// import Alojamiento from './alojamiento.js'
-import CambioEstadoReserva from './cambio-estado-reserva.js'
-// import Usuario from './usuario.js'
-import { FactoryNotificacion } from './factory-notificacion.js'
+// import RangoFechas from `./rango-fechas.js`
+// import Alojamiento from `./alojamiento.js`
+import CambioEstadoReserva from `./cambio-estado-reserva.js`
+// import Usuario from `./usuario.js`
+import { FactoryNotificacion } from `./factory-notificacion.js`
 
 class Reserva {
   /**
@@ -71,9 +71,9 @@ class Reserva {
 }
 
 const EstadoReserva = {
-  PENDIENTE: 'PENDIENTE',
-  CONFIRMADA: 'CONFIRMADA',
-  CANCELADA: 'CANCELADA'
+  PENDIENTE: `PENDIENTE`,
+  CONFIRMADA: `CONFIRMADA`,
+  CANCELADA: `CANCELADA`
 }
 
 export { Reserva, EstadoReserva };
