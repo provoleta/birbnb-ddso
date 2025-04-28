@@ -51,7 +51,7 @@ class Reserva {
 
   // TODO: Usar una biblioteca
   calcularCantidadDias() {
-    const cantidadDias = rangoFechas.fechaFin.diff(dayjs(this.rangoFechas.fechaInicio), 'day')
+    const cantidadDias = this.rangoFechas.fechaFin.diff(dayjs(this.rangoFechas.fechaInicio), 'day')
 
     return cantidadDias
   }
@@ -62,6 +62,10 @@ class Reserva {
 
   get fechaFin() {
     return this.rangoFechas.fechaFin
+  }
+
+  get nombreAlojamiento() {
+    return this.alojamiento.nombre
   }
 
   crearCambioEstado(usuario, estado, motivo) {

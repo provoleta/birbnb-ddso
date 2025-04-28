@@ -2,19 +2,23 @@ import { Alojamiento, Direccion, Ciudad, Pais, Moneda, Caracteristica } from '..
 import { Reserva, EstadoReserva } from '../BirBnB/models/entities/reserva.js'
 import dayjs from 'dayjs'
 import RangoFechas from '../BirBnB/models/entities/rango-fechas.js'
+import { FactoryNotificacion } from '../BirBnB/models/entities/factory-notificacion.js'
+import { Usuario, TipoUsuario } from '../BirBnB/models/entities/usuario.js'
 
 describe('Alojamiento', () => {
   let alojamiento
   let direccion
   let ciudad
   let pais
+  let anfitrion
 
   beforeEach(() => {
     pais = new Pais('Argentina')
     ciudad = new Ciudad('Buenos Aires', pais)
     direccion = new Direccion('Calle Falsa', '123', ciudad, -34.6037, -58.3816)
+    anfitrion = new Usuario('Anfitrion1', 'email', TipoUsuario.ANFITRION)
     alojamiento = new Alojamiento(
-      'Anfitrion1',
+      anfitrion,
       'Alojamiento Test',
       'Descripcion Test',
       100,
@@ -53,7 +57,7 @@ describe('Alojamiento', () => {
   })
 
   test('debería crear una reserva si el alojamiento está disponible', () => {
-    const huesped = { nombre: 'Huesped1', email: 'huesped1@example.com' }
+    const huesped = new Usuario({ nombre: 'Huesped1', email: 'a', tipo: TipoUsuario.HUESPED })
 
 
     const rangoDeFechas = new RangoFechas(dayjs('2023-12-02'), dayjs('2023-12-05'))
@@ -68,7 +72,7 @@ describe('Alojamiento', () => {
   })
 
   test('Deberia lanzar un error si se superpone la fecha de la reserva', () => {
-    const huesped = { nombre: 'Huesped1', email: 'a' }
+    const huesped = new Usuario('Huesped1', 'a', TipoUsuario.HUESPED)
     const fechaReserva = new RangoFechas(dayjs('2023-12-05'), dayjs('2023-12-15'))
     const reservaExistente = new Reserva(
       dayjs(),
@@ -82,6 +86,9 @@ describe('Alojamiento', () => {
 
     const rangoFechasReserva = new RangoFechas(dayjs('2023-12-02'), dayjs('2023-12-20'))
 
+    const notificacion = FactoryNotificacion.crearSegunReserva(reservaExistente) // arma la notificacion con el estado nuevo
+
+    console.log('notificacion', notificacion)
     expect(alojamiento.estasDisponibleEn(rangoFechasReserva)).toBe(false)
     expect(() => alojamiento.crearReserva(huesped, rangoFechasReserva)).toThrow(
       'El alojamiento no esta disponible en las fechas solicitadas'
