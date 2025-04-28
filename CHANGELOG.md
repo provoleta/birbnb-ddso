@@ -93,5 +93,10 @@
     🔳 v0.7.2
 
         - Se agrega dayjs como biblioteca para todo el manejo de fechas
+
+    🔳 v0.7.3
+
+        - Fix: FactoryNotificacion no creaba la notificacion correctamente, ya que no se ponia el nombre del usuario.
+        - Fix: Los imports van sin ``, solo se importa con las comillas simples ('')
         
         

@@ -1,5 +1,5 @@
-import { FactoryNotificacion } from `./factory-notificacion.js`
-import { EstadoReserva } from `./reserva.js`
+import { FactoryNotificacion } from './factory-notificacion.js'
+import { EstadoReserva } from './reserva.js'
 class Usuario {
   /**
      *

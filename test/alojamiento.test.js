@@ -2,6 +2,9 @@ import { Alojamiento, Direccion, Ciudad, Pais, Moneda, Caracteristica } from '..
 import { Reserva, EstadoReserva } from '../BirBnB/models/entities/reserva.js'
 import dayjs from 'dayjs'
 import RangoFechas from '../BirBnB/models/entities/rango-fechas.js'
+import { Usuario, TipoUsuario } from '../BirBnB/models/entities/usuario.js'
+import { FactoryNotificacion, MensajeSobreUsuario, MensajePlano } from '../BirBnB/models/entities/factory-notificacion.js'
+import Notificacion from '../BirBnB/models/entities/notificacion.js'
 
 describe('Alojamiento', () => {
   let alojamiento
@@ -87,6 +90,24 @@ describe('Alojamiento', () => {
       'El alojamiento no esta disponible en las fechas solicitadas'
     )
   })
+  test('Deberia crear una notificacion con todos los parametros correctos', () => {
+    const huesped = new Usuario('Huesped1', 'huesped@gmail.com', TipoUsuario.HUESPED)
+    const fechaReserva = new RangoFechas(dayjs('2023-12-05'), dayjs('2023-12-15'))
+    const reservaExistente = new Reserva(
+      dayjs(),
+      huesped,
+      alojamiento,
+      fechaReserva,
+      EstadoReserva.PENDIENTE,
+      alojamiento.precioPorNoche
+    )
+
+    const notificacion = FactoryNotificacion.crearSegunReserva(reservaExistente)
+    console.log(notificacion)
+    expect(notificacion).toBeInstanceOf(Notificacion)
+    expect(notificacion.usuario).toBe(huesped)
+  }
+  )
 
   // Este test no tiene mucho sentido xq seSuperponeCon no es la funcion original, esta siempre devuelve true. No podes ver si seSuperponeCon funciona bien
   // test('debería lanzar un error si se intenta crear una reserva en fechas no disponibles', () => {

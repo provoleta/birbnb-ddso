@@ -68,7 +68,7 @@ class Alojamiento {
 
   crearReserva(huesped, rangoFechas) {
     if (this.estasDisponibleEn(rangoFechas)) {
-      const reserva = new Reserva(dayjs(), huesped, this, rangoFechas, EstadoReserva.PENDIENTE, this.precioPorNoche)
+      const reserva = new Reserva(dayjs(), huesped, this, rangoFechas, this.precioPorNoche)
       return reserva
     } else throw new Error(`El alojamiento no esta disponible en las fechas solicitadas`)
   }
