@@ -89,5 +89,9 @@
 
         - El estado de la reserva al crearse es siempre PENDIENTE, asi que saco el atributo del parametro del constructor
         - Formateo el codigo un poco
+
+    🔳 v0.7.2
+
+        - Se agrega dayjs como biblioteca para todo el manejo de fechas
         
         
