@@ -40,4 +40,4 @@ const TipoUsuario = {
   ANFITRION: `ANFITRION`
 }
 
-export { Usuario, TipoUsuario };
+export { Usuario, TipoUsuario }

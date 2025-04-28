@@ -31,4 +31,4 @@ class Notificacion {
   }
 }
 
-export default Notificacion;
+export default Notificacion

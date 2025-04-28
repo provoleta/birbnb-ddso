@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import dayjs from 'dayjs'
 
 class RangoFechas {
   /**
@@ -12,4 +12,4 @@ class RangoFechas {
   }
 }
 
-export default RangoFechas;
+export default RangoFechas

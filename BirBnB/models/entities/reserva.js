@@ -79,4 +79,4 @@ const EstadoReserva = {
   CANCELADA: `CANCELADA`
 }
 
-export { Reserva, EstadoReserva };
+export { Reserva, EstadoReserva }
