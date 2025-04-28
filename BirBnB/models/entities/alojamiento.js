@@ -1,4 +1,6 @@
-import { Reserva, EstadoReserva } from `./reserva.js`
+import { Reserva, EstadoReserva } from './reserva.js'
+import dayjs from 'dayjs'
+
 class Alojamiento {
   /**
      *
@@ -44,6 +46,7 @@ class Alojamiento {
   }
 
   estasDisponibleEn(rangoDeFechas) {
+
     // Los datos de tipo Date se pueden comparar directamente con operadores <, >, =....
     return this.reservas.every(
       unaReserva => !unaReserva.seSuperponeCon(rangoDeFechas)
@@ -65,7 +68,7 @@ class Alojamiento {
 
   crearReserva(huesped, rangoFechas) {
     if (this.estasDisponibleEn(rangoFechas)) {
-      const reserva = new Reserva(new Date(), huesped, this, rangoFechas, this.precioPorNoche)
+      const reserva = new Reserva(dayjs(), huesped, this, rangoFechas, EstadoReserva.PENDIENTE, this.precioPorNoche)
       return reserva
     } else throw new Error(`El alojamiento no esta disponible en las fechas solicitadas`)
   }

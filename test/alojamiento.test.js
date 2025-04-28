@@ -1,5 +1,7 @@
 import { Alojamiento, Direccion, Ciudad, Pais, Moneda, Caracteristica } from '../BirBnB/models/entities/alojamiento.js'
 import { Reserva, EstadoReserva } from '../BirBnB/models/entities/reserva.js'
+import dayjs from 'dayjs'
+import RangoFechas from '../BirBnB/models/entities/rango-fechas.js'
 
 describe('Alojamiento', () => {
   let alojamiento
@@ -28,7 +30,10 @@ describe('Alojamiento', () => {
   })
 
   test('debería verificar si el alojamiento está disponible en un rango de fechas', () => {
-    const rangoDeFechas = { inicio: new Date('2023-12-01'), fin: new Date('2023-12-10') }
+
+
+
+    const rangoDeFechas = new RangoFechas(dayjs('2023-12-01'), dayjs('2023-12-10'))
     expect(alojamiento.estasDisponibleEn(rangoDeFechas)).toBe(true)
   })
 
@@ -49,26 +54,50 @@ describe('Alojamiento', () => {
 
   test('debería crear una reserva si el alojamiento está disponible', () => {
     const huesped = { nombre: 'Huesped1', email: 'huesped1@example.com' }
-    const rangoFechas = { inicio: new Date('2023-12-01'), fin: new Date('2023-12-10') }
-    const reserva = alojamiento.crearReserva(huesped, rangoFechas)
+
+
+    const rangoDeFechas = new RangoFechas(dayjs('2023-12-02'), dayjs('2023-12-05'))
+    const reserva = alojamiento.crearReserva(huesped, rangoDeFechas)
 
     expect(reserva).toBeInstanceOf(Reserva)
     expect(reserva.huespedReservador).toBe(huesped)
     expect(reserva.alojamiento).toBe(alojamiento)
-    expect(reserva.rangoFechas).toEqual(rangoFechas)
+    expect(reserva.rangoFechas).toEqual(rangoDeFechas)
     expect(reserva.estado).toBe(EstadoReserva.PENDIENTE)
     expect(reserva.precioPorNoche).toBe(alojamiento.precioPorNoche)
   })
 
-  test('debería lanzar un error si se intenta crear una reserva en fechas no disponibles', () => {
-    const huesped = 'Huesped1'
-    const rangoFechas = { inicio: new Date('2023-12-01'), fin: new Date('2023-12-10') }
-    alojamiento.reservas.push({
-      seSuperponeCon: () => true
-    })
+  test('Deberia lanzar un error si se superpone la fecha de la reserva', () => {
+    const huesped = { nombre: 'Huesped1', email: 'a' }
+    const fechaReserva = new RangoFechas(dayjs('2023-12-05'), dayjs('2023-12-15'))
+    const reservaExistente = new Reserva(
+      dayjs(),
+      huesped,
+      alojamiento,
+      fechaReserva,
+      EstadoReserva.PENDIENTE,
+      alojamiento.precioPorNoche
+    )
+    alojamiento.reservas.push(reservaExistente)
 
-    expect(() => alojamiento.crearReserva(huesped, rangoFechas)).toThrow(
+    const rangoFechasReserva = new RangoFechas(dayjs('2023-12-02'), dayjs('2023-12-20'))
+
+    expect(alojamiento.estasDisponibleEn(rangoFechasReserva)).toBe(false)
+    expect(() => alojamiento.crearReserva(huesped, rangoFechasReserva)).toThrow(
       'El alojamiento no esta disponible en las fechas solicitadas'
     )
   })
+
+  // Este test no tiene mucho sentido xq seSuperponeCon no es la funcion original, esta siempre devuelve true. No podes ver si seSuperponeCon funciona bien
+  // test('debería lanzar un error si se intenta crear una reserva en fechas no disponibles', () => {
+  //   const huesped = 'Huesped1'
+  //   const rangoFechas = { inicio: dayjs('2023-12-01'), fin: dayjs('2023-12-10') }
+  //   alojamiento.reservas.push({
+  //     seSuperponeCon: () => true
+  //   })
+
+  //   expect(() => alojamiento.crearReserva(huesped, rangoFechas)).toThrow(
+  //     'El alojamiento no esta disponible en las fechas solicitadas'
+  //   )
+  // })
 })

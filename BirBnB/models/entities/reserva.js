@@ -1,13 +1,15 @@
-// import RangoFechas from `./rango-fechas.js`
-// import Alojamiento from `./alojamiento.js`
-import CambioEstadoReserva from `./cambio-estado-reserva.js`
-// import Usuario from `./usuario.js`
-import { FactoryNotificacion } from `./factory-notificacion.js`
+// import RangoFechas from './rango-fechas.js'
+// import Alojamiento from './alojamiento.js'
+import CambioEstadoReserva from './cambio-estado-reserva.js'
+// import Usuario from './usuario.js'
+import { FactoryNotificacion } from './factory-notificacion.js'
+import dayjs from 'dayjs'
+import RangoFechas from './rango-fechas.js'
 
 class Reserva {
   /**
      *
-     * @param {Date} fechaAlta
+     * @param {dayjs.Dayjs} fechaAlta
      * @param {Usuario} huespedReservador
      * @param {Alojamiento} alojamiento
      * @param {RangoFechas} rangoFechas
@@ -34,10 +36,10 @@ class Reserva {
   }
 
   // Tengo que verificar si fecha solicitada se superpone el rango de fechas de la reserva
-  seSuperponeCon(fechaSolicitada) {
-    const superponeFin = fechaSolicitada.fechaFin > this.rangoFechas.fechaInicio
 
-    const superponeInicio = fechaSolicitada.fechaInicio < this.rangoFechas.fechaFin
+  seSuperponeCon(fechaSolicitada) {
+    const superponeFin = fechaSolicitada.fechaFin.isAfter(this.rangoFechas.fechaInicio, 'day')
+    const superponeInicio = fechaSolicitada.fechaInicio.isBefore(this.rangoFechas.fechaFin, 'day')
 
     return superponeFin && superponeInicio
   }
@@ -48,10 +50,7 @@ class Reserva {
 
   // TODO: Usar una biblioteca
   calcularCantidadDias() {
-    const diferenciaFechas = this.rangoFechas.fechaFin - this.rangoFechas.fechaInicio
-
-    // Convierto la diferencia a días
-    const cantidadDias = diferenciaFechas / (1000 * 60 * 60 * 24)
+    const cantidadDias = rangoFechas.fechaFin.diff(dayjs(this.rangoFechas.fechaInicio), 'day')
 
     return cantidadDias
   }
@@ -65,7 +64,7 @@ class Reserva {
   }
 
   crearCambioEstado(usuario, estado, motivo) {
-    const cambiosEstadoReserva = new CambioEstadoReserva(new Date(), estado, this, motivo, usuario)
+    const cambiosEstadoReserva = new CambioEstadoReserva(dayjs(), estado, this, motivo, usuario)
     this.cambiosEstadoReserva.push(cambiosEstadoReserva)
   }
 }

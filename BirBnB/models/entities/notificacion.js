@@ -1,5 +1,7 @@
 // const { Usuario } = require('./usuario')
 
+import dayjs from "dayjs"
+
 class Notificacion {
   fechaLeida
 
@@ -7,9 +9,9 @@ class Notificacion {
      *
      * @param {String} mensaje
      * @param {Usuario} usuario
-     * @param {Date} fechaAlta
+     * @param {dayjs.Dayjs} fechaAlta
      * @param {Boolean} leida
-     * @param {Date} fechaLeida
+     * @param {dayjs.Dayjs} fechaLeida
      */
   constructor(mensaje, usuario, fechaAlta) {
     this.mensaje = mensaje
@@ -21,7 +23,7 @@ class Notificacion {
   // Setter de atributo "leida"
   marcarComoLeida() {
     this.leida = true
-    this.fechaLeida = new Date()
+    this.fechaLeida = dayjs()
   }
 
   get fechaLeida() {

@@ -1,9 +1,10 @@
+import dayjs from 'dayjs';
+
 class RangoFechas {
   /**
-     *
-     * @param {Date} fechaInicio
-     * @param {Date} fechaFin
-     */
+   * @param {dayjs.Dayjs | string | Date} fechaInicio
+   * @param {dayjs.Dayjs | string | Date} fechaFin
+   */
 
   constructor(fechaInicio, fechaFin) {
     this.fechaInicio = fechaInicio
