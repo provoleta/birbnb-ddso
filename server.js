@@ -1,23 +1,69 @@
-// import { z } from "zod"
-import 'dotenv/config' // * Cargar las variables de entorno desde el archivo .env
+// import SaludController from './BirBnB/controllers/health.controller.js'
+// import routes from './BirBnB/routes/routes.js'
 
-import express from 'express'
-const app = express()
-const port = process.env.PORT || 9000 // * Puerto arbitrario para el servidor
+// const router = express.Router()
 
-import SaludController from './BirBnB/controllers/health.controller.js'
+// const saludController = new SaludController()
 
-const router = express.Router()
+// app.use('/', router) // * Se le dice al servidor que use el router para manejar las rutas
 
-const saludController = new SaludController()
+// router.get('/health', (req, res) => saludController.health(req, res)) // * Se le dice al router que use el controlador de salud para manejar la ruta /health
 
-app.use('/', router) // * Se le dice al servidor que use el router para manejar las rutas
+// // TODO: Investigar Zod, como implementarlo en el tp para el tema de las verificaciones
 
-router.get('/health', (req, res) => saludController.health(req, res)) // * Se le dice al router que use el controlador de salud para manejar la ruta /health
+// app.listen(port, () => {
+//   console.log('Servidor escuchando en el puerto ' + port)
+//   console.log('Endpoint de salud: http://localhost:' + port + '/health')
+// })
 
-// TODO: Investigar Zod, como implementarlo en el tp para el tema de las verificaciones
+// configureRoutes() {
+//   routes.forEach(r => {
+//       app.use(r(this.getController.bind(this)))
+//     })
+// }
 
-app.listen(port, () => {
-  console.log('Servidor escuchando en el puerto ' + port)
-  console.log('Endpoint de salud: http://localhost:' + port + '/health')
-})
+import express from 'express' 
+
+export class Server {
+  controllers = {}
+  routes = []
+  app
+
+  constructor(app, port = 3000) {
+    this.app = app
+    this.port = port
+    this.app.use(express.json()) // * Middleware para parsear el cuerpo de las peticiones como JSON
+  }
+
+  get app() {
+    return this.app
+  }
+
+  setController(controllerClass, controller) {
+    this.controllers[controllerClass.name] = controller
+  }
+
+  getController(controllerClass) {
+    const controller =  this.controllers[controllerClass.name]
+    if (!controller) {
+      throw new Error(`Controller ${controllerClass.name} not found`)
+    }
+    return controller
+  }
+
+  configureRoutes() {
+    this.routes.forEach(r => {
+      this.app.use(r(this.getController.bind(this)))
+    })
+  }
+
+  launch() {
+    this.app.listen(this.port, () => {
+      console.log(`Server listening on port ${this.port}`)
+    })
+  }
+
+  addRoute(route) {
+    this.routes.push(route)
+  }
+}

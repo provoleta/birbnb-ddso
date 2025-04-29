@@ -17,13 +17,13 @@ class Reserva {
      *
      */
 
-  constructor(fechaAlta, huespedReservador, alojamiento, rangoFechas, precioPorNoche) {
+  constructor(fechaAlta, huespedReservador, alojamiento, rangoFechas) {
     this.fechaAlta = fechaAlta
     this.huespedReservador = huespedReservador
     this.alojamiento = alojamiento
     this.rangoFechas = rangoFechas
     this.estado = EstadoReserva.PENDIENTE
-    this.precioPorNoche = precioPorNoche
+    this.precioPorNoche = alojamiento.
     this.cambiosEstadoReserva = []
   }
 
@@ -50,7 +50,7 @@ class Reserva {
 
   // TODO: Usar una biblioteca
   calcularCantidadDias() {
-    const cantidadDias = this.rangoFechas.fechaFin.diff(dayjs(this.rangoFechas.fechaInicio), 'day')
+      const cantidadDias = this.rangoFechas.fechaFin.diff(dayjs(this.rangoFechas.fechaInicio), 'day')
 
     return cantidadDias
   }
