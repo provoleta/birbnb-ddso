@@ -23,7 +23,7 @@ class Reserva {
     this.alojamiento = alojamiento
     this.rangoFechas = rangoFechas
     this.estado = EstadoReserva.PENDIENTE
-    this.precioPorNoche = alojamiento.
+    this.precioPorNoche = alojamiento.precioPorNoche
     this.cambiosEstadoReserva = []
   }
 
@@ -50,7 +50,7 @@ class Reserva {
 
   // TODO: Usar una biblioteca
   calcularCantidadDias() {
-      const cantidadDias = this.rangoFechas.fechaFin.diff(dayjs(this.rangoFechas.fechaInicio), 'day')
+    const cantidadDias = this.rangoFechas.fechaFin.diff(dayjs(this.rangoFechas.fechaInicio), 'day')
 
     return cantidadDias
   }

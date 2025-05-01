@@ -3,10 +3,12 @@
 import dayjs from "dayjs"
 
 class Notificacion {
+  id
   fechaLeida
 
   /**
      *
+     * @param {Int} id
      * @param {String} mensaje
      * @param {Usuario} usuario
      * @param {dayjs.Dayjs} fechaAlta

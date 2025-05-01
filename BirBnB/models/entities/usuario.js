@@ -1,8 +1,10 @@
 import { FactoryNotificacion } from './factory-notificacion.js'
 import { EstadoReserva } from './reserva.js'
 class Usuario {
+  id
   /**
      *
+     * @param {Int} id
      * @param {String} nombre
      * @param {String} email
      * @param {TipoUsuario} tipo
