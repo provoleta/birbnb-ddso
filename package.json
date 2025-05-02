@@ -5,7 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "integration-test": "node --experimental-vm-modules node_modules/jest/bin/jest.js test/integration.test.js"
   },
   "repository": {
     "type": "git",
@@ -26,7 +27,8 @@
   },
   "devDependencies": {
     "jest": "^29.7.0",
-    "standard": "^17.1.2"
+    "standard": "^17.1.2",
+    "supertest": "^7.1.0"
   },
   "eslintConfig": {
     "extends": "./node_modules/standard/eslintrc.json",
