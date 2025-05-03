@@ -4,7 +4,7 @@ import Notificacion from './notificacion.js'
 import { EstadoReserva } from './reserva.js'
 // Idea: Que el mensaje maneje el contenido de su string. La notificacion, si necesita ese contenido, se la pide al mensaje. Si no tiene parametros, devuelve el string plano, sino, contruye ese string con la informacion dada.
 class FactoryNotificacion {
-  static mensajeSegunEstado(reserva) {
+  static mensajeSegunEstado (reserva) {
     const cantidadDias = reserva.calcularCantidadDias()
     const inicioReserva = reserva.fechaInicio.format('DD/MM/YYYY')
 
@@ -15,7 +15,7 @@ class FactoryNotificacion {
           contenido: new MensajeSobreUsuario(`{nombre} quiere reservar el alojamiento ${reserva.nombreAlojamiento}, 
             en la fecha: ${inicioReserva}, 
             por la cantidad de dias de: ${cantidadDias}`,
-            reserva.huespedReservador),
+          reserva.huespedReservador),
           destinatario: reserva.huespedReservador
         }
 
@@ -33,11 +33,11 @@ class FactoryNotificacion {
 
       default:
         // TODO: Agregar trazabilidad error
-        throw new Error(`Estado de reserva no valido`)
+        throw new Error('Estado de reserva no valido')
     }
   }
 
-  static crearSegunReserva(reserva) {
+  static crearSegunReserva (reserva) {
     const mensaje = FactoryNotificacion.mensajeSegunEstado(reserva)
     return new Notificacion(mensaje.contenido.cuerpo, mensaje.destinatario, dayjs())
   }
@@ -49,12 +49,12 @@ class MensajeSobreUsuario {
      * @param {String} texto
      * @param {Usuario} usuario
      */
-  constructor(texto, usuario) {
+  constructor (texto, usuario) {
     this.texto = texto
     this.usuario = usuario
   }
 
-  get cuerpo() {
+  get cuerpo () {
     return this.texto.replace(/{nombre}/g, this.usuario.nombre)
   }
 }
@@ -64,11 +64,11 @@ class MensajePlano {
      *
      * @param {String} texto
      */
-  constructor(texto) {
+  constructor (texto) {
     this.texto = texto
   }
 
-  get cuerpo() {
+  get cuerpo () {
     return this.texto
   }
 }
