@@ -1,5 +1,9 @@
 ## Progreso
     
+    🔳 v0.7.6
+        - Implementacion reservaServices. 
+        - Hay que ver tema del Id de la reserva para encontrarla.
+
     🔳 v0.7.5
         - Implementacion Rutas
         - Implementacion NotificacionServices y AlojamientoServices
