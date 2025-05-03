@@ -1,5 +1,9 @@
 ## Progreso
     
+    🔳 v0.7.6
+        - Implementacion de test unitario de reserva 
+        - Los test ahora se dividen en dos (unitarios: unit | integradores entre capas: integration)
+
     🔳 v0.7.5
         - Implementacion Rutas
         - Implementacion NotificacionServices y AlojamientoServices
