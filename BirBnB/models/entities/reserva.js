@@ -9,6 +9,7 @@ import RangoFechas from './rango-fechas.js'
 class Reserva {
   /**
      *
+     * @param {Int} id
      * @param {dayjs.Dayjs} fechaAlta
      * @param {Usuario} huespedReservador
      * @param {Alojamiento} alojamiento
@@ -16,7 +17,7 @@ class Reserva {
      * @param {Double} precioPorNoche
      *
      */
-
+  id
   constructor (fechaAlta, huespedReservador, alojamiento, rangoFechas) {
     this.fechaAlta = fechaAlta
     this.huespedReservador = huespedReservador
