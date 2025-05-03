@@ -3,9 +3,9 @@ import ReservaService from './reserva-service.js'
 import NotificacionService from './notificacion-service.js'
 
 const services = [
-    AlojamientoService,
-    ReservaService,
-    NotificacionService,
+  AlojamientoService,
+  ReservaService,
+  NotificacionService
 ]
 
 export default services

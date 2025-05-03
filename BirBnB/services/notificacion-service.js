@@ -1,64 +1,39 @@
-
+import dayjs from 'dayjs'
 
 export class NotifcacionService {
-    constructor(notificacionRepository) {
-        this.notificacionRepository = notificacionRepository
+  constructor (notificacionRepository) {
+    this.notificacionRepository = notificacionRepository
+  }
+
+  async findAll (read, userId) {
+    const notificaciones = await this.notificacionRepository.findAll(read, userId)
+
+    return notificaciones.map(notificacion => this.toDTO(notificacion))
+  }
+
+  async markAsRead (id, userId) {
+    const notificacion = await this.notificacionRepository.findById(id, userId)
+    if (!notificacion) return { error: 'not found' }
+
+    notificacion.leida = true
+    notificacion.fechaLeida = dayjs().format('DD/MM/YYYY HH:mm:ss')
+
+    const notificacionActualizada = await this.notificacionRepository.update(notificacion)
+
+    return this.toDTO(notificacionActualizada)
+  }
+
+  toDTO (notificacion) {
+    return {
+      id: notificacion.id,
+      mensaje: notificacion.mensaje,
+      usuario: notificacion.usuario,
+      fechaAlta: notificacion.fechaAlta,
+      leida: notificacion.leida,
+      fechaLeida: notificacion.fechaLeida
     }
-
-    async findAll(read, userId) {
-        const notificaciones = await this.notificacionRepository.findAll(read, userId)
-
-        return notificaciones.map(notificacion => this.toDTO(notificacion))
-    }
-
-    async markAsRead(id, userId) {
-        const notificacion = await this.notificacionRepository.findById(id, userId)
-        if (!notificacion) return { error: "not found" }
-
-        notificacion.leida = true
-        notificacion.fechaLeida = dayjs().format("DD/MM/YYYY HH:mm:ss")
-
-        const notificacionActualizada = await this.notificacionRepository.update(notificacion)
-
-        return this.toDTO(notificacionActualizada)
-    }
-
-    toDTO(notificacion) {
-        return {
-            id: notificacion.id,
-            mensaje: notificacion.mensaje,
-            usuario: notificacion.usuario,
-            fechaAlta: notificacion.fechaAlta,
-            leida: notificacion.leida,
-            fechaLeida: notificacion.fechaLeida
-        }
-    }
-
-
+  }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
 
@@ -112,7 +87,5 @@ export class NotifcacionService {
 🟦🟦🟦🟦🟦🟦⬛⬛🟨🟨🟨🟨🟨🟨🟨🟨🟨⬛⬛⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬛⬜⬜⬜⬜
 🟦🟦🟦🟦🟦🟦🟦🟦⬛⬛⬛🟨🟨🟨🟨🟨🟨⬛⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬛⬜⬜⬜⬜
 🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦⬛⬛⬛⬛⬛⬛⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬛⬛⬛⬛⬛
-
-
 
 */

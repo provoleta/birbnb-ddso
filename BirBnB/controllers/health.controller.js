@@ -1,6 +1,5 @@
 export class SaludController {
-  health(req, res) {
+  health (req, res) {
     res.send('Servidor en funcionamiento\n')
   }
 }
-

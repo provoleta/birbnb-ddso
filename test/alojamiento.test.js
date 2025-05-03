@@ -33,9 +33,6 @@ describe('Alojamiento', () => {
   })
 
   test('debería verificar si el alojamiento está disponible en un rango de fechas', () => {
-
-
-
     const rangoDeFechas = new RangoFechas(dayjs('2023-12-01'), dayjs('2023-12-10'))
     expect(alojamiento.estasDisponibleEn(rangoDeFechas)).toBe(true)
   })
@@ -57,7 +54,6 @@ describe('Alojamiento', () => {
 
   test('debería crear una reserva si el alojamiento está disponible', () => {
     const huesped = { nombre: 'Huesped1', email: 'huesped1@example.com' }
-
 
     const rangoDeFechas = new RangoFechas(dayjs('2023-12-02'), dayjs('2023-12-05'))
     const reserva = alojamiento.crearReserva(huesped, rangoDeFechas)

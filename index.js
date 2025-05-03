@@ -6,7 +6,7 @@ import routes from './BirBnB/routes/routes.js'
 import { controllers } from './BirBnB/controllers/controllers.js'
 
 const app = express()
-const port = process.env.PORT || 9000 
+const port = process.env.PORT || 9000
 const server = new Server(app, port) // * Crear una nueva instancia del servidor
 
 // TODO: Configurar dependencias
@@ -33,11 +33,11 @@ server.setController(ProductController, productController);
 */
 
 controllers.forEach(c => {
-    server.setController(c.controller, c.instance) // * Registrar el controlador en el servidor
+  server.setController(c.controller, c.instance) // * Registrar el controlador en el servidor
 })
 
 routes.forEach(r => {
-    server.addRoute(r)   
+  server.addRoute(r)
 })
 server.configureRoutes()
 server.launch()

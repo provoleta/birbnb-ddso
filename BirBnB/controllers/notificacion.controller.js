@@ -1,40 +1,27 @@
 export class NotificacionController {
+  constructor (notificacionService) {
+    this.notificacionService = notificacionService
+  }
 
-    constructor(notificacionService) {
-        this.notificacionService = notificacionService;
+  async findAllNotRead (req, res) {
+    const userId = req.params.userId
+    const notificaciones = await this.notificacionService.findAll(false, userId)
+
+    if (!notificaciones) {
+      return res.status(404).json({ message: 'No se encontro al usuario.' })
     }
 
-    async findAllNotRead(req, res) {
-        const userId = req.params.userId;
-        const notificaciones = await this.notificacionService.findAll(false, userId);
+    return res.status(200).json(notificaciones)
+  }
 
-        if (!notificaciones) {
-            return res.status(404).json({ message: 'No se encontro al usuario.' });
-        }
+  async update (req, res) {
+    const { id, userId } = req.query
+    const notificaciones = await this.notificacionService.markAsRead(id, userId)
 
-        return res.status(200).json(notificaciones);
+    if (!notificaciones) {
+      return res.status(404).json({ message: 'No se encontro la notificacion.' })
     }
 
-    async findAllNotRead(req, res) {
-        const userId = req.params.userId
-        const notificaciones = await this.notificacionService.findAll(true, userId)
-
-        if (!notificaciones) {
-            return res.status(404).json({ message: 'No se encontro al usuario.' })
-        }
-
-        return res.status(200).json(notificaciones)
-    }
-
-    async update(req, res) {
-        const { id, userId } = req.query
-        const notificaciones = await this.notificacionService.markAsRead(id, userId)
-
-        if (!notificaciones) {
-            return res.status(404).json({ message: 'No se encontro la notificacion.' })
-        }
-
-        return res.status(200).json(notificaciones)
-
-    }
+    return res.status(200).json(notificaciones)
+  }
 }
