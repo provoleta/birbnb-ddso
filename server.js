@@ -1,23 +1,41 @@
-// import { z } from "zod"
-import 'dotenv/config' // * Cargar las variables de entorno desde el archivo .env
-
 import express from 'express'
-const app = express()
-const port = process.env.PORT || 9000 // * Puerto arbitrario para el servidor
 
-import SaludController from './BirBnB/controllers/health.controller.js'
+export class Server {
+  controllers = {}
+  routes = []
+  app
 
-const router = express.Router()
+  constructor (app, port = 3000) {
+    this.app = app
+    this.port = port
+    this.app.use(express.json()) // * Middleware para parsear el cuerpo de las peticiones como JSON
+  }
 
-const saludController = new SaludController()
+  setController (controllerClass, controller) {
+    this.controllers[controllerClass.name] = controller
+  }
 
-app.use('/', router) // * Se le dice al servidor que use el router para manejar las rutas
+  getController (controllerClass) {
+    const controller = this.controllers[controllerClass.name]
+    if (!controller) {
+      throw new Error(`Controller ${controllerClass.name} not found`)
+    }
+    return controller
+  }
 
-router.get('/health', (req, res) => saludController.health(req, res)) // * Se le dice al router que use el controlador de salud para manejar la ruta /health
+  configureRoutes () {
+    this.routes.forEach(r => {
+      this.app.use(r(this.getController.bind(this)))
+    })
+  }
 
-// TODO: Investigar Zod, como implementarlo en el tp para el tema de las verificaciones
+  launch () {
+    this.app.listen(this.port, () => {
+      console.log(`Server listening on port ${this.port}`)
+    })
+  }
 
-app.listen(port, () => {
-  console.log('Servidor escuchando en el puerto ' + port)
-  console.log('Endpoint de salud: http://localhost:' + port + '/health')
-})
+  addRoute (route) {
+    this.routes.push(route)
+  }
+}
