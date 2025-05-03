@@ -1,5 +1,9 @@
 ## Progreso
     
+    🔳 v0.7.4
+        - Se reacomodan las carpetas para diferenciar testings unitarios de tests de integracion
+        - Se implementa supertest para tests de integracion
+
     🔳 v0.7.3
 
         - Fix: FactoryNotificacion no creaba la notificacion correctamente, ya que no se ponia el nombre del usuario.
