@@ -1,5 +1,10 @@
 ## Progreso
     
+    🔳 v0.7.7
+        - Creacion de reserva, historial de reservas y delete de reserva completados.
+        - Se agregaron un par de excepciones para cancelacion de reserva y para disponibilidad de un alojamiento.
+        - Se agrego el atributo "id" a las reservas.
+
     🔳 v0.7.6
         - Implementacion reservaServices. 
         - Hay que ver tema del Id de la reserva para encontrarla.
