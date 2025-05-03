@@ -1,5 +1,9 @@
 ## Progreso
     
+    🔳 v0.7.5
+        - Implementacion Rutas
+        - Implementacion NotificacionServices y AlojamientoServices
+
     🔳 v0.7.4
         - Se reacomodan las carpetas para diferenciar testings unitarios de tests de integracion
         - Se implementa supertest para tests de integracion
