@@ -1,9 +1,20 @@
-import { Alojamiento, Direccion, Ciudad, Pais, Moneda, Caracteristica } from '../../BirBnB/models/entities/alojamiento.js'
+import {
+  Alojamiento,
+  Direccion,
+  Ciudad,
+  Pais,
+  Moneda,
+  Caracteristica,
+} from '../../BirBnB/models/entities/alojamiento.js'
 import { Reserva, EstadoReserva } from '../../BirBnB/models/entities/reserva.js'
 import dayjs from 'dayjs'
 import RangoFechas from '../../BirBnB/models/entities/rango-fechas.js'
 import { Usuario, TipoUsuario } from '../../BirBnB/models/entities/usuario.js'
-import { FactoryNotificacion, MensajeSobreUsuario, MensajePlano } from '../../BirBnB/models/entities/factory-notificacion.js'
+import {
+  FactoryNotificacion,
+  MensajeSobreUsuario,
+  MensajePlano,
+} from '../../BirBnB/models/entities/factory-notificacion.js'
 import Notificacion from '../../BirBnB/models/entities/notificacion.js'
 
 describe('Alojamiento', () => {
@@ -29,7 +40,7 @@ describe('Alojamiento', () => {
       4,
       [Caracteristica.WIFI, Caracteristica.PISCINA],
       [],
-      []
+      [],
     )
   })
 
@@ -73,7 +84,7 @@ describe('Alojamiento', () => {
       alojamiento,
       fechaReserva,
       EstadoReserva.PENDIENTE,
-      alojamiento.precioPorNoche
+      alojamiento.precioPorNoche,
     )
     alojamiento.reservas.push(reservaExistente)
 
@@ -81,7 +92,7 @@ describe('Alojamiento', () => {
 
     expect(alojamiento.estasDisponibleEn(rangoFechasReserva)).toBe(false)
     expect(() => alojamiento.crearReserva(huesped, rangoFechasReserva)).toThrow(
-      'El alojamiento no esta disponible en las fechas solicitadas'
+      'El alojamiento no esta disponible en las fechas solicitadas',
     )
   })
   test('Deberia crear una notificacion con todos los parametros correctos', () => {
@@ -92,14 +103,12 @@ describe('Alojamiento', () => {
       alojamiento,
       fechaReserva,
       EstadoReserva.PENDIENTE,
-      alojamiento.precioPorNoche
+      alojamiento.precioPorNoche,
     )
 
     const notificacion = FactoryNotificacion.crearSegunReserva(reservaExistente)
     console.log(notificacion)
     expect(notificacion).toBeInstanceOf(Notificacion)
     expect(notificacion.usuario).toBe(huesped)
-  }
-  )
-
+  })
 })

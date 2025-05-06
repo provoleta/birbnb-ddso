@@ -3,15 +3,15 @@
 
 class CambioEstadoReserva {
   /**
-     *
-     * @param {Date} fecha
-     * @param {EstadoReserva} estado
-     * @param {Reserva} reserva
-     * @param {String} motivo
-     * @param {Usuario} usuario
-     */
+   *
+   * @param {Date} fecha
+   * @param {EstadoReserva} estado
+   * @param {Reserva} reserva
+   * @param {String} motivo
+   * @param {Usuario} usuario
+   */
 
-  constructor (fecha, estado, reserva, motivo, usuario) {
+  constructor(fecha, estado, reserva, motivo, usuario) {
     this.fecha = fecha
     this.estado = estado
     this.reserva = reserva

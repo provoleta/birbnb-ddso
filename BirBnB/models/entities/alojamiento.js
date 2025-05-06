@@ -3,21 +3,21 @@ import dayjs from 'dayjs'
 
 class Alojamiento {
   /**
-     *
-     * @param {Usuario} anfitrion
-     * @param {String} nombre
-     * @param {String} descripcion
-     * @param {Double} precioPorNoche
-     * @param {Moneda} moneda
-     * @param {String} horarioCheckIn
-     * @param {String} horarioCheckOut
-     * @param {Direccion} direccion
-     * @param {Number} cantHuespedesMax
-     * @param {Caracteristica[]} caracteristicas
-     * @param {Reserva[]} reservas
-     * @param {Foto[]} fotos
-     */
-  constructor (
+   *
+   * @param {Usuario} anfitrion
+   * @param {String} nombre
+   * @param {String} descripcion
+   * @param {Double} precioPorNoche
+   * @param {Moneda} moneda
+   * @param {String} horarioCheckIn
+   * @param {String} horarioCheckOut
+   * @param {Direccion} direccion
+   * @param {Number} cantHuespedesMax
+   * @param {Caracteristica[]} caracteristicas
+   * @param {Reserva[]} reservas
+   * @param {Foto[]} fotos
+   */
+  constructor(
     anfitrion,
     nombre,
     descripcion,
@@ -29,7 +29,7 @@ class Alojamiento {
     cantHuespedesMax,
     caracteristicas = [],
     reservas = [],
-    fotos = []
+    fotos = [],
   ) {
     this.anfitrion = anfitrion
     this.nombre = nombre
@@ -45,29 +45,32 @@ class Alojamiento {
     this.fotos = fotos
   }
 
-  estasDisponibleEn (rangoDeFechas) {
+  estasDisponibleEn(rangoDeFechas) {
     // Los datos de tipo Date se pueden comparar directamente con operadores <, >, =....
-    return this.reservas.every(
-      unaReserva => !unaReserva.seSuperponeCon(rangoDeFechas)
-
-    )
+    return this.reservas.every((unaReserva) => !unaReserva.seSuperponeCon(rangoDeFechas))
   }
 
-  tuPrecioEstaDentroDe (valorMinimo, valorMaximo) {
+  tuPrecioEstaDentroDe(valorMinimo, valorMaximo) {
     return this.precioPorNoche >= valorMinimo && this.precioPorNoche <= valorMaximo
   }
 
-  tenesCaracteristica (caracteristica) {
+  tenesCaracteristica(caracteristica) {
     return this.caracteristicas.includes(caracteristica)
   }
 
-  puedenAlojarse (cantHuespedes) {
+  puedenAlojarse(cantHuespedes) {
     return cantHuespedes <= this.cantHuespedesMax
   }
 
-  crearReserva (huesped, rangoFechas) {
+  crearReserva(huesped, rangoFechas) {
     if (this.estasDisponibleEn(rangoFechas)) {
-      const reserva = new Reserva(dayjs(), huesped, this, rangoFechas, this.precioPorNoche)
+      const reserva = new Reserva(
+        dayjs(),
+        huesped,
+        this,
+        rangoFechas,
+        this.precioPorNoche,
+      )
       return reserva
     } else throw new Error('El alojamiento no esta disponible en las fechas solicitadas')
   }
@@ -75,12 +78,12 @@ class Alojamiento {
 
 class Foto {
   /**
-     *
-     * @param {String} descripcion
-     * @param {String} path
-     */
+   *
+   * @param {String} descripcion
+   * @param {String} path
+   */
 
-  constructor (descripcion, path) {
+  constructor(descripcion, path) {
     this.descripcion = descripcion
     this.path = path
   }
@@ -88,14 +91,14 @@ class Foto {
 
 class Direccion {
   /**
-     *
-     * @param {String} calle
-     * @param {String} numero
-     * @param {Ciudad} ciudad
-     * @param {Double} lat
-     * @param {String} long
-     */
-  constructor (calle, numero, ciudad, lat, long) {
+   *
+   * @param {String} calle
+   * @param {String} numero
+   * @param {Ciudad} ciudad
+   * @param {Double} lat
+   * @param {String} long
+   */
+  constructor(calle, numero, ciudad, lat, long) {
     this.calle = calle
     this.numero = numero
     this.ciudad = ciudad
@@ -106,11 +109,11 @@ class Direccion {
 
 class Ciudad {
   /**
-     *
-     * @param {String} nombre
-     * @param {Pais} pais
-     */
-  constructor (nombre, pais) {
+   *
+   * @param {String} nombre
+   * @param {Pais} pais
+   */
+  constructor(nombre, pais) {
     this.nombre = nombre
     this.pais = pais
   }
@@ -118,10 +121,10 @@ class Ciudad {
 
 class Pais {
   /**
-     *
-     * @param {String} nombre
-     */
-  constructor (nombre) {
+   *
+   * @param {String} nombre
+   */
+  constructor(nombre) {
     this.nombre = nombre
   }
 }
@@ -129,14 +132,14 @@ class Pais {
 const Moneda = {
   DOLAR_USA: 'DOLAR_USA',
   PESO_ARG: 'PESO_ARG',
-  REALES: 'REALES'
+  REALES: 'REALES',
 }
 
 const Caracteristica = {
   WIFI: 'WIFI',
   PISCINA: 'PISCINA',
   MASCOTAS_PERMITIDAS: 'MASCOTAS_PERMITIDAS',
-  ESTACIONAMIENTO: 'ESTACIONAMIENTO'
+  ESTACIONAMIENTO: 'ESTACIONAMIENTO',
 }
 
 export { Alojamiento, Foto, Direccion, Ciudad, Pais, Moneda, Caracteristica }

@@ -7,5 +7,5 @@ export const controllers = [
   { controller: AlojamientoController, instance: new AlojamientoController() },
   { controller: ReservaController, instance: new ReservaController() },
   { controller: NotificacionController, instance: new NotificacionController() },
-  { controller: SaludController, instance: new SaludController() }
+  { controller: SaludController, instance: new SaludController() },
 ]

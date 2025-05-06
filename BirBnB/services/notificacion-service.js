@@ -1,17 +1,17 @@
 import dayjs from 'dayjs'
 
 export class NotifcacionService {
-  constructor (notificacionRepository) {
+  constructor(notificacionRepository) {
     this.notificacionRepository = notificacionRepository
   }
 
-  async findAll (read, userId) {
+  async findAll(read, userId) {
     const notificaciones = await this.notificacionRepository.findAll(read, userId)
 
-    return notificaciones.map(notificacion => this.toDTO(notificacion))
+    return notificaciones.map((notificacion) => this.toDTO(notificacion))
   }
 
-  async markAsRead (id, userId) {
+  async markAsRead(id, userId) {
     const notificacion = await this.notificacionRepository.findById(id, userId)
     if (!notificacion) return { error: 'not found' }
 
@@ -23,14 +23,14 @@ export class NotifcacionService {
     return this.toDTO(notificacionActualizada)
   }
 
-  toDTO (notificacion) {
+  toDTO(notificacion) {
     return {
       id: notificacion.id,
       mensaje: notificacion.mensaje,
       usuario: notificacion.usuario,
       fechaAlta: notificacion.fechaAlta,
       leida: notificacion.leida,
-      fechaLeida: notificacion.fechaLeida
+      fechaLeida: notificacion.fechaLeida,
     }
   }
 }

@@ -7,15 +7,15 @@ class Notificacion {
   fechaLeida
 
   /**
-     *
-     * @param {Int} id
-     * @param {String} mensaje
-     * @param {Usuario} usuario
-     * @param {dayjs.Dayjs} fechaAlta
-     * @param {Boolean} leida
-     * @param {dayjs.Dayjs} fechaLeida
-     */
-  constructor (mensaje, usuario, fechaAlta) {
+   *
+   * @param {Int} id
+   * @param {String} mensaje
+   * @param {Usuario} usuario
+   * @param {dayjs.Dayjs} fechaAlta
+   * @param {Boolean} leida
+   * @param {dayjs.Dayjs} fechaLeida
+   */
+  constructor(mensaje, usuario, fechaAlta) {
     this.mensaje = mensaje
     this.usuario = usuario
     this.fechaAlta = fechaAlta
@@ -23,7 +23,7 @@ class Notificacion {
   }
 
   // Setter de atributo "leida"
-  marcarComoLeida () {
+  marcarComoLeida() {
     this.leida = true
     this.fechaLeida = dayjs()
   }

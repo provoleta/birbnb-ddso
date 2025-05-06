@@ -32,11 +32,11 @@ const productController = new ProductController(productService);
 server.setController(ProductController, productController);
 */
 
-controllers.forEach(c => {
+controllers.forEach((c) => {
   server.setController(c.controller, c.instance) // * Registrar el controlador en el servidor
 })
 
-routes.forEach(r => {
+routes.forEach((r) => {
   server.addRoute(r)
 })
 server.configureRoutes()

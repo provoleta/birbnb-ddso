@@ -5,17 +5,17 @@ export class Server {
   routes = []
   app
 
-  constructor (app, port = 3000) {
+  constructor(app, port = 3000) {
     this.app = app
     this.port = port
     this.app.use(express.json()) // * Middleware para parsear el cuerpo de las peticiones como JSON
   }
 
-  setController (controllerClass, controller) {
+  setController(controllerClass, controller) {
     this.controllers[controllerClass.name] = controller
   }
 
-  getController (controllerClass) {
+  getController(controllerClass) {
     const controller = this.controllers[controllerClass.name]
     if (!controller) {
       throw new Error(`Controller ${controllerClass.name} not found`)
@@ -23,19 +23,19 @@ export class Server {
     return controller
   }
 
-  configureRoutes () {
-    this.routes.forEach(r => {
+  configureRoutes() {
+    this.routes.forEach((r) => {
       this.app.use(r(this.getController.bind(this)))
     })
   }
 
-  launch () {
+  launch() {
     this.app.listen(this.port, () => {
       console.log(`Server listening on port ${this.port}`)
     })
   }
 
-  addRoute (route) {
+  addRoute(route) {
     this.routes.push(route)
   }
 }

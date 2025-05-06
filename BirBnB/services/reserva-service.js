@@ -1,12 +1,10 @@
-import ExcededTimeException from "../exceptions/excededTimeException"
-import DisponibilidadException from "../exceptions/disponibilidadException"
+import ExcededTimeException from '../exceptions/excededTimeException'
+import DisponibilidadException from '../exceptions/disponibilidadException'
 import dayjs from 'dayjs'
-
 
 export class reservaService {
   constructor(reservaRepository) {
     this.reservaRepository = reservaRepository
-
   }
 
   async update(reserva) {
@@ -18,7 +16,7 @@ export class reservaService {
     const alojamiento = reservaAmodificar.alojamiento
     const disponibilidad = alojamiento.estasDisponibleEn(reserva.rangoFechas)
 
-    if (!disponibilidad) throw new DisponibilidadException(reserva.alojamiento)//return { message: 'El alojamiento no esta disponible en el rango de fechas solicitado. ' }
+    if (!disponibilidad) throw new DisponibilidadException(reserva.alojamiento) //return { message: 'El alojamiento no esta disponible en el rango de fechas solicitado. ' }
 
     reservaAmodificar.rangoFechas = reserva.rangoFechas
 
@@ -27,7 +25,7 @@ export class reservaService {
     return this.toDTO(reservaModificada)
   }
 
-  // eliminacion de la reserva pedida, hay que ver lo de reservaId 
+  // eliminacion de la reserva pedida, hay que ver lo de reservaId
   async delete(reservaId) {
     const reservaAeliminar = await this.reservaRepository.findById(reservaId)
 
@@ -55,7 +53,7 @@ export class reservaService {
 
     if (!reservas) return { message: 'no se encontraron reservas del usuario' }
 
-    const historialReservas = reservas.map(reserva => this.toDTO(reserva))
+    const historialReservas = reservas.map((reserva) => this.toDTO(reserva))
 
     return historialReservas
   }
@@ -68,7 +66,7 @@ export class reservaService {
       rangoFechas: reserva.rangoFechas,
       estado: reserva.EstadoReserva,
       precioPorNoche: reserva.precioPorNoche,
-      cambiosEstadoReserva: reserva.cambiosEstadoReserva
+      cambiosEstadoReserva: reserva.cambiosEstadoReserva,
     }
   }
 }

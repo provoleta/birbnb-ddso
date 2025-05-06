@@ -10,18 +10,19 @@ Implementación de paginación para mejorar la eficiencia de las consultas.
 */
 
 export class AlojamientoService {
-  constructor (alojamientoRepository) {
+  constructor(alojamientoRepository) {
     this.alojamientoRepository = alojamientoRepository
   }
 
-  async findAll ({
+  async findAll({
     ubicacion,
     rangoPrecio,
     cantHuespedesMax,
     caracteristicas,
     page = 1,
-    limit = 10
-  } = {}) { // Se le pasan los parametros de busqueda y paginacion a la funcion. Si no se pasan, se le asignan los valores por defecto indicados.
+    limit = 10,
+  } = {}) {
+    // Se le pasan los parametros de busqueda y paginacion a la funcion. Si no se pasan, se le asignan los valores por defecto indicados.
     const pageNum = Math.max(Number(page), 1)
     const limitNum = Math.min(Math.max(Number(limit), 1), 100)
     const query = {}
@@ -40,22 +41,26 @@ export class AlojamientoService {
     }
 
     // TODO : Cambiar implementacion cuando se utilice la base de datos
-    const alojamientosFiltrados = await this.alojamientoRepository.filterBy(query, pageNum, limitNum)
+    const alojamientosFiltrados = await this.alojamientoRepository.filterBy(
+      query,
+      pageNum,
+      limitNum,
+    )
     const total = await this.alojamientoRepository.countAll()
     const total_pages = Math.ceil(total / limitNum)
 
-    const data = alojamientosFiltrados.map(alojamiento => this.toDTO(alojamiento)) // Se mapean los alojamientos filtrados a un formato DTO para ser devueltos al cliente.
+    const data = alojamientosFiltrados.map((alojamiento) => this.toDTO(alojamiento)) // Se mapean los alojamientos filtrados a un formato DTO para ser devueltos al cliente.
 
     return {
       page: pageNum,
       per_page: limitNum,
       total,
       total_pages,
-      data
+      data,
     }
   }
 
-  toDTO (alojamiento) {
+  toDTO(alojamiento) {
     return {
       id: alojamiento.id,
       anfitrion: alojamiento.anfitrion,
@@ -69,7 +74,7 @@ export class AlojamientoService {
       cantHuespedesMax: alojamiento.cantHuespedesMax,
       caracteristicas: alojamiento.caracteristicas,
       reservas: alojamiento.reservas,
-      fotos: alojamiento.fotos
+      fotos: alojamiento.fotos,
     }
   }
 }
