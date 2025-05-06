@@ -8,6 +8,8 @@
     🔳 v0.7.6
         - Implementacion reservaServices. 
         - Hay que ver tema del Id de la reserva para encontrarla.
+        - Implementacion de test unitario de reserva 
+        - Los test ahora se dividen en dos (unitarios: unit | integradores entre capas: integration)
 
     🔳 v0.7.5
         - Implementacion Rutas
