@@ -1,6 +1,13 @@
 ## Progreso
     
+    🔳 v0.7.7
+        - Creacion de reserva, historial de reservas y delete de reserva completados.
+        - Se agregaron un par de excepciones para cancelacion de reserva y para disponibilidad de un alojamiento.
+        - Se agrego el atributo "id" a las reservas.
+
     🔳 v0.7.6
+        - Implementacion reservaServices. 
+        - Hay que ver tema del Id de la reserva para encontrarla.
         - Implementacion de test unitario de reserva 
         - Los test ahora se dividen en dos (unitarios: unit | integradores entre capas: integration)
 
