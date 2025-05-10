@@ -14,34 +14,13 @@ export class AlojamientoService {
     this.alojamientoRepository = alojamientoRepository
   }
 
-  async findAll({
-    ubicacion,
-    rangoPrecio,
-    cantHuespedesMax,
-    caracteristicas,
-    page = 1,
-    limit = 10,
-  } = {}) {
+  async findAll({ filters, page = 1, limit = 10 } = {}) {
     // Se le pasan los parametros de busqueda y paginacion a la funcion. Si no se pasan, se le asignan los valores por defecto indicados.
     const pageNum = Math.max(Number(page), 1)
     const limitNum = Math.min(Math.max(Number(limit), 1), 100)
-    const query = {}
-
-    if (ubicacion) {
-      query.ubicacion = ubicacion
-    }
-    if (rangoPrecio && rangoPrecio.min != null && rangoPrecio.max != null) {
-      query.precioPorNoche = { $gte: rangoPrecio.min, $lte: rangoPrecio.max } //  $gte significa mayor o igual que, $lte significa menor o igual que. Se usan en la base de datos MongoDB para filtrar por rango de precios.
-    }
-    if (cantHuespedesMax) {
-      query.cantHuespedesMax = { $gte: cantHuespedesMax }
-    }
-    if (Array.isArray(caracteristicas) && caracteristicas.length > 0) {
-      query.caracteristicas = { $in: caracteristicas } //  $in se usa para filtrar por un array de valores. Se usa en la base de datos MongoDB para filtrar por caracteristicas.
-    }
 
     // TODO : Cambiar implementacion cuando se utilice la base de datos
-    const alojamientosFiltrados = await this.alojamientoRepository.filterBy(query)
+    const alojamientosFiltrados = await this.alojamientoRepository.filterBy(filters)
     const total = await this.alojamientoRepository.countAll()
     const total_pages = Math.ceil(total / limitNum)
 
