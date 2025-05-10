@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import { Usuario } from '../entities/usuario.js'
+import { notificacionSchema } from './notificacion-schema.js'
 
 const usuarioSchema = new mongoose.Schema({
   nombre: {
@@ -19,9 +20,11 @@ const usuarioSchema = new mongoose.Schema({
     required: true,
   },
   notificaciones: {
-    type: Array,
+    type: [notificacionSchema],
     default: [],
   },
 })
 
 usuarioSchema.loadClass(Usuario)
+
+export const UsuarioModel = mongoose.model('Usuario', usuarioSchema)

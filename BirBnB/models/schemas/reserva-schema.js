@@ -25,7 +25,7 @@ const reservaSchema = new mongoose.Schema(
     },
 
     precioPorNoche: {
-      type: Double,
+      type: Number,
       required: true,
     },
   },

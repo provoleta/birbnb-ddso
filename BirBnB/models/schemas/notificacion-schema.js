@@ -11,14 +11,16 @@ const notificacionSchema = new mongoose.Schema({
   },
   usuario: {
     type: Usuario,
-    requiered: true,
+    required: true,
   },
   fechaAlta: {
     type: Dayjs,
-    requiered: true,
+    required: true,
   },
 })
 
 notificacionSchema.loadClass(Notificacion)
 
-export const NotificacionModel = mongoose.model('Notificacion', notificacionSchema)
+const NotificacionModel = mongoose.model('Notificacion', notificacionSchema)
+
+export { NotificacionModel, notificacionSchema }
