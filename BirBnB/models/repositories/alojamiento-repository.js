@@ -28,7 +28,7 @@ export class AlojamientoRepository {
       query.caracteristicas = { $in: filters.Caracteristicas } //  $in se usa para filtrar por un array de valores. Se usa en la base de datos MongoDB para filtrar por caracteristicas.
     }
 
-    const alojamientosFiltrados = await this.model.findBy(query)
+    const alojamientosFiltrados = await this.model.find(query)
     return alojamientosFiltrados
   }
 

@@ -11,6 +11,7 @@ import Reserva from '../entities/reserva.js'
 const alojamientoSchema = new mongoose.Schema({
   anfitrion: {
     type: mongoose.Schema.ObjectId,
+    ref: 'Usuario',
     required: true,
   },
   nombre: {
@@ -41,7 +42,7 @@ const alojamientoSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
-  direcion: {
+  direccion: {
     type: Direccion,
     required: true,
   },
