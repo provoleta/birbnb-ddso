@@ -1,6 +1,6 @@
 import { ReservaModel } from '../schemas/reserva-schema.js'
 
-export class ReservaRepository {
+export default class ReservaRepository {
   constructor() {
     this.model = ReservaModel
   }

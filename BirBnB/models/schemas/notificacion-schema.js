@@ -1,7 +1,5 @@
 import mongoose from 'mongoose'
 import Notificacion from '../entities/notificacion.js'
-import { Usuario } from '../entities/usuario.js'
-import { Dayjs } from 'dayjs'
 
 const notificacionSchema = new mongoose.Schema({
   mensaje: {
@@ -10,11 +8,20 @@ const notificacionSchema = new mongoose.Schema({
     trim: true,
   },
   usuario: {
-    type: Usuario,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Usuario',
     required: true,
   },
   fechaAlta: {
-    type: Dayjs,
+    type: String,
+    validate: {
+      validator: function (v) {
+        // Valida el formato de fecha como DD-MM-YYYY
+        return /^\d{2}-\d{2}-\d{4}$/.test(v)
+      },
+      message: (props) =>
+        `${props.value} no es un formato de fecha válido. Usa DD-MM-YYYY.`,
+    },
     required: true,
   },
 })

@@ -1,6 +1,6 @@
 import { UsuarioModel } from '../schemas/usuario-schema.js'
 
-export class NotificacionRepository {
+export default class NotificacionRepository {
   constructor() {
     this.model = UsuarioModel
   }

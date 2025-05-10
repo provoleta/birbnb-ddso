@@ -1,11 +1,19 @@
 import mongoose from 'mongoose'
-import {
-  Alojamiento,
-  Caracteristica,
-  Moneda,
-  Foto,
-  Direccion,
-} from '../entities/alojamiento.js'
+import { Alojamiento } from '../entities/alojamiento.js'
+
+const direccionSchema = new mongoose.Schema({
+  calle: { type: String, required: true },
+  numero: { type: Number, required: true },
+  ciudad: { type: String, required: true },
+  provincia: { type: String, required: true },
+  pais: { type: String, required: true },
+  codigoPostal: { type: String, required: true },
+})
+
+const fotoSchema = new mongoose.Schema({
+  descripcion: { type: String, required: true },
+  path: { type: String, required: true },
+})
 
 const alojamientoSchema = new mongoose.Schema({
   anfitrion: {
@@ -27,8 +35,9 @@ const alojamientoSchema = new mongoose.Schema({
     required: true,
   },
   moneda: {
-    type: Moneda,
+    type: String,
     required: true,
+    enum: ['DOLAR_USA', 'PESO_ARG', 'REALES'],
   },
   horarioCheckin: {
     type: String,
@@ -55,7 +64,7 @@ const alojamientoSchema = new mongoose.Schema({
     },
   },
   direccion: {
-    type: Direccion,
+    type: direccionSchema,
     required: true,
   },
   cantHuespedesMax: {
@@ -63,7 +72,7 @@ const alojamientoSchema = new mongoose.Schema({
     required: true,
   },
   caracteristicas: {
-    type: Caracteristica,
+    type: [String],
     required: true,
   },
   reservas: {
@@ -71,7 +80,7 @@ const alojamientoSchema = new mongoose.Schema({
     ref: 'Reserva',
   },
   fotos: {
-    type: Foto,
+    type: fotoSchema,
     required: true,
   },
 })

@@ -1,6 +1,6 @@
-import { AlojamientoModel } from '../schemas/alojamiento-schema'
+import { AlojamientoModel } from '../schemas/alojamiento-schema.js'
 
-export class AlojamientoRepository {
+export default class AlojamientoRepository {
   constructor() {
     this.model = AlojamientoModel
   }
