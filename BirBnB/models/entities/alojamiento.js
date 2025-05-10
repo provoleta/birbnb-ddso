@@ -1,4 +1,4 @@
-import { Reserva, EstadoReserva } from './reserva.js'
+import { Reserva } from './reserva.js'
 import dayjs from 'dayjs'
 
 class Alojamiento {

@@ -41,11 +41,7 @@ export class AlojamientoService {
     }
 
     // TODO : Cambiar implementacion cuando se utilice la base de datos
-    const alojamientosFiltrados = await this.alojamientoRepository.filterBy(
-      query,
-      pageNum,
-      limitNum,
-    )
+    const alojamientosFiltrados = await this.alojamientoRepository.filterBy(query)
     const total = await this.alojamientoRepository.countAll()
     const total_pages = Math.ceil(total / limitNum)
 
