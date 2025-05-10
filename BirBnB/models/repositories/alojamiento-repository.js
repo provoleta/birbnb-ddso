@@ -6,12 +6,12 @@ export class AlojamientoRepository {
   }
 
   async filterBy(query) {
-    const alojamientos = await this.model.findBy({ query })
-    return alojamientos
+    const alojamientosFiltrados = await this.model.findBy(query)
+    return alojamientosFiltrados
   }
 
   async countAll() {
-    const alojamientos = await this.model.find()
-    return alojamientos
+    const totalAlojamientos = await this.model.countDocuments()
+    return totalAlojamientos
   }
 }
