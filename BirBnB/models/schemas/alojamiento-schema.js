@@ -1,10 +1,16 @@
 import mongoose from 'mongoose'
-import { Alojamiento, Caracteristica, Moneda, Foto } from '../entities/alojamiento.js'
+import {
+  Alojamiento,
+  Caracteristica,
+  Moneda,
+  Foto,
+  Direccion,
+} from '../entities/alojamiento.js'
 import Reserva from '../entities/reserva.js'
 
 const alojamientoSchema = new mongoose.Schema({
   anfitrion: {
-    type: Usuario,
+    type: mongoose.Schema.ObjectId,
     required: true,
   },
   nombre: {
@@ -18,7 +24,7 @@ const alojamientoSchema = new mongoose.Schema({
     trim: true,
   },
   precioPorNoche: {
-    type: Double,
+    type: Number,
     required: true,
   },
   moneda: {
@@ -59,4 +65,4 @@ const alojamientoSchema = new mongoose.Schema({
 
 alojamientoSchema.loadClass(Alojamiento)
 
-export const alojamientoModel = mongoose.model('Alojamiento', alojamientoSchema)
+export const AlojamientoModel = mongoose.model('Alojamiento', alojamientoSchema)
