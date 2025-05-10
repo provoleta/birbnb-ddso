@@ -54,8 +54,10 @@ export class reservaService {
     return this.toDTO(reservaCreada)
   }
 
+  // VER ESTO DE BUSCAR POR USERID
+
   async findByUserId(userId) {
-    const reservas = await this.reservaRepository.filterById(userId)
+    const reservas = await this.reservaRepository.filterByUserId(userId)
 
     if (!reservas) return { message: 'no se encontraron reservas del usuario' }
 
