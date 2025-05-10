@@ -33,7 +33,13 @@ export class reservaService {
       //return { message: 'No se puede cancelar la reserva ya que la misma se encuentra en curso.'}
       throw new ExcededTimeException(reservaAeliminar)
     }
-    return await this.reservaRepository.delete(reservaId)
+    const reservaEliminada = await this.reservaRepository.delete(reservaId)
+
+    if (!reservaEliminada) {
+      throw new notFoundError() // TODO HACER EL EXCEPTION
+    }
+
+    return reservaEliminada
   }
 
   async create(reserva) {
