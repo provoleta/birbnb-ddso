@@ -11,29 +11,26 @@ export class ReservaRepository {
 
   // UPDATE
 
-  async update(reserva) {
-    const query = reserva.id
+  async save(reserva) {
+    const query = reserva.id ? { _id: reserva.id } : { _id: new this.model()._id }
 
     return await this.model
       .findOneAndUpdate(query, reserva, {
         new: true,
         runValidators: true,
+        upsert: true,
       })
       .populate(['usuario', 'alojamiento'])
   }
-
-  // DELETE
 
   async delete(reservaId) {
     const eliminado = await this.model.findByIdAndDelete(reservaId)
     return eliminado !== null
   }
 
-  // CREATE
-
-  // FilterByUserId
+  // filterByUserId
 
   async filterByUserId(userId) {
-    const historialReservas = await this.model.find({})
+    return await this.model.find({ usuario: userId }).populate(['usuario', 'alojamiento'])
   }
 }

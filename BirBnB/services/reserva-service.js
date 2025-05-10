@@ -1,5 +1,6 @@
 import ExcededTimeException from '../exceptions/excededTimeException'
 import DisponibilidadException from '../exceptions/disponibilidadException'
+import NotFoundException from '../exceptions/not-found-exception.js'
 import dayjs from 'dayjs'
 
 export class reservaService {
@@ -20,7 +21,7 @@ export class reservaService {
 
     reservaAmodificar.rangoFechas = reserva.rangoFechas
 
-    const reservaModificada = await this.reservaRepository.update(reservaAmodificar)
+    const reservaModificada = await this.reservaRepository.save(reservaAmodificar)
 
     return this.toDTO(reservaModificada)
   }
@@ -36,7 +37,7 @@ export class reservaService {
     const reservaEliminada = await this.reservaRepository.delete(reservaId)
 
     if (!reservaEliminada) {
-      throw new notFoundError() // TODO HACER EL EXCEPTION
+      throw new NotFoundException()
     }
 
     return reservaEliminada
@@ -49,12 +50,10 @@ export class reservaService {
 
     if (!disponibilidad) return { message: 'La fecha solicitada se encuentra ocupada' }
 
-    const reservaCreada = await this.reservaRepository.create(reserva)
+    const reservaCreada = await this.reservaRepository.save(reserva)
 
     return this.toDTO(reservaCreada)
   }
-
-  // VER ESTO DE BUSCAR POR USERID
 
   async findByUserId(userId) {
     const reservas = await this.reservaRepository.filterByUserId(userId)
