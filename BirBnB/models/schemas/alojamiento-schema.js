@@ -6,13 +6,11 @@ import {
   Foto,
   Direccion,
 } from '../entities/alojamiento.js'
-import Reserva from '../entities/reserva.js'
 
 const alojamientoSchema = new mongoose.Schema({
   anfitrion: {
     type: mongoose.Schema.ObjectId,
     ref: 'Usuario',
-    required: true,
   },
   nombre: {
     type: String,
@@ -36,11 +34,25 @@ const alojamientoSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
+    validate: {
+      validator: function (v) {
+        return /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/.test(v) // Formato HH:MM
+      },
+      message: (props) =>
+        `${props.value} no es un formato de hora válido! Debe ser HH:MM`,
+    },
   },
   horarioCheckOut: {
     type: String,
     required: true,
     trim: true,
+    validate: {
+      validator: function (v) {
+        return /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/.test(v)
+      },
+      message: (props) =>
+        `${props.value} no es un formato de hora válido! Debe ser HH:MM`,
+    },
   },
   direccion: {
     type: Direccion,
@@ -55,8 +67,8 @@ const alojamientoSchema = new mongoose.Schema({
     required: true,
   },
   reservas: {
-    type: [Reserva],
-    required: true,
+    type: [mongoose.Schema.ObjectId],
+    ref: 'Reserva',
   },
   fotos: {
     type: Foto,
