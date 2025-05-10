@@ -4,9 +4,10 @@ import express from 'express'
 import { Server } from './server.js'
 import routes from './BirBnB/routes/routes.js'
 import { controllers } from './BirBnB/controllers/controllers.js'
+import { MongoDBClient } from './BirBnB/config/database.js'
 
 const app = express()
-const port = process.env.PORT || 9000
+const port = process.env.PORT || 3000
 const server = new Server(app, port) // * Crear una nueva instancia del servidor
 
 // TODO: Configurar dependencias
@@ -31,6 +32,8 @@ const productController = new ProductController(productService);
  ///Registro del controlador en el servidor
 server.setController(ProductController, productController);
 */
+
+MongoDBClient.connect()
 
 controllers.forEach((c) => {
   server.setController(c.controller, c.instance) // * Registrar el controlador en el servidor
