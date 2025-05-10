@@ -1,20 +1,16 @@
-import { NotificacionController } from '../controllers/notificacion.controller.js'
-import express from 'express'
+import NotificacionController from '../controllers/notificacion.controller.js'
 
-export default function NotificacionRoutes(getController) {
-  const router = express.Router()
-
-  router.get('/noficacionNoLeida/:userId', (req, res) =>
+// TODO: revisar endpoint noficacionNoLeida y noficacionLeida
+export default function registerNotificacionRoutes(app, getController) {
+  app.get('/noficacionNoLeida/:userId', (req, res) =>
     getController(NotificacionController).findAllNotRead(req, res),
   )
 
-  router.get('/noficacionLeida/:userId', (req, res) =>
+  app.get('/noficacionLeida/:userId', (req, res) =>
     getController(NotificacionController).findAllRead(req, res),
   )
 
-  router.put('/notificacion/:id', (req, res) =>
+  app.put('/notificacion/:id', (req, res) =>
     getController(NotificacionController).update(req, res),
   )
-
-  return router
 }

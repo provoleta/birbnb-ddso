@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 
-export class NotifcacionService {
+export default class NotifcacionService {
   constructor(notificacionRepository) {
     this.notificacionRepository = notificacionRepository
   }

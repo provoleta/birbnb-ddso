@@ -1,12 +1,7 @@
-import { AlojamientoController } from '../controllers/alojamiento.controller.js'
-import express from 'express'
+import AlojamientoController from '../controllers/alojamiento.controller.js'
 
-export default function AlojamientoRoutes(getController) {
-  const router = express.Router()
-
-  router.get('/alojamiento', async (req, res) =>
+export default function registerAlojamientoRoutes(app, getController) {
+  app.get('/alojamiento', async (req, res) =>
     getController(AlojamientoController).findAll(req, res),
   )
-
-  return router
 }

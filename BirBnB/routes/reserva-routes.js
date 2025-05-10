@@ -1,23 +1,15 @@
-import { ReservaController } from '../controllers/reserva.controller.js'
-import express from 'express'
+import ReservaController from '../controllers/reserva.controller.js'
 
-export default function ReservaRoutes(getController) {
-  const router = express.Router()
+export default function registerReservaRoutes(app, getController) {
+  app.post('/reserva', (req, res) => getController(ReservaController).create(req, res))
 
-  router.post(
-    '/reserva',
-    (req, res) => getController(ReservaController).create(req, res), // adas
-  )
-
-  router.delete('/reserva/:id', (req, res) =>
+  app.delete('/reserva/:id', (req, res) =>
     getController(ReservaController).delete(req, res),
   )
 
-  router.get('/reserva/:userId', (req, res) =>
+  app.get('/reserva/:userId', (req, res) =>
     getController(ReservaController).findByUserId(req, res),
   )
 
-  router.put('/reserva', (req, res) => getController(ReservaController).update(req, res))
-
-  return router
+  app.put('/reserva', (req, res) => getController(ReservaController).update(req, res))
 }

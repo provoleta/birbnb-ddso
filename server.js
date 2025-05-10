@@ -1,8 +1,9 @@
 import express from 'express'
+import { configureRoutes } from './BirBnB/routes/routes.js'
 
 export class Server {
   controllers = {}
-  routes = []
+  // routes = []
   app
 
   constructor(app, port = 3000) {
@@ -24,9 +25,7 @@ export class Server {
   }
 
   configureRoutes() {
-    this.routes.forEach((r) => {
-      this.app.use(r(this.getController.bind(this)))
-    })
+    configureRoutes(this.app, this.getController.bind(this))
   }
 
   launch() {
@@ -35,7 +34,7 @@ export class Server {
     })
   }
 
-  addRoute(route) {
+  /*   addRoute(route) {
     this.routes.push(route)
-  }
+  } */
 }

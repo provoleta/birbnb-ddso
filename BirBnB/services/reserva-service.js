@@ -1,8 +1,8 @@
-import ExcededTimeException from '../exceptions/excededTimeException'
-import DisponibilidadException from '../exceptions/disponibilidadException'
+import ExcededTimeException from '../exceptions/excededTimeException.js'
+import DisponibilidadException from '../exceptions/disponibilidadException.js'
 import dayjs from 'dayjs'
 
-export class reservaService {
+export default class reservaService {
   constructor(reservaRepository) {
     this.reservaRepository = reservaRepository
   }

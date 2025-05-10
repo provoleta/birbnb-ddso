@@ -2,45 +2,38 @@ import 'dotenv/config' // * Cargar las variables de entorno desde el archivo .en
 
 import express from 'express'
 import { Server } from './server.js'
-import routes from './BirBnB/routes/routes.js'
-import { controllers } from './BirBnB/controllers/controllers.js'
 import { MongoDBClient } from './BirBnB/config/database.js'
+
+import AlojamientoController from './BirBnB/controllers/alojamiento.controller.js'
+import AlojamientoService from './BirBnB/services/alojamiento-service.js'
+
+import ReservaController from './BirBnB/controllers/reserva.controller.js'
+import ReservaService from './BirBnB/services/reserva-service.js'
+
+import NotificacionController from './BirBnB/controllers/notificacion.controller.js'
+import NotificacionService from './BirBnB/services/notificacion-service.js'
 
 const app = express()
 const port = process.env.PORT || 3000
 const server = new Server(app, port) // * Crear una nueva instancia del servidor
 
-// TODO: Configurar dependencias
-// import { AlojamientoController } from './BirBnB/controllers/alojamiento-controller.js'
-// import { ReservaController } from './BirBnB/controllers/reserva-controller.js'
-// import { NotificacionController } from './BirBnB/controllers/notificacion-controller.js'
-// import { SaludController } from './BirBnB/controllers/health.controller.js'
+// MongoDBClient.connect()
 
-// import { AlojamientoService } from './BirBnB/services/alojamiento-service.js'
-// import { ReservaService } from './BirBnB/services/reserva-service.js'
-// import { NotificacionService } from './BirBnB/services/notificacion-service.js'
+// Configuracion de dependencias
+const alojamientoService = new AlojamientoService(0)
+const alojamientoController = new AlojamientoController(alojamientoService)
 
-// const alojamientoController = new AlojamientoController(alojamientoService)
-// const alojamientoService = new AlojamientoService()
+const reservaService = new ReservaService(0)
+const reservaController = new ReservaController(reservaService)
 
-/*
- ///Configuración de dependencias
-const productRepo = new ProductRepository();
-const productService = new ProductService(productRepo);
-const productController = new ProductController(productService);
+const notificacionService = new NotificacionService(0)
+const notificacionController = new NotificacionController(notificacionService)
 
- ///Registro del controlador en el servidor
-server.setController(ProductController, productController);
-*/
+// Registro de controladores en el servidor
+server.setController(AlojamientoController, alojamientoController)
+server.setController(ReservaController, reservaController)
+server.setController(NotificacionController, notificacionController)
 
-MongoDBClient.connect()
-
-controllers.forEach((c) => {
-  server.setController(c.controller, c.instance) // * Registrar el controlador en el servidor
-})
-
-routes.forEach((r) => {
-  server.addRoute(r)
-})
+// Configuracion y lanzamiento del servidor
 server.configureRoutes()
 server.launch()

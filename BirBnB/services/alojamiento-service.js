@@ -9,7 +9,7 @@ Implementación de paginación para mejorar la eficiencia de las consultas.
 
 */
 
-export class AlojamientoService {
+export default class AlojamientoService {
   constructor(alojamientoRepository) {
     this.alojamientoRepository = alojamientoRepository
   }

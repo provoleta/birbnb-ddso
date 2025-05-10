@@ -1,4 +1,4 @@
-export class ReservaController {
+export default class ReservaController {
   constructor(reservaService) {
     this.reservaService = reservaService
   }
