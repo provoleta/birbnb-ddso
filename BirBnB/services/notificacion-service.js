@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 
-export class NotifcacionService {
+export class NotificacionService {
   constructor(notificacionRepository) {
     this.notificacionRepository = notificacionRepository
   }
@@ -18,9 +18,9 @@ export class NotifcacionService {
     notificacion.leida = true
     notificacion.fechaLeida = dayjs().format('DD/MM/YYYY HH:mm:ss')
 
-    const notificacionActualizada = await this.notificacionRepository.update(notificacion)
+    await this.notificacionRepository.update(notificacion, userId)
 
-    return this.toDTO(notificacionActualizada)
+    return this.toDTO(notificacion)
   }
 
   toDTO(notificacion) {
