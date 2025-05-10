@@ -1,4 +1,4 @@
-export class AlojamientoController {
+export default class AlojamientoController {
   constructor(alojamientoService) {
     this.alojamientoService = alojamientoService
   }

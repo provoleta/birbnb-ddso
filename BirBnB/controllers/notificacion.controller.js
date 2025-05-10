@@ -1,4 +1,4 @@
-export class NotificacionController {
+export default class NotificacionController {
   constructor(notificacionService) {
     this.notificacionService = notificacionService
   }
