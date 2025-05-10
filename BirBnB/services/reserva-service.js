@@ -1,5 +1,7 @@
 import ExcededTimeException from '../exceptions/excededTimeException.js'
 import DisponibilidadException from '../exceptions/disponibilidadException.js'
+import NotFoundException from '../exceptions/not-found-exception.js'
+
 import dayjs from 'dayjs'
 
 export default class reservaService {
@@ -20,7 +22,7 @@ export default class reservaService {
 
     reservaAmodificar.rangoFechas = reserva.rangoFechas
 
-    const reservaModificada = await this.reservaRepository.update(reservaAmodificar)
+    const reservaModificada = await this.reservaRepository.save(reservaAmodificar)
 
     return this.toDTO(reservaModificada)
   }
@@ -33,7 +35,13 @@ export default class reservaService {
       //return { message: 'No se puede cancelar la reserva ya que la misma se encuentra en curso.'}
       throw new ExcededTimeException(reservaAeliminar)
     }
-    return await this.reservaRepository.delete(reservaId)
+    const reservaEliminada = await this.reservaRepository.delete(reservaId)
+
+    if (!reservaEliminada) {
+      throw new NotFoundException()
+    }
+
+    return reservaEliminada
   }
 
   async create(reserva) {
@@ -43,13 +51,13 @@ export default class reservaService {
 
     if (!disponibilidad) return { message: 'La fecha solicitada se encuentra ocupada' }
 
-    const reservaCreada = await this.reservaRepository.create(reserva)
+    const reservaCreada = await this.reservaRepository.save(reserva)
 
     return this.toDTO(reservaCreada)
   }
 
   async findByUserId(userId) {
-    const reservas = await this.reservaRepository.filterById(userId)
+    const reservas = await this.reservaRepository.filterByUserId(userId)
 
     if (!reservas) return { message: 'no se encontraron reservas del usuario' }
 

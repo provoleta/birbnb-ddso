@@ -16,12 +16,12 @@ export default class NotificacionController {
 
   async update(req, res) {
     const { id, userId } = req.query
-    const notificaciones = await this.notificacionService.markAsRead(id, userId)
+    const notificacion = await this.notificacionService.markAsRead(id, userId)
 
-    if (!notificaciones) {
+    if (!notificacion) {
       return res.status(404).json({ message: 'No se encontro la notificacion.' })
     }
 
-    return res.status(200).json(notificaciones)
+    return res.status(200).json(notificacion)
   }
 }
