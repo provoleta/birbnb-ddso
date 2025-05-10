@@ -1,14 +1,3 @@
-/*
-Se espera:
-Un endpoint para listar alojamientos disponibles, con la posibilidad de aplicar filtros como:
-Ubicación (ciudad, país, coordenadas, etc.).
-Rango de precios.
-Cantidad de huéspedes permitidos.
-Características especiales (Wi-Fi, piscina, mascotas permitidas, etc.).
-Implementación de paginación para mejorar la eficiencia de las consultas.
-
-*/
-
 export default class AlojamientoService {
   constructor(alojamientoRepository) {
     this.alojamientoRepository = alojamientoRepository

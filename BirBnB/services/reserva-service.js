@@ -1,10 +1,11 @@
 import ExcededTimeException from '../exceptions/excededTimeException.js'
 import DisponibilidadException from '../exceptions/disponibilidadException.js'
 import NotFoundException from '../exceptions/not-found-exception.js'
+import { Reserva } from '../models/entities/reserva.js'
 
 import dayjs from 'dayjs'
 
-export default class reservaService {
+export default class ReservaService {
   constructor(reservaRepository, alojamientoRepository) {
     this.reservaRepository = reservaRepository
     this.alojamientoRepository = alojamientoRepository
@@ -46,16 +47,20 @@ export default class reservaService {
   }
 
   async create(reserva) {
-    const alojamientoId = reserva.alojamiento._id || reserva.alojamiento
-    const alojamientoCompleto = await this.alojamientoRepository.findById(alojamientoId)
-    const disponibilidad = alojamientoCompleto.estasDisponibleEn(reserva.rangoFechas)
-    // verificar disponibilidad para el rango de fechas elegido
-    // const alojamiento = reserva.alojamiento
-    // const disponibilidad = alojamiento.estasDisponibleEn(reserva.rangoFechas)
+    const alojamientoId = reserva.idAlojamiento
+
+    const alojamiento = await this.alojamientoRepository.findById(alojamientoId)
+    const disponibilidad = alojamiento.estasDisponibleEn(reserva.rangoFechas)
 
     if (!disponibilidad) return { message: 'La fecha solicitada se encuentra ocupada' }
 
-    const reservaCreada = await this.reservaRepository.save(reserva)
+    const reservaACrear = new Reserva(
+      reserva.fechaAlta,
+      reserva.huespedReservador,
+      alojamiento,
+      reserva.rangoFechas,
+    )
+    const reservaCreada = await this.reservaRepository.save(reservaACrear)
 
     return this.toDTO(reservaCreada)
   }

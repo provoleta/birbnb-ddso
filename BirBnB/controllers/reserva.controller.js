@@ -5,9 +5,9 @@ export default class ReservaController {
 
   async create(req, res) {
     const reserva = req.body
-    const { fechaAlta, huespedReservador, alojamiento, rangoFechas } = reserva
+    const { fechaAlta, huespedReservador, idAlojamiento, rangoFechas } = reserva
 
-    if (!fechaAlta || !huespedReservador || !alojamiento || !rangoFechas) {
+    if (!fechaAlta || !huespedReservador || !idAlojamiento || !rangoFechas) {
       return res.status(400).json({ error: 'Reserva mal formada' })
     }
 
