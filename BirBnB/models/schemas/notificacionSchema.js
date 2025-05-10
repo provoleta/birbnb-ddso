@@ -3,7 +3,7 @@ import Notificacion from '../entities/notificacion.js'
 import { Usuario } from '../entities/usuario.js'
 import { Dayjs } from 'dayjs'
 
-const notificacionScheme = new mongoose.Schema({
+const notificacionSchema = new mongoose.Schema({
   mensaje: {
     type: String,
     required: true,
@@ -19,6 +19,6 @@ const notificacionScheme = new mongoose.Schema({
   },
 })
 
-notificacionScheme.loadClass(Notificacion)
+notificacionSchema.loadClass(Notificacion)
 
-export const NotificacionModel = mongoose.model('Notificacion', notificacionScheme)
+export const NotificacionModel = mongoose.model('Notificacion', notificacionSchema)
