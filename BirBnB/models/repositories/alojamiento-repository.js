@@ -32,6 +32,10 @@ export default class AlojamientoRepository {
     return alojamientosFiltrados
   }
 
+  async findById(alojamientoId) {
+    return await this.model.findById(alojamientoId)
+  }
+
   async countAll() {
     const totalAlojamientos = await this.model.countDocuments()
     return totalAlojamientos

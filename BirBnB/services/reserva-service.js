@@ -5,8 +5,9 @@ import NotFoundException from '../exceptions/not-found-exception.js'
 import dayjs from 'dayjs'
 
 export default class reservaService {
-  constructor(reservaRepository) {
+  constructor(reservaRepository, alojamientoRepository) {
     this.reservaRepository = reservaRepository
+    this.alojamientoRepository = alojamientoRepository
   }
 
   async update(reserva) {
@@ -45,9 +46,12 @@ export default class reservaService {
   }
 
   async create(reserva) {
+    const alojamientoId = reserva.alojamiento._id || reserva.alojamiento
+    const alojamientoCompleto = await this.alojamientoRepository.findById(alojamientoId)
+    const disponibilidad = alojamientoCompleto.estasDisponibleEn(reserva.rangoFechas)
     // verificar disponibilidad para el rango de fechas elegido
-    const alojamiento = reserva.alojamiento
-    const disponibilidad = alojamiento.estasDisponibleEn(reserva.rangoFechas)
+    // const alojamiento = reserva.alojamiento
+    // const disponibilidad = alojamiento.estasDisponibleEn(reserva.rangoFechas)
 
     if (!disponibilidad) return { message: 'La fecha solicitada se encuentra ocupada' }
 

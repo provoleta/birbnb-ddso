@@ -32,7 +32,7 @@ const alojamientoService = new AlojamientoService(alojamientoRepository)
 const alojamientoController = new AlojamientoController(alojamientoService)
 
 const reservaRepository = new ReservaRepository()
-const reservaService = new ReservaService(reservaRepository)
+const reservaService = new ReservaService(reservaRepository, alojamientoRepository)
 const reservaController = new ReservaController(reservaService)
 
 const notificacionRepository = new NotificacionRepository()
