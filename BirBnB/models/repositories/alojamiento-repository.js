@@ -5,7 +5,29 @@ export class AlojamientoRepository {
     this.model = AlojamientoModel
   }
 
-  async filterBy(query) {
+  async filterBy(filters = {}) {
+    const query = {}
+
+    if (filters.idUbicacion) {
+      query.ubicacion = filters.idUbicacion
+    }
+    if (
+      filters.idRangoPrecio &&
+      filters.idRangoPrecio.min != null &&
+      filters.idRangoPrecio.max != null
+    ) {
+      query.precioPorNoche = {
+        $gte: filters.RangoPrecio.min,
+        $lte: filters.RangoPrecio.max,
+      } //  $gte significa mayor o igual que, $lte significa menor o igual que. Se usan en la base de datos MongoDB para filtrar por rango de precios.
+    }
+    if (filters.CantHuespedesMax) {
+      query.cantHuespedesMax = { $gte: filters.CantHuespedesMax }
+    }
+    if (Array.isArray(filters.Caracteristicas) && filters.Caracteristicas.length > 0) {
+      query.caracteristicas = { $in: filters.Caracteristicas } //  $in se usa para filtrar por un array de valores. Se usa en la base de datos MongoDB para filtrar por caracteristicas.
+    }
+
     const alojamientosFiltrados = await this.model.findBy(query)
     return alojamientosFiltrados
   }
