@@ -54,6 +54,7 @@ export default class ReservaService {
 
     if (!disponibilidad) return { message: 'La fecha solicitada se encuentra ocupada' }
 
+    // ? Idea: usar el metodo crearReserva de la clase Alojamiento para crear la reserva
     const reservaACrear = new Reserva(
       reserva.fechaAlta,
       reserva.huespedReservador,
@@ -61,6 +62,7 @@ export default class ReservaService {
       reserva.rangoFechas,
     )
     const reservaCreada = await this.reservaRepository.save(reservaACrear)
+    this.alojamientoRepository.addReserva(alojamientoId, reservaCreada.id)
 
     return this.toDTO(reservaCreada)
   }

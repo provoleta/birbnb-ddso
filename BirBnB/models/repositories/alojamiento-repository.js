@@ -32,6 +32,15 @@ export default class AlojamientoRepository {
     return alojamientosFiltrados
   }
 
+  // TODO PROBAR
+  async addReserva(alojamientoId, reservaId) {
+    return await this.model.findByIdAndUpdate(
+      alojamientoId,
+      { $push: { reservas: reservaId } },
+      { new: true, runValidators: true },
+    )
+  }
+
   async findById(alojamientoId) {
     return await this.model.findById(alojamientoId)
   }
