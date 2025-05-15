@@ -1,3 +1,4 @@
+import RangoFechas from './rango-fechas.js'
 import { Reserva } from './reserva.js'
 import dayjs from 'dayjs'
 
@@ -45,8 +46,11 @@ class Alojamiento {
     this.fotos = fotos
   }
 
-  estasDisponibleEn(rangoDeFechas) {
-    // Los datos de tipo Date se pueden comparar directamente con operadores <, >, =....
+  estasDisponibleEn(rangoDeFechasString) {
+    const rangoDeFechas = new RangoFechas(
+      dayjs(rangoDeFechasString.fechaInicio),
+      dayjs(rangoDeFechasString.fechaFin),
+    )
     return this.reservas.every((unaReserva) => !unaReserva.seSuperponeCon(rangoDeFechas))
   }
 

@@ -28,7 +28,9 @@ export default class AlojamientoRepository {
       query.caracteristicas = { $in: filters.Caracteristicas } //  $in se usa para filtrar por un array de valores. Se usa en la base de datos MongoDB para filtrar por caracteristicas.
     }
 
-    const alojamientosFiltrados = await this.model.find(query)
+    const alojamientosFiltrados = await this.model
+      .find(query)
+      .populate(['anfitrion', 'reservas'])
     return alojamientosFiltrados
   }
 
@@ -42,7 +44,7 @@ export default class AlojamientoRepository {
   }
 
   async findById(alojamientoId) {
-    return await this.model.findById(alojamientoId)
+    return await this.model.findById(alojamientoId).populate(['anfitrion', 'reservas'])
   }
 
   async countAll() {

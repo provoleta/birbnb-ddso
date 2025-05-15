@@ -1,12 +1,13 @@
 import mongoose from 'mongoose'
 import { Reserva } from '../entities/reserva.js'
+import RangoFechas from '../entities/rango-fechas.js'
 
 const rangoFechasSchema = new mongoose.Schema({
-  fechaDesde: {
+  fechaInicio: {
     type: String,
     required: true,
   },
-  fechaHasta: {
+  fechaFin: {
     type: String,
     required: true,
   },
@@ -52,6 +53,7 @@ const reservaSchema = new mongoose.Schema(
   },
 )
 
+rangoFechasSchema.loadClass(RangoFechas)
 reservaSchema.loadClass(Reserva)
 
 export const ReservaModel = mongoose.model('Reserva', reservaSchema)

@@ -11,12 +11,12 @@ export default class ReservaController {
       return res.status(400).json({ error: 'Reserva mal formada' })
     }
 
-    const nuevo = await this.reservaService.create(reserva)
-    if (!nuevo) {
-      return res.status(409).json({ error: 'Reserva ya existente en esa fecha' })
+    try {
+      const nuevo = await this.reservaService.create(reserva)
+      res.status(201).json(nuevo)
+    } catch (error) {
+      return res.status(409).json({ error })
     }
-
-    res.status(201).json(nuevo)
   }
 
   async delete(req, res) {

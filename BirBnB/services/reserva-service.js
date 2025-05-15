@@ -50,9 +50,11 @@ export default class ReservaService {
     const alojamientoId = reserva.idAlojamiento
 
     const alojamiento = await this.alojamientoRepository.findById(alojamientoId)
-    const disponibilidad = alojamiento.estasDisponibleEn(reserva.rangoFechas)
 
-    if (!disponibilidad) return { message: 'La fecha solicitada se encuentra ocupada' }
+    if (!alojamiento) throw new NotFoundException()
+
+    const disponibilidad = alojamiento.estasDisponibleEn(reserva.rangoFechas)
+    if (!disponibilidad) throw new DisponibilidadException(alojamiento)
 
     // ? Idea: usar el metodo crearReserva de la clase Alojamiento para crear la reserva
     const reservaACrear = new Reserva(
