@@ -6,7 +6,9 @@ export default class ReservaRepository {
   }
 
   async findById(reservaId) {
-    return await this.model.findById(reservaId).populate(['usuario', 'alojamiento'])
+    return await this.model
+      .findById(reservaId)
+      .populate(['huespedReservador', 'alojamiento'])
   }
 
   // UPDATE
@@ -32,7 +34,7 @@ export default class ReservaRepository {
 
   async filterByUserId(userId) {
     return await this.model
-      .find({ usuario: userId })
+      .find({ huespedReservador: userId })
       .populate(['huespedReservador', 'alojamiento'])
   }
 }

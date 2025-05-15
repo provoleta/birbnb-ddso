@@ -20,7 +20,7 @@ export default class ReservaController {
   }
 
   async delete(req, res) {
-    const reservaId = Number(req.params.id)
+    const reservaId = req.params.id
     const reservaEliminada = await this.reservaService.delete(reservaId)
     if (!reservaEliminada) {
       return res.status(404).json({ error: 'Reserva no encontrada' })
@@ -29,7 +29,8 @@ export default class ReservaController {
   }
 
   async findByUserId(req, res) {
-    const userId = Number(req.params.userId)
+    const userId = req.params.userId
+    console.log('userId en controller: ', userId)
     const reserva = await this.reservaService.findByUserId(userId)
     if (!reserva) {
       return res.status(404).json({ error: 'Reserva no encontrada' })

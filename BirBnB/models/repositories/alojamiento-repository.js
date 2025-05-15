@@ -43,6 +43,14 @@ export default class AlojamientoRepository {
     )
   }
 
+  async removeReserva(alojamientoId, reservaId) {
+    return await this.model.findByIdAndUpdate(
+      alojamientoId,
+      { $pull: { reservas: reservaId } },
+      { new: true, runValidators: true },
+    )
+  }
+
   async findById(alojamientoId) {
     return await this.model.findById(alojamientoId).populate(['anfitrion', 'reservas'])
   }
