@@ -6,9 +6,10 @@ import { Reserva } from '../models/entities/reserva.js'
 import dayjs from 'dayjs'
 
 export default class ReservaService {
-  constructor(reservaRepository, alojamientoRepository) {
+  constructor(reservaRepository, alojamientoRepository, usuarioRepository) {
     this.reservaRepository = reservaRepository
     this.alojamientoRepository = alojamientoRepository
+    this.usuarioRepository = usuarioRepository
   }
 
   async update(reserva) {
@@ -50,16 +51,18 @@ export default class ReservaService {
     const alojamientoId = reserva.idAlojamiento
 
     const alojamiento = await this.alojamientoRepository.findById(alojamientoId)
-
     if (!alojamiento) throw new NotFoundException()
 
     const disponibilidad = alojamiento.estasDisponibleEn(reserva.rangoFechas)
     if (!disponibilidad) throw new DisponibilidadException(alojamiento)
 
+    const huespedReservador = await this.usuarioRepository.findById(
+      reserva.huespedReservadorId,
+    )
     // ? Idea: usar el metodo crearReserva de la clase Alojamiento para crear la reserva
     const reservaACrear = new Reserva(
       reserva.fechaAlta,
-      reserva.huespedReservador,
+      huespedReservador,
       alojamiento,
       reserva.rangoFechas,
     )

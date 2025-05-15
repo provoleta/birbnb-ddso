@@ -20,7 +20,7 @@ export default class ReservaRepository {
         runValidators: true,
         upsert: true,
       })
-      .populate(['usuario', 'alojamiento'])
+      .populate(['huespedReservador', 'alojamiento'])
   }
 
   async delete(reservaId) {
@@ -31,6 +31,8 @@ export default class ReservaRepository {
   // filterByUserId
 
   async filterByUserId(userId) {
-    return await this.model.find({ usuario: userId }).populate(['usuario', 'alojamiento'])
+    return await this.model
+      .find({ usuario: userId })
+      .populate(['huespedReservador', 'alojamiento'])
   }
 }
