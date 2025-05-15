@@ -40,9 +40,10 @@ export default class ReservaController {
 
   async update(req, res) {
     const reserva = req.body
-    const { fechaAlta, huespedReservador, alojamiento, rangoFechas } = reserva
+    console.log('reserva en controller: ', reserva)
+    const { id, rangoFechas } = reserva
 
-    if (!fechaAlta || !huespedReservador || !alojamiento || !rangoFechas) {
+    if (!id || !rangoFechas) {
       return res.status(400).json({ error: 'Reserva mal formada' })
     }
 

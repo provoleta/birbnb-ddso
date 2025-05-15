@@ -18,8 +18,14 @@ export default class ReservaService {
 
     // verificar que la fecha buscada no coincida con una en la que no haya disponibilidad
 
-    const alojamiento = reservaAmodificar.alojamiento
-    const disponibilidad = alojamiento.estasDisponibleEn(reserva.rangoFechas)
+    const alojamiento = await this.alojamientoRepository.findById(
+      reservaAmodificar.alojamiento.id,
+    )
+
+    const disponibilidad = alojamiento.estasDisponibleParaCambiar(
+      reserva.rangoFechas,
+      reserva.id,
+    )
 
     if (!disponibilidad) throw new DisponibilidadException(reserva.alojamiento) //return { message: 'El alojamiento no esta disponible en el rango de fechas solicitado. ' }
 

@@ -66,6 +66,16 @@ class Alojamiento {
     return cantHuespedes <= this.cantHuespedesMax
   }
 
+  estasDisponibleParaCambiar(rangoDeFechasString, reservaId) {
+    const rangoDeFechas = new RangoFechas(
+      dayjs(rangoDeFechasString.fechaInicio),
+      dayjs(rangoDeFechasString.fechaFin),
+    )
+    return this.reservas
+      .filter((unaReserva) => unaReserva.id !== reservaId)
+      .every((unaReserva) => !unaReserva.seSuperponeCon(rangoDeFechas))
+  }
+
   crearReserva(huesped, rangoFechas) {
     if (this.estasDisponibleEn(rangoFechas)) {
       const reserva = new Reserva(
