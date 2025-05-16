@@ -5,9 +5,9 @@ const direccionSchema = new mongoose.Schema({
   calle: { type: String, required: true },
   numero: { type: Number, required: true },
   ciudad: { type: String, required: true },
-  provincia: { type: String, required: true },
   pais: { type: String, required: true },
-  codigoPostal: { type: String, required: true },
+  lat: { type: Number, required: true },
+  long: { type: Number, required: true },
 })
 
 const fotoSchema = new mongoose.Schema({

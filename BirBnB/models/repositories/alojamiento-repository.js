@@ -9,8 +9,23 @@ export default class AlojamientoRepository {
     const query = {}
     console.log('Recibiendo filters:', filters)
 
-    if (filters.ubicacion) {
-      query.ubicacion = filters.ubicacion
+    if (filters.ciudad) {
+      query['direccion.ciudad'] = { $regex: filters.ciudad, $options: 'i' }
+    }
+    if (filters.pais) {
+      query['direccion.pais'] = { $regex: filters.pais, $options: 'i' }
+    }
+    if (filters.calle) {
+      query['direccion.calle'] = { $regex: filters.calle, $options: 'i' }
+    }
+    if (filters.numero) {
+      query['direccion.numero'] = Number(filters.numero)
+    }
+    if (filters.lat) {
+      query['direccion.lat'] = Number(filters.lat)
+    }
+    if (filters.long) {
+      query['direccion.long'] = Number(filters.long)
     }
 
     if (filters.precioGt) {

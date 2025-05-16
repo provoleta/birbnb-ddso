@@ -5,7 +5,12 @@ export default class AlojamientoController {
 
   async findAll(req, res) {
     const {
-      ubicacion,
+      ciudad,
+      pais,
+      calle,
+      numero,
+      lat,
+      long,
       precioGt,
       precioLt,
       huespedesMax,
@@ -15,7 +20,12 @@ export default class AlojamientoController {
     } = req.query
 
     const filters = {
-      ubicacion,
+      ciudad,
+      pais,
+      calle,
+      numero,
+      lat,
+      long,
       precioGt,
       precioLt,
       huespedesMax,
