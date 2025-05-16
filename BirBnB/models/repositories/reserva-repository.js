@@ -11,8 +11,6 @@ export default class ReservaRepository {
       .populate(['huespedReservador', 'alojamiento'])
   }
 
-  // UPDATE
-
   async save(reserva) {
     const query = reserva.id ? { _id: reserva.id } : { _id: new this.model()._id }
 

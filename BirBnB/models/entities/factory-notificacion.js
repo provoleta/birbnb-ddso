@@ -42,6 +42,11 @@ class FactoryNotificacion {
     }
   }
 
+  /**
+   *
+   * @param {Reserva} reserva
+   * @returns {Notificacion}
+   */
   static crearSegunReserva(reserva) {
     const mensaje = FactoryNotificacion.mensajeSegunEstado(reserva)
     return new Notificacion(mensaje.contenido.cuerpo, mensaje.destinatario, dayjs())

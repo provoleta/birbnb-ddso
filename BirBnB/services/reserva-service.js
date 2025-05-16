@@ -2,10 +2,17 @@ import ExcededTimeException from '../exceptions/excededTimeException.js'
 import DisponibilidadException from '../exceptions/disponibilidadException.js'
 import NotFoundException from '../exceptions/not-found-exception.js'
 import { Reserva } from '../models/entities/reserva.js'
-
+import { FactoryNotificacion } from '../models/entities/factory-notificacion.js'
+import RangoFechas from '../models/entities/rango-fechas.js'
 import dayjs from 'dayjs'
 
 export default class ReservaService {
+  /**
+   *
+   * @param {ReservaRepository} reservaRepository
+   * @param {AlojamientoRepository} alojamientoRepository
+   * @param {UsuarioRepository} usuarioRepository
+   */
   constructor(reservaRepository, alojamientoRepository, usuarioRepository) {
     this.reservaRepository = reservaRepository
     this.alojamientoRepository = alojamientoRepository
@@ -67,16 +74,20 @@ export default class ReservaService {
     const huespedReservador = await this.usuarioRepository.findById(
       reserva.huespedReservadorId,
     )
+    const rangoDeFechas = new RangoFechas(
+      dayjs(reserva.fechaInicio),
+      dayjs(reserva.fechaFin),
+    )
     // ? Idea: usar el metodo crearReserva de la clase Alojamiento para crear la reserva
     const reservaACrear = new Reserva(
       reserva.fechaAlta,
       huespedReservador,
       alojamiento,
-      reserva.rangoFechas,
+      rangoDeFechas,
     )
     const reservaCreada = await this.reservaRepository.save(reservaACrear)
     this.alojamientoRepository.addReserva(alojamientoId, reservaCreada.id)
-
+    this.notificarReserva(huespedReservador, reservaACrear)
     return this.toDTO(reservaCreada)
   }
 
@@ -90,6 +101,12 @@ export default class ReservaService {
     return historialReservas
   }
 
+  async notificarReserva(huespedReservador, reserva) {
+    //console.log(reserva)
+
+    const notificacion = FactoryNotificacion.crearSegunReserva(reserva)
+    await this.usuarioRepository.findAndUpdate(huespedReservador, notificacion)
+  }
   toDTO(reserva) {
     return {
       fechaAlta: reserva.fechaAlta,

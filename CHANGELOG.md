@@ -1,14 +1,23 @@
 ## Progreso
-    
+
+    🔳 v0.7.8
+        - Se arreglo un filtro que sobraba en notificacion-repository que impedia que se actualice la notificacion de un usuario luego de acceder al endpoint put notificacion/
+        - Se elimino un parametro que sobraba en el endpoint PUT notificacion/ (anteriormente era notificacion/:id)
+        - Se añadieron en el schema de notificacion los parámetros Leida y fechaLeida.
+        - Se eliminaron imports sobrantes en reserva.js
+        - Se añadió el método notificarReserva(huespedReservador, reserva) dentro de reserva-service, el mismo crea una notificacion y se la añade a la colección del huespedReservador
+        - Se añadió el método async findAndUpdate en el usuario-repository, el mismo es el encargado de agregar notificaciones a la colección del usuario que corresponda según el filtro
+        - Se añadió un javadoc en factory-notification
+
     🔳 v0.7.7
         - Creacion de reserva, historial de reservas y delete de reserva completados.
         - Se agregaron un par de excepciones para cancelacion de reserva y para disponibilidad de un alojamiento.
         - Se agrego el atributo "id" a las reservas.
 
     🔳 v0.7.6
-        - Implementacion reservaServices. 
+        - Implementacion reservaServices.
         - Hay que ver tema del Id de la reserva para encontrarla.
-        - Implementacion de test unitario de reserva 
+        - Implementacion de test unitario de reserva
         - Los test ahora se dividen en dos (unitarios: unit | integradores entre capas: integration)
 
     🔳 v0.7.5
@@ -70,7 +79,7 @@
 
         > Pendiente: Terminar logica del Mensaje en la notificacion.
 
-    
+
     🔳 v0.5.0
 
         - Reestructuracion en la logica para que el usuario reserve, se delega la resposabilidad al alojamiento para que cree la reserva
@@ -96,7 +105,7 @@
 
 
     🔳 v0.4.0
-        
+
         - Se agregaron los métodos mensajeSegunEstado y usuarioSegunEstado en la clase FactoryNotification
         - Se modificaron los constructores de Notificacion y Reserva
         - Se agrego el getter de anfitrion en Reserva
@@ -106,14 +115,14 @@
 
 
     🔳 v0.3.1
-        
+
         - El primer endpoint funciona como debe
 
 
-    🔳 v0.3.0 
-        
-        - Agrego el package.json, el lock.json y el gitIgnore para que no se pushee la carpeta 
-          node_modules que se genera al instalar al repostorio  
+    🔳 v0.3.0
+
+        - Agrego el package.json, el lock.json y el gitIgnore para que no se pushee la carpeta
+          node_modules que se genera al instalar al repostorio
 
         > Pendiente : FactoryNotificacion, revisar endpoint y explicar GitFlow
 
@@ -128,8 +137,8 @@
             -   actualizarEstado(EstadoReserva)
             -   marcarComoLeida()
         > Pendiente : FactoryNotificacion, revisar endpoint y explicar GitFlow
-        
 
-    🔳 v0.1.0 
+
+    🔳 v0.1.0
         > Diagrama de clases llevado a codigo (Clases, ENUM's)
-        > Pendiente : Realizar metodos, revisar endpoint y explicar GitFlow 
+        > Pendiente : Realizar metodos, revisar endpoint y explicar GitFlow

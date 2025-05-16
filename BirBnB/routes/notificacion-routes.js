@@ -10,7 +10,7 @@ export default function registerNotificacionRoutes(app, getController) {
     getController(NotificacionController).findAllRead(req, res),
   )
 
-  app.put('/notificacion/:id', (req, res) =>
+  app.put('/notificacion/', (req, res) =>
     getController(NotificacionController).update(req, res),
   )
 }

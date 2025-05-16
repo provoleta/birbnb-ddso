@@ -8,4 +8,12 @@ export default class UsuarioRepository {
   async findById(usuarioId) {
     return await this.model.findById(usuarioId)
   }
+
+  async findAndUpdate(usuario, notificacion) {
+    await this.model.findOneAndUpdate(
+      { nombre: usuario.nombre },
+      { $push: { notificaciones: notificacion } },
+      { new: true },
+    )
+  }
 }

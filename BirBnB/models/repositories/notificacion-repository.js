@@ -20,7 +20,6 @@ export default class NotificacionRepository {
     await this.model.findOneAndUpdate(
       {
         _id: userId,
-        userId,
         'notificaciones._id': notificacion.id,
       },
       {
