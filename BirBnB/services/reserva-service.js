@@ -5,6 +5,8 @@ import { Reserva } from '../models/entities/reserva.js'
 import { FactoryNotificacion } from '../models/entities/factory-notificacion.js'
 import RangoFechas from '../models/entities/rango-fechas.js'
 import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat.js'
+dayjs.extend(customParseFormat)
 
 export default class ReservaService {
   /**
@@ -75,8 +77,8 @@ export default class ReservaService {
       reserva.huespedReservadorId,
     )
     const rangoDeFechas = new RangoFechas(
-      dayjs(reserva.fechaInicio),
-      dayjs(reserva.fechaFin),
+      dayjs(reserva.rangoFechas.fechaInicio, 'DD/MM/YYYY'),
+      dayjs(reserva.rangoFechas.fechaFin, 'DD/MM/YYYY'),
     )
     // ? Idea: usar el metodo crearReserva de la clase Alojamiento para crear la reserva
     const reservaACrear = new Reserva(
@@ -87,7 +89,7 @@ export default class ReservaService {
     )
     const reservaCreada = await this.reservaRepository.save(reservaACrear)
     this.alojamientoRepository.addReserva(alojamientoId, reservaCreada.id)
-    this.notificarReserva(huespedReservador, reservaACrear)
+    this.notificarReserva(alojamiento.anfitrion, reservaACrear)
     return this.toDTO(reservaCreada)
   }
 
@@ -101,11 +103,9 @@ export default class ReservaService {
     return historialReservas
   }
 
-  async notificarReserva(huespedReservador, reserva) {
-    //console.log(reserva)
-
+  async notificarReserva(anfitrion, reserva) {
     const notificacion = FactoryNotificacion.crearSegunReserva(reserva)
-    await this.usuarioRepository.findAndUpdate(huespedReservador, notificacion)
+    await this.usuarioRepository.findAndUpdate(anfitrion, notificacion)
   }
   toDTO(reserva) {
     return {

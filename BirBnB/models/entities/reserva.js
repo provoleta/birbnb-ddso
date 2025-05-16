@@ -1,6 +1,8 @@
 import CambioEstadoReserva from './cambio-estado-reserva.js'
 import { FactoryNotificacion } from './factory-notificacion.js'
 import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat.js'
+dayjs.extend(customParseFormat)
 class Reserva {
   /**
    *
@@ -51,11 +53,9 @@ class Reserva {
   }
 
   calcularCantidadDias() {
-    const cantidadDias = this.rangoFechas.fechaFin.diff(
-      dayjs(this.rangoFechas.fechaInicio),
-      'day',
-    )
-
+    const fechaFin = this.rangoFechas.fechaFin
+    const fechaInicio = this.rangoFechas.fechaInicio
+    const cantidadDias = fechaFin.diff(fechaInicio, 'day')
     return cantidadDias
   }
 

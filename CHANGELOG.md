@@ -1,5 +1,10 @@
 ## Progreso
 
+    🔳 v0.7.9
+        - Se soluciono un inconveniente al momento de crear una notificacion con el calculo de los dias de alquiler (se implementa plugin para dayjs)
+        - Se reformatea el mensaje dentro de la notificacion
+        - El formato para rangoFecha queda definido como DD/MM/YYYY siendo DD: dia, MM: mes y YYYY:año, la cantidad de dígitos varía según la cantidad de letras mostradas en el formato.
+
     🔳 v0.7.8
         - Se arreglo un filtro que sobraba en notificacion-repository que impedia que se actualice la notificacion de un usuario luego de acceder al endpoint put notificacion/
         - Se elimino un parametro que sobraba en el endpoint PUT notificacion/ (anteriormente era notificacion/:id)
