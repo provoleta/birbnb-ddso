@@ -5,32 +5,43 @@ export default class AlojamientoRepository {
     this.model = AlojamientoModel
   }
 
-  async filterBy(filters = {}) {
+  async filterBy(filters = {}, pageNum, limitNum) {
     const query = {}
+    console.log('Recibiendo filters:', filters)
 
-    if (filters.idUbicacion) {
-      query.ubicacion = filters.idUbicacion
+    if (filters.ubicacion) {
+      query.ubicacion = filters.ubicacion
     }
-    if (
-      filters.idRangoPrecio &&
-      filters.idRangoPrecio.min != null &&
-      filters.idRangoPrecio.max != null
-    ) {
-      query.precioPorNoche = {
-        $gte: filters.RangoPrecio.min,
-        $lte: filters.RangoPrecio.max,
-      } //  $gte significa mayor o igual que, $lte significa menor o igual que. Se usan en la base de datos MongoDB para filtrar por rango de precios.
+
+    if (filters.precioGt) {
+      query.precioPorNoche = { $gte: Number(filters.precioGt) }
     }
-    if (filters.CantHuespedesMax) {
-      query.cantHuespedesMax = { $gte: filters.CantHuespedesMax }
+
+    if (filters.precioLt) {
+      query.precioPorNoche = { $lte: Number(filters.precioLt) }
     }
-    if (Array.isArray(filters.Caracteristicas) && filters.Caracteristicas.length > 0) {
-      query.caracteristicas = { $in: filters.Caracteristicas } //  $in se usa para filtrar por un array de valores. Se usa en la base de datos MongoDB para filtrar por caracteristicas.
+
+    if (filters.huespedesMax) {
+      query.cantHuespedesMax = { $gte: filters.huespedesMax }
     }
+    if (filters.caracteristicas) {
+      const caracteristicasArray = Array.isArray(filters.caracteristicas)
+        ? filters.caracteristicas
+        : [filters.caracteristicas]
+
+      if (caracteristicasArray.length > 0) {
+        query.caracteristicas = { $all: caracteristicasArray }
+      } //  $in se usa para filtrar por un array de valores. Se usa en la base de datos MongoDB para filtrar por caracteristicas.
+    }
+
+    console.log('Filtros aplicados:', query)
 
     const alojamientosFiltrados = await this.model
       .find(query)
       .populate(['anfitrion', 'reservas'])
+      .skip((pageNum - 1) * limitNum)
+      .limit(limitNum)
+
     return alojamientosFiltrados
   }
 
