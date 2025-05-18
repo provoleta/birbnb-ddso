@@ -31,11 +31,16 @@ export default class AlojamientoController {
       huespedesMax,
       caracteristicas,
     }
-    const alojamientosPaginados = await this.alojamientoService.findAll(
-      filters,
-      page,
-      limit,
-    )
-    res.json(alojamientosPaginados)
+
+    try {
+      const alojamientosPaginados = await this.alojamientoService.findAll(
+        filters,
+        page,
+        limit,
+      )
+      res.json(alojamientosPaginados)
+    } catch (error) {
+      next(error)
+    }
   }
 }
