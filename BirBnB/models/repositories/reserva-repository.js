@@ -6,10 +6,10 @@ export default class ReservaRepository {
   }
 
   async findById(reservaId) {
-    return await this.model.findById(reservaId).populate(['usuario', 'alojamiento'])
+    return await this.model
+      .findById(reservaId)
+      .populate(['huespedReservador', 'alojamiento'])
   }
-
-  // UPDATE
 
   async save(reserva) {
     const query = reserva.id ? { _id: reserva.id } : { _id: new this.model()._id }
@@ -20,7 +20,7 @@ export default class ReservaRepository {
         runValidators: true,
         upsert: true,
       })
-      .populate(['usuario', 'alojamiento'])
+      .populate(['huespedReservador', 'alojamiento'])
   }
 
   async delete(reservaId) {
@@ -31,6 +31,8 @@ export default class ReservaRepository {
   // filterByUserId
 
   async filterByUserId(userId) {
-    return await this.model.find({ usuario: userId }).populate(['usuario', 'alojamiento'])
+    return await this.model
+      .find({ huespedReservador: userId })
+      .populate(['huespedReservador', 'alojamiento'])
   }
 }

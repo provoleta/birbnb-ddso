@@ -5,22 +5,22 @@ export default class ReservaController {
 
   async create(req, res) {
     const reserva = req.body
-    const { fechaAlta, huespedReservador, alojamiento, rangoFechas } = reserva
+    const { fechaAlta, huespedReservadorId, idAlojamiento, rangoFechas } = reserva
 
-    if (!fechaAlta || !huespedReservador || !alojamiento || !rangoFechas) {
+    if (!fechaAlta || !huespedReservadorId || !idAlojamiento || !rangoFechas) {
       return res.status(400).json({ error: 'Reserva mal formada' })
     }
 
-    const nuevo = await this.reservaService.create(reserva)
-    if (!nuevo) {
-      return res.status(409).json({ error: 'Reserva ya existente en esa fecha' })
+    try {
+      const nuevo = await this.reservaService.create(reserva)
+      res.status(201).json(nuevo)
+    } catch (error) {
+      return res.status(409).json({ error })
     }
-
-    res.status(201).json(nuevo)
   }
 
   async delete(req, res) {
-    const reservaId = Number(req.params.id)
+    const reservaId = req.params.id
     const reservaEliminada = await this.reservaService.delete(reservaId)
     if (!reservaEliminada) {
       return res.status(404).json({ error: 'Reserva no encontrada' })
@@ -29,7 +29,8 @@ export default class ReservaController {
   }
 
   async findByUserId(req, res) {
-    const userId = Number(req.params.userId)
+    const userId = req.params.userId
+    console.log('userId en controller: ', userId)
     const reserva = await this.reservaService.findByUserId(userId)
     if (!reserva) {
       return res.status(404).json({ error: 'Reserva no encontrada' })
@@ -39,9 +40,10 @@ export default class ReservaController {
 
   async update(req, res) {
     const reserva = req.body
-    const { fechaAlta, huespedReservador, alojamiento, rangoFechas } = reserva
+    console.log('reserva en controller: ', reserva)
+    const { id, rangoFechas } = reserva
 
-    if (!fechaAlta || !huespedReservador || !alojamiento || !rangoFechas) {
+    if (!id || !rangoFechas) {
       return res.status(400).json({ error: 'Reserva mal formada' })
     }
 

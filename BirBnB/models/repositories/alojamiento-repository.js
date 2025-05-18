@@ -5,31 +5,80 @@ export default class AlojamientoRepository {
     this.model = AlojamientoModel
   }
 
-  async filterBy(filters = {}) {
+  async filterBy(filters = {}, pageNum, limitNum) {
     const query = {}
+    console.log('Recibiendo filters:', filters)
 
-    if (filters.idUbicacion) {
-      query.ubicacion = filters.idUbicacion
+    if (filters.ciudad) {
+      query['direccion.ciudad'] = { $regex: filters.ciudad, $options: 'i' }
     }
-    if (
-      filters.idRangoPrecio &&
-      filters.idRangoPrecio.min != null &&
-      filters.idRangoPrecio.max != null
-    ) {
-      query.precioPorNoche = {
-        $gte: filters.RangoPrecio.min,
-        $lte: filters.RangoPrecio.max,
-      } //  $gte significa mayor o igual que, $lte significa menor o igual que. Se usan en la base de datos MongoDB para filtrar por rango de precios.
+    if (filters.pais) {
+      query['direccion.pais'] = { $regex: filters.pais, $options: 'i' }
     }
-    if (filters.CantHuespedesMax) {
-      query.cantHuespedesMax = { $gte: filters.CantHuespedesMax }
+    if (filters.calle) {
+      query['direccion.calle'] = { $regex: filters.calle, $options: 'i' }
     }
-    if (Array.isArray(filters.Caracteristicas) && filters.Caracteristicas.length > 0) {
-      query.caracteristicas = { $in: filters.Caracteristicas } //  $in se usa para filtrar por un array de valores. Se usa en la base de datos MongoDB para filtrar por caracteristicas.
+    if (filters.numero) {
+      query['direccion.numero'] = Number(filters.numero)
+    }
+    if (filters.lat) {
+      query['direccion.lat'] = Number(filters.lat)
+    }
+    if (filters.long) {
+      query['direccion.long'] = Number(filters.long)
     }
 
-    const alojamientosFiltrados = await this.model.find(query)
+    if (filters.precioGt) {
+      query.precioPorNoche = { $gte: Number(filters.precioGt) }
+    }
+
+    if (filters.precioLt) {
+      query.precioPorNoche = { $lte: Number(filters.precioLt) }
+    }
+
+    if (filters.huespedesMax) {
+      query.cantHuespedesMax = { $gte: filters.huespedesMax }
+    }
+    if (filters.caracteristicas) {
+      const caracteristicasArray = Array.isArray(filters.caracteristicas)
+        ? filters.caracteristicas
+        : [filters.caracteristicas]
+
+      if (caracteristicasArray.length > 0) {
+        query.caracteristicas = { $all: caracteristicasArray }
+      } //  $in se usa para filtrar por un array de valores. Se usa en la base de datos MongoDB para filtrar por caracteristicas.
+    }
+
+    console.log('Filtros aplicados:', query)
+
+    const alojamientosFiltrados = await this.model
+      .find(query)
+      .populate(['anfitrion', 'reservas'])
+      .skip((pageNum - 1) * limitNum)
+      .limit(limitNum)
+
     return alojamientosFiltrados
+  }
+
+  // TODO PROBAR
+  async addReserva(alojamientoId, reservaId) {
+    return await this.model.findByIdAndUpdate(
+      alojamientoId,
+      { $push: { reservas: reservaId } },
+      { new: true, runValidators: true },
+    )
+  }
+
+  async removeReserva(alojamientoId, reservaId) {
+    return await this.model.findByIdAndUpdate(
+      alojamientoId,
+      { $pull: { reservas: reservaId } },
+      { new: true, runValidators: true },
+    )
+  }
+
+  async findById(alojamientoId) {
+    return await this.model.findById(alojamientoId).populate(['anfitrion', 'reservas'])
   }
 
   async countAll() {

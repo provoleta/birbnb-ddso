@@ -1,12 +1,25 @@
 import ExcededTimeException from '../exceptions/excededTimeException.js'
 import DisponibilidadException from '../exceptions/disponibilidadException.js'
 import NotFoundException from '../exceptions/not-found-exception.js'
-
+import { EstadoReserva, Reserva } from '../models/entities/reserva.js'
+import { FactoryNotificacion } from '../models/entities/factory-notificacion.js'
+import RangoFechas from '../models/entities/rango-fechas.js'
 import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat.js'
+import { Alojamiento } from '../models/entities/alojamiento.js'
+dayjs.extend(customParseFormat)
 
-export default class reservaService {
-  constructor(reservaRepository) {
+export default class ReservaService {
+  /**
+   *
+   * @param {ReservaRepository} reservaRepository
+   * @param {AlojamientoRepository} alojamientoRepository
+   * @param {UsuarioRepository} usuarioRepository
+   */
+  constructor(reservaRepository, alojamientoRepository, usuarioRepository) {
     this.reservaRepository = reservaRepository
+    this.alojamientoRepository = alojamientoRepository
+    this.usuarioRepository = usuarioRepository
   }
 
   async update(reserva) {
@@ -15,8 +28,14 @@ export default class reservaService {
 
     // verificar que la fecha buscada no coincida con una en la que no haya disponibilidad
 
-    const alojamiento = reservaAmodificar.alojamiento
-    const disponibilidad = alojamiento.estasDisponibleEn(reserva.rangoFechas)
+    const alojamiento = await this.alojamientoRepository.findById(
+      reservaAmodificar.alojamiento.id,
+    )
+
+    const disponibilidad = alojamiento.estasDisponibleParaCambiar(
+      reserva.rangoFechas,
+      reserva.id,
+    )
 
     if (!disponibilidad) throw new DisponibilidadException(reserva.alojamiento) //return { message: 'El alojamiento no esta disponible en el rango de fechas solicitado. ' }
 
@@ -31,28 +50,56 @@ export default class reservaService {
   async delete(reservaId) {
     const reservaAeliminar = await this.reservaRepository.findById(reservaId)
 
-    if (dayjs() > reservaAeliminar.rangofechas.fechaInicio) {
+    if (!reservaAeliminar) throw new NotFoundException()
+
+    if (dayjs() > reservaAeliminar.fechaInicio) {
       //return { message: 'No se puede cancelar la reserva ya que la misma se encuentra en curso.'}
       throw new ExcededTimeException(reservaAeliminar)
     }
+
+    const reservaANotificar = new Reserva(
+      reservaAeliminar.fechaAlta,
+      reservaAeliminar.huespedReservador,
+      reservaAeliminar.alojamiento,
+      reservaAeliminar.rangoFechas,
+    )
+    reservaANotificar.estado = EstadoReserva.CANCELADA
+
     const reservaEliminada = await this.reservaRepository.delete(reservaId)
+    console.log(reservaANotificar.alojamiento)
+    if (!reservaEliminada) throw new NotFoundException()
 
-    if (!reservaEliminada) {
-      throw new NotFoundException()
-    }
-
+    this.alojamientoRepository.removeReserva(reservaAeliminar.alojamiento.id, reservaId)
+    this.notificarReserva(reservaANotificar.alojamiento.anfitrion, reservaANotificar)
     return reservaEliminada
   }
 
   async create(reserva) {
-    // verificar disponibilidad para el rango de fechas elegido
-    const alojamiento = reserva.alojamiento
+    const alojamientoId = reserva.idAlojamiento
+
+    const alojamiento = await this.alojamientoRepository.findById(alojamientoId)
+    if (!alojamiento) throw new NotFoundException()
+
     const disponibilidad = alojamiento.estasDisponibleEn(reserva.rangoFechas)
+    if (!disponibilidad) throw new DisponibilidadException(alojamiento)
 
-    if (!disponibilidad) return { message: 'La fecha solicitada se encuentra ocupada' }
-
-    const reservaCreada = await this.reservaRepository.save(reserva)
-
+    const huespedReservador = await this.usuarioRepository.findById(
+      reserva.huespedReservadorId,
+    )
+    const rangoDeFechas = new RangoFechas(
+      dayjs(reserva.rangoFechas.fechaInicio, 'DD/MM/YYYY'),
+      dayjs(reserva.rangoFechas.fechaFin, 'DD/MM/YYYY'),
+    )
+    // ? Idea: usar el metodo crearReserva de la clase Alojamiento para crear la reserva
+    const reservaACrear = new Reserva(
+      reserva.fechaAlta,
+      huespedReservador,
+      alojamiento,
+      rangoDeFechas,
+    )
+    const reservaCreada = await this.reservaRepository.save(reservaACrear)
+    this.alojamientoRepository.addReserva(alojamientoId, reservaCreada.id)
+    this.notificarReserva(alojamiento.anfitrion, reservaACrear)
     return this.toDTO(reservaCreada)
   }
 
@@ -66,6 +113,10 @@ export default class reservaService {
     return historialReservas
   }
 
+  async notificarReserva(usuario, reserva) {
+    const notificacion = FactoryNotificacion.crearSegunReserva(reserva)
+    await this.usuarioRepository.findAndUpdate(usuario, notificacion)
+  }
   toDTO(reserva) {
     return {
       fechaAlta: reserva.fechaAlta,

@@ -24,6 +24,14 @@ const notificacionSchema = new mongoose.Schema({
     },
     required: true,
   },
+  leida: {
+    type: Boolean,
+    required: true,
+  },
+  fechaLeida: {
+    type: String,
+    required: true,
+  },
 })
 
 notificacionSchema.loadClass(Notificacion)

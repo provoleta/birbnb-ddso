@@ -1,11 +1,8 @@
-// import RangoFechas from './rango-fechas.js'
-// import Alojamiento from './alojamiento.js'
 import CambioEstadoReserva from './cambio-estado-reserva.js'
-// import Usuario from './usuario.js'
 import { FactoryNotificacion } from './factory-notificacion.js'
 import dayjs from 'dayjs'
-// import RangoFechas from './rango-fechas.js'
-
+import customParseFormat from 'dayjs/plugin/customParseFormat.js'
+dayjs.extend(customParseFormat)
 class Reserva {
   /**
    *
@@ -56,11 +53,9 @@ class Reserva {
   }
 
   calcularCantidadDias() {
-    const cantidadDias = this.rangoFechas.fechaFin.diff(
-      dayjs(this.rangoFechas.fechaInicio),
-      'day',
-    )
-
+    const fechaFin = dayjs(this.rangoFechas.fechaFin, 'DD/MM/YYYY')
+    const fechaInicio = dayjs(this.rangoFechas.fechaInicio, 'DD/MM/YYYY')
+    const cantidadDias = fechaFin.diff(fechaInicio, 'day')
     return cantidadDias
   }
 

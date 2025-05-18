@@ -1,23 +1,26 @@
 // import Usuario from './usuario.js'
 import dayjs from 'dayjs'
 import Notificacion from './notificacion.js'
-import { EstadoReserva } from './reserva.js'
+import { EstadoReserva, Reserva } from './reserva.js'
 // Idea: Que el mensaje maneje el contenido de su string. La notificacion, si necesita ese contenido, se la pide al mensaje. Si no tiene parametros, devuelve el string plano, sino, contruye ese string con la informacion dada.
 class FactoryNotificacion {
+  /**
+   *
+   * @param {Reserva} reserva
+   * @returns
+   */
   static mensajeSegunEstado(reserva) {
     const cantidadDias = reserva.calcularCantidadDias()
-    const inicioReserva = reserva.fechaInicio.format('DD/MM/YYYY')
+    const inicioReserva = dayjs(reserva.fechaInicio, 'DD/MM/YYYY')
 
     switch (reserva.estado) {
       case EstadoReserva.PENDIENTE:
         return {
           contenido: new MensajeSobreUsuario(
-            `{nombre} quiere reservar el alojamiento ${reserva.nombreAlojamiento}, 
-            en la fecha: ${inicioReserva}, 
-            por la cantidad de dias de: ${cantidadDias}`,
+            `El usuario {nombre} quiere reservar el alojamiento ${reserva.nombreAlojamiento} en la fecha ${inicioReserva} por la cantidad de ${cantidadDias} dias`,
             reserva.huespedReservador,
           ),
-          destinatario: reserva.huespedReservador,
+          destinatario: reserva.alojamiento.anfitrion,
         }
 
       case EstadoReserva.CONFIRMADA:
@@ -31,7 +34,7 @@ class FactoryNotificacion {
       case EstadoReserva.CANCELADA:
         return {
           contenido: new MensajePlano(
-            `La reserva para ${reserva.alojamiento} fue cancelada`,
+            `La reserva para ${reserva.alojamiento.nombre} fue cancelada`,
           ),
           destinatario: reserva.anfitrion,
         }
@@ -42,6 +45,11 @@ class FactoryNotificacion {
     }
   }
 
+  /**
+   *
+   * @param {Reserva} reserva
+   * @returns {Notificacion}
+   */
   static crearSegunReserva(reserva) {
     const mensaje = FactoryNotificacion.mensajeSegunEstado(reserva)
     return new Notificacion(mensaje.contenido.cuerpo, mensaje.destinatario, dayjs())

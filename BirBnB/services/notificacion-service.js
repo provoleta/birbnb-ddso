@@ -1,7 +1,6 @@
 import dayjs from 'dayjs'
 
 export default class NotificacionService {
-
   constructor(notificacionRepository) {
     this.notificacionRepository = notificacionRepository
   }
@@ -15,7 +14,6 @@ export default class NotificacionService {
   async markAsRead(id, userId) {
     const notificacion = await this.notificacionRepository.findById(id, userId)
     if (!notificacion) return { error: 'not found' }
-
     notificacion.leida = true
     notificacion.fechaLeida = dayjs().format('DD/MM/YYYY HH:mm:ss')
 
@@ -35,4 +33,3 @@ export default class NotificacionService {
     }
   }
 }
-

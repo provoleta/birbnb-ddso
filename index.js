@@ -4,6 +4,8 @@ import express from 'express'
 import { Server } from './server.js'
 import { MongoDBClient } from './BirBnB/config/database.js'
 
+import UsuarioRepository from './BirBnB/models/repositories/usuario-repository.js'
+
 import AlojamientoRepository from './BirBnB/models/repositories/alojamiento-repository.js'
 import AlojamientoController from './BirBnB/controllers/alojamiento.controller.js'
 import AlojamientoService from './BirBnB/services/alojamiento-service.js'
@@ -27,12 +29,18 @@ MongoDBClient.connect()
 // Configuracion de dependencias
 const saludController = new SaludController()
 
+const usuarioRepository = new UsuarioRepository()
+
 const alojamientoRepository = new AlojamientoRepository()
 const alojamientoService = new AlojamientoService(alojamientoRepository)
 const alojamientoController = new AlojamientoController(alojamientoService)
 
 const reservaRepository = new ReservaRepository()
-const reservaService = new ReservaService(reservaRepository)
+const reservaService = new ReservaService(
+  reservaRepository,
+  alojamientoRepository,
+  usuarioRepository,
+)
 const reservaController = new ReservaController(reservaService)
 
 const notificacionRepository = new NotificacionRepository()

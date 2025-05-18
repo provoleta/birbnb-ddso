@@ -1,26 +1,19 @@
-/*
-Se espera:
-Un endpoint para listar alojamientos disponibles, con la posibilidad de aplicar filtros como:
-Ubicación (ciudad, país, coordenadas, etc.).
-Rango de precios.
-Cantidad de huéspedes permitidos.
-Características especiales (Wi-Fi, piscina, mascotas permitidas, etc.).
-Implementación de paginación para mejorar la eficiencia de las consultas.
-
-*/
-
 export default class AlojamientoService {
   constructor(alojamientoRepository) {
     this.alojamientoRepository = alojamientoRepository
   }
 
-  async findAll({ filters, page = 1, limit = 10 } = {}) {
+  async findAll(filters = {}, page = 1, limit = 10) {
     // Se le pasan los parametros de busqueda y paginacion a la funcion. Si no se pasan, se le asignan los valores por defecto indicados.
     const pageNum = Math.max(Number(page), 1)
     const limitNum = Math.min(Math.max(Number(limit), 1), 100)
 
     // TODO : Cambiar implementacion cuando se utilice la base de datos
-    const alojamientosFiltrados = await this.alojamientoRepository.filterBy(filters)
+    const alojamientosFiltrados = await this.alojamientoRepository.filterBy(
+      filters,
+      pageNum,
+      limitNum,
+    )
     const total = await this.alojamientoRepository.countAll()
     const total_pages = Math.ceil(total / limitNum)
 
@@ -29,9 +22,9 @@ export default class AlojamientoService {
     return {
       page: pageNum,
       per_page: limitNum,
-      total,
-      total_pages,
-      data,
+      total: total,
+      total_pages: total_pages,
+      data: data,
     }
   }
 
