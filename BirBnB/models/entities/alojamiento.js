@@ -48,8 +48,8 @@ class Alojamiento {
 
   estasDisponibleEn(rangoDeFechasString) {
     const rangoDeFechas = new RangoFechas(
-      dayjs(rangoDeFechasString.fechaInicio),
-      dayjs(rangoDeFechasString.fechaFin),
+      dayjs(rangoDeFechasString.fechaInicio, 'DD/MM/YYYY'),
+      dayjs(rangoDeFechasString.fechaFin, 'DD/MM/YYYY'),
     )
     return this.reservas.every((unaReserva) => !unaReserva.seSuperponeCon(rangoDeFechas))
   }

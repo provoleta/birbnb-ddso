@@ -67,16 +67,19 @@ export default class ReservaService {
   async create(reserva) {
     const alojamientoId = reserva.idAlojamiento
     const alojamiento = await this.alojamientoRepository.findById(alojamientoId)
+
+    const rangoDeFechas = new RangoFechas(
+      dayjs(reserva.rangoFechas.fechaInicio, 'DD/MM/YYYY'),
+      dayjs(reserva.rangoFechas.fechaFin, 'DD/MM/YYYY'),
+    )
+
     if (!alojamiento) throw new NotFoundException()
-    const disponibilidad = alojamiento.estasDisponibleEn(reserva.rangoFechas)
+
+    const disponibilidad = alojamiento.estasDisponibleEn(rangoDeFechas)
     if (!disponibilidad) throw new DisponibilidadException(alojamiento)
 
     const huespedReservador = await this.usuarioRepository.findById(
       reserva.huespedReservadorId,
-    )
-    const rangoDeFechas = new RangoFechas(
-      dayjs(reserva.rangoFechas.fechaInicio, 'DD/MM/YYYY'),
-      dayjs(reserva.rangoFechas.fechaFin, 'DD/MM/YYYY'),
     )
     // ? Idea: usar el metodo crearReserva de la clase Alojamiento para crear la reserva
     const reservaACrear = new Reserva(
@@ -85,9 +88,13 @@ export default class ReservaService {
       alojamiento,
       rangoDeFechas,
     )
+
     const reservaCreada = await this.reservaRepository.save(reservaACrear)
+
     this.alojamientoRepository.addReserva(alojamientoId, reservaCreada.id)
+
     this.notificarReserva(alojamiento.anfitrion, reservaACrear)
+
     return this.toDTO(reservaCreada)
   }
 
