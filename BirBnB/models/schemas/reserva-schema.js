@@ -47,6 +47,11 @@ const reservaSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+
+    estado: {
+      type: String,
+      enum: ['PENDIENTE', 'CONFIRMADA', 'CANCELADA'],
+    },
   },
   {
     timestamps: true,

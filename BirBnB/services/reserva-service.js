@@ -1,11 +1,12 @@
 import ExcededTimeException from '../exceptions/excededTimeException.js'
 import DisponibilidadException from '../exceptions/disponibilidadException.js'
 import NotFoundException from '../exceptions/not-found-exception.js'
-import { Reserva } from '../models/entities/reserva.js'
+import { EstadoReserva, Reserva } from '../models/entities/reserva.js'
 import { FactoryNotificacion } from '../models/entities/factory-notificacion.js'
 import RangoFechas from '../models/entities/rango-fechas.js'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat.js'
+import { Alojamiento } from '../models/entities/alojamiento.js'
 dayjs.extend(customParseFormat)
 
 export default class ReservaService {
@@ -55,12 +56,21 @@ export default class ReservaService {
       //return { message: 'No se puede cancelar la reserva ya que la misma se encuentra en curso.'}
       throw new ExcededTimeException(reservaAeliminar)
     }
-    const reservaEliminada = await this.reservaRepository.delete(reservaId)
 
+    const reservaANotificar = new Reserva(
+      reservaAeliminar.fechaAlta,
+      reservaAeliminar.huespedReservador,
+      reservaAeliminar.alojamiento,
+      reservaAeliminar.rangoFechas,
+    )
+    reservaANotificar.estado = EstadoReserva.CANCELADA
+
+    const reservaEliminada = await this.reservaRepository.delete(reservaId)
+    console.log(reservaANotificar.alojamiento)
     if (!reservaEliminada) throw new NotFoundException()
 
     this.alojamientoRepository.removeReserva(reservaAeliminar.alojamiento.id, reservaId)
-
+    this.notificarReserva(reservaANotificar.alojamiento.anfitrion, reservaANotificar)
     return reservaEliminada
   }
 
@@ -103,9 +113,9 @@ export default class ReservaService {
     return historialReservas
   }
 
-  async notificarReserva(anfitrion, reserva) {
+  async notificarReserva(usuario, reserva) {
     const notificacion = FactoryNotificacion.crearSegunReserva(reserva)
-    await this.usuarioRepository.findAndUpdate(anfitrion, notificacion)
+    await this.usuarioRepository.findAndUpdate(usuario, notificacion)
   }
   toDTO(reserva) {
     return {

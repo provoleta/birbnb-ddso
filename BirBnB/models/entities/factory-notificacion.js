@@ -11,7 +11,7 @@ class FactoryNotificacion {
    */
   static mensajeSegunEstado(reserva) {
     const cantidadDias = reserva.calcularCantidadDias()
-    const inicioReserva = reserva.fechaInicio.format('DD/MM/YYYY')
+    const inicioReserva = dayjs(reserva.fechaInicio, 'DD/MM/YYYY')
 
     switch (reserva.estado) {
       case EstadoReserva.PENDIENTE:
@@ -34,7 +34,7 @@ class FactoryNotificacion {
       case EstadoReserva.CANCELADA:
         return {
           contenido: new MensajePlano(
-            `La reserva para ${reserva.alojamiento} fue cancelada`,
+            `La reserva para ${reserva.alojamiento.nombre} fue cancelada`,
           ),
           destinatario: reserva.anfitrion,
         }
