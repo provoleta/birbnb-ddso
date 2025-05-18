@@ -1,5 +1,9 @@
 ## Progreso
 
+    🔳 v0.8.0
+        - Implementacion de repositorios de usuario, reserva, alojamiento y notificacion para la comunicacion con la base de datos
+        - Se agrega Mongoose como dependencia para manejar MongoDB 
+    
     🔳 v0.7.9
         - Se soluciono un inconveniente al momento de crear una notificacion con el calculo de los dias de alquiler (se implementa plugin para dayjs)
         - Se reformatea el mensaje dentro de la notificacion
