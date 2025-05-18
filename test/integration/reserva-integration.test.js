@@ -3,6 +3,7 @@ import ReservaService from '../../BirBnB/services/reserva-service.js'
 import ReservaController from '../../BirBnB/controllers/reserva.controller.js'
 import { expect, jest } from '@jest/globals'
 import request from 'supertest'
+import { Reserva } from '../../BirBnB/models/entities/reserva.js'
 //import NotFoundException from '../exceptions/not-found-exception.js'
 
 const server = buildTestServer()
@@ -13,7 +14,7 @@ const reservaRepository = {
   filterByUserId: jest.fn().mockResolvedValue([
     {
       id: '1',
-      fechaAlta: '16/05/2025',
+      fechaAlta: '16-05-2025',
       huespedReservador: {
         id: '1',
         nombre: 'Juan Perez',
@@ -24,8 +25,8 @@ const reservaRepository = {
         ubicacion: 'Mar del Plata',
       },
       rangoFechas: {
-        fechaInicio: 'Fri, 20 Jun 2025 03:00:00 GMT',
-        fechaFin: 'Fri, 27 Jun 2025 03:00:00 GMT',
+        fechaInicio: '20-06-2025',
+        fechaFin: '27-06-2025',
       },
       estado: 'PENDIENTE',
       precioPorNoche: 150,
@@ -44,23 +45,34 @@ const reservaRepository = {
         ubicacion: 'Villa General Belgrano',
       },
       rangoFechas: {
-        fechaInicio: 'Mon, 15 Jul 2025 03:00:00 GMT',
-        fechaFin: 'Sun, 20 Jul 2025 03:00:00 GMT',
+        fechaInicio: '15-07-2025',
+        fechaFin: '20-07-2025',
       },
       estado: 'PENDIENTE',
       precioPorNoche: 120,
       cambiosEstadoReserva: [],
     },
   ]),
+
   save: jest.fn().mockResolvedValue({
     id: '1',
-    fechaAlta: '2023-10-01',
-    huespedReservadorId: '1',
-    idAlojamiento: '1',
-    rangoFechas: {
-      fechaInicio: '2023/10/05',
-      fechaFin: '2023/10/10',
+    fechaAlta: '01-10-2023',
+    huespedReservador: {
+      id: '1',
+      nombre: 'Juan Perez',
     },
+    alojamiento: {
+      id: '1',
+      nombre: 'Casa de Playa',
+      ubicacion: 'Mar del Plata',
+    },
+    rangoFechas: {
+      fechaInicio: '05-10-2023',
+      fechaFin: '10-10-2023',
+    },
+    estado: 'PENDIENTE',
+    precioPorNoche: 150,
+    cambiosEstadoReserva: [],
   }),
 }
 
@@ -100,6 +112,10 @@ const reservaController = new ReservaController(reservaService)
 server.setController(ReservaController, reservaController)
 
 describe('GET /reserva/:userId', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
   test('Debe retornar status 200 y las reservas del usuario', async () => {
     const response = await request(server.app).get('/reserva/1')
 
@@ -122,20 +138,66 @@ describe('GET /reserva/:userId', () => {
 })
 
 describe('POST /reserva', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
   test('Debe retornar status 201 y la reserva creada', async () => {
     const reserva = {
-      fechaAlta: '2023-10-01',
+      fechaAlta: '01-10-2023',
       huespedReservadorId: '1',
       idAlojamiento: '1',
       rangoFechas: {
-        fechaInicio: '2023-10-05',
-        fechaFin: '2023-10-10',
+        fechaInicio: '05-10-2023',
+        fechaFin: '10-10-2023',
       },
     }
 
-    const response = await request(server.app).post('/reserva').send(reserva)
+    alojamientoRepository.findById = jest.fn().mockResolvedValue({
+      id: '1',
+      nombre: 'Casa de Playa',
+      ubicacion: 'Mar del Plata',
+      anfitrion: {
+        id: '1',
+        nombre: 'Juan Perez',
+      },
+      precioPorNoche: 150,
+      reservas: [],
+      estasDisponibleEn: jest.fn().mockReturnValue(true),
+    })
 
+    const response = await request(server.app).post('/reserva').send(reserva)
     expect(response.status).toBe(201)
-    expect(reservaRepository.save).toHaveBeenCalledWith(reserva)
+    expect(reservaRepository.save).toHaveBeenCalled()
+    expect(reservaRepository.save).toHaveBeenCalledWith(expect.any(Reserva))
+  })
+
+  test('Debe retornar status 406 si no se puede crear la reserva', async () => {
+    const reserva = {
+      fechaAlta: '01-10-2023',
+      huespedReservadorId: '1',
+      idAlojamiento: '1',
+      rangoFechas: {
+        fechaInicio: '05-10-2023',
+        fechaFin: '10-10-2023',
+      },
+    }
+
+    alojamientoRepository.findById = jest.fn().mockResolvedValue({
+      id: '1',
+      nombre: 'Casa de Playa',
+      ubicacion: 'Mar del Plata',
+      anfitrion: {
+        id: '1',
+        nombre: 'Juan Perez',
+      },
+      precioPorNoche: 150,
+      reservas: [],
+      estasDisponibleEn: jest.fn().mockReturnValue(false),
+    })
+
+    const response = await request(server.app).post('/reserva').send(reserva)
+    expect(response.status).toBe(406)
+    expect(reservaRepository.save).not.toHaveBeenCalled()
   })
 })

@@ -36,7 +36,7 @@ export default class ReservaService {
       reserva.id,
     )
 
-    if (!disponibilidad) throw new DisponibilidadException(reserva.alojamiento) //return { message: 'El alojamiento no esta disponible en el rango de fechas solicitado. ' }
+    if (!disponibilidad) throw new DisponibilidadException(reserva.alojamiento)
 
     reservaAmodificar.rangoFechas = reserva.rangoFechas
 

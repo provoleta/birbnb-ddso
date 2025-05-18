@@ -3,7 +3,7 @@ export default class AlojamientoController {
     this.alojamientoService = alojamientoService
   }
 
-  async findAll(req, res) {
+  async findAll(req, res, next) {
     const {
       ciudad,
       pais,

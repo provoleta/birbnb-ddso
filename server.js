@@ -1,5 +1,6 @@
 import express from 'express'
 import { configureRoutes } from './BirBnB/routes/routes.js'
+import { errorHandler } from './errorHandler.js'
 
 export class Server {
   controllers = {}
@@ -26,6 +27,15 @@ export class Server {
 
   configureRoutes() {
     configureRoutes(this.app, this.getController.bind(this))
+
+    this.app.use((req, res, _next) => {
+      res.status(404).json({
+        status: 'fail',
+        message: 'La ruta solicitada no existe',
+      })
+    })
+
+    this.app.use(errorHandler)
   }
 
   launch() {

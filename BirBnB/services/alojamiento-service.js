@@ -1,3 +1,5 @@
+import { NotFoundException } from '../exceptions/not-found-exception.js'
+
 export default class AlojamientoService {
   constructor(alojamientoRepository) {
     this.alojamientoRepository = alojamientoRepository
@@ -14,6 +16,7 @@ export default class AlojamientoService {
       pageNum,
       limitNum,
     )
+    if (!alojamientosFiltrados) throw new NotFoundException()
     const total = await this.alojamientoRepository.countAll()
     const total_pages = Math.ceil(total / limitNum)
 
