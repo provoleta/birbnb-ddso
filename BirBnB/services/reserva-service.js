@@ -66,10 +66,8 @@ export default class ReservaService {
 
   async create(reserva) {
     const alojamientoId = reserva.idAlojamiento
-
     const alojamiento = await this.alojamientoRepository.findById(alojamientoId)
     if (!alojamiento) throw new NotFoundException()
-
     const disponibilidad = alojamiento.estasDisponibleEn(reserva.rangoFechas)
     if (!disponibilidad) throw new DisponibilidadException(alojamiento)
 
@@ -96,7 +94,7 @@ export default class ReservaService {
   async findByUserId(userId) {
     const reservas = await this.reservaRepository.filterByUserId(userId)
 
-    if (!reservas) return { message: 'no se encontraron reservas del usuario' }
+    if (!reservas) throw new NotFoundException()
 
     const historialReservas = reservas.map((reserva) => this.toDTO(reserva))
 

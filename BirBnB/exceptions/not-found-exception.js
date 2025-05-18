@@ -1,6 +1,16 @@
-export default class NotFoundException extends Error {
-  constructor(message) {
+export class AppError extends Error {
+  constructor(message, statusCode) {
     super(message)
-    this.name = 'No se pudo encontrar el recurso'
+    this.statusCode = statusCode
+    this.status = `${statusCode}`.startsWith('4') ? 'fail' : 'error'
+    this.isOperational = true
+
+    Error.captureStackTrace(this, this.constructor)
+  }
+}
+
+export default class NotFoundException extends AppError {
+  constructor(message = 'Recurso no encontrado') {
+    super(message, 404)
   }
 }
