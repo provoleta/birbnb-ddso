@@ -1,4 +1,4 @@
-import { NotFoundException } from '../exceptions/not-found-exception.js'
+import NotFoundException from '../exceptions/not-found-exception.js'
 
 export default class AlojamientoService {
   constructor(alojamientoRepository) {
