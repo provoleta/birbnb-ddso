@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import NotFoundException from '../exceptions/not-found-exception'
+import NotFoundException from '../exceptions/not-found-exception.js'
 
 export default class NotificacionService {
   constructor(notificacionRepository) {

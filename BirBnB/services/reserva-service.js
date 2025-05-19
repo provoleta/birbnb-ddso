@@ -51,15 +51,17 @@ export default class ReservaService {
 
     if (!reservaAeliminar) throw new NotFoundException()
 
-    if (dayjs() > reservaAeliminar.fechaInicio) {
-      //return { message: 'No se puede cancelar la reserva ya que la misma se encuentra en curso.'}
+    if (dayjs() > reservaAeliminar.rangoFechas.fechaInicio) {
       throw new ExcededTimeException(reservaAeliminar)
     }
     const reservaEliminada = await this.reservaRepository.delete(reservaId)
 
     if (!reservaEliminada) throw new NotFoundException()
 
-    this.alojamientoRepository.removeReserva(reservaAeliminar.alojamiento.id, reservaId)
+    await this.alojamientoRepository.removeReserva(
+      reservaAeliminar.alojamiento.id,
+      reservaId,
+    )
 
     return reservaEliminada
   }

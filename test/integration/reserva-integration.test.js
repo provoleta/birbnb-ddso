@@ -1,7 +1,7 @@
 import { buildTestServer } from './utils/server.js'
 import ReservaService from '../../BirBnB/services/reserva-service.js'
 import ReservaController from '../../BirBnB/controllers/reserva.controller.js'
-import { expect, jest } from '@jest/globals'
+import { expect, jest, test } from '@jest/globals'
 import request from 'supertest'
 import { Reserva } from '../../BirBnB/models/entities/reserva.js'
 //import NotFoundException from '../exceptions/not-found-exception.js'
@@ -18,11 +18,38 @@ const reservaRepository = {
       huespedReservador: {
         id: '1',
         nombre: 'Juan Perez',
+        email: 'juanperez@example.com',
+        tipo: 'HUESPED',
+        notificaciones: [],
       },
       alojamiento: {
         id: '1',
+        anfitrion: {
+          id: '2',
+          nombre: 'Maria Lopez',
+          email: 'maria@example.com',
+          tipo: 'ANFITRION',
+          notificaciones: [],
+        },
         nombre: 'Casa de Playa',
-        ubicacion: 'Mar del Plata',
+        descripcion: 'Casa de playa en Mar del Plata',
+        precioPorNoche: 150,
+        moneda: 'DOLAR_USA',
+        horarioCheckin: '14:00',
+        horarioCheckOut: '10:00',
+        direccion: {
+          calle: 'Av. Libertador',
+          numero: 123,
+          ciudad: 'Mar del Plata',
+          provincia: 'Buenos Aires',
+          pais: 'Argentina',
+          lat: -38.0,
+          long: -57.0,
+        },
+        cantHuespedesMax: 4,
+        caracteristicas: [],
+        reservas: [],
+        fotos: [],
       },
       rangoFechas: {
         fechaInicio: '20-06-2025',
@@ -38,11 +65,38 @@ const reservaRepository = {
       huespedReservador: {
         id: '1',
         nombre: 'Juan Perez',
+        email: 'juanperez@example.com',
+        tipo: 'HUESPED',
+        notificaciones: [],
       },
       alojamiento: {
         id: '2',
+        anfitrion: {
+          id: '2',
+          nombre: 'Maria Lopez',
+          email: 'maria@example.com',
+          tipo: 'ANFITRION',
+          notificaciones: [],
+        },
         nombre: 'Cabaña en el Bosque',
-        ubicacion: 'Villa General Belgrano',
+        descripcion: 'Cabaña en el Bosque en Villa General Belgrano',
+        precioPorNoche: 200,
+        moneda: 'PESO_ARG',
+        horarioCheckin: '15:00',
+        horarioCheckOut: '09:00',
+        direccion: {
+          calle: 'Calle Falsa',
+          numero: 123,
+          ciudad: 'Villa General Belgrano',
+          provincia: 'Cordoba',
+          pais: 'Argentina',
+          lat: -38.0,
+          long: -57.0,
+        },
+        cantHuespedesMax: 6,
+        caracteristicas: [],
+        reservas: [],
+        fotos: [],
       },
       rangoFechas: {
         fechaInicio: '15-07-2025',
@@ -53,42 +107,126 @@ const reservaRepository = {
       cambiosEstadoReserva: [],
     },
   ]),
-
-  save: jest.fn().mockResolvedValue({
+  findById: jest.fn().mockResolvedValue({
     id: '1',
-    fechaAlta: '01-10-2023',
+    fechaAlta: '16-05-2025',
     huespedReservador: {
       id: '1',
       nombre: 'Juan Perez',
+      email: 'juanperez@example.com',
+      tipo: 'HUESPED',
+      notificaciones: [],
     },
     alojamiento: {
       id: '1',
+      anfitrion: {
+        id: '2',
+        nombre: 'Maria Lopez',
+        email: 'maria@example.com',
+        tipo: 'ANFITRION',
+        notificaciones: [],
+      },
       nombre: 'Casa de Playa',
-      ubicacion: 'Mar del Plata',
+      descripcion: 'Casa de playa en Mar del Plata',
+      precioPorNoche: 150,
+      moneda: 'DOLAR_USA',
+      horarioCheckin: '14:00',
+      horarioCheckOut: '10:00',
+      direccion: {
+        calle: 'Av. Libertador',
+        numero: 123,
+        ciudad: 'Mar del Plata',
+        provincia: 'Buenos Aires',
+        pais: 'Argentina',
+        lat: -38.0,
+        long: -57.0,
+      },
+      cantHuespedesMax: 4,
+      caracteristicas: [],
+      reservas: [],
+      fotos: [],
     },
     rangoFechas: {
-      fechaInicio: '05-10-2023',
-      fechaFin: '10-10-2023',
+      fechaInicio: '20-06-2025',
+      fechaFin: '27-06-2025',
     },
     estado: 'PENDIENTE',
     precioPorNoche: 150,
     cambiosEstadoReserva: [],
   }),
+
+  save: jest.fn().mockResolvedValue({
+    id: '1',
+    nombre: 'Casa de Playa',
+    descripcion: 'Casa de playa en Mar del Plata',
+    precioPorNoche: 150,
+    moneda: 'DOLAR_USA',
+    horarioCheckin: '14:00',
+    horarioCheckOut: '10:00',
+    direccion: {
+      calle: 'Av. Libertador',
+      numero: 123,
+      ciudad: 'Mar del Plata',
+      provincia: 'Buenos Aires',
+      pais: 'Argentina',
+      lat: -38.0,
+      long: -57.0,
+    },
+    cantHuespedesMax: 4,
+    caracteristicas: [],
+    reservas: [],
+    fotos: [],
+  }),
+
+  delete: jest.fn().mockResolvedValue({}),
 }
 
 const alojamientoRepository = {
   findById: jest.fn().mockResolvedValue({
     id: '1',
     nombre: 'Casa de Playa',
-    ubicacion: 'Mar del Plata',
-    anfitrion: {
-      id: '1',
-      nombre: 'Juan Perez',
-    },
+    descripcion: 'Casa de playa en Mar del Plata',
     precioPorNoche: 150,
+    moneda: 'DOLAR_USA',
+    horarioCheckin: '14:00',
+    horarioCheckOut: '10:00',
+    direccion: {
+      calle: 'Av. Libertador',
+      numero: 123,
+      ciudad: 'Mar del Plata',
+      provincia: 'Buenos Aires',
+      pais: 'Argentina',
+      lat: -38.0,
+      long: -57.0,
+    },
+    cantHuespedesMax: 4,
+    caracteristicas: [],
     reservas: [],
+    fotos: [],
   }),
   addReserva: jest.fn(),
+  removeReserva: jest.fn().mockResolvedValue({
+    id: '1',
+    nombre: 'Casa de Playa',
+    descripcion: 'Casa de playa en Mar del Plata',
+    precioPorNoche: 150,
+    moneda: 'DOLAR_USA',
+    horarioCheckin: '14:00',
+    horarioCheckOut: '10:00',
+    direccion: {
+      calle: 'Av. Libertador',
+      numero: 123,
+      ciudad: 'Mar del Plata',
+      provincia: 'Buenos Aires',
+      pais: 'Argentina',
+      lat: -38.0,
+      long: -57.0,
+    },
+    cantHuespedesMax: 4,
+    caracteristicas: [],
+    reservas: [],
+    fotos: [],
+  }),
 }
 
 const usuarioRepository = {
@@ -96,7 +234,7 @@ const usuarioRepository = {
     id: '1',
     nombre: 'Juan Perez',
     email: 'juanperez@example.com',
-    tipo: 'ANFITRION',
+    tipo: 'HUESPED',
     notificaciones: [],
   }),
   findAndUpdate: jest.fn(),
@@ -156,13 +294,24 @@ describe('POST /reserva', () => {
     alojamientoRepository.findById = jest.fn().mockResolvedValue({
       id: '1',
       nombre: 'Casa de Playa',
-      ubicacion: 'Mar del Plata',
-      anfitrion: {
-        id: '1',
-        nombre: 'Juan Perez',
-      },
+      descripcion: 'Casa de playa en Mar del Plata',
       precioPorNoche: 150,
+      moneda: 'DOLAR_USA',
+      horarioCheckin: '14:00',
+      horarioCheckOut: '10:00',
+      direccion: {
+        calle: 'Av. Libertador',
+        numero: 123,
+        ciudad: 'Mar del Plata',
+        provincia: 'Buenos Aires',
+        pais: 'Argentina',
+        lat: -38.0,
+        long: -57.0,
+      },
+      cantHuespedesMax: 4,
+      caracteristicas: [],
       reservas: [],
+      fotos: [],
       estasDisponibleEn: jest.fn().mockReturnValue(true),
     })
 
@@ -186,18 +335,107 @@ describe('POST /reserva', () => {
     alojamientoRepository.findById = jest.fn().mockResolvedValue({
       id: '1',
       nombre: 'Casa de Playa',
-      ubicacion: 'Mar del Plata',
-      anfitrion: {
-        id: '1',
-        nombre: 'Juan Perez',
-      },
+      descripcion: 'Casa de playa en Mar del Plata',
       precioPorNoche: 150,
+      moneda: 'DOLAR_USA',
+      horarioCheckin: '14:00',
+      horarioCheckOut: '10:00',
+      direccion: {
+        calle: 'Av. Libertador',
+        numero: 123,
+        ciudad: 'Mar del Plata',
+        provincia: 'Buenos Aires',
+        pais: 'Argentina',
+        lat: -38.0,
+        long: -57.0,
+      },
+      cantHuespedesMax: 4,
+      caracteristicas: [],
       reservas: [],
+      fotos: [],
       estasDisponibleEn: jest.fn().mockReturnValue(false),
     })
 
     const response = await request(server.app).post('/reserva').send(reserva)
     expect(response.status).toBe(406)
     expect(reservaRepository.save).not.toHaveBeenCalled()
+  })
+})
+
+describe('DELETE /reserva/:id', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
+  test('Debe retornar status 200 y la reserva eliminada', async () => {
+    reservaRepository.delete = jest.fn().mockResolvedValue(true)
+    const response = await request(server.app).delete('/reserva/1')
+    expect(response.status).toBe(204)
+    expect(reservaRepository.delete).toHaveBeenCalledWith('1')
+    expect(alojamientoRepository.removeReserva).toHaveBeenCalled()
+    expect(alojamientoRepository.removeReserva).toHaveBeenCalledWith('1', '1')
+  })
+
+  test('Debe retornar status 404 si no encuentra la reserva', async () => {
+    reservaRepository.delete = jest.fn().mockResolvedValue(null)
+    const response = await request(server.app).delete('/reserva/999')
+    expect(response.status).toBe(404)
+    expect(reservaRepository.delete).toHaveBeenCalledWith('999')
+    expect(alojamientoRepository.removeReserva).not.toHaveBeenCalled()
+  })
+
+  test('Debe retornar status 406 si la reserva ya ha comenzado', async () => {
+    reservaRepository.findById = jest.fn().mockResolvedValue({
+      id: '3',
+      fechaAlta: '10-05-2025',
+      huespedReservador: {
+        id: '1',
+        nombre: 'Juan Perez',
+        email: 'juanperez@example.com',
+        tipo: 'HUESPED',
+        notificaciones: [],
+      },
+      alojamiento: {
+        id: '3',
+        anfitrion: {
+          id: '2',
+          nombre: 'Maria Lopez',
+          email: 'maria@example.com',
+          tipo: 'ANFITRION',
+          notificaciones: [],
+        },
+        nombre: 'Departamento en el Centro',
+        descripcion: 'Departamento en el Centro de Buenos Aires',
+        precioPorNoche: 300,
+        moneda: 'DOLAR_USA',
+        horarioCheckin: '12:00',
+        horarioCheckOut: '11:00',
+        direccion: {
+          calle: 'Av. Corrientes',
+          numero: 456,
+          ciudad: 'Buenos Aires',
+          provincia: 'Buenos Aires',
+          pais: 'Argentina',
+          lat: -34.0,
+          long: -58.0,
+        },
+        cantHuespedesMax: 2,
+        caracteristicas: [],
+        reservas: [],
+        fotos: [],
+      },
+      rangoFechas: {
+        fechaInicio: '10-05-2025',
+        fechaFin: '10-06-2025',
+      },
+      estado: 'PENDIENTE',
+      precioPorNoche: 150,
+      cambiosEstadoReserva: [],
+    })
+
+    const response = await request(server.app).delete('/reserva/3')
+    expect(response.status).toBe(406)
+    expect(reservaRepository.delete).toHaveBeenCalledWith('3')
+    expect(alojamientoRepository.removeReserva).not.toHaveBeenCalled()
   })
 })
