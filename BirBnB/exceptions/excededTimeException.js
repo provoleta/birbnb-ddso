@@ -1,6 +1,9 @@
-export default class ExcededTimeException extends Error {
-  constructor(reserva) {
-    super()
-    this.message = `No se puede cancelar la reserva ${reserva.alojamiento.nombre} ya que la misma se encuentra en curso.`
+import AppError from './appError'
+
+export default class ExcededTimeException extends AppError {
+  constructor(
+    message = 'No se puede cancelar la reserva ya que la misma se encuentra en curso.',
+  ) {
+    super(message, 410)
   }
 }
