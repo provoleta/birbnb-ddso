@@ -384,7 +384,7 @@ describe('DELETE /reserva/:id', () => {
     expect(alojamientoRepository.removeReserva).not.toHaveBeenCalled()
   })
 
-  test('Debe retornar status 406 si la reserva ya ha comenzado', async () => {
+  test('Debe retornar status 410 si la reserva ya ha comenzado', async () => {
     reservaRepository.findById = jest.fn().mockResolvedValue({
       id: '3',
       fechaAlta: '10-05-2025',
@@ -434,8 +434,8 @@ describe('DELETE /reserva/:id', () => {
     })
 
     const response = await request(server.app).delete('/reserva/3')
-    expect(response.status).toBe(406)
-    expect(reservaRepository.delete).toHaveBeenCalledWith('3')
+    expect(response.status).toBe(410)
+    expect(reservaRepository.delete).not.toHaveBeenCalled()
     expect(alojamientoRepository.removeReserva).not.toHaveBeenCalled()
   })
 })

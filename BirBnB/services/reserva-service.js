@@ -51,7 +51,7 @@ export default class ReservaService {
 
     if (!reservaAeliminar) throw new NotFoundException()
 
-    if (dayjs() > reservaAeliminar.rangoFechas.fechaInicio) {
+    if (dayjs().isAfter(dayjs(reservaAeliminar.rangoFechas.fechaInicio, 'DD-MM-YYYY'))) {
       throw new ExcededTimeException(reservaAeliminar)
     }
     const reservaEliminada = await this.reservaRepository.delete(reservaId)
