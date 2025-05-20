@@ -1,7 +1,7 @@
 // import Usuario from './usuario.js'
 import dayjs from 'dayjs'
 import Notificacion from './notificacion.js'
-import { EstadoReserva, Reserva } from './reserva.js'
+import { EstadoReserva } from './reserva.js'
 // Idea: Que el mensaje maneje el contenido de su string. La notificacion, si necesita ese contenido, se la pide al mensaje. Si no tiene parametros, devuelve el string plano, sino, contruye ese string con la informacion dada.
 class FactoryNotificacion {
   /**
@@ -26,7 +26,7 @@ class FactoryNotificacion {
       case EstadoReserva.CONFIRMADA:
         return {
           contenido: new MensajePlano(
-            `Su reserva para ${reserva.alojamiento} ha sido confirmada.`,
+            `Su reserva para ${reserva.nombreAlojamiento} ha sido confirmada.`,
           ),
           destinatario: reserva.huespedReservador,
         }
@@ -34,9 +34,9 @@ class FactoryNotificacion {
       case EstadoReserva.CANCELADA:
         return {
           contenido: new MensajePlano(
-            `La reserva para ${reserva.alojamiento.nombre} fue cancelada`,
+            `La reserva para ${reserva.nombreAlojamiento} fue cancelada`,
           ),
-          destinatario: reserva.anfitrion,
+          destinatario: reserva.alojamiento.anfitrion,
         }
 
       default:

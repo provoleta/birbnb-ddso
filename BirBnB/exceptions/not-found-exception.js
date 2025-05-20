@@ -1,6 +1,7 @@
-export default class NotFoundException extends Error {
-  constructor(message) {
-    super(message)
-    this.name = 'No se pudo encontrar el recurso'
+import AppError from './appError.js'
+
+export default class NotFoundException extends AppError {
+  constructor(message = 'Recurso no encontrado') {
+    super(message, 404)
   }
 }

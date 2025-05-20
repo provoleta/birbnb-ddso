@@ -37,7 +37,7 @@ export default class AlojamientoRepository {
     }
 
     if (filters.huespedesMax) {
-      query.cantHuespedesMax = { $gte: filters.huespedesMax }
+      query.cantHuespedesMax = { $lte: filters.huespedesMax }
     }
     if (filters.caracteristicas) {
       const caracteristicasArray = Array.isArray(filters.caracteristicas)
@@ -47,6 +47,10 @@ export default class AlojamientoRepository {
       if (caracteristicasArray.length > 0) {
         query.caracteristicas = { $all: caracteristicasArray }
       } //  $in se usa para filtrar por un array de valores. Se usa en la base de datos MongoDB para filtrar por caracteristicas.
+    }
+
+    if (filters.moneda) {
+      query.moneda = { $regex: filters.moneda, $options: 'i' }
     }
 
     console.log('Filtros aplicados:', query)

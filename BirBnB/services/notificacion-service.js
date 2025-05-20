@@ -1,4 +1,5 @@
 import dayjs from 'dayjs'
+import NotFoundException from '../exceptions/not-found-exception.js'
 
 export default class NotificacionService {
   constructor(notificacionRepository) {
@@ -7,19 +8,24 @@ export default class NotificacionService {
 
   async findAll(read, userId) {
     const notificaciones = await this.notificacionRepository.findAll(read, userId)
+    if (!notificaciones) throw new NotFoundException()
 
     return notificaciones.map((notificacion) => this.toDTO(notificacion))
   }
 
   async markAsRead(id, userId) {
     const notificacion = await this.notificacionRepository.findById(id, userId)
-    if (!notificacion) return { error: 'not found' }
+    if (!notificacion) throw new NotFoundException()
+
     notificacion.leida = true
     notificacion.fechaLeida = dayjs().format('DD/MM/YYYY HH:mm:ss')
 
-    await this.notificacionRepository.update(notificacion, userId)
+    const notificacionActualizada = await this.notificacionRepository.update(
+      notificacion,
+      userId,
+    )
 
-    return this.toDTO(notificacion)
+    return this.toDTO(notificacionActualizada)
   }
 
   toDTO(notificacion) {

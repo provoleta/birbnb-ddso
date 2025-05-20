@@ -1,3 +1,4 @@
+import NotFoundException from '../../exceptions/not-found-exception.js'
 import { UsuarioModel } from '../schemas/usuario-schema.js'
 
 export default class NotificacionRepository {
@@ -32,7 +33,7 @@ export default class NotificacionRepository {
   async obtenerNotificaciones(userId) {
     const usuario = await this.model.findById(userId).select('notificaciones')
     if (!usuario) {
-      return [] //TODO MANEJAR EXCEPCION SI EL USUARIO NO EXISTE
+      throw new NotFoundException('No se encuentra al usuario') //TODO MANEJAR EXCEPCION SI EL USUARIO NO EXISTE
     }
     return usuario.notificaciones
   }

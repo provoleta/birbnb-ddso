@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "integration-test": "node --experimental-vm-modules node_modules/jest/bin/jest.js test/integration.test.js",
+    "integration-test": "node --experimental-vm-modules node_modules/jest/bin/jest.js test/integration",
     "start": "node index.js"
   },
   "repository": {
@@ -25,6 +25,7 @@
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "mongoose": "^8.14.2",
+    "swagger-ui-express": "^5.0.1",
     "zod": "^3.24.2"
   },
   "devDependencies": {

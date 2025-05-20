@@ -1,0 +1,347 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "BirBnB API",
+    "version": "1.0.0",
+    "description": "API para gestión de alojamientos y reservas en BirBnB"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Alojamiento",
+      "description": "Operaciones sobre alojamientos"
+    },
+    {
+      "name": "Reserva",
+      "description": "Operaciones sobre reservas"
+    }
+  ],
+  "paths": {
+    "/alojamiento": {
+      "get": {
+        "tags": ["Alojamiento"],
+        "summary": "Listar alojamientos",
+        "parameters": [
+          { "in": "query", "name": "ciudad", "schema": { "type": "string" } },
+          { "in": "query", "name": "pais", "schema": { "type": "string" } },
+          { "in": "query", "name": "caracteristicas", "schema": { "type": "string" } },
+          { "in": "query", "name": "page", "schema": { "type": "integer" } },
+          { "in": "query", "name": "limit", "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de alojamientos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Alojamiento"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reserva": {
+      "post": {
+        "tags": ["Reserva"],
+        "summary": "Crear una reserva",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReservaInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Reserva creada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Reserva"
+                }
+              }
+            }
+          },
+          "400": { "description": "Datos inválidos" }
+        }
+      },
+      "put": {
+        "tags": ["Reserva"],
+        "summary": "Actualizar una reserva",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReservaInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Reserva actualizada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Reserva"
+                }
+              }
+            }
+          },
+          "400": { "description": "Datos inválidos" }
+        }
+      }
+    },
+    "/reserva/{id}": {
+      "delete": {
+        "tags": ["Reserva"],
+        "summary": "Eliminar una reserva",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "204": { "description": "Eliminada correctamente" },
+          "404": { "description": "No encontrada" }
+        }
+      }
+    },
+    "/reserva/{userId}": {
+      "get": {
+        "tags": ["Reserva"],
+        "summary": "Listar reservas de un usuario",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de reservas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Reserva"
+                  }
+                }
+              }
+            }
+          },
+          "404": { "description": "No se encontraron reservas" }
+        }
+      }
+    },
+    "/notificacion/": {
+      "put": {
+        "tags": ["Notificacion"],
+        "summary": "Marca una notificacion como leida",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "in": "query",
+            "name": "userId",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de notificaciones leidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Notificacion"
+                  }
+                }
+              }
+            }
+          },
+          "404": { "description": "No se encontro el recurso." }
+        }
+      }
+    },
+    "/notificacionNoLeida/{userId}": {
+      "get": {
+        "tags": ["Notificacion"],
+        "summary": "Listar notificaciones no leidas de un usuario.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de notificaiones no leidas.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Notificacion"
+                  }
+                }
+              }
+            }
+          },
+          "404": { "description": "No se encontro el recurso." }
+        }
+      }
+    },
+    "/notificacionLeida/{userId}": {
+      "get": {
+        "tags": ["Notificacion"],
+        "summary": "Listar notificaciones leidas de un usuario.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de notificaiones leidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "items": {
+                    "$ref": "#/components/schemas/Notificacion"
+                  }
+                }
+              }
+            }
+          },
+          "404": { "description": "No se encontro el recurso." }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Direccion": {
+        "type": "object",
+        "properties": {
+          "calle": { "type": "string" },
+          "numero": { "type": "integer" },
+          "ciudad": { "type": "string" },
+          "pais": { "type": "string" },
+          "lat": { "type": "number" },
+          "long": { "type": "number" }
+        }
+      },
+      "Foto": {
+        "type": "object",
+        "properties": {
+          "descripcion": { "type": "string" },
+          "path": { "type": "string" }
+        }
+      },
+      "Alojamiento": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "anfitrion": { "type": "string" },
+          "nombre": { "type": "string" },
+          "descripcion": { "type": "string" },
+          "precioPorNoche": { "type": "number" },
+          "moneda": {
+            "type": "string",
+            "enum": ["DOLAR_USA", "PESO_ARG", "REALES"]
+          },
+          "horarioCheckIn": { "type": "string" },
+          "horarioCheckOut": { "type": "string" },
+          "direccion": { "$ref": "#/components/schemas/Direccion" },
+          "cantHuespedesMax": { "type": "integer" },
+          "caracteristicas": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "reservas": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "fotos": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Foto" }
+          }
+        }
+      },
+      "RangoFechas": {
+        "type": "object",
+        "properties": {
+          "fechaInicio": { "type": "string", "example": "16-06-2025" },
+          "fechaFin": { "type": "string", "example": "20-06-2025" }
+        }
+      },
+      "Reserva": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "fechaAlta": { "type": "string" },
+          "huespedReservador": { "type": "string" },
+          "alojamiento": { "type": "string" },
+          "rangoFechas": { "$ref": "#/components/schemas/RangoFechas" },
+          "precioPorNoche": { "type": "number" },
+          "estado": {
+            "type": "string",
+            "enum": ["PENDIENTE", "CONFIRMADA", "CANCELADA"]
+          }
+        }
+      },
+      "Notificacion": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "mensaje": { "type": "string" },
+          "usuario": { "type": "string" },
+          "fechaAlta": { "type": "string" },
+          "leida": { "type": "boolean" }
+        }
+      },
+      "ReservaInput": {
+        "type": "object",
+        "properties": {
+          "fechaAlta": { "type": "string" },
+          "huespedReservadorId": { "type": "string" },
+          "idAlojamiento": { "type": "string" },
+          "rangoFechas": { "$ref": "#/components/schemas/RangoFechas" },
+          "precioPorNoche": { "type": "number" }
+        }
+      }
+    }
+  }
+}

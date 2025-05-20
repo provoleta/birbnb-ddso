@@ -10,11 +10,7 @@ import { Reserva, EstadoReserva } from '../../BirBnB/models/entities/reserva.js'
 import dayjs from 'dayjs'
 import RangoFechas from '../../BirBnB/models/entities/rango-fechas.js'
 import { Usuario, TipoUsuario } from '../../BirBnB/models/entities/usuario.js'
-import {
-  FactoryNotificacion,
-  MensajeSobreUsuario,
-  MensajePlano,
-} from '../../BirBnB/models/entities/factory-notificacion.js'
+import { FactoryNotificacion } from '../../BirBnB/models/entities/factory-notificacion.js'
 import Notificacion from '../../BirBnB/models/entities/notificacion.js'
 
 describe('Alojamiento', () => {
@@ -22,6 +18,11 @@ describe('Alojamiento', () => {
   let direccion
   let ciudad
   let pais
+  const anfitrion = new Usuario(
+    'Anfitrion1',
+    'anfitrion@gmail.com',
+    TipoUsuario.ANFITRION,
+  )
   const huesped = new Usuario('Huesped1', 'huesped@gmail.com', TipoUsuario.HUESPED)
 
   beforeEach(() => {
@@ -29,7 +30,7 @@ describe('Alojamiento', () => {
     ciudad = new Ciudad('Buenos Aires', pais)
     direccion = new Direccion('Calle Falsa', '123', ciudad, -34.6037, -58.3816)
     alojamiento = new Alojamiento(
-      'Anfitrion1',
+      anfitrion,
       'Alojamiento Test',
       'Descripcion Test',
       100,
@@ -107,8 +108,7 @@ describe('Alojamiento', () => {
     )
 
     const notificacion = FactoryNotificacion.crearSegunReserva(reservaExistente)
-    console.log(notificacion)
     expect(notificacion).toBeInstanceOf(Notificacion)
-    expect(notificacion.usuario).toBe(huesped)
+    expect(notificacion.usuario).toBe(anfitrion)
   })
 })

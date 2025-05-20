@@ -3,7 +3,7 @@ export default class AlojamientoController {
     this.alojamientoService = alojamientoService
   }
 
-  async findAll(req, res) {
+  async findAll(req, res, next) {
     const {
       ciudad,
       pais,
@@ -15,6 +15,7 @@ export default class AlojamientoController {
       precioLt,
       huespedesMax,
       caracteristicas,
+      moneda,
       page = 1,
       limit = 10,
     } = req.query
@@ -30,12 +31,18 @@ export default class AlojamientoController {
       precioLt,
       huespedesMax,
       caracteristicas,
+      moneda,
     }
-    const alojamientosPaginados = await this.alojamientoService.findAll(
-      filters,
-      page,
-      limit,
-    )
-    res.json(alojamientosPaginados)
+
+    try {
+      const alojamientosPaginados = await this.alojamientoService.findAll(
+        filters,
+        page,
+        limit,
+      )
+      res.json(alojamientosPaginados)
+    } catch (error) {
+      next(error)
+    }
   }
 }

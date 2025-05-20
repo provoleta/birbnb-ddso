@@ -1,9 +1,11 @@
+import { validarObjectId } from './utils.js'
+
 export default class ReservaController {
   constructor(reservaService) {
     this.reservaService = reservaService
   }
 
-  async create(req, res) {
+  async create(req, res, next) {
     const reserva = req.body
     const { fechaAlta, huespedReservadorId, idAlojamiento, rangoFechas } = reserva
 
@@ -12,48 +14,53 @@ export default class ReservaController {
     }
 
     try {
+      validarObjectId(huespedReservadorId)
+      validarObjectId(idAlojamiento)
       const nuevo = await this.reservaService.create(reserva)
       res.status(201).json(nuevo)
     } catch (error) {
-      return res.status(409).json({ error })
+      next(error)
     }
   }
 
-  async delete(req, res) {
+  async delete(req, res, next) {
     const reservaId = req.params.id
-    const reservaEliminada = await this.reservaService.delete(reservaId)
-    if (!reservaEliminada) {
-      return res.status(404).json({ error: 'Reserva no encontrada' })
+    try {
+      validarObjectId(reservaId)
+      await this.reservaService.delete(reservaId)
+      res.status(204).json({
+        message: 'Reserva eliminada correctamente',
+      })
+    } catch (error) {
+      next(error)
     }
-    res.status(204).send()
   }
 
-  async findByUserId(req, res) {
+  async findByUserId(req, res, next) {
     const userId = req.params.userId
-    console.log('userId en controller: ', userId)
-    const reserva = await this.reservaService.findByUserId(userId)
-    if (!reserva) {
-      return res.status(404).json({ error: 'Reserva no encontrada' })
+
+    try {
+      validarObjectId(userId)
+      const reserva = await this.reservaService.findByUserId(userId)
+      res.status(200).json(reserva)
+    } catch (error) {
+      next(error)
     }
-    res.json(reserva)
   }
 
-  async update(req, res) {
+  async update(req, res, next) {
     const reserva = req.body
-    console.log('reserva en controller: ', reserva)
     const { id, rangoFechas } = reserva
 
     if (!id || !rangoFechas) {
       return res.status(400).json({ error: 'Reserva mal formada' })
     }
-
-    const nuevo = await this.reservaService.update(reserva)
-    if (!nuevo) {
-      return res
-        .status(409)
-        .json({ error: 'La reserva no puede modificarse a esa fecha.' })
+    try {
+      validarObjectId(id)
+      const nuevo = await this.reservaService.update(reserva)
+      res.status(204).json(nuevo)
+    } catch (error) {
+      next(error)
     }
-
-    res.status(204).send()
   }
 }
