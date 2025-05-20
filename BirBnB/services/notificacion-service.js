@@ -20,12 +20,9 @@ export default class NotificacionService {
     notificacion.leida = true
     notificacion.fechaLeida = dayjs().format('DD/MM/YYYY HH:mm:ss')
 
-    const notificacionActualizada = await this.notificacionRepository.update(
-      notificacion,
-      userId,
-    )
+    await this.notificacionRepository.update(notificacion, userId)
 
-    return this.toDTO(notificacionActualizada)
+    return this.toDTO(notificacion)
   }
 
   toDTO(notificacion) {

@@ -11,7 +11,7 @@ class FactoryNotificacion {
    */
   static mensajeSegunEstado(reserva) {
     const cantidadDias = reserva.calcularCantidadDias()
-    const inicioReserva = dayjs(reserva.fechaInicio, 'DD/MM/YYYY')
+    const inicioReserva = dayjs(reserva.fechaInicio).format('DD/MM/YYYY')
 
     switch (reserva.estado) {
       case EstadoReserva.PENDIENTE:
