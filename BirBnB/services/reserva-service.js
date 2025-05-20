@@ -6,7 +6,6 @@ import { FactoryNotificacion } from '../models/entities/factory-notificacion.js'
 import RangoFechas from '../models/entities/rango-fechas.js'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat.js'
-import { EstadoReserva } from '../models/entities/reserva.js'
 dayjs.extend(customParseFormat)
 
 export default class ReservaService {
@@ -92,7 +91,6 @@ export default class ReservaService {
     reservaANotificar.estado = EstadoReserva.CANCELADA
 
     await this.notificarReserva(anfitrion, reservaANotificar)
-
   }
 
   async create(reserva) {
