@@ -53,8 +53,8 @@ class Reserva {
   }
 
   calcularCantidadDias() {
-    const fechaFin = this.rangoFechas.fechaFin
-    const fechaInicio = this.rangoFechas.fechaInicio
+    const fechaFin = dayjs(this.rangoFechas.fechaFin, 'DD/MM/YYYY')
+    const fechaInicio = dayjs(this.rangoFechas.fechaInicio, 'DD/MM/YYYY')
     const cantidadDias = fechaFin.diff(fechaInicio, 'day')
     return cantidadDias
   }

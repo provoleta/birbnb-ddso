@@ -1,7 +1,7 @@
 import ExcededTimeException from '../exceptions/excededTimeException.js'
 import DisponibilidadException from '../exceptions/disponibilidadException.js'
 import NotFoundException from '../exceptions/not-found-exception.js'
-import { Reserva } from '../models/entities/reserva.js'
+import { EstadoReserva, Reserva } from '../models/entities/reserva.js'
 import { FactoryNotificacion } from '../models/entities/factory-notificacion.js'
 import RangoFechas from '../models/entities/rango-fechas.js'
 import dayjs from 'dayjs'
@@ -91,7 +91,8 @@ export default class ReservaService {
     )
     reservaANotificar.estado = EstadoReserva.CANCELADA
 
-    this.notificarReserva(anfitrion, reservaANotificar)
+    await this.notificarReserva(anfitrion, reservaANotificar)
+
   }
 
   async create(reserva) {
@@ -141,9 +142,9 @@ export default class ReservaService {
     return historialReservas
   }
 
-  async notificarReserva(anfitrion, reserva) {
+  async notificarReserva(usuario, reserva) {
     const notificacion = FactoryNotificacion.crearSegunReserva(reserva)
-    await this.usuarioRepository.findAndUpdate(anfitrion, notificacion)
+    await this.usuarioRepository.findAndUpdate(usuario, notificacion)
   }
 
   toDTO(reserva) {
