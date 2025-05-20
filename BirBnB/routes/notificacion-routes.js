@@ -6,7 +6,7 @@ export default function registerNotificacionRoutes(app, getController) {
     getController(NotificacionController).findAllNotRead(req, res, next),
   )
 
-  app.get('/noficacionLeida/:userId', (req, res, next) =>
+  app.get('/notificacionLeida/:userId', (req, res, next) =>
     getController(NotificacionController).findAllRead(req, res, next),
   )
 
