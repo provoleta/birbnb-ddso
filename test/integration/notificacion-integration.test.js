@@ -72,7 +72,7 @@ const notificaionController = new NotificacionController(notificationService)
 
 server.setController(NotificacionController, notificaionController)
 
-describe('put/notificacion', () => {
+describe('PUT /notificacion', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
@@ -98,7 +98,7 @@ describe('put/notificacion', () => {
     expect(response.status).toBe(404)
   })
 })
-describe('get/notificacionNoLeida & get/notificacionLeida', () => {
+describe('GET /notificacion', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
@@ -117,7 +117,7 @@ describe('get/notificacionNoLeida & get/notificacionLeida', () => {
       },
     ])
     const response = await request(server.app).get(
-      '/notificacionNoLeida/000000000000000000000001',
+      '/notificacion?leida=false&userId=000000000000000000000001',
     )
     expect(response.status).toBe(200)
     expect(notificacionRepository.findAll).toHaveBeenCalled
@@ -142,7 +142,7 @@ describe('get/notificacionNoLeida & get/notificacionLeida', () => {
       },
     ])
     const response = await request(server.app).get(
-      '/notificacionLeida/000000000000000000000001',
+      '/notificacion?leida=true&userId=000000000000000000000001',
     )
     expect(response.status).toBe(200)
     expect(notificacionRepository.findAll).toHaveBeenCalled
@@ -156,7 +156,7 @@ describe('get/notificacionNoLeida & get/notificacionLeida', () => {
   test('Debe retornar una coleccion vacia en caso de no tener notificaciones leidas', async () => {
     notificacionRepository.findAll = jest.fn().mockResolvedValue([])
     const response = await request(server.app).get(
-      '/notificacionLeida/000000000000000000000001',
+      '/notificacion?leida=true&userId=000000000000000000000001',
     )
     expect(response.status).toBe(200)
     expect(notificacionRepository.findAll).toHaveBeenCalled
@@ -170,7 +170,7 @@ describe('get/notificacionNoLeida & get/notificacionLeida', () => {
   test('Debe retornar una coleccion vacia en caso de no tener notificaciones sin leer', async () => {
     notificacionRepository.findAll = jest.fn().mockResolvedValue([])
     const response = await request(server.app).get(
-      '/notificacionNoLeida/000000000000000000000001',
+      '/notificacion?leida=false&userId=000000000000000000000001',
     )
     expect(response.status).toBe(200)
     expect(notificacionRepository.findAll).toHaveBeenCalled

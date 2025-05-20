@@ -13,7 +13,6 @@ export default class NotificacionRepository {
 
   async findById(notificacionId, userId) {
     const notificaciones = await this.obtenerNotificaciones(userId)
-
     return notificaciones.find((notif) => notif.id === notificacionId)
   }
 

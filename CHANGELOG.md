@@ -1,9 +1,13 @@
 ## Progreso
 
+    🔳 v0.8.1
+        - TESTS
+        - Se cambio el endpoint para listar las notificaciones leidas y no leidas, ahora la request se tiene que hacer pasando por query tanto el userId como leida=true o leida=false
+
     🔳 v0.8.0
         - Implementacion de repositorios de usuario, reserva, alojamiento y notificacion para la comunicacion con la base de datos
-        - Se agrega Mongoose como dependencia para manejar MongoDB 
-    
+        - Se agrega Mongoose como dependencia para manejar MongoDB
+
     🔳 v0.7.9
         - Se soluciono un inconveniente al momento de crear una notificacion con el calculo de los dias de alquiler (se implementa plugin para dayjs)
         - Se reformatea el mensaje dentro de la notificacion
