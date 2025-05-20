@@ -17,7 +17,7 @@ export default class NotificacionController {
   async findAllRead(req, res, next) {
     const userId = req.params.userId
     try {
-      const notificaciones = await this.notificacionService.findAll(false, userId)
+      const notificaciones = await this.notificacionService.findAll(true, userId)
       return res.status(200).json(notificaciones)
     } catch (error) {
       next(error)

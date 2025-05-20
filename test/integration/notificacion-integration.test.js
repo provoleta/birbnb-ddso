@@ -1,0 +1,149 @@
+import NotificacionController from '../../BirBnB/controllers/notificacion.controller'
+import NotificacionService from '../../BirBnB/services/notificacion-service'
+import { buildTestServer } from './utils/server'
+import request from 'supertest'
+import { beforeEach, describe, expect, jest } from '@jest/globals'
+
+const server = buildTestServer()
+server.configureRoutes()
+
+const notificacionRepository = {
+  findAll: jest.fn(),
+  findById: jest.fn().mockResolvedValue([
+    {
+      id: '1',
+      mensaje:
+        'El usuario Matias Martin quiere reservar el alojamiento Casa en la Playa en la fecha 01/06/2025 por la cantidad de 6 dias',
+      usuario: {
+        userId: '1',
+        nombre: 'Matias Martin',
+      },
+      fechaAlta: 'Tue, 20 May 2025 16:22:28 GMT',
+      leida: false,
+    },
+    {
+      id: '2',
+      mensaje: 'aaa',
+      usuario: {
+        userId: '2',
+        nombre: 'Pedro Paramo',
+      },
+      fechaAlta: 'Tue, 20 May 2025 15:22:34 GMT',
+      leida: false,
+    },
+  ]),
+  obtenerNotificaciones: jest.fn().mockResolvedValue([
+    {
+      id: '1',
+      mensaje:
+        'El usuario Matias Martin quiere reservar el alojamiento Casa en la Playa en la fecha 01/06/2025 por la cantidad de 6 dias',
+      usuario: {
+        userId: '1',
+        nombre: 'Matias Martin',
+      },
+      fechaAlta: 'Tue, 20 May 2025 16:22:28 GMT',
+      leida: false,
+    },
+    {
+      id: '2',
+      mensaje: 'aaa',
+      usuario: {
+        userId: '2',
+        nombre: 'Pedro Paramo',
+      },
+      fechaAlta: 'Tue, 20 May 2025 15:22:34 GMT',
+      leida: false,
+    },
+  ]),
+  update: jest.fn(),
+}
+
+const notificationService = new NotificacionService(notificacionRepository)
+const notificaionController = new NotificacionController(notificationService)
+
+server.setController(NotificacionController, notificaionController)
+
+describe('put/notificacion', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
+  test('Debe retornar 200 OK y marcar la notificacion como leida', async () => {
+    const response = await request(server.app).put('/notificacion?id=1&userId=2')
+
+    expect(response.status).toBe(200)
+    expect(notificacionRepository.findById).toHaveBeenCalled()
+    expect(notificacionRepository.update).toHaveBeenCalled()
+    expect(response.body.leida).toBe(true)
+  })
+
+  test('Debe retornar 404 si no hay notificaciones para el usuario', async () => {
+    notificacionRepository.findById = jest.fn().mockResolvedValue(null)
+    const response = await request(server.app).put('/notificacion?id=1&userId=1')
+    expect(notificacionRepository.findById).toHaveBeenCalled()
+    expect(response.status).toBe(404)
+  })
+})
+describe('get/notificacionNoLeida & get/notificacionLeida', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
+  test('Debe retornar las notificaciones no leidas por el usuario', async () => {
+    notificacionRepository.findAll = jest.fn().mockResolvedValue([
+      {
+        id: '2',
+        mensaje: 'aaa',
+        usuario: {
+          userId: '1',
+          nombre: 'Matias Martin',
+        },
+        fechaAlta: 'Tue, 20 May 2025 15:22:34 GMT',
+        leida: false,
+      },
+    ])
+    const response = await request(server.app).get('/notificacionNoLeida/1')
+    expect(response.status).toBe(200)
+    expect(notificacionRepository.findAll).toHaveBeenCalled
+    expect(notificacionRepository.findAll).toHaveBeenCalledWith(false, '1')
+    expect(response.body[0].leida).toBe(false)
+  })
+
+  test('Debe retornar las notificaciones leidas por el usuario', async () => {
+    notificacionRepository.findAll = jest.fn().mockResolvedValue([
+      {
+        id: '2',
+        mensaje: 'aaa',
+        usuario: {
+          userId: '1',
+          nombre: 'Matias Martin',
+        },
+        fechaAlta: 'Tue, 20 May 2025 15:22:34 GMT',
+        leida: true,
+      },
+    ])
+    const response = await request(server.app).get('/notificacionLeida/1')
+    expect(response.status).toBe(200)
+    expect(notificacionRepository.findAll).toHaveBeenCalled
+    expect(notificacionRepository.findAll).toHaveBeenCalledWith(true, '1')
+    expect(response.body[0].leida).toBe(true)
+  })
+
+  test('Debe retornar una coleccion vacia en caso de no tener notificaciones leidas', async () => {
+    notificacionRepository.findAll = jest.fn().mockResolvedValue([])
+    const response = await request(server.app).get('/notificacionLeida/1')
+    expect(response.status).toBe(200)
+    expect(notificacionRepository.findAll).toHaveBeenCalled
+    expect(notificacionRepository.findAll).toHaveBeenCalledWith(true, '1')
+    expect(response.body.length).toBe(0)
+  })
+
+  test('Debe retornar una coleccion vacia en caso de no tener notificaciones sin leer', async () => {
+    notificacionRepository.findAll = jest.fn().mockResolvedValue([])
+    const response = await request(server.app).get('/notificacionNoLeida/1')
+    expect(response.status).toBe(200)
+    expect(notificacionRepository.findAll).toHaveBeenCalled
+    expect(notificacionRepository.findAll).toHaveBeenCalledWith(false, '1')
+    expect(response.body.length).toBe(0)
+  })
+})
