@@ -15,6 +15,7 @@ export default class AlojamientoController {
       precioLt,
       huespedesMax,
       caracteristicas,
+      moneda,
       page = 1,
       limit = 10,
     } = req.query
@@ -30,6 +31,7 @@ export default class AlojamientoController {
       precioLt,
       huespedesMax,
       caracteristicas,
+      moneda,
     }
 
     try {

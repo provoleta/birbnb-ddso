@@ -49,6 +49,10 @@ export default class AlojamientoRepository {
       } //  $in se usa para filtrar por un array de valores. Se usa en la base de datos MongoDB para filtrar por caracteristicas.
     }
 
+    if (filters.moneda) {
+      query.moneda = { $regex: filters.moneda, $options: 'i' }
+    }
+
     console.log('Filtros aplicados:', query)
 
     const alojamientosFiltrados = await this.model
