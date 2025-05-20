@@ -23,7 +23,9 @@ export default class ReservaController {
     const reservaId = req.params.id
     try {
       await this.reservaService.delete(reservaId)
-      res.status(204).send()
+      res.status(204).json({
+        message: 'Reserva eliminada correctamente',
+      })
     } catch (error) {
       next(error)
     }

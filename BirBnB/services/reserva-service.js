@@ -23,7 +23,7 @@ export default class ReservaService {
 
   async update(reserva) {
     const reservaAmodificar = await this.reservaRepository.findById(reserva.id)
-    if (!reservaAmodificar) return { error: 'not found' }
+    if (!reservaAmodificar) throw new NotFoundException()
 
     // verificar que la fecha buscada no coincida con una en la que no haya disponibilidad
 
@@ -38,9 +38,24 @@ export default class ReservaService {
 
     if (!disponibilidad) throw new DisponibilidadException(reserva.alojamiento)
 
-    reservaAmodificar.rangoFechas = reserva.rangoFechas
+    const nuevoRangoDeFechas = new RangoFechas(
+      dayjs(reserva.rangoFechas.fechaInicio, 'DD/MM/YYYY'),
+      dayjs(reserva.rangoFechas.fechaFin, 'DD/MM/YYYY'),
+    )
 
-    const reservaModificada = await this.reservaRepository.save(reservaAmodificar)
+    // Verifico que si la quiero actualizar, no este iniciada la misma
+    if (dayjs().isAfter(reservaAmodificar.rangoFechas.fechaInicio, 'DD/MM/YYYY')) {
+      throw new ExcededTimeException()
+    }
+
+    const nuevaReserva = new Reserva(
+      reservaAmodificar.fechaAlta,
+      reservaAmodificar.huespedReservador,
+      alojamiento,
+      nuevoRangoDeFechas,
+    )
+
+    const reservaModificada = await this.reservaRepository.save(nuevaReserva)
 
     return this.toDTO(reservaModificada)
   }
@@ -51,8 +66,8 @@ export default class ReservaService {
 
     if (!reservaAeliminar) throw new NotFoundException()
 
-    if (dayjs().isAfter(dayjs(reservaAeliminar.rangoFechas.fechaInicio, 'DD-MM-YYYY'))) {
-      throw new ExcededTimeException(reservaAeliminar)
+    if (dayjs().isAfter(reservaAeliminar.rangoFechas.fechaInicio, 'DD/MM/YYYY')) {
+      throw new ExcededTimeException()
     }
     const reservaEliminada = await this.reservaRepository.delete(reservaId)
 
@@ -83,7 +98,7 @@ export default class ReservaService {
     const huespedReservador = await this.usuarioRepository.findById(
       reserva.huespedReservadorId,
     )
-    // ? Idea: usar el metodo crearReserva de la clase Alojamiento para crear la reserva
+
     const reservaACrear = new Reserva(
       reserva.fechaAlta,
       huespedReservador,

@@ -61,7 +61,7 @@ const reservaRepository = {
     },
     {
       id: '2',
-      fechaAlta: '10-05-2025',
+      fechaAlta: '10-05-2021',
       huespedReservador: {
         id: '1',
         nombre: 'Juan Perez',
@@ -99,8 +99,8 @@ const reservaRepository = {
         fotos: [],
       },
       rangoFechas: {
-        fechaInicio: '15-07-2025',
-        fechaFin: '20-07-2025',
+        fechaInicio: 'Fri, 20 Jun 2021 03:00:00 GMT',
+        fechaFin: 'Fri, 27 Jun 2021 03:00:00 GMT',
       },
       estado: 'PENDIENTE',
       precioPorNoche: 120,
@@ -147,8 +147,8 @@ const reservaRepository = {
       fotos: [],
     },
     rangoFechas: {
-      fechaInicio: '20-06-2025',
-      fechaFin: '27-06-2025',
+      fechaInicio: 'Fri, 20 Jun 2025 03:00:00 GMT',
+      fechaFin: 'Fri, 27 Jun 2025 03:00:00 GMT',
     },
     estado: 'PENDIENTE',
     precioPorNoche: 150,
@@ -282,12 +282,12 @@ describe('POST /reserva', () => {
 
   test('Debe retornar status 201 y la reserva creada', async () => {
     const reserva = {
-      fechaAlta: '01-10-2023',
+      fechaAlta: '08-05-2025',
       huespedReservadorId: '1',
       idAlojamiento: '1',
       rangoFechas: {
-        fechaInicio: '05-10-2023',
-        fechaFin: '10-10-2023',
+        fechaInicio: 'Sun, 18 May 2025 03:00:00 GMT',
+        fechaFin: 'Sun, 1 June 2025 03:00:00 GMT',
       },
     }
 
@@ -323,12 +323,12 @@ describe('POST /reserva', () => {
 
   test('Debe retornar status 406 si no se puede crear la reserva', async () => {
     const reserva = {
-      fechaAlta: '01-10-2023',
+      fechaAlta: '08-05-2025',
       huespedReservadorId: '1',
       idAlojamiento: '1',
       rangoFechas: {
-        fechaInicio: '05-10-2023',
-        fechaFin: '10-10-2023',
+        fechaInicio: 'Sun, 18 May 2025 03:00:00 GMT',
+        fechaFin: 'Sun, 1 June 2025 03:00:00 GMT',
       },
     }
 
@@ -425,8 +425,8 @@ describe('DELETE /reserva/:id', () => {
         fotos: [],
       },
       rangoFechas: {
-        fechaInicio: '10-05-2025',
-        fechaFin: '10-06-2025',
+        fechaInicio: 'Sun, 18 May 2025 03:00:00 GMT',
+        fechaFin: 'Sun, 1 June 2025 03:00:00 GMT',
       },
       estado: 'PENDIENTE',
       precioPorNoche: 150,
