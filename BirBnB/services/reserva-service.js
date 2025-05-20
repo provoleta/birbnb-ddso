@@ -133,7 +133,7 @@ export default class ReservaService {
 
     const reservas = await this.reservaRepository.filterByUserId(userId)
 
-    if (!reservas || reservas.length === 0) throw new NotFoundException()
+    if (!reservas) throw new NotFoundException()
 
     const historialReservas = reservas.map((reserva) => this.toDTO(reserva))
 
