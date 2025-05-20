@@ -37,7 +37,7 @@ export default class AlojamientoRepository {
     }
 
     if (filters.huespedesMax) {
-      query.cantHuespedesMax = { $gte: filters.huespedesMax }
+      query.cantHuespedesMax = { $lte: filters.huespedesMax }
     }
     if (filters.caracteristicas) {
       const caracteristicasArray = Array.isArray(filters.caracteristicas)
