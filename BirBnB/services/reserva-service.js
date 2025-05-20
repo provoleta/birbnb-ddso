@@ -6,6 +6,7 @@ import { FactoryNotificacion } from '../models/entities/factory-notificacion.js'
 import RangoFechas from '../models/entities/rango-fechas.js'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat.js'
+import { EstadoReserva } from '../models/entities/reserva.js'
 dayjs.extend(customParseFormat)
 
 export default class ReservaService {
@@ -24,8 +25,6 @@ export default class ReservaService {
   async update(reserva) {
     const reservaAmodificar = await this.reservaRepository.findById(reserva.id)
     if (!reservaAmodificar) throw new NotFoundException()
-
-    // verificar que la fecha buscada no coincida con una en la que no haya disponibilidad
 
     const alojamiento = await this.alojamientoRepository.findById(
       reservaAmodificar.alojamiento.id,
@@ -48,19 +47,13 @@ export default class ReservaService {
       throw new ExcededTimeException()
     }
 
-    const nuevaReserva = new Reserva(
-      reservaAmodificar.fechaAlta,
-      reservaAmodificar.huespedReservador,
-      alojamiento,
-      nuevoRangoDeFechas,
-    )
+    reservaAmodificar.rangoFechas = nuevoRangoDeFechas
 
-    const reservaModificada = await this.reservaRepository.save(nuevaReserva)
+    const reservaModificada = await this.reservaRepository.save(reservaAmodificar)
 
     return this.toDTO(reservaModificada)
   }
 
-  // eliminacion de la reserva pedida, hay que ver lo de reservaId
   async delete(reservaId) {
     const reservaAeliminar = await this.reservaRepository.findById(reservaId)
 
@@ -69,16 +62,36 @@ export default class ReservaService {
     if (dayjs().isAfter(reservaAeliminar.rangoFechas.fechaInicio, 'DD/MM/YYYY')) {
       throw new ExcededTimeException()
     }
-    const reservaEliminada = await this.reservaRepository.delete(reservaId)
 
-    if (!reservaEliminada) throw new NotFoundException()
+    const eliminada = await this.reservaRepository.delete(reservaId)
+    if (!eliminada) throw new NotFoundException()
 
-    await this.alojamientoRepository.removeReserva(
+    const alojamientoSinReserva = await this.alojamientoRepository.removeReserva(
       reservaAeliminar.alojamiento.id,
       reservaId,
     )
 
-    return reservaEliminada
+    if (!alojamientoSinReserva) throw new NotFoundException()
+
+    const rangoFormateado = new RangoFechas(
+      dayjs(reservaAeliminar.rangoFechas.fechaInicio, 'DD/MM/YYYY'),
+      dayjs(reservaAeliminar.rangoFechas.fechaFin, 'DD/MM/YYYY'),
+    )
+
+    const alojamiento = await this.alojamientoRepository.findById(
+      reservaAeliminar.alojamiento.id,
+    )
+    const anfitrion = alojamiento.anfitrion
+
+    const reservaANotificar = new Reserva(
+      reservaAeliminar.fechaAlta,
+      reservaAeliminar.huespedReservador,
+      alojamiento,
+      rangoFormateado,
+    )
+    reservaANotificar.estado = EstadoReserva.CANCELADA
+
+    this.notificarReserva(anfitrion, reservaANotificar)
   }
 
   async create(reserva) {
@@ -129,6 +142,7 @@ export default class ReservaService {
     const notificacion = FactoryNotificacion.crearSegunReserva(reserva)
     await this.usuarioRepository.findAndUpdate(anfitrion, notificacion)
   }
+
   toDTO(reserva) {
     return {
       fechaAlta: reserva.fechaAlta,

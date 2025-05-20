@@ -368,7 +368,6 @@ describe('DELETE /reserva/:id', () => {
   })
 
   test('Debe retornar status 200 y la reserva eliminada', async () => {
-    reservaRepository.delete = jest.fn().mockResolvedValue(true)
     const response = await request(server.app).delete('/reserva/1')
     expect(response.status).toBe(204)
     expect(reservaRepository.delete).toHaveBeenCalledWith('1')
@@ -377,10 +376,10 @@ describe('DELETE /reserva/:id', () => {
   })
 
   test('Debe retornar status 404 si no encuentra la reserva', async () => {
-    reservaRepository.delete = jest.fn().mockResolvedValue(null)
+    reservaRepository.findById = jest.fn().mockResolvedValue(null)
     const response = await request(server.app).delete('/reserva/999')
     expect(response.status).toBe(404)
-    expect(reservaRepository.delete).toHaveBeenCalledWith('999')
+    expect(reservaRepository.delete).not.toHaveBeenCalled()
     expect(alojamientoRepository.removeReserva).not.toHaveBeenCalled()
   })
 
