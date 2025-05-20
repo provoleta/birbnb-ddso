@@ -1,3 +1,5 @@
+import { validarObjectId } from './utils.js'
+
 export default class ReservaController {
   constructor(reservaService) {
     this.reservaService = reservaService
@@ -12,6 +14,8 @@ export default class ReservaController {
     }
 
     try {
+      validarObjectId(huespedReservadorId)
+      validarObjectId(idAlojamiento)
       const nuevo = await this.reservaService.create(reserva)
       res.status(201).json(nuevo)
     } catch (error) {
@@ -22,6 +26,7 @@ export default class ReservaController {
   async delete(req, res, next) {
     const reservaId = req.params.id
     try {
+      validarObjectId(reservaId)
       await this.reservaService.delete(reservaId)
       res.status(204).json({
         message: 'Reserva eliminada correctamente',
@@ -33,7 +38,9 @@ export default class ReservaController {
 
   async findByUserId(req, res, next) {
     const userId = req.params.userId
+
     try {
+      validarObjectId(userId)
       const reserva = await this.reservaService.findByUserId(userId)
       res.status(200).json(reserva)
     } catch (error) {
@@ -49,6 +56,7 @@ export default class ReservaController {
       return res.status(400).json({ error: 'Reserva mal formada' })
     }
     try {
+      validarObjectId(id)
       const nuevo = await this.reservaService.update(reserva)
       res.status(204).json(nuevo)
     } catch (error) {

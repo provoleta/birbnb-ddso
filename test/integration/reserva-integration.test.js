@@ -13,19 +13,19 @@ const reservaRepository = {
   findAll: jest.fn(),
   filterByUserId: jest.fn().mockResolvedValue([
     {
-      id: '1',
+      id: '000000000000000000000001',
       fechaAlta: '16-05-2025',
       huespedReservador: {
-        id: '1',
+        id: '000000000000000000000001',
         nombre: 'Juan Perez',
         email: 'juanperez@example.com',
         tipo: 'HUESPED',
         notificaciones: [],
       },
       alojamiento: {
-        id: '1',
+        id: '000000000000000000000001',
         anfitrion: {
-          id: '2',
+          id: '000000000000000000000002',
           nombre: 'Maria Lopez',
           email: 'maria@example.com',
           tipo: 'ANFITRION',
@@ -60,19 +60,19 @@ const reservaRepository = {
       cambiosEstadoReserva: [],
     },
     {
-      id: '2',
+      id: '000000000000000000000002',
       fechaAlta: '10-05-2021',
       huespedReservador: {
-        id: '1',
+        id: '000000000000000000000001',
         nombre: 'Juan Perez',
         email: 'juanperez@example.com',
         tipo: 'HUESPED',
         notificaciones: [],
       },
       alojamiento: {
-        id: '2',
+        id: '000000000000000000000002',
         anfitrion: {
-          id: '2',
+          id: '000000000000000000000002',
           nombre: 'Maria Lopez',
           email: 'maria@example.com',
           tipo: 'ANFITRION',
@@ -108,19 +108,19 @@ const reservaRepository = {
     },
   ]),
   findById: jest.fn().mockResolvedValue({
-    id: '1',
+    id: '000000000000000000000001',
     fechaAlta: '16-05-2025',
     huespedReservador: {
-      id: '1',
+      id: '000000000000000000000001',
       nombre: 'Juan Perez',
       email: 'juanperez@example.com',
       tipo: 'HUESPED',
       notificaciones: [],
     },
     alojamiento: {
-      id: '1',
+      id: '000000000000000000000001',
       anfitrion: {
-        id: '2',
+        id: '000000000000000000000002',
         nombre: 'Maria Lopez',
         email: 'maria@example.com',
         tipo: 'ANFITRION',
@@ -156,7 +156,7 @@ const reservaRepository = {
   }),
 
   save: jest.fn().mockResolvedValue({
-    id: '1',
+    id: '000000000000000000000001',
     nombre: 'Casa de Playa',
     descripcion: 'Casa de playa en Mar del Plata',
     precioPorNoche: 150,
@@ -183,7 +183,7 @@ const reservaRepository = {
 
 const alojamientoRepository = {
   findById: jest.fn().mockResolvedValue({
-    id: '1',
+    id: '000000000000000000000001',
     nombre: 'Casa de Playa',
     descripcion: 'Casa de playa en Mar del Plata',
     precioPorNoche: 150,
@@ -206,7 +206,7 @@ const alojamientoRepository = {
   }),
   addReserva: jest.fn(),
   removeReserva: jest.fn().mockResolvedValue({
-    id: '1',
+    id: '000000000000000000000001',
     nombre: 'Casa de Playa',
     descripcion: 'Casa de playa en Mar del Plata',
     precioPorNoche: 150,
@@ -231,7 +231,7 @@ const alojamientoRepository = {
 
 const usuarioRepository = {
   findById: jest.fn().mockResolvedValue({
-    id: '1',
+    id: '000000000000000000000001',
     nombre: 'Juan Perez',
     email: 'juanperez@example.com',
     tipo: 'HUESPED',
@@ -255,12 +255,14 @@ describe('GET /reserva/:userId', () => {
   })
 
   test('Debe retornar status 200 y las reservas del usuario', async () => {
-    const response = await request(server.app).get('/reserva/1')
+    const response = await request(server.app).get('/reserva/000000000000000000000001')
 
     expect(response.status).toBe(200)
     expect(Array.isArray(response.body)).toBe(true)
     expect(response.body.length).toBe(2)
-    expect(reservaRepository.filterByUserId).toHaveBeenCalledWith('1')
+    expect(reservaRepository.filterByUserId).toHaveBeenCalledWith(
+      '000000000000000000000001',
+    )
     expect(response.body[0]).toHaveProperty('huespedReservador')
     expect(response.body[0]).toHaveProperty('alojamiento')
     expect(response.body[0]).toHaveProperty('rangoFechas')
@@ -269,7 +271,7 @@ describe('GET /reserva/:userId', () => {
 
   test('Debe retornar status 404 si no encuentra al usuario', async () => {
     reservaRepository.filterByUserId = jest.fn().mockResolvedValue(null)
-    const response = await request(server.app).get('/reserva/999')
+    const response = await request(server.app).get('/reserva/000000000000000000000009')
     expect(reservaRepository.filterByUserId).toHaveBeenCalled()
     expect(response.status).toBe(404)
   })
@@ -283,8 +285,8 @@ describe('POST /reserva', () => {
   test('Debe retornar status 201 y la reserva creada', async () => {
     const reserva = {
       fechaAlta: '08-05-2025',
-      huespedReservadorId: '1',
-      idAlojamiento: '1',
+      huespedReservadorId: '000000000000000000000001',
+      idAlojamiento: '000000000000000000000001',
       rangoFechas: {
         fechaInicio: 'Sun, 18 May 2025 03:00:00 GMT',
         fechaFin: 'Sun, 1 June 2025 03:00:00 GMT',
@@ -292,7 +294,7 @@ describe('POST /reserva', () => {
     }
 
     alojamientoRepository.findById = jest.fn().mockResolvedValue({
-      id: '1',
+      id: '000000000000000000000001',
       nombre: 'Casa de Playa',
       descripcion: 'Casa de playa en Mar del Plata',
       precioPorNoche: 150,
@@ -324,8 +326,8 @@ describe('POST /reserva', () => {
   test('Debe retornar status 406 si no se puede crear la reserva', async () => {
     const reserva = {
       fechaAlta: '08-05-2025',
-      huespedReservadorId: '1',
-      idAlojamiento: '1',
+      huespedReservadorId: '000000000000000000000001',
+      idAlojamiento: '000000000000000000000001',
       rangoFechas: {
         fechaInicio: 'Sun, 18 May 2025 03:00:00 GMT',
         fechaFin: 'Sun, 1 June 2025 03:00:00 GMT',
@@ -333,7 +335,7 @@ describe('POST /reserva', () => {
     }
 
     alojamientoRepository.findById = jest.fn().mockResolvedValue({
-      id: '1',
+      id: '000000000000000000000001',
       nombre: 'Casa de Playa',
       descripcion: 'Casa de playa en Mar del Plata',
       precioPorNoche: 150,
@@ -368,16 +370,19 @@ describe('DELETE /reserva/:id', () => {
   })
 
   test('Debe retornar status 200 y la reserva eliminada', async () => {
-    const response = await request(server.app).delete('/reserva/1')
+    const response = await request(server.app).delete('/reserva/000000000000000000000001')
     expect(response.status).toBe(204)
-    expect(reservaRepository.delete).toHaveBeenCalledWith('1')
+    expect(reservaRepository.delete).toHaveBeenCalledWith('000000000000000000000001')
     expect(alojamientoRepository.removeReserva).toHaveBeenCalled()
-    expect(alojamientoRepository.removeReserva).toHaveBeenCalledWith('1', '1')
+    expect(alojamientoRepository.removeReserva).toHaveBeenCalledWith(
+      '000000000000000000000001',
+      '000000000000000000000001',
+    )
   })
 
   test('Debe retornar status 404 si no encuentra la reserva', async () => {
     reservaRepository.findById = jest.fn().mockResolvedValue(null)
-    const response = await request(server.app).delete('/reserva/999')
+    const response = await request(server.app).delete('/reserva/000000000000000000000009')
     expect(response.status).toBe(404)
     expect(reservaRepository.delete).not.toHaveBeenCalled()
     expect(alojamientoRepository.removeReserva).not.toHaveBeenCalled()
@@ -385,19 +390,19 @@ describe('DELETE /reserva/:id', () => {
 
   test('Debe retornar status 410 si la reserva ya ha comenzado', async () => {
     reservaRepository.findById = jest.fn().mockResolvedValue({
-      id: '3',
+      id: '000000000000000000000003',
       fechaAlta: '10-05-2025',
       huespedReservador: {
-        id: '1',
+        id: '000000000000000000000001',
         nombre: 'Juan Perez',
         email: 'juanperez@example.com',
         tipo: 'HUESPED',
         notificaciones: [],
       },
       alojamiento: {
-        id: '3',
+        id: '000000000000000000000003',
         anfitrion: {
-          id: '2',
+          id: '000000000000000000000002',
           nombre: 'Maria Lopez',
           email: 'maria@example.com',
           tipo: 'ANFITRION',
@@ -432,7 +437,7 @@ describe('DELETE /reserva/:id', () => {
       cambiosEstadoReserva: [],
     })
 
-    const response = await request(server.app).delete('/reserva/3')
+    const response = await request(server.app).delete('/reserva/000000000000000000000003')
     expect(response.status).toBe(410)
     expect(reservaRepository.delete).not.toHaveBeenCalled()
     expect(alojamientoRepository.removeReserva).not.toHaveBeenCalled()

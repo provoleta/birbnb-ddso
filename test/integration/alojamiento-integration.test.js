@@ -11,9 +11,9 @@ server.configureRoutes()
 const alojamientoRepository = {
   filterBy: jest.fn().mockResolvedValue([
     {
-      id: '1',
+      id: '000000000000000000000001',
       anfitrion: {
-        id: '1',
+        id: '000000000000000000000001',
         nombre: 'Juan Perez',
       },
       nombre: 'Casa de Playa',
@@ -36,9 +36,9 @@ const alojamientoRepository = {
       fotos: [],
     },
     {
-      id: '2',
+      id: '000000000000000000000002',
       anfitrion: {
-        id: '2',
+        id: '000000000000000000000002',
         nombre: 'Juan Perez',
       },
       nombre: 'Cabaña en el Bosque',
@@ -75,9 +75,9 @@ describe('get/alojamiento', () => {
     jest.clearAllMocks()
     alojamientoRepository.filterBy.mockResolvedValue([
       {
-        id: '1',
+        id: '000000000000000000000001',
         anfitrion: {
-          id: '1',
+          id: '000000000000000000000001',
           nombre: 'Juan Perez',
         },
         nombre: 'Casa de Playa',
@@ -100,9 +100,9 @@ describe('get/alojamiento', () => {
         fotos: [],
       },
       {
-        id: '2',
+        id: '000000000000000000000002',
         anfitrion: {
-          id: '2',
+          id: '000000000000000000000002',
           nombre: 'Juan Perez',
         },
         nombre: 'Cabaña en el Bosque',

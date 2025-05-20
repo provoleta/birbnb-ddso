@@ -20,7 +20,7 @@ export const errorHandler = (err, req, res, _next) => {
       // Error de programación: no enviar detalles al cliente
       console.error('ERROR 💥', err)
       res.status(500).json({
-        status: 'error',
+        status: 'Error',
         message: 'Algo salió mal',
       })
     }
