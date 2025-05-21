@@ -153,99 +153,77 @@
         }
       }
     },
-    "/notificacion/": {
+    "/notificacion": {
+      "get": {
+        "tags": ["Notificacion"],
+        "summary": "Obtener notificaciones de un usuario filtradas por estado",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "userId",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "ID del usuario"
+          },
+          {
+            "in": "query",
+            "name": "leida",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "description": "Estado de lectura de las notificaciones (true=leídas, false=no leídas)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de notificaciones",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Notificacion"
+                  }
+                }
+              }
+            }
+          },
+          "404": { "description": "No se encontraron notificaciones" }
+        }
+      },
       "put": {
         "tags": ["Notificacion"],
-        "summary": "Marca una notificacion como leida",
+        "summary": "Marcar una notificación como leída",
         "parameters": [
           {
             "in": "query",
             "name": "id",
             "required": true,
-            "schema": { "type": "string" }
+            "schema": { "type": "string" },
+            "description": "ID de la notificación"
           },
           {
             "in": "query",
             "name": "userId",
             "required": true,
-            "schema": { "type": "string" }
+            "schema": { "type": "string" },
+            "description": "ID del usuario propietario de la notificación"
           }
         ],
         "responses": {
           "200": {
-            "description": "Lista de notificaciones leidas",
+            "description": "Notificación marcada como leída",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Notificacion"
-                  }
+                  "$ref": "#/components/schemas/Notificacion"
                 }
               }
             }
           },
-          "404": { "description": "No se encontro el recurso." }
-        }
-      }
-    },
-    "/notificacionNoLeida/{userId}": {
-      "get": {
-        "tags": ["Notificacion"],
-        "summary": "Listar notificaciones no leidas de un usuario.",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "userId",
-            "required": true,
-            "schema": { "type": "string" }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Lista de notificaiones no leidas.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Notificacion"
-                  }
-                }
-              }
-            }
-          },
-          "404": { "description": "No se encontro el recurso." }
-        }
-      }
-    },
-    "/notificacionLeida/{userId}": {
-      "get": {
-        "tags": ["Notificacion"],
-        "summary": "Listar notificaciones leidas de un usuario.",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "userId",
-            "required": true,
-            "schema": { "type": "string" }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Lista de notificaiones leidas",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "items": {
-                    "$ref": "#/components/schemas/Notificacion"
-                  }
-                }
-              }
-            }
-          },
-          "404": { "description": "No se encontro el recurso." }
+          "404": { "description": "Notificación o usuario no encontrado" }
         }
       }
     }
