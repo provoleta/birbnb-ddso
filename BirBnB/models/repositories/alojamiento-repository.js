@@ -7,7 +7,6 @@ export default class AlojamientoRepository {
 
   async filterBy(filters = {}, pageNum, limitNum) {
     const query = {}
-    console.log('Recibiendo filters:', filters)
 
     if (filters.ciudad) {
       query['direccion.ciudad'] = { $regex: filters.ciudad, $options: 'i' }
@@ -53,8 +52,6 @@ export default class AlojamientoRepository {
       query.moneda = { $regex: filters.moneda, $options: 'i' }
     }
 
-    console.log('Filtros aplicados:', query)
-
     const alojamientosFiltrados = await this.model
       .find(query)
       .populate(['anfitrion', 'reservas'])
@@ -64,7 +61,6 @@ export default class AlojamientoRepository {
     return alojamientosFiltrados
   }
 
-  // TODO PROBAR
   async addReserva(alojamientoId, reservaId) {
     return await this.model.findByIdAndUpdate(
       alojamientoId,

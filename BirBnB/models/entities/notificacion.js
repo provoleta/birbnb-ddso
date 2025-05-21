@@ -22,7 +22,6 @@ class Notificacion {
     this.leida = false
   }
 
-  // Setter de atributo "leida"
   marcarComoLeida() {
     this.leida = true
     this.fechaLeida = dayjs()
