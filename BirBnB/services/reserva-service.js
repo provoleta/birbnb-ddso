@@ -105,7 +105,7 @@ export default class ReservaService {
     if (!alojamiento) throw new NotFoundException()
 
     const disponibilidad = alojamiento.estasDisponibleEn(rangoDeFechas)
-    if (!disponibilidad) throw new DisponibilidadException(alojamiento)
+    if (!disponibilidad) throw new DisponibilidadException()
 
     const huespedReservador = await this.usuarioRepository.findById(
       reserva.huespedReservadorId,

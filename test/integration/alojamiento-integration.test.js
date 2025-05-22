@@ -1,9 +1,8 @@
-import AlojamientoController from '../../BirBnB/controllers/alojamiento.controller.js'
-import AlojamientoRepository from '../../BirBnB/models/repositories/alojamiento-repository.js'
-import AlojamientoService from '../../BirBnB/services/alojamiento-service.js'
-import { buildTestServer } from './utils/server.js'
 import { beforeEach, expect, jest } from '@jest/globals'
 import request from 'supertest'
+import AlojamientoController from '../../BirBnB/controllers/alojamiento.controller.js'
+import AlojamientoService from '../../BirBnB/services/alojamiento-service.js'
+import { buildTestServer } from './utils/server.js'
 
 const server = buildTestServer()
 server.configureRoutes()
@@ -245,6 +244,7 @@ describe('get/alojamiento', () => {
     const response = await request(server.app).get('/alojamiento?lat=-38&long=-57')
 
     expect(response.status).toBe(200)
+    expect(response.body.data[0]).toEqual(expect.objectContaining())
     expect(Array.isArray(response.body.data)).toBe(true)
     expect(response.body.data[0]).toHaveProperty('anfitrion')
     expect(response.body.data[0]).toHaveProperty('nombre')
