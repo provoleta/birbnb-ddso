@@ -15,7 +15,7 @@ import ReservaController from './BirBnB/controllers/reserva.controller.js'
 import ReservaService from './BirBnB/services/reserva-service.js'
 
 import NotificacionRepository from './BirBnB/models/repositories/notificacion-repository.js'
-import NotificacionController from './BirBnB/controllers/notificacion.controller.js'
+import UsuarioController from './BirBnB/controllers/usuario.controller.js'
 import NotificacionService from './BirBnB/services/notificacion-service.js'
 
 import SaludController from './BirBnB/controllers/health.controller.js'
@@ -45,12 +45,12 @@ const reservaController = new ReservaController(reservaService)
 
 const notificacionRepository = new NotificacionRepository()
 const notificacionService = new NotificacionService(notificacionRepository)
-const notificacionController = new NotificacionController(notificacionService)
+const usuarioController = new UsuarioController(notificacionService, reservaService)
 
 // Registro de controladores en el servidor
 server.setController(AlojamientoController, alojamientoController)
 server.setController(ReservaController, reservaController)
-server.setController(NotificacionController, notificacionController)
+server.setController(UsuarioController, usuarioController)
 server.setController(SaludController, saludController)
 
 // Configuracion y lanzamiento del servidor
