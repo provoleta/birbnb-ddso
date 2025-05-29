@@ -133,7 +133,6 @@ export default class ReservaService {
     this.alojamientoRepository.addReserva(alojamientoId, reservaCreada.id)
 
     this.notificarReserva(alojamiento.anfitrion, reservaACrear)
-
     return this.toDTO(reservaCreada)
   }
 
@@ -157,6 +156,7 @@ export default class ReservaService {
 
   toDTO(reserva) {
     return {
+      idReserva: reserva.id,
       fechaAlta: reserva.fechaAlta,
       huespedReservador: reserva.huespedReservador,
       alojamiento: reserva.alojamiento,

@@ -1,6 +1,6 @@
 import express from 'express'
 import { configureRoutes } from './BirBnB/routes/routes.js'
-import { errorHandler } from './errorHandler.js'
+import { errorHandler } from './error-handler.js'
 
 export class Server {
   controllers = {}

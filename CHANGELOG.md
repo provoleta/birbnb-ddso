@@ -1,5 +1,10 @@
 ## Progreso
 
+    🔳 v0.9.1
+        - Corrijo semantica en un import a kebab-case
+        - Modifico el toDTO para reserva para que presente el id de la reserva cuando se accede al endpoint.
+        - Modifico el atributo id de los json para poder distinguir más fácilmente a qué id se está referenciando.
+
     🔳 v0.9.0
         - Establezco formato ISO para las fechas a la hora de crear la reserva, actualizarla, crear notificaciones.
 

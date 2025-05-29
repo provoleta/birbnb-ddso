@@ -27,7 +27,7 @@ export default class NotificacionService {
 
   toDTO(notificacion) {
     return {
-      id: notificacion.id,
+      idNotificacion: notificacion.id,
       mensaje: notificacion.mensaje,
       usuario: notificacion.usuario,
       fechaAlta: notificacion.fechaAlta,
