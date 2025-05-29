@@ -5,7 +5,7 @@ export default class ReservaController {
     this.reservaService = reservaService
   }
 
-  async create(req, res, next) {
+  async create(req, res) {
     const reserva = req.body
     const { fechaAlta, huespedReservadorId, idAlojamiento, rangoFechas } = reserva
 
@@ -13,54 +13,37 @@ export default class ReservaController {
       return res.status(400).json({ error: 'Reserva mal formada' })
     }
 
-    try {
-      validarObjectId(huespedReservadorId)
-      validarObjectId(idAlojamiento)
-      const nuevo = await this.reservaService.create(reserva)
-      res.status(201).json(nuevo)
-    } catch (error) {
-      next(error)
-    }
+    validarObjectId(huespedReservadorId)
+    validarObjectId(idAlojamiento)
+    const nuevo = await this.reservaService.create(reserva)
+    res.status(201).json(nuevo)
   }
 
-  async delete(req, res, next) {
+  async delete(req, res) {
     const reservaId = req.params.id
-    try {
-      validarObjectId(reservaId)
-      await this.reservaService.delete(reservaId)
-      res.status(204).json({
-        message: 'Reserva eliminada correctamente',
-      })
-    } catch (error) {
-      next(error)
-    }
+    validarObjectId(reservaId)
+    await this.reservaService.delete(reservaId)
+    res.status(204).json({
+      message: 'Reserva eliminada correctamente',
+    })
   }
 
-  async findByUserId(req, res, next) {
+  async findByUserId(req, res) {
     const userId = req.params.userId
-
-    try {
-      validarObjectId(userId)
-      const reserva = await this.reservaService.findByUserId(userId)
-      res.status(200).json(reserva)
-    } catch (error) {
-      next(error)
-    }
+    validarObjectId(userId)
+    const reserva = await this.reservaService.findByUserId(userId)
+    res.status(200).json(reserva)
   }
 
-  async update(req, res, next) {
+  async update(req, res) {
     const reserva = req.body
     const { id, rangoFechas } = reserva
 
     if (!id || !rangoFechas) {
       return res.status(400).json({ error: 'Reserva mal formada' })
     }
-    try {
-      validarObjectId(id)
-      const nuevo = await this.reservaService.update(reserva)
-      res.status(204).json(nuevo)
-    } catch (error) {
-      next(error)
-    }
+    validarObjectId(id)
+    const nuevo = await this.reservaService.update(reserva)
+    res.status(204).json(nuevo)
   }
 }

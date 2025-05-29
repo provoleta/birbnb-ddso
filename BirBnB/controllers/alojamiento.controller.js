@@ -3,7 +3,7 @@ export default class AlojamientoController {
     this.alojamientoService = alojamientoService
   }
 
-  async findAll(req, res, next) {
+  async findAll(req, res) {
     const {
       ciudad,
       pais,
@@ -34,15 +34,11 @@ export default class AlojamientoController {
       moneda,
     }
 
-    try {
-      const alojamientosPaginados = await this.alojamientoService.findAll(
-        filters,
-        page,
-        limit,
-      )
-      res.json(alojamientosPaginados)
-    } catch (error) {
-      next(error)
-    }
+    const alojamientosPaginados = await this.alojamientoService.findAll(
+      filters,
+      page,
+      limit,
+    )
+    res.json(alojamientosPaginados)
   }
 }
