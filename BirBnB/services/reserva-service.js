@@ -1,5 +1,5 @@
-import ExcededTimeException from '../exceptions/excededTimeException.js'
-import DisponibilidadException from '../exceptions/disponibilidadException.js'
+import ExcededTimeException from '../exceptions/exceded-time-exception.js'
+import DisponibilidadException from '../exceptions/disponibilidad-exception.js'
 import NotFoundException from '../exceptions/not-found-exception.js'
 import { EstadoReserva, Reserva } from '../models/entities/reserva.js'
 import { FactoryNotificacion } from '../models/entities/factory-notificacion.js'

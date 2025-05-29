@@ -1,4 +1,4 @@
-import AppError from '../exceptions/appError.js'
+import AppError from '../exceptions/app-error.js'
 
 export function validarObjectId(ObjectId) {
   if (!/^[0-9a-fA-F]{24}$/.test(ObjectId)) {

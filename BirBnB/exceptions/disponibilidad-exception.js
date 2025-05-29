@@ -1,4 +1,4 @@
-import AppError from './appError.js'
+import AppError from './app-error.js'
 
 export default class DisponibilidadException extends AppError {
   constructor(
