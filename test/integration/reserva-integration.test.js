@@ -52,8 +52,8 @@ const reservaRepository = {
         fotos: [],
       },
       rangoFechas: {
-        fechaInicio: '20-06-2025',
-        fechaFin: '27-06-2025',
+        fechaInicio: '2025-06-20T03:00:00Z',
+        fechaFin: '2025-06-27T03:00:00Z',
       },
       estado: 'PENDIENTE',
       precioPorNoche: 150,
@@ -99,8 +99,8 @@ const reservaRepository = {
         fotos: [],
       },
       rangoFechas: {
-        fechaInicio: 'Fri, 20 Jun 2021 03:00:00 GMT',
-        fechaFin: 'Fri, 27 Jun 2021 03:00:00 GMT',
+        fechaInicio: '2025-06-20T03:00:00Z',
+        fechaFin: '2025-06-27T03:00:00Z',
       },
       estado: 'PENDIENTE',
       precioPorNoche: 120,
@@ -147,8 +147,8 @@ const reservaRepository = {
       fotos: [],
     },
     rangoFechas: {
-      fechaInicio: 'Fri, 20 Jun 2025 03:00:00 GMT',
-      fechaFin: 'Fri, 27 Jun 2025 03:00:00 GMT',
+      fechaInicio: '2025-06-20T03:00:00Z',
+      fechaFin: '2025-06-27T03:00:00Z',
     },
     estado: 'PENDIENTE',
     precioPorNoche: 150,
@@ -288,8 +288,8 @@ describe('POST /reserva', () => {
       huespedReservadorId: '000000000000000000000001',
       idAlojamiento: '000000000000000000000001',
       rangoFechas: {
-        fechaInicio: 'Sun, 18 May 2025 03:00:00 GMT',
-        fechaFin: 'Sun, 1 June 2025 03:00:00 GMT',
+        fechaInicio: '18-05-2025',
+        fechaFin: '01-06-2025',
       },
     }
 

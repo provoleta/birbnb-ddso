@@ -13,12 +13,12 @@ const notificacionRepository = {
     {
       id: '000000000000000000000001',
       mensaje:
-        'El usuario Matias Martin quiere reservar el alojamiento Casa en la Playa en la fecha 01/06/2025 por la cantidad de 6 dias',
+        'El usuario Matias Martin quiere reservar el alojamiento Casa en la Playa en la fecha 2025-06-01T00:00:00Z por la cantidad de 6 dias',
       usuario: {
         userId: '000000000000000000000001',
         nombre: 'Matias Martin',
       },
-      fechaAlta: 'Tue, 20 May 2025 16:22:28 GMT',
+      fechaAlta: '2025-05-20T16:22:28Z',
       leida: false,
     },
     {
@@ -28,7 +28,7 @@ const notificacionRepository = {
         userId: '000000000000000000000002',
         nombre: 'Pedro Paramo',
       },
-      fechaAlta: 'Tue, 20 May 2025 15:22:34 GMT',
+      fechaAlta: '2025-05-20T15:22:34Z',
       leida: false,
     },
   ]),
@@ -41,7 +41,7 @@ const notificacionRepository = {
         userId: '000000000000000000000001',
         nombre: 'Matias Martin',
       },
-      fechaAlta: 'Tue, 20 May 2025 16:22:28 GMT',
+      fechaAlta: '2025-05-20T16:22:28Z',
       leida: false,
     },
     {
@@ -51,7 +51,7 @@ const notificacionRepository = {
         userId: '000000000000000000000002',
         nombre: 'Pedro Paramo',
       },
-      fechaAlta: 'Tue, 20 May 2025 15:22:34 GMT',
+      fechaAlta: '2025-05-20T15:22:34Z',
       leida: false,
     },
   ]),
@@ -62,7 +62,7 @@ const notificacionRepository = {
       userId: '000000000000000000000002',
       nombre: 'Pedro Paramo',
     },
-    fechaAlta: 'Tue, 20 May 2025 15:22:34 GMT',
+    fechaAlta: '2025-05-20T15:22:34Z',
     leida: true,
   }),
 }
@@ -112,7 +112,7 @@ describe('GET /notificacion', () => {
           userId: '000000000000000000000001',
           nombre: 'Matias Martin',
         },
-        fechaAlta: 'Tue, 20 May 2025 15:22:34 GMT',
+        fechaAlta: '2025-05-20T15:22:34Z',
         leida: false,
       },
     ])

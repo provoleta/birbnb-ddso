@@ -10,13 +10,13 @@ class FactoryNotificacion {
    */
   static mensajeSegunEstado(reserva) {
     const cantidadDias = reserva.calcularCantidadDias()
-    const inicioReserva = dayjs(reserva.fechaInicio).format('DD/MM/YYYY')
+    const inicioReserva = reserva.fechaInicio
 
     switch (reserva.estado) {
       case EstadoReserva.PENDIENTE:
         return {
           contenido: new MensajeSobreUsuario(
-            `El usuario {nombre} quiere reservar el alojamiento ${reserva.nombreAlojamiento} en la fecha ${inicioReserva} por la cantidad de ${cantidadDias} dias`,
+            `El usuario {nombre} quiere reservar el alojamiento ${reserva.nombreAlojamiento} en la fecha ${inicioReserva} por la cantidad de ${cantidadDias} noches`,
             reserva.huespedReservador,
           ),
           destinatario: reserva.alojamiento.anfitrion,
@@ -50,7 +50,11 @@ class FactoryNotificacion {
    */
   static crearSegunReserva(reserva) {
     const mensaje = FactoryNotificacion.mensajeSegunEstado(reserva)
-    return new Notificacion(mensaje.contenido.cuerpo, mensaje.destinatario, dayjs())
+    return new Notificacion(
+      mensaje.contenido.cuerpo,
+      mensaje.destinatario,
+      dayjs().toISOString(),
+    )
   }
 }
 

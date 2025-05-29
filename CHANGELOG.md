@@ -1,5 +1,8 @@
 ## Progreso
 
+    🔳 v0.9.0
+        - Establezco formato ISO para las fechas a la hora de crear la reserva, actualizarla, crear notificaciones.
+
     🔳 v0.8.1
         - TESTS
         - Se cambio el endpoint para listar las notificaciones leidas y no leidas, ahora la request se tiene que hacer pasando por query tanto el userId como leida=true o leida=false

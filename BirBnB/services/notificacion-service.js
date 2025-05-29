@@ -18,7 +18,7 @@ export default class NotificacionService {
     if (!notificacion) throw new NotFoundException()
 
     notificacion.leida = true
-    notificacion.fechaLeida = dayjs().format('DD/MM/YYYY HH:mm:ss')
+    notificacion.fechaLeida = dayjs().toISOString()
 
     await this.notificacionRepository.update(notificacion, userId)
 

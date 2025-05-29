@@ -94,7 +94,7 @@ describe('get/alojamiento', () => {
           pais: 'Argentina',
         },
         cantHuespedesMax: 4,
-        caracteristicas: ['pileta', 'wifi'],
+        caracteristicas: ['PISCINA', 'WIFI'],
         reservas: [],
         fotos: [],
       },
@@ -119,7 +119,7 @@ describe('get/alojamiento', () => {
           pais: 'Argentina',
         },
         cantHuespedesMax: 4,
-        caracteristicas: ['pileta', 'wifi'],
+        caracteristicas: ['PISCINA', 'WIFI'],
         reservas: [],
         fotos: [],
       },
@@ -244,7 +244,6 @@ describe('get/alojamiento', () => {
     const response = await request(server.app).get('/alojamiento?lat=-38&long=-57')
 
     expect(response.status).toBe(200)
-    expect(response.body.data[0]).toEqual(expect.objectContaining())
     expect(Array.isArray(response.body.data)).toBe(true)
     expect(response.body.data[0]).toHaveProperty('anfitrion')
     expect(response.body.data[0]).toHaveProperty('nombre')

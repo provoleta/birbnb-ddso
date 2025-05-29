@@ -36,14 +36,12 @@ class Reserva {
   // Tengo que verificar si fecha solicitada se superpone el rango de fechas de la reserva
 
   seSuperponeCon(fechaSolicitada) {
-    const superponeFin = fechaSolicitada.fechaFin.isAfter(
-      this.rangoFechas.fechaInicio,
-      'day',
-    )
-    const superponeInicio = fechaSolicitada.fechaInicio.isBefore(
-      this.rangoFechas.fechaFin,
-      'day',
-    )
+    const fechaInicio = dayjs(this.rangoFechas.fechaInicio)
+    const fechaFin = dayjs(this.rangoFechas.fechaFin)
+    console.log(fechaInicio)
+
+    const superponeFin = fechaSolicitada.fechaFin.isAfter(fechaInicio, 'day')
+    const superponeInicio = fechaSolicitada.fechaInicio.isBefore(fechaFin, 'day')
 
     return superponeFin && superponeInicio
   }
@@ -53,8 +51,8 @@ class Reserva {
   }
 
   calcularCantidadDias() {
-    const fechaFin = dayjs(this.rangoFechas.fechaFin, 'DD/MM/YYYY')
-    const fechaInicio = dayjs(this.rangoFechas.fechaInicio, 'DD/MM/YYYY')
+    const fechaFin = dayjs(this.rangoFechas.fechaFin)
+    const fechaInicio = dayjs(this.rangoFechas.fechaInicio)
     const cantidadDias = fechaFin.diff(fechaInicio, 'day')
     return cantidadDias
   }

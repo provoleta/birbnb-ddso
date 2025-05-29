@@ -42,11 +42,14 @@ export default class ReservaService {
     )
 
     // Verifico que si la quiero actualizar, no este iniciada la misma
-    if (dayjs().isAfter(reservaAmodificar.rangoFechas.fechaInicio, 'DD/MM/YYYY')) {
+    if (dayjs().isAfter(reservaAmodificar.rangoFechas.fechaInicio)) {
       throw new ExcededTimeException()
     }
 
-    reservaAmodificar.rangoFechas = nuevoRangoDeFechas
+    reservaAmodificar.rangoFechas = new RangoFechas(
+      nuevoRangoDeFechas.fechaInicio.toISOString(),
+      nuevoRangoDeFechas.fechaFin.toISOString(),
+    )
 
     const reservaModificada = await this.reservaRepository.save(reservaAmodificar)
 
@@ -97,22 +100,29 @@ export default class ReservaService {
     const alojamientoId = reserva.idAlojamiento
     const alojamiento = await this.alojamientoRepository.findById(alojamientoId)
 
-    const rangoDeFechas = new RangoFechas(
+    const rangoSolicitado = new RangoFechas(
       dayjs(reserva.rangoFechas.fechaInicio, 'DD/MM/YYYY'),
       dayjs(reserva.rangoFechas.fechaFin, 'DD/MM/YYYY'),
     )
 
     if (!alojamiento) throw new NotFoundException()
 
-    const disponibilidad = alojamiento.estasDisponibleEn(rangoDeFechas)
+    const disponibilidad = alojamiento.estasDisponibleEn(rangoSolicitado)
     if (!disponibilidad) throw new DisponibilidadException()
 
     const huespedReservador = await this.usuarioRepository.findById(
       reserva.huespedReservadorId,
     )
 
+    const rangoDeFechas = new RangoFechas(
+      rangoSolicitado.fechaInicio.toISOString(),
+      rangoSolicitado.fechaFin.toISOString(),
+    )
+
+    const fechaAlta = dayjs(reserva.fechaAlta, 'DD/MM/YYYY').toISOString()
+
     const reservaACrear = new Reserva(
-      reserva.fechaAlta,
+      fechaAlta,
       huespedReservador,
       alojamiento,
       rangoDeFechas,
