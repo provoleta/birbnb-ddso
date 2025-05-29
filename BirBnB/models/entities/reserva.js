@@ -38,7 +38,6 @@ class Reserva {
   seSuperponeCon(fechaSolicitada) {
     const fechaInicio = dayjs(this.rangoFechas.fechaInicio)
     const fechaFin = dayjs(this.rangoFechas.fechaFin)
-    console.log(fechaInicio)
 
     const superponeFin = fechaSolicitada.fechaFin.isAfter(fechaInicio, 'day')
     const superponeInicio = fechaSolicitada.fechaInicio.isBefore(fechaFin, 'day')

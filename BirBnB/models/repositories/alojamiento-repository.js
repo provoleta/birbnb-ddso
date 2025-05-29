@@ -44,7 +44,11 @@ export default class AlojamientoRepository {
         : [filters.caracteristicas]
 
       if (caracteristicasArray.length > 0) {
-        query.caracteristicas = { $all: caracteristicasArray }
+        const caracteristicasEnMayuscula = caracteristicasArray.map((caracteristica) =>
+          caracteristica.toUpperCase(),
+        )
+
+        query.caracteristicas = { $all: caracteristicasEnMayuscula }
       } //  $in se usa para filtrar por un array de valores. Se usa en la base de datos MongoDB para filtrar por caracteristicas.
     }
 
