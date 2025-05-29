@@ -10,11 +10,11 @@ export default function registerNotificacionRoutes(app, getController) {
   //   getController(NotificacionController).findAllRead(req, res, next),
   // )
 
-  app.get('/notificacion/', (req, res, next) =>
+  app.get('/notificaciones/', (req, res, next) =>
     getController(NotificacionController).findAll(req, res, next),
   )
 
-  app.put('/notificacion/', (req, res, next) =>
+  app.put('/notificaciones/', (req, res, next) =>
     getController(NotificacionController).update(req, res, next),
   )
 }
