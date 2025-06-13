@@ -33,7 +33,7 @@ export default class AlojamientoService {
 
   toDTO(alojamiento) {
     return {
-      id: alojamiento.id,
+      idAlojamiento: alojamiento.id,
       anfitrion: alojamiento.anfitrion,
       nombre: alojamiento.nombre,
       descripcion: alojamiento.descripcion,
