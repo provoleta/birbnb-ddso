@@ -134,7 +134,7 @@ export default class ReservaService {
 
     this.notificarReserva(alojamiento.anfitrion, reservaACrear)
 
-    return this.toDTO(reservaCreada)
+    return reservaCreada.id
   }
 
   async findByUserId(userId) {
