@@ -28,13 +28,6 @@ export default class ReservaController {
     })
   }
 
-  async findByUserId(req, res) {
-    const userId = req.params.userId
-    validarObjectId(userId)
-    const reserva = await this.reservaService.findByUserId(userId)
-    res.status(200).json(reserva)
-  }
-
   async update(req, res) {
     const reserva = req.body
     const { id, rangoFechas } = reserva

@@ -127,7 +127,7 @@ describe('get/alojamiento', () => {
   })
 
   test('Debe retornar status 200 y los alojamientos que son de Argentina', async () => {
-    const response = await request(server.app).get('/alojamiento?pais=Argentina')
+    const response = await request(server.app).get('/alojamientos?pais=Argentina')
 
     expect(response.status).toBe(200)
     expect(Array.isArray(response.body.data)).toBe(true)
@@ -150,12 +150,12 @@ describe('get/alojamiento', () => {
 
   test('Debe retornar status 404 si no encuentra alojamientos', async () => {
     alojamientoRepository.filterBy = jest.fn().mockResolvedValue(null)
-    const response = await request(server.app).get('/alojamiento?pais=PaisInexistente')
+    const response = await request(server.app).get('/alojamientos?pais=PaisInexistente')
     expect(response.status).toBe(404)
   })
 
   test('Debe retornar status 200 y los alojamientos que son de la ciudad de Cordoba', async () => {
-    const response = await request(server.app).get('/alojamiento?ciudad=Cordoba')
+    const response = await request(server.app).get('/alojamientos?ciudad=Cordoba')
 
     expect(response.status).toBe(200)
     expect(Array.isArray(response.body.data)).toBe(true)
@@ -179,13 +179,13 @@ describe('get/alojamiento', () => {
   test('Debe retornar status 404 si no encuentra alojamientos de ciudad Cordoba', async () => {
     alojamientoRepository.filterBy = jest.fn().mockResolvedValue(null)
     const response = await request(server.app).get(
-      '/alojamiento?ciudad=CiudadInexistente',
+      '/alojamientos?ciudad=CiudadInexistente',
     )
     expect(response.status).toBe(404)
   })
 
   test('Debe retornar status 200 y los alojamientos que son de la calle av libertador', async () => {
-    const response = await request(server.app).get('/alojamiento?calle=av libertador')
+    const response = await request(server.app).get('/alojamientos?calle=av libertador')
 
     expect(response.status).toBe(200)
     expect(Array.isArray(response.body.data)).toBe(true)
@@ -208,12 +208,12 @@ describe('get/alojamiento', () => {
 
   test('Debe retornar status 404 si no encuentra calle', async () => {
     alojamientoRepository.filterBy = jest.fn().mockResolvedValue(null)
-    const response = await request(server.app).get('/alojamiento?calle=CalleInexistente')
+    const response = await request(server.app).get('/alojamientos?calle=CalleInexistente')
     expect(response.status).toBe(404)
   })
 
   test('Debe retornar status 200 y los alojamientos que son altura 100', async () => {
-    const response = await request(server.app).get('/alojamiento?numero=100')
+    const response = await request(server.app).get('/alojamientos?numero=100')
 
     expect(response.status).toBe(200)
     expect(Array.isArray(response.body.data)).toBe(true)
@@ -236,12 +236,12 @@ describe('get/alojamiento', () => {
 
   test('Debe retornar status 404 si no encuentra alojamientos de altura 100', async () => {
     alojamientoRepository.filterBy = jest.fn().mockResolvedValue(null)
-    const response = await request(server.app).get('/alojamiento?numero=99999')
+    const response = await request(server.app).get('/alojamientos?numero=99999')
     expect(response.status).toBe(404)
   })
 
   test('Debe retornar status 200 y los alojamientos que son de latitud -38 y long -57', async () => {
-    const response = await request(server.app).get('/alojamiento?lat=-38&long=-57')
+    const response = await request(server.app).get('/alojamientos?lat=-38&long=-57')
 
     expect(response.status).toBe(200)
     expect(Array.isArray(response.body.data)).toBe(true)
@@ -265,12 +265,12 @@ describe('get/alojamiento', () => {
 
   test('Debe retornar status 404 si no encuentra alojamientos de la latitud indicada', async () => {
     alojamientoRepository.filterBy = jest.fn().mockResolvedValue(null)
-    const response = await request(server.app).get('/alojamiento?lat=-99999&long=-99999')
+    const response = await request(server.app).get('/alojamientos?lat=-99999&long=-99999')
     expect(response.status).toBe(404)
   })
 
   test('Debe retornar status 200 y los alojamientos con precio menor o igual a 200', async () => {
-    const response = await request(server.app).get('/alojamiento?precioLt=150')
+    const response = await request(server.app).get('/alojamientos?precioLt=150')
 
     expect(response.status).toBe(200)
     expect(Array.isArray(response.body.data)).toBe(true)
@@ -282,12 +282,12 @@ describe('get/alojamiento', () => {
 
   test('Debe retornar status 404 si no encuentra alojamientos con precio menor a 10', async () => {
     alojamientoRepository.filterBy = jest.fn().mockResolvedValue(null)
-    const response = await request(server.app).get('/alojamiento?precioLt=10')
+    const response = await request(server.app).get('/alojamientos?precioLt=10')
     expect(response.status).toBe(404)
   })
 
   test('Debe retornar status 200 y los alojamientos con precio mayor o igual a 100', async () => {
-    const response = await request(server.app).get('/alojamiento?precioGt=100')
+    const response = await request(server.app).get('/alojamientos?precioGt=100')
 
     expect(response.status).toBe(200)
     expect(Array.isArray(response.body.data)).toBe(true)
@@ -299,12 +299,12 @@ describe('get/alojamiento', () => {
 
   test('Debe retornar status 404 si no encuentra alojamientos con precio mayor o igual a 99999', async () => {
     alojamientoRepository.filterBy = jest.fn().mockResolvedValue(null)
-    const response = await request(server.app).get('/alojamiento?precioGt=99999')
+    const response = await request(server.app).get('/alojamientos?precioGt=99999')
     expect(response.status).toBe(404)
   })
 
   test('Debe retornar status 200 y los alojamientos con capacidad para al menos 4 huéspedes', async () => {
-    const response = await request(server.app).get('/alojamiento?huespedesMax=4')
+    const response = await request(server.app).get('/alojamientos?huespedesMax=4')
 
     expect(response.status).toBe(200)
     expect(Array.isArray(response.body.data)).toBe(true)
@@ -316,7 +316,7 @@ describe('get/alojamiento', () => {
 
   test('Debe retornar status 404 si no encuentra alojamientos con capacidad para al menos 999 huéspedes', async () => {
     alojamientoRepository.filterBy = jest.fn().mockResolvedValue(null)
-    const response = await request(server.app).get('/alojamiento?huespedesMax=999')
+    const response = await request(server.app).get('/alojamientos?huespedesMax=999')
     expect(response.status).toBe(404)
   })
 })

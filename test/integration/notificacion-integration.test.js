@@ -1,8 +1,11 @@
-import NotificacionController from '../../BirBnB/controllers/notificacion.controller'
+import NotificacionController from '../../BirBnB/controllers/usuario.controller'
 import NotificacionService from '../../BirBnB/services/notificacion-service'
 import { buildTestServer } from './utils/server'
 import request from 'supertest'
 import { beforeEach, describe, expect, jest } from '@jest/globals'
+
+// 🚨🚨🚨 TODO: POR AHORA ESTE TEST NO SE IMPLEMENTA YA QUE NO SABEMOS COMO SACAR LA ID A TRAVES DE LA SESION 🚨🚨
+// 🚨🚨🚨 TODO: POR AHORA ESTE TEST NO SE IMPLEMENTA YA QUE NO SABEMOS COMO SACAR LA ID A TRAVES DE LA SESION 🚨🚨
 
 const server = buildTestServer()
 server.configureRoutes()
@@ -72,14 +75,14 @@ const notificaionController = new NotificacionController(notificationService)
 
 server.setController(NotificacionController, notificaionController)
 
-describe('PUT /notificacion', () => {
+describe('PUT /notificaciones', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
 
   test('Debe retornar 200 OK y marcar la notificacion como leida', async () => {
     const response = await request(server.app).put(
-      '/notificacion?id=000000000000000000000001&userId=000000000000000000000002',
+      '/notificaciones?id=000000000000000000000001&userId=000000000000000000000002',
     )
 
     expect(response.status).toBe(200)
@@ -98,7 +101,7 @@ describe('PUT /notificacion', () => {
     expect(response.status).toBe(404)
   })
 })
-describe('GET /notificacion', () => {
+describe('GET /notificaciones', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
@@ -117,7 +120,7 @@ describe('GET /notificacion', () => {
       },
     ])
     const response = await request(server.app).get(
-      '/notificacion?leida=false&userId=000000000000000000000001',
+      '/notificaciones?leida=false&userId=000000000000000000000001',
     )
     expect(response.status).toBe(200)
     expect(notificacionRepository.findAll).toHaveBeenCalled
@@ -142,7 +145,7 @@ describe('GET /notificacion', () => {
       },
     ])
     const response = await request(server.app).get(
-      '/notificacion?leida=true&userId=000000000000000000000001',
+      '/notificaciones?leida=true&userId=000000000000000000000001',
     )
     expect(response.status).toBe(200)
     expect(notificacionRepository.findAll).toHaveBeenCalled
@@ -156,7 +159,7 @@ describe('GET /notificacion', () => {
   test('Debe retornar una coleccion vacia en caso de no tener notificaciones leidas', async () => {
     notificacionRepository.findAll = jest.fn().mockResolvedValue([])
     const response = await request(server.app).get(
-      '/notificacion?leida=true&userId=000000000000000000000001',
+      '/notificaciones?leida=true&userId=000000000000000000000001',
     )
     expect(response.status).toBe(200)
     expect(notificacionRepository.findAll).toHaveBeenCalled
@@ -170,7 +173,7 @@ describe('GET /notificacion', () => {
   test('Debe retornar una coleccion vacia en caso de no tener notificaciones sin leer', async () => {
     notificacionRepository.findAll = jest.fn().mockResolvedValue([])
     const response = await request(server.app).get(
-      '/notificacion?leida=false&userId=000000000000000000000001',
+      '/notificaciones?leida=false&userId=000000000000000000000001',
     )
     expect(response.status).toBe(200)
     expect(notificacionRepository.findAll).toHaveBeenCalled

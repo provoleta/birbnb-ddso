@@ -249,35 +249,36 @@ const reservaController = new ReservaController(reservaService)
 
 server.setController(ReservaController, reservaController)
 
-describe('GET /reserva/:userId', () => {
-  beforeEach(() => {
-    jest.clearAllMocks()
-  })
+// 🚨🚨🚨 TODO: POR AHORA ESTE TEST NO SE IMPLEMENTA YA QUE NO SABEMOS COMO SACAR LA ID A TRAVES DE LA SESION 🚨🚨
+// describe('GET /reservas/:userId', () => {
+//   beforeEach(() => {
+//     jest.clearAllMocks()
+//   })
 
-  test('Debe retornar status 200 y las reservas del usuario', async () => {
-    const response = await request(server.app).get('/reserva/000000000000000000000001')
+//   test('Debe retornar status 200 y las reservas del usuario', async () => {
+//     const response = await request(server.app).get('/reservas/000000000000000000000001')
 
-    expect(response.status).toBe(200)
-    expect(Array.isArray(response.body)).toBe(true)
-    expect(response.body.length).toBe(2)
-    expect(reservaRepository.filterByUserId).toHaveBeenCalledWith(
-      '000000000000000000000001',
-    )
-    expect(response.body[0]).toHaveProperty('huespedReservador')
-    expect(response.body[0]).toHaveProperty('alojamiento')
-    expect(response.body[0]).toHaveProperty('rangoFechas')
-    expect(response.body[0]).toHaveProperty('precioPorNoche')
-  })
+//     expect(response.status).toBe(200)
+//     expect(Array.isArray(response.body)).toBe(true)
+//     expect(response.body.length).toBe(2)
+//     expect(reservaRepository.filterByUserId).toHaveBeenCalledWith(
+//       '000000000000000000000001',
+//     )
+//     expect(response.body[0]).toHaveProperty('huespedReservador')
+//     expect(response.body[0]).toHaveProperty('alojamiento')
+//     expect(response.body[0]).toHaveProperty('rangoFechas')
+//     expect(response.body[0]).toHaveProperty('precioPorNoche')
+//   })
 
-  test('Debe retornar status 404 si no encuentra al usuario', async () => {
-    reservaRepository.filterByUserId = jest.fn().mockResolvedValue(null)
-    const response = await request(server.app).get('/reserva/000000000000000000000009')
-    expect(reservaRepository.filterByUserId).toHaveBeenCalled()
-    expect(response.status).toBe(404)
-  })
-})
+//   test('Debe retornar status 404 si no encuentra al usuario', async () => {
+//     reservaRepository.filterByUserId = jest.fn().mockResolvedValue(null)
+//     const response = await request(server.app).get('/reservas/000000000000000000000009')
+//     expect(reservaRepository.filterByUserId).toHaveBeenCalled()
+//     expect(response.status).toBe(404)
+//   })
+// })
 
-describe('POST /reserva', () => {
+describe('POST /reservas', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
@@ -317,7 +318,7 @@ describe('POST /reserva', () => {
       estasDisponibleEn: jest.fn().mockReturnValue(true),
     })
 
-    const response = await request(server.app).post('/reserva').send(reserva)
+    const response = await request(server.app).post('/reservas').send(reserva)
     expect(response.status).toBe(201)
     expect(reservaRepository.save).toHaveBeenCalled()
     expect(reservaRepository.save).toHaveBeenCalledWith(expect.any(Reserva))
@@ -358,19 +359,21 @@ describe('POST /reserva', () => {
       estasDisponibleEn: jest.fn().mockReturnValue(false),
     })
 
-    const response = await request(server.app).post('/reserva').send(reserva)
+    const response = await request(server.app).post('/reservas').send(reserva)
     expect(response.status).toBe(406)
     expect(reservaRepository.save).not.toHaveBeenCalled()
   })
 })
 
-describe('DELETE /reserva/:id', () => {
+describe('DELETE /reservas/:id', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
 
   test('Debe retornar status 200 y la reserva eliminada', async () => {
-    const response = await request(server.app).delete('/reserva/000000000000000000000001')
+    const response = await request(server.app).delete(
+      '/reservas/000000000000000000000001',
+    )
     expect(response.status).toBe(204)
     expect(reservaRepository.delete).toHaveBeenCalledWith('000000000000000000000001')
     expect(alojamientoRepository.removeReserva).toHaveBeenCalled()
@@ -382,7 +385,9 @@ describe('DELETE /reserva/:id', () => {
 
   test('Debe retornar status 404 si no encuentra la reserva', async () => {
     reservaRepository.findById = jest.fn().mockResolvedValue(null)
-    const response = await request(server.app).delete('/reserva/000000000000000000000009')
+    const response = await request(server.app).delete(
+      '/reservas/000000000000000000000009',
+    )
     expect(response.status).toBe(404)
     expect(reservaRepository.delete).not.toHaveBeenCalled()
     expect(alojamientoRepository.removeReserva).not.toHaveBeenCalled()
@@ -437,7 +442,9 @@ describe('DELETE /reserva/:id', () => {
       cambiosEstadoReserva: [],
     })
 
-    const response = await request(server.app).delete('/reserva/000000000000000000000003')
+    const response = await request(server.app).delete(
+      '/reservas/000000000000000000000003',
+    )
     expect(response.status).toBe(410)
     expect(reservaRepository.delete).not.toHaveBeenCalled()
     expect(alojamientoRepository.removeReserva).not.toHaveBeenCalled()
