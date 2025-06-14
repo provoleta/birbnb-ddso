@@ -10,12 +10,11 @@ function SearchBar() {
   const [huespedes, setHuespedes] = useState(0)
 
   const handleSearch = () => {
-    const params = {
-      lugar: lugar,
-      checkIn: checkIn,
-      checkOut: checkOut,
-      huespedes: huespedes,
-    }
+    const params = new Map()
+    params.set('lugar', lugar)
+    params.set('checkIn', checkIn)
+    params.set('checkOut', checkOut)
+    params.set('huespedes', huespedes)
     aplicarFiltros(params)
   }
 
