@@ -1,6 +1,7 @@
 import './search-bar.css'
 import { useState } from 'react'
 import { useSearchContext } from '../../store/search-context'
+import CityInput from './city-input/city-input'
 
 function SearchBar() {
   const { aplicarFiltros } = useSearchContext()
@@ -8,6 +9,22 @@ function SearchBar() {
   const [checkIn, setCheckIn] = useState('')
   const [checkOut, setCheckOut] = useState('')
   const [huespedes, setHuespedes] = useState(0)
+  const [resultados, setResultados] = useState([])
+
+  const handleChange = (e) => {
+    const value = e.target.value
+    setQuery(value)
+    if (value.length > 0) {
+      setResultados(
+        datosPrueba.filter((item) => item.toLowerCase().includes(value.toLowerCase())),
+      )
+    } else {
+      setResultados([])
+    }
+  }
+
+  const [query, setQuery] = useState('')
+  const datosPrueba = ['Buenos Aires', 'Córdoba'] // TODO resolver en el backend
 
   const handleSearch = () => {
     const params = new Map()
@@ -20,13 +37,7 @@ function SearchBar() {
 
   return (
     <div className="app-nav-search">
-      <input
-        className="main-input left"
-        type="text"
-        placeholder="Buscar"
-        value={ciudad}
-        onChange={(e) => setCiudad(e.target.value)}
-      />
+      <CityInput handleChange={handleChange} query={query} resultados={resultados} />
       <input
         className="main-input"
         type="date"
