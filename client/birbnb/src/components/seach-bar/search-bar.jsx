@@ -4,14 +4,14 @@ import { useSearchContext } from '../../store/search-context'
 
 function SearchBar() {
   const { aplicarFiltros } = useSearchContext()
-  const [lugar, setLugar] = useState('')
+  const [ciudad, setCiudad] = useState('')
   const [checkIn, setCheckIn] = useState('')
   const [checkOut, setCheckOut] = useState('')
   const [huespedes, setHuespedes] = useState(0)
 
   const handleSearch = () => {
     const params = new Map()
-    params.set('lugar', lugar)
+    params.set('ciudad', ciudad)
     params.set('checkIn', checkIn)
     params.set('checkOut', checkOut)
     params.set('huespedes', huespedes)
@@ -24,8 +24,8 @@ function SearchBar() {
         className="main-input left"
         type="text"
         placeholder="Buscar"
-        value={lugar}
-        onChange={(e) => setLugar(e.target.value)}
+        value={ciudad}
+        onChange={(e) => setCiudad(e.target.value)}
       />
       <input
         className="main-input"

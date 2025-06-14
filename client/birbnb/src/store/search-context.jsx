@@ -14,6 +14,7 @@ export function SearchProvider({ children }) {
     axios
       .get('/alojamientos', {
         baseURL: 'http://localhost:6969',
+        params: Object.fromEntries(searchParams),
       })
       .then((response) => {
         // Aquí puedes manejar la respuesta de la búsqueda
@@ -26,7 +27,7 @@ export function SearchProvider({ children }) {
   }
 
   const aplicarFiltros = (filtros) => {
-    filtros.forEach((nombre, filtro) => {
+    filtros.forEach((filtro, nombre) => {
       setSearchParams((prev) => prev.set(nombre, filtro))
     })
     search()

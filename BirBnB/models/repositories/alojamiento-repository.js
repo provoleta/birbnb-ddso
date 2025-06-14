@@ -62,7 +62,15 @@ export default class AlojamientoRepository {
       .skip((pageNum - 1) * limitNum)
       .limit(limitNum)
 
-    return alojamientosFiltrados
+    return alojamientosFiltrados.filter((alojamiento) => {
+      if (filters.checkIn && filters.checkOut) {
+        console.log(
+          `Verificando disponibilidad de alojamiento ${alojamiento._id} entre ${filters.checkIn} y ${filters.checkOut}`,
+        )
+        return alojamiento.estasDisponibleEn(filters.checkIn, filters.checkOut)
+      }
+      return false
+    })
   }
 
   async addReserva(alojamientoId, reservaId) {
