@@ -12,7 +12,7 @@ const Navbar = () => {
           <div className="app-nav-links">
             <div> ¿Sos Anfitrion? </div>
             <div> Crear Cuenta </div>
-            <div> Iniciar Sesion </div>
+            <button className="button-iniciar-sesion"> Iniciar Sesion </button>
           </div>
         </div>
         <div className="app-nav-search">
@@ -20,7 +20,7 @@ const Navbar = () => {
           <input className="main-input" type="date" placeholder="Check-in" />
           <input className="main-input" type="date" placeholder="Check-out" />
           <input className="main-input right" type="number" placeholder="Huespedes" />
-          <button>Buscar</button>
+          <button className="button-busqueda">Buscar</button>
         </div>
       </div>
     </AppBar>

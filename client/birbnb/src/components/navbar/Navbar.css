@@ -31,6 +31,7 @@
 
 .app-nav-links {
   display: flex;
+  align-items: center;
   gap: 20px;
 }
 
@@ -60,4 +61,26 @@
 
 .main-input.right {
   border-radius: 0 20px 20px 0;
+}
+
+.button-busqueda {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #333;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.button-iniciar-sesion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #333;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
 }
