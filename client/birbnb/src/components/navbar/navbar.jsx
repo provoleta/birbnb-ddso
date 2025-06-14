@@ -1,5 +1,6 @@
 import './Navbar.css'
 import { AppBar } from '@mui/material'
+import SearchBar from '../seach-bar/search-bar'
 
 const Navbar = () => {
   return (
@@ -14,13 +15,7 @@ const Navbar = () => {
             <div> Crear Cuenta </div>
             <button className="button-iniciar-sesion"> Iniciar Sesion </button>
           </div>
-        </div>
-        <div className="app-nav-search">
-          <input className="main-input left" type="text" placeholder="Buscar" />
-          <input className="main-input" type="date" placeholder="Check-in" />
-          <input className="main-input" type="date" placeholder="Check-out" />
-          <input className="main-input right" type="number" placeholder="Huespedes" />
-          <button className="button-busqueda">Buscar</button>
+          <SearchBar />
         </div>
       </div>
     </AppBar>
