@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { createContext, useState, useContext } from 'react'
 
 const SearchContext = createContext()
@@ -10,14 +11,25 @@ export function SearchProvider({ children }) {
   const [searchParams, setSearchParams] = useState(new Map())
 
   const search = () => {
-    // hacer el axios.get(...)
-    // return data.alojamientos
+    axios
+      .get('/alojamientos', {
+        baseURL: 'http://localhost:6969',
+      })
+      .then((response) => {
+        // Aquí puedes manejar la respuesta de la búsqueda
+        console.log('Resultados de búsqueda:', response.data)
+      })
+      .catch((error) => {
+        // Manejo de errores
+        console.error('Error al buscar alojamientos:', error)
+      })
   }
 
   const aplicarFiltros = (filtros) => {
     filtros.forEach((nombre, filtro) => {
       setSearchParams((prev) => prev.set(nombre, filtro))
     })
+    search()
   }
 
   return (
