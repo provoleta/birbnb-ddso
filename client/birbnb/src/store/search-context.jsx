@@ -19,20 +19,18 @@ export function SearchProvider({ children }) {
   }
 
   const aplicarFiltros = (filtros) => {
-    filtros.forEach((filtro) => {
-      if (estaAplicado(filtro)) {
-        setSearchParams((prev) =>
-          prev.map((param) => (param.nombre === filtro.nombre ? filtro : param)),
-        )
-      } else {
-        setSearchParams((prev) => [...prev, filtro])
-      }
-    })
+    // filtros.forEach((filtro) => {
+    //   if (estaAplicado(filtro)) {
+    //     setSearchParams((prev) =>
+    //       prev.map((param) => (param.nombre === filtro.nombre ? filtro : param)),
+    //     )
+    //   } else {
+    //     setSearchParams((prev) => [...prev, filtro])
+    //   }
+    // })
   }
 
   return (
-    <SearchContext.Provider value={{ searchParams, aplicarFiltros }}>
-      {children}
-    </SearchContext.Provider>
+    <SearchContext.Provider value={{ aplicarFiltros }}>{children}</SearchContext.Provider>
   )
 }

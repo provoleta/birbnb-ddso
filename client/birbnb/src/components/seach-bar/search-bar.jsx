@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useSearchContext } from '../../store/search-context'
 
 function SearchBar() {
-  const { searchParams, aplicarFiltros } = useSearchContext()
+  const { aplicarFiltros } = useSearchContext()
   const [lugar, setLugar] = useState('')
   const [checkIn, setCheckIn] = useState('')
   const [checkOut, setCheckOut] = useState('')
