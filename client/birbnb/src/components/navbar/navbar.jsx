@@ -16,10 +16,10 @@ const Navbar = () => {
           </div>
         </div>
         <div className="app-nav-search">
-          <input type="text" placeholder="Buscar" />
-          <input type="date" placeholder="Check-in" />
-          <input type="date" placeholder="Check-out" />
-          <input type="number" placeholder="Huespedes" />
+          <input className="main-input left" type="text" placeholder="Buscar" />
+          <input className="main-input" type="date" placeholder="Check-in" />
+          <input className="main-input" type="date" placeholder="Check-out" />
+          <input className="main-input right" type="number" placeholder="Huespedes" />
           <button>Buscar</button>
         </div>
       </div>
