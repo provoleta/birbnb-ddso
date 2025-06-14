@@ -21,8 +21,10 @@ const CaracteristicaItem = ({ caracteristica }) => {
 
   return (
     <div className="caracteristica-item">
-      {getIcon(caracteristica)}
-      <p>{caracteristica}</p>
+      <h3>
+        {getIcon(caracteristica)}
+        {caracteristica}
+      </h3>
     </div>
   )
 }
