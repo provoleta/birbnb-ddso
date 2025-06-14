@@ -15,8 +15,8 @@ const Navbar = () => {
             <div> Crear Cuenta </div>
             <button className="button-iniciar-sesion"> Iniciar Sesion </button>
           </div>
-          <SearchBar />
         </div>
+        <SearchBar />
       </div>
     </AppBar>
   )

@@ -1,4 +1,3 @@
-import e from 'express'
 import './search-bar.css'
 
 function SearchBar() {
