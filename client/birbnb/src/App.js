@@ -1,7 +1,11 @@
-import logo from './logo.svg'
 import './App.css'
-import Navbar from './components/navbar/navbar.jsx'
+import Layout from './features/layout/layout.jsx'
 import { createTheme, ThemeProvider } from '@mui/material'
+import { BrowserRouter } from 'react-router'
+import { Routes, Route } from 'react-router-dom'
+import HomePage from './features/home-page/home-page.jsx'
+import SearchPage from './features/searchpage/search-page.jsx'
+import DetailAlojamiento from './features/detail-pag/detail-page.jsx'
 
 const theme = createTheme({
   palette: {
@@ -17,9 +21,17 @@ const theme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <div className="App">
-        <Navbar />
-      </div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<HomePage />} />
+            <Route path="/alojamientos" element={<SearchPage />} />
+            <Route path="/alojamientos/:id" element={<DetailAlojamiento />} />
+          </Route>
+          {/* <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} /> */}
+        </Routes>
+      </BrowserRouter>
     </ThemeProvider>
   )
 }
