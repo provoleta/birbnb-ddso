@@ -1,6 +1,7 @@
 import './Navbar.css'
 import { AppBar } from '@mui/material'
 import SearchBar from '../seach-bar/search-bar'
+import LogoConAudio from '../../features/sound-icon/sound-icon'
 
 const Navbar = () => {
   return (
@@ -8,7 +9,8 @@ const Navbar = () => {
       <div className="app-nav">
         <div className="app-nav-header">
           <div className="app-nav-logo">
-            <img src="/images/logo.png" alt="Logo" />
+            {/* <img src="/images/logo.png" alt="Logo" /> */}
+            <LogoConAudio />
           </div>
           <div className="app-nav-links">
             <div> ¿Sos Anfitrion? </div>

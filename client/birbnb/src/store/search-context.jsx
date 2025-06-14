@@ -7,30 +7,20 @@ export function useSearchContext() {
 }
 
 export function SearchProvider({ children }) {
-  const [searchParams, setSearchParams] = useState([])
+  const [searchParams, setSearchParams] = useState(new Map())
 
-  const search = (params) => {
+  const search = () => {
     // hacer el axios.get(...)
     // return data.alojamientos
   }
 
-  const estaAplicado = (filtro) => {
-    return searchParams.some((param) => param.nombre === filtro.nombre)
-  }
-
   const aplicarFiltros = (filtros) => {
-    filtros.forEach((filtro) => {
-      if (estaAplicado(filtro)) {
-        setSearchParams((prev) =>
-          prev.map((param) => (param.nombre === filtro.nombre ? filtro : param)),
-        )
-      } else {
-        setSearchParams((prev) => [...prev, filtro])
-      }
+    filtros.forEach((nombre, filtro) => {
+      setSearchParams((prev) => prev.set(nombre, filtro))
     })
   }
 
   return (
-    <SearchContext.Provider value={ {aplicarFiltros} }>{children}</SearchContext.Provider>
+    <SearchContext.Provider value={{ aplicarFiltros }}>{children}</SearchContext.Provider>
   )
 }
