@@ -6,6 +6,7 @@ import { Routes, Route } from 'react-router-dom'
 import HomePage from './features/home-page/home-page.jsx'
 import SearchPage from './features/search-page/search-page.jsx'
 import DetailAlojamiento from './features/detail-page/detail-page.jsx'
+import { SearchProvider } from './store/search-context.jsx'
 
 const theme = createTheme({
   palette: {
@@ -21,6 +22,7 @@ const theme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
+      <SearchProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
@@ -32,6 +34,7 @@ function App() {
           <Route path="/register" element={<RegisterPage />} /> */}
         </Routes>
       </BrowserRouter>
+      </SearchProvider>
     </ThemeProvider>
   )
 }
