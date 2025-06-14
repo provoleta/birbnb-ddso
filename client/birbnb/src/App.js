@@ -23,17 +23,17 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <SearchProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<HomePage />} />
-            <Route path="/alojamientos" element={<SearchPage />} />
-            <Route path="/alojamientos/:id" element={<DetailAlojamiento />} />
-          </Route>
-          {/* <Route path="/login" element={<LoginPage />} />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<HomePage />} />
+              <Route path="/alojamientos" element={<SearchPage />} />
+              <Route path="/alojamientos/:id" element={<DetailAlojamiento />} />
+            </Route>
+            {/* <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} /> */}
-        </Routes>
-      </BrowserRouter>
+          </Routes>
+        </BrowserRouter>
       </SearchProvider>
     </ThemeProvider>
   )
