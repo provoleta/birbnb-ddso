@@ -5,7 +5,12 @@ export default class UsuarioRepository {
     this.model = UsuarioModel
   }
 
-  async singup(email, password, nombre) {
+  async signup(email, password, nombre) {
+    const usuarioExistente = await this.model.findOne({ email })
+    if (usuarioExistente) {
+      return null
+    }
+
     const usuario = new this.model({
       nombre,
       email,

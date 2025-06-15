@@ -2,13 +2,21 @@ import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 import NotFoundException from '../exceptions/not-found-exception.js'
 import PasswordException from '../exceptions/password-exception.js'
+import EmailException from '../exceptions/email-exception.js'
 export default class UsuarioService {
   constructor(usuarioRepository) {
     this.usuarioRepository = usuarioRepository
   }
 
   async signup(email, password, nombre) {
-    return await this.usuarioRepository.singup(email, bcrypt.hashSync(password), nombre)
+    const usuario = await this.usuarioRepository.signup(
+      email,
+      bcrypt.hashSync(password),
+      nombre,
+    )
+    if (!usuario) throw new EmailException()
+
+    return usuario
   }
 
   async login(email, password) {

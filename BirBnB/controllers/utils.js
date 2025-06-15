@@ -1,4 +1,5 @@
 import AppError from '../exceptions/app-error.js'
+import jwt from 'jsonwebtoken'
 
 export function validarObjectId(ObjectId) {
   if (!/^[0-9a-fA-F]{24}$/.test(ObjectId)) {
@@ -17,7 +18,7 @@ export function verifyToken(req, res, next) {
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'tu_secreto_seguro')
     req.user = decoded
     next()
-  } catch (err) {
+  } catch {
     return res.status(401).json({ message: 'Token inválido' })
   }
 }

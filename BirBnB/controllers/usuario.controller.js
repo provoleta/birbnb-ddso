@@ -25,9 +25,9 @@ export default class UsuarioController {
   }
 
   async findReservas(req, res) {
-    const userId = req.params.userId
-    validarObjectId(userId)
-    const reserva = await this.reservaService.findByUserId(userId)
+    // const userId = req.params.userId
+    // validarObjectId(userId)
+    const reserva = await this.reservaService.findByUserId(req.user.id)
     res.status(200).json(reserva)
   }
 
