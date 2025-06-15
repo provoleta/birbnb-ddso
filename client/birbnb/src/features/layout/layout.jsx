@@ -6,7 +6,7 @@ const Layout = () => {
     <section className="app-container">
       <Navbar></Navbar>
       <Outlet />
-      <footer className="pie"> PIJA </footer>
+      <footer className="pie"> PIJA (footer) </footer>
     </section>
   )
 }

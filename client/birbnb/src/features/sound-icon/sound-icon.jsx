@@ -25,7 +25,7 @@ function LogoConAudio() {
         src="/images/logo.png"
         alt="Logo"
         onClick={handleLogoClick}
-        style={{ cursor: 'pointer', width: 100 }}
+        style={{ cursor: 'pointer', width: 'auto', height: '50px' }}
       />
       <audio ref={audioRef} src="/sounds/doh_r4RZcVw.mp3" />
     </div>
