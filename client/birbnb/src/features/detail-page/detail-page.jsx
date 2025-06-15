@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom'
 import { Card } from '@mui/material'
 import './detail-page.css'
 import { alojamientos } from './alojamientosMockeados.js'
+import CaracteristicaItem from '../../components/caracteristica/caracteristica-item.jsx'
 
 const AlojamientoDetail = () => {
   const { id } = useParams()
@@ -33,11 +34,16 @@ const AlojamientoDetail = () => {
         </div>
 
         <section className="caracteristicas">
-          {/* alojamiento.caracteristicas.map({/*
-            1. Transformar a componente Caracteristica
-            2. Solo traer los que tiene
-            3. Idea: Tener las 4 caracteristicas de nuestro alojamiento
-        */}
+          {alojamiento.caracteristicas.map((caracteristica) => (
+            <CaracteristicaItem caracteristica={caracteristica} />
+          ))}
+
+          {/*
+            1. En algun lugar tengo los 4 componentes de caracteristicas
+            2. Recorro las caracteristicas y las transformo en uno de esos componentes
+            3. Funcion intermedia que toma la caracteristica y devuelve el componente
+            4. Cada caracteristica tiene un nombre y un icono
+            */}
         </section>
 
         <div className="anfitrion">

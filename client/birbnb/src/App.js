@@ -8,6 +8,8 @@ import SearchPage from './features/search-page/search-page.jsx'
 import DetailAlojamiento from './features/detail-page/detail-page.jsx'
 import { SearchProvider } from './store/search-context.jsx'
 
+import LoginPage from './features/login-page/login-page.jsx'
+
 const theme = createTheme({
   palette: {
     primary: {
@@ -30,8 +32,8 @@ function App() {
               <Route path="/alojamientos" element={<SearchPage />} />
               <Route path="/alojamientos/:id" element={<DetailAlojamiento />} />
             </Route>
-            {/* <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} /> */}
+            <Route path="/login" element={<LoginPage />} />
+            {/* <Route path="/register" element={<RegisterPage />} /> */}
           </Routes>
         </BrowserRouter>
       </SearchProvider>
