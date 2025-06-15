@@ -1,9 +1,10 @@
-import { validarObjectId } from './utils.js'
+import { validarObjectId, verifyToken } from './utils.js'
 
 export default class UsuarioController {
-  constructor(notificacionService, reservaService) {
+  constructor(notificacionService, reservaService, usuarioService) {
     this.notificacionService = notificacionService
     this.reservaService = reservaService
+    this.usuarioService = usuarioService
   }
 
   // TODO: Definir como obtener el userId
@@ -28,5 +29,25 @@ export default class UsuarioController {
     validarObjectId(userId)
     const reserva = await this.reservaService.findByUserId(userId)
     res.status(200).json(reserva)
+  }
+
+  async signup(req, res) {
+    const { email, password, nombre } = req.body
+    if (!email || !password || !nombre) {
+      return res.status(400).json({ message: 'Todos los campos son obligatorios' })
+    }
+
+    const usuario = await this.usuarioService.signup(email, password, nombre)
+    return res.status(201).json(usuario)
+  }
+
+  async login(req, res) {
+    const { email, password } = req.body
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Email y contraseña son obligatorios' })
+    }
+
+    const token = await this.usuarioService.login(email, password)
+    return res.status(200).json({ token })
   }
 }

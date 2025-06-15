@@ -1,5 +1,6 @@
 class Usuario {
   id
+  password
   /**
    *
    * @param {Int} id
