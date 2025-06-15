@@ -20,7 +20,7 @@ const Navbar = () => {
             <LogoConAudio />
           </div>
           <div className="app-nav-links">
-            <div> ¿Sos Anfitrion? </div>
+            <div> ¿Sos Anfitrión? </div>
             <div> Crear Cuenta </div>
             <button className="button-iniciar-sesion" onClick={login}>
               Iniciar Sesion
