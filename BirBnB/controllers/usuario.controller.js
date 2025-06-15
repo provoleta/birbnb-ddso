@@ -1,4 +1,4 @@
-import { validarObjectId, verifyToken } from './utils.js'
+import { validarObjectId } from './utils.js'
 
 export default class UsuarioController {
   constructor(notificacionService, reservaService, usuarioService) {
