@@ -38,15 +38,13 @@ function HomePage() {
       <div className="home-sugerencias">
         <h1>Alojamientos que podrian interesarte...</h1>
       </div>
-      <div className="home-sugerencias">
-        <Carousel
-          currentPageHomes={currentPageHomes}
-          pageNumber={pageNumber}
-          handlePageNumberChange={handlePageNumberChange}
-          totalPages={totalPages}
-          pagesize={pageSize}
-        ></Carousel>
-      </div>
+      <Carousel
+        currentPageHomes={currentPageHomes}
+        pageNumber={pageNumber}
+        handlePageNumberChange={handlePageNumberChange}
+        totalPages={totalPages}
+        pagesize={pageSize}
+      ></Carousel>
     </>
   )
 }

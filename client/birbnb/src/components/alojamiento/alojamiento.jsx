@@ -25,6 +25,7 @@ export default function Alojamiento({ alojamiento }) {
           <Button
             variant="contained"
             aria-label="Basic button group"
+            size="large"
             onClick={irAlAlojamiento}
           >
             Ver mas
