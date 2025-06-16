@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import Api from '../../api/api'
 
 export default function LoginPage() {
-  const { setToken } = useAuthContext()
+  const { handleNewToken } = useAuthContext()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
@@ -30,8 +30,8 @@ export default function LoginPage() {
     if (email && password) {
       await Api()
         .login(email, password)
-        .then((token) => {
-          setToken(token)
+        .then(async (token) => {
+          await handleNewToken(token)
         })
         .catch((error) => {
           console.error('Login failed:', error)
@@ -45,8 +45,8 @@ export default function LoginPage() {
     if (email && password && name) {
       await Api()
         .register(name, email, password)
-        .then((token) => {
-          setToken(token)
+        .then( async (token) => {
+          await handleNewToken(token)
           navigate('/')
         })
         .catch((error) => {

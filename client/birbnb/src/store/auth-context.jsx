@@ -14,10 +14,11 @@ export function AuthProvider({ children }) {
   const [token, setToken] = useState(null)
   const [logueado, setLogueado] = useState(false)
 
-  useEffect(() => {
-    if (token) {
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
-      Api()
+
+  const handleNewToken = async (newToken) => {
+    setToken(newToken)
+    console.log(token)
+    await Api()
         .getProfile(token)
         .then((data) => {
           setUser(data)
@@ -27,10 +28,8 @@ export function AuthProvider({ children }) {
           console.error('Error fetching user profile:', error)
           setUser(null)
         })
-    } else {
-      setUser(null)
-    }
-  }, [token])
+
+  }
 
   const logout = () => {
     // Aquí podrías hacer una llamada a la API para cerrar sesión
@@ -40,6 +39,6 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ setToken, logueado }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ handleNewToken, logueado }}>{children}</AuthContext.Provider>
   )
 }
