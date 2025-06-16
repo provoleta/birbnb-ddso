@@ -43,3 +43,21 @@
   border-radius: 4px;
   cursor: pointer;
 }
+
+.login-form {
+  width: 70%;
+}
+
+.login-toggle {
+  margin-top: 1rem;
+  color: #6c63ff;
+  cursor: pointer;
+}
+
+.login-toggle:hover {
+  text-decoration: underline;
+}
+
+.input-container {
+  width: 100%;
+}
