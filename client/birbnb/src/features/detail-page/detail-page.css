@@ -1,18 +1,25 @@
+.contenedor-fachero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .contenedor-direccion {
   display: flex;
   flex-direction: column;
-  padding-left: 285px;
+  justify-content: flex-start;
+  width: 890px;
   /* background-color: aqua; */
 }
 
 .contenedor-titulo {
   /* background-color: blueviolet; */
   display: flex;
-  padding: 20px 20px 0px 20px;
+  padding: 20px 0px 0px 0px;
 }
 
 .especificacion-direccion {
-  padding: 0px 20px 10px 15px;
+  padding: 0px 0px 0px 0px;
   margin: 0px;
 }
 
@@ -21,8 +28,7 @@
 }
 
 .locacion-puntual {
-  padding: 0px 20px 20px 15px;
-  margin: 0px;
+  margin: 0px 0px 20px 0px;
 }
 
 .gps-icon {
@@ -30,7 +36,12 @@
 }
 
 .imagenes {
-  padding-left: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-left: 0px;
+  width: 100%;
+  height: auto;
 }
 
 .foto-hotel {
@@ -41,12 +52,12 @@
 }
 
 .contendor-inferior-foto {
-  padding-left: 300px;
-  padding-right: 285px;
+  width: 900px;
   padding-top: 50px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .titulo-descripcion {
@@ -57,7 +68,7 @@
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  padding: 24px;
+  padding: 10px;
   margin: 16px 0;
   max-width: 400px; /* Opcional */
 }
@@ -99,4 +110,42 @@
 
 .contenedor-datepicker .contenedor-fechas .contenedor-viajeros {
   height: 10px;
+}
+
+.contenedor-facheroinferior {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.perfil {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.avatar {
+  border-radius: 50%;
+  height: 80px;
+  width: 80px;
+}
+
+.informacion-perfil {
+  display: flex;
+  flex-direction: column;
+}
+
+.informacion-perfil h4 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+}
+
+.email {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+  text-transform: uppercase;
 }
