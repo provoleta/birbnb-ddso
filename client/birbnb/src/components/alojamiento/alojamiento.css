@@ -1,13 +1,10 @@
 .alojamiento-item {
-  width: 800px;
-  height: auto;
-  border-radius: 8px;
-  cursor: pointer;
-  flex-shrink: 0;
+  width: 30%;
+  height: 850px;
 }
 
 .alojamiento-foto {
-  height: 180px;
+  height: 75%;
   width: 100%;
   object-fit: cover;
   display: block;
@@ -15,12 +12,10 @@
 .alojamiento-footer {
   display: flex;
   flex-direction: column;
-  border-top: 1px solid rgb(212 212 212);
 }
 
 .alojamiento-footer-data {
-  margin-top: auto;
-  padding: 2px;
+  padding: 3%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -28,7 +23,7 @@
 
 .alojamiento-footer-actions {
   display: flex;
-  padding: 2px;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  align-items: stretch;
+  margin-top: 2.5%;
 }

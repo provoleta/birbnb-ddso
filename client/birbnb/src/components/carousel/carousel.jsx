@@ -15,23 +15,23 @@ export default function Carousel({
   const handleNext = () => handlePageNumberChange(Math.min(pageNumber + 1, totalPages))
 
   return (
-    <div>
-      <div className='carousel-container'>
+    <div className="carousel-container">
+      <Button className="button-style" onClick={handlePrev} disabled={pageNumber === 1}>
+        <ArrowBack />
+      </Button>
+
+      <div className="carousel-items">
         {alojamientos.map((home) => (
           <Alojamiento alojamiento={home} key={home.id} />
         ))}
-        <Button className="button-style" onClick={handlePrev} disabled={pageNumber === 1}>
-          <ArrowBack />
-        </Button>
-
-        <Button
-          className="button-style"
-          onClick={handleNext}
-          disabled={pageNumber === totalPages}
-        >
-          <ArrowNext />
-        </Button>
       </div>
+      <Button
+        className="button-style"
+        onClick={handleNext}
+        disabled={pageNumber === totalPages}
+      >
+        <ArrowNext />
+      </Button>
     </div>
   )
 }
