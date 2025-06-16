@@ -12,7 +12,7 @@ export function useAuthContext() {
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
   const [token, setToken] = useState(null)
-  const [loggedIn, setLoggedIn] = useState(false)
+  const [logueado, setLogueado] = useState(false)
 
   useEffect(() => {
     if (token) {
@@ -21,6 +21,7 @@ export function AuthProvider({ children }) {
         .get('usuarios/perfil', { baseURL: 'http://localhost:6969' })
         .then((response) => {
           setUser(response.data)
+          setLogueado(true)
         })
         .catch((error) => {
           console.error('Error fetching user profile:', error)
@@ -34,7 +35,11 @@ export function AuthProvider({ children }) {
   const logout = () => {
     // Aquí podrías hacer una llamada a la API para cerrar sesión
     setUser(null)
+    setToken(null)
+    setLogueado(false)
   }
 
-  return <AuthContext.Provider value={{ setToken }}>{children}</AuthContext.Provider>
+  return (
+    <AuthContext.Provider value={{ setToken, logueado }}>{children}</AuthContext.Provider>
+  )
 }

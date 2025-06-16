@@ -117,7 +117,11 @@ export default function LoginPage() {
             />
           </div>
 
-          <button type="submit" onClick={handleLogin} className="login-button">
+          <button
+            type="submit"
+            onClick={nuevoRegistro ? handleRegister : handleLogin}
+            className="login-button"
+          >
             Login
           </button>
 

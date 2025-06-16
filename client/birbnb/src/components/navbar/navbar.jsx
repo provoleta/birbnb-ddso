@@ -2,15 +2,12 @@ import './Navbar.css'
 import { AppBar } from '@mui/material'
 import SearchBar from '../seach-bar/search-bar'
 import LogoConAudio from '../../features/sound-icon/sound-icon'
-import { useNavigate } from 'react-router-dom'
+import { Offline } from './offline/offline.jsx'
+import { OnSession } from './onSession/onSession.jsx'
+import { useAuthContext } from '../../store/auth-context'
 
 const Navbar = () => {
-  const navigate = useNavigate()
-
-  const login = () => {
-    navigate('/login')
-  }
-
+  const { logueado } = useAuthContext()
   return (
     <AppBar position="static" elevation={0}>
       <div className="app-nav">
@@ -19,13 +16,7 @@ const Navbar = () => {
             {/* <img src="/images/logo.png" alt="Logo" /> */}
             <LogoConAudio />
           </div>
-          <div className="app-nav-links">
-            <div> ¿Sos Anfitrión? </div>
-            <div> Crear Cuenta </div>
-            <button className="button-iniciar-sesion" onClick={login}>
-              Iniciar Sesion
-            </button>
-          </div>
+          {logueado ? <OnSession /> : <Offline />}
         </div>
         <SearchBar />
       </div>
