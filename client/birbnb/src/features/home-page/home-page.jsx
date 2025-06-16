@@ -1,7 +1,7 @@
 import './home-page.css'
 import Carousel from '../../components/carousel/carousel.jsx'
 import { useEffect, useState } from 'react'
-import { getAlojamientos } from '../../api/api.js'
+//import { getAlojamientos } from '../../api/api.js'
 
 function HomePage() {
   const [pageNumber, setPageNumber] = useState(1)
