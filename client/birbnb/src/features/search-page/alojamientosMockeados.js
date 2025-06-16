@@ -243,7 +243,7 @@ export const alojamientos = [
     fotos: [
       {
         descripcion: 'Habitación luminosa',
-        path: 'https://images.unsplash.com/photo-1465101178521-c1a9136a3b99',
+        path: 'https://decormatters-blog-uploads.s3.amazonaws.com/365407283_614619890658463_4618795059015039771_n_c6362e5ece.jpg',
       },
     ],
   },
