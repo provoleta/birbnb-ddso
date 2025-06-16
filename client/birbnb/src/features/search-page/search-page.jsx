@@ -4,8 +4,29 @@ import SearchCard from './components/search-card/search-card.jsx'
 import SortButton from './components/sort-button/sort-button.jsx'
 import SliderPrecio from './components/filters/slider-precio.jsx'
 import FiltrosCaracteristicas from './components/filters/caracteristicas.jsx'
+import { useState, useMemo } from 'react'
 
 export default function SearchPage({ searchValue }) {
+  const [sortOption, setSortOption] = useState('Menor precio') // Inicialmente se ordena por menor precio
+
+  // Ordenar alojamientos usando useMemo para evitar cálculos innecesarios
+  const sortedAlojamientos = useMemo(() => {
+    const alojamientosCopy = [...alojamientos] // Crea una copia para no modificar el original
+
+    return alojamientosCopy.sort((a, b) => {
+      if (sortOption === 'Menor precio') {
+        return a.precioPorNoche - b.precioPorNoche
+      } else {
+        return b.precioPorNoche - a.precioPorNoche
+      }
+    })
+  }, [sortOption]) // Se recalcula solo cuando cambia la opción de ordenamiento
+
+  // Función para actualizar la opción de ordenamiento
+  const handleSortChange = (option) => {
+    setSortOption(option)
+  }
+
   return (
     <div className="search-page-container">
       <div className="search-filters-container">
@@ -18,14 +39,14 @@ export default function SearchPage({ searchValue }) {
         <div className="search-header">
           <h1>Resultados de busqueda para: {searchValue}</h1>
         </div>
-        {/* TODO: aplicar filtros con botones */}
         <div className="button-container">
-          <SortButton />
+          <SortButton currentSortOption={sortOption} onSortChange={handleSortChange} />
         </div>
         <div className="search-results">
-          {alojamientos.map((result) => (
+          {sortedAlojamientos.map((result) => (
             <SearchCard
               key={result.id} // Esta linea es importante para que React pueda identificar cada elemento de la lista
+              id={result.id}
               nombre={result.nombre}
               descripcion={result.descripcion}
               precioPorNoche={result.precioPorNoche}

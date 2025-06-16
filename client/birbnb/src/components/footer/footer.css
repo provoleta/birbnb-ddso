@@ -1,0 +1,38 @@
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.pie {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: auto;
+  background-color: #dddddd;
+  border-top: black 1px solid;
+}
+
+@media (min-width: 950px) {
+}
+
+.tw {
+  margin: 15px;
+}
+
+.wpp {
+  margin: 15px;
+}
+
+.ig {
+  margin: 15px;
+}
