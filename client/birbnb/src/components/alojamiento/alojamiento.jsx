@@ -27,6 +27,19 @@ export default function Alojamiento({ alojamiento }) {
             aria-label="Basic button group"
             size="large"
             onClick={irAlAlojamiento}
+            style={{
+              display: 'block', // Asegura que sea visible
+              marginTop: '10px', // Espacio superior
+              marginBottom: '5px', // Espacio inferior
+              padding: '8px 16px', // Padding interno
+              backgroundColor: '#A62DFD', // Color principal de tu app
+              color: 'white',
+              border: 'none',
+              borderRadius: '8px',
+              cursor: 'pointer',
+              fontSize: '14px',
+              fontWeight: 'bold',
+            }}
           >
             Ver mas
           </Button>
