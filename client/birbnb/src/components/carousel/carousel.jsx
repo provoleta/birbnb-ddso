@@ -16,7 +16,7 @@ export default function Carousel({
 
   return (
     <div className="carousel-container">
-      <Button className="button-style" onClick={handlePrev} disabled={pageNumber === 1}>
+      <Button onClick={handlePrev} disabled={pageNumber === 1}>
         <ArrowBack />
       </Button>
 
@@ -25,11 +25,7 @@ export default function Carousel({
           <Alojamiento alojamiento={home} key={home.id} />
         ))}
       </div>
-      <Button
-        className="button-style"
-        onClick={handleNext}
-        disabled={pageNumber === totalPages}
-      >
+      <Button onClick={handleNext} disabled={pageNumber === totalPages}>
         <ArrowNext />
       </Button>
     </div>
