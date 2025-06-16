@@ -1,16 +1,14 @@
 import './sort-button.css'
 import { useState, useRef } from 'react'
-import { Button, ClickAwayListener, Paper } from '@mui/material'
+import { Button, ClickAwayListener } from '@mui/material'
 
-const SortButton = () => {
+const SortButton = ({ currentSortOption, onSortChange }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
-  const [sortOption, setSortOption] = useState('Menor precio')
   const buttonRef = useRef(null)
 
   const handleSortOptionClick = (option) => {
-    setSortOption(option)
+    onSortChange(option) // Llamar a la función del padre para actualizar la opción
     setDropdownOpen(false)
-    // Aquí implementarías la lógica de ordenamiento
   }
 
   return (
@@ -34,42 +32,28 @@ const SortButton = () => {
             },
           }}
         >
-          Ordenar por: {sortOption}
+          Ordenar por: {currentSortOption}
         </Button>
 
         {dropdownOpen && (
-          <Paper
-            elevation={3}
-            sx={{
-              position: 'absolute',
-              top: '100%',
-              left: 0,
-              mt: 1,
-              zIndex: 1000,
-              minWidth: '160px',
-              borderRadius: '8px',
-              overflow: 'hidden',
-            }}
-          >
-            <div className="sort-options-dropdown">
-              <div
-                className={`sort-option ${
-                  sortOption === 'Menor precio' ? 'selected' : ''
-                }`}
-                onClick={() => handleSortOptionClick('Menor precio')}
-              >
-                Menor precio
-              </div>
-              <div
-                className={`sort-option ${
-                  sortOption === 'Mayor precio' ? 'selected' : ''
-                }`}
-                onClick={() => handleSortOptionClick('Mayor precio')}
-              >
-                Mayor precio
-              </div>
+          <div className="sort-options-dropdown">
+            <div
+              className={`sort-option ${
+                currentSortOption === 'Menor precio' ? 'selected' : ''
+              }`}
+              onClick={() => handleSortOptionClick('Menor precio')}
+            >
+              Menor precio
             </div>
-          </Paper>
+            <div
+              className={`sort-option ${
+                currentSortOption === 'Mayor precio' ? 'selected' : ''
+              }`}
+              onClick={() => handleSortOptionClick('Mayor precio')}
+            >
+              Mayor precio
+            </div>
+          </div>
         )}
       </div>
     </ClickAwayListener>

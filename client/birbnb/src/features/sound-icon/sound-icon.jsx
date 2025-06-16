@@ -1,8 +1,10 @@
-import React, { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function LogoConAudio() {
   const [clicks, setClicks] = useState(0)
   const audioRef = useRef(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (audioRef.current) {
@@ -16,6 +18,9 @@ function LogoConAudio() {
     if (nuevosClicks === 15 && audioRef.current) {
       audioRef.current.play()
       setClicks(0) // Reinicia el contador si querés que vuelva a sonar cada 10 clicks
+    }
+    if (window.location.pathname !== '/') {
+      navigate('/') // Redirige a la página principal solo si no estás en ella
     }
   }
 
