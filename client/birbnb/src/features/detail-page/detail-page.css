@@ -1,0 +1,102 @@
+.contenedor-direccion {
+  display: flex;
+  flex-direction: column;
+  padding-left: 285px;
+  /* background-color: aqua; */
+}
+
+.contenedor-titulo {
+  /* background-color: blueviolet; */
+  display: flex;
+  padding: 20px 20px 0px 20px;
+}
+
+.especificacion-direccion {
+  padding: 0px 20px 10px 15px;
+  margin: 0px;
+}
+
+.location-icon {
+  padding-right: 5px;
+}
+
+.locacion-puntual {
+  padding: 0px 20px 20px 15px;
+  margin: 0px;
+}
+
+.gps-icon {
+  padding-right: 5px;
+}
+
+.imagenes {
+  padding-left: 300px;
+}
+
+.foto-hotel {
+  width: 890px;
+  height: 550px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.contendor-inferior-foto {
+  padding-left: 300px;
+  padding-right: 285px;
+  padding-top: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.titulo-descripcion {
+  margin-top: 0px;
+}
+
+.caracteristicas {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  padding: 24px;
+  margin: 16px 0;
+  max-width: 400px; /* Opcional */
+}
+
+.titulo-caracteristicas {
+  font-size: 24px;
+  font-weight: 600;
+  padding-top: 0px;
+  margin-top: 0px;
+}
+
+.caracteristica-item {
+  font-size: 17px;
+  font-weight: normal;
+}
+
+.icono-caracteristica {
+  margin-right: 8px;
+}
+
+.contenedor-reserva {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 30px 30px 0px 30px;
+  margin-bottom: 50px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.boton-reservar {
+  padding: 15px;
+  background-color: #ff385c;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+}
+
+.contenedor-datepicker .contenedor-fechas .contenedor-viajeros {
+  height: 10px;
+}
