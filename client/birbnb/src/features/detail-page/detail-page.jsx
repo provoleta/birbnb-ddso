@@ -79,7 +79,6 @@ const AlojamientoDetail = () => {
             </header>
             <div className="contenedor-datepicker">
               <div className="contenedor-fechas">
-                <CalendarioReservas alojamiento={alojamiento} />
               </div>
             </div>
             <button className="boton-reservar">Reservar</button>
