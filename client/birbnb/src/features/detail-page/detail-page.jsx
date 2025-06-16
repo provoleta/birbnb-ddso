@@ -1,18 +1,28 @@
 import { useParams } from 'react-router-dom'
-import { Card } from '@mui/material'
 import './detail-page.css'
 import { alojamientos } from './alojamientosMockeados.js'
 import CaracteristicaItem from '../../components/caracteristica/caracteristica-item.jsx'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
 import GpsFixedIcon from '@mui/icons-material/GpsFixed'
-import foto from './vojtech-bruzek-Yrxr3bsPdS0-unsplash.jpg'
-import avatar from './avatar-default.png'
-
+import SliderFotos from '../../components/slider-fotos/slider-fotos.jsx'
 const AlojamientoDetail = () => {
   const { id } = useParams()
   const alojamiento = alojamientos.find((alojamiento) => alojamiento.id === Number(id))
 
   if (!alojamiento) return <div> `{} Alojamiento no encontrado😔`</div>
+
+  const moneda = (monedaOriginal) => {
+    switch (monedaOriginal) {
+      case 'DOLAR_USA':
+        return 'USD'
+      case 'PESO_ARG':
+        return 'ARS'
+      case 'REALES':
+        return 'BRL'
+      default:
+        return ''
+    }
+  }
 
   return (
     <div className="contenedor-general">
@@ -33,12 +43,9 @@ const AlojamientoDetail = () => {
         </div>
       </div>
       <section className="imagenes">
-        {/* aca pongo una fotarda para ver como va quedando el 
-        diseño */}
-        <img src={foto} alt="" className="foto-hotel" />
-        {/* Carousel */}
-        {/* <img src={alojamiento.fotos} alt={alojamiento.nombre} /> */}
+        <SliderFotos images={alojamiento.fotos} />
       </section>
+
       <div className="contenedor-facheroinferior">
         <div className="contendor-inferior-foto">
           <section className="detalles-alojamiento">
@@ -51,23 +58,12 @@ const AlojamientoDetail = () => {
               {alojamiento.caracteristicas.map((caracteristica) => (
                 <CaracteristicaItem caracteristica={caracteristica} />
               ))}
-
-              {/*
-            1. En algun lugar tengo los 4 componentes de caracteristicas
-            2. Recorro las caracteristicas y las transformo en uno de esos componentes
-            3. Funcion intermedia que toma la caracteristica y devuelve el componente
-            4. Cada caracteristica tiene un nombre y un icono
-            */}
             </section>
 
             <div className="anfitrion">
               <h2>Anfitrion</h2>
               <div className="perfil">
-                <img
-                  className="avatar"
-                  src="/images/avatar-default.png"
-                  alt="Foto de perfil"
-                />
+                <img className="avatar" src="/images/16480.png" alt="Foto de perfil" />
 
                 <div className="informacion-perfil">
                   <h4>{alojamiento.anfitrion.nombre}</h4>
@@ -78,15 +74,12 @@ const AlojamientoDetail = () => {
           </section>
 
           <section className="contenedor-reserva">
-            <header>
-              `${alojamiento.precioPorNoche} {alojamiento.moneda} por noche`
+            <header className="encabezado-reserva">
+              ${alojamiento.precioPorNoche} {moneda(alojamiento.moneda)} por noche
             </header>
             <div className="contenedor-datepicker">
               <div className="contenedor-fechas">
-                <button></button>
-              </div>
-              <div className="contenedor-viajeros">
-                <button></button>
+                <CalendarioReservas alojamiento={alojamiento} />
               </div>
             </div>
             <button className="boton-reservar">Reservar</button>
