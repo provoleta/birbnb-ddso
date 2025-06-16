@@ -45,7 +45,7 @@ export default function LoginPage() {
     if (email && password && name) {
       await Api()
         .register(name, email, password)
-        .then( async (token) => {
+        .then(async (token) => {
           await handleNewToken(token)
           navigate('/')
         })
@@ -60,7 +60,10 @@ export default function LoginPage() {
     <div className="login-page">
       <div className="login-container">
         <h2>{titulo}</h2>
-        <form className="login-form">
+        <form
+          className="login-form"
+          onSubmit={nuevoRegistro ? handleRegister : handleLogin}
+        >
           {nuevoRegistro && (
             <div className="input-container">
               <label htmlFor="name">Nombre completo:</label>
@@ -101,7 +104,7 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            onClick={nuevoRegistro ? handleRegister : handleLogin}
+            //onClick={nuevoRegistro ? handleRegister : handleLogin}
             className="login-button"
           >
             Login

@@ -25,6 +25,7 @@ function Api() {
     },
 
     register: async (name, email, password) => {
+      let tokenUsuario = null
       console.log('Intentando registrar')
       await instance
         .post('/usuarios/signup', {
@@ -35,12 +36,14 @@ function Api() {
         .then((response) => {
           const { token } = response.data
           console.log('me llego el token:', token)
-          return token
-        })  
+          tokenUsuario = token
+        })
         .catch((error) => {
           console.error('Registration failed:', error)
           alert('Registration failed. Please check your details and try again.')
         })
+
+      return tokenUsuario
     },
 
     getProfile: async (token) => {
