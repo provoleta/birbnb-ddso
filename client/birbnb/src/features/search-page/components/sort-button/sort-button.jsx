@@ -2,7 +2,7 @@ import './sort-button.css'
 import { useState, useRef } from 'react'
 import { Button, ClickAwayListener, Paper } from '@mui/material'
 
-const SortButton = ({}) => {
+const SortButton = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [sortOption, setSortOption] = useState('Menor precio')
   const buttonRef = useRef(null)
