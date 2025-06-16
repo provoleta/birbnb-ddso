@@ -5,6 +5,7 @@ import CaracteristicaItem from '../../components/caracteristica/caracteristica-i
 import LocationOnIcon from '@mui/icons-material/LocationOn'
 import GpsFixedIcon from '@mui/icons-material/GpsFixed'
 import SliderFotos from '../../components/slider-fotos/slider-fotos.jsx'
+import ReservationCalendar from '../../components/calendario-reserva/calendario-reserva.jsx'
 const AlojamientoDetail = () => {
   const { id } = useParams()
   const alojamiento = alojamientos.find((alojamiento) => alojamiento.id === Number(id))
@@ -78,7 +79,9 @@ const AlojamientoDetail = () => {
               ${alojamiento.precioPorNoche} {moneda(alojamiento.moneda)} por noche
             </header>
             <div className="contenedor-datepicker">
-              <div className="contenedor-fechas"></div>
+              <div className="contenedor-fechas">
+                <ReservationCalendar />
+              </div>
             </div>
             <button className="boton-reservar">Reservar</button>
           </section>
