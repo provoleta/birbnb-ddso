@@ -22,7 +22,14 @@ export const alojamientos = [
     },
     cantHuespedesMax: 6,
     caracteristicas: ['WIFI', 'PISCINA', 'ESTACIONAMIENTO'],
-    reservas: [],
+    reservas: [
+      {
+        rangoFechas: {
+          fechaInicio: '2025-06-24T03:00:00.000Z',
+          fechaFin: '2025-06-30T03:00:00.000Z',
+        },
+      },
+    ],
     fotos: [
       {
         descripcion: 'Vista al mar',

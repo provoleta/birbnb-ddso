@@ -80,7 +80,7 @@ const AlojamientoDetail = () => {
             </header>
             <div className="contenedor-datepicker">
               <div className="contenedor-fechas">
-                <ReservationCalendar />
+                <ReservationCalendar reservas={alojamiento.reservas} />
               </div>
             </div>
             <button className="boton-reservar">Reservar</button>
