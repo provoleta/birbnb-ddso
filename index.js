@@ -22,7 +22,7 @@ import NotificacionService from './BirBnB/services/notificacion-service.js'
 import SaludController from './BirBnB/controllers/health.controller.js'
 
 const app = express()
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 6969
 const server = new Server(app, port) // * Crear una nueva instancia del servidor
 
 MongoDBClient.connect()

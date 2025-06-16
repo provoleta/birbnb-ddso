@@ -9,14 +9,22 @@ export default class UsuarioService {
   }
 
   async signup(email, password, nombre) {
+    const existeEmail = await this.usuarioRepository.findByEmail(email)
+    if (existeEmail) throw new EmailException()
+
     const usuario = await this.usuarioRepository.signup(
       email,
       bcrypt.hashSync(password),
       nombre,
     )
-    if (!usuario) throw new EmailException()
 
-    return usuario
+    const token = jwt.sign(
+      { id: usuario.id },
+      process.env.JWT_SECRET || 'tu_secreto_seguro',
+      { expiresIn: '1h' },
+    )
+
+    return token
   }
 
   async login(email, password) {
@@ -27,11 +35,19 @@ export default class UsuarioService {
     if (!validPassword) throw new PasswordException()
 
     const token = jwt.sign(
-      { id: user.id, username: user.username },
+      { id: user.id },
       process.env.JWT_SECRET || 'tu_secreto_seguro',
       { expiresIn: '1h' },
     )
 
     return token
+  }
+
+  async getProfile(id) {
+    const usuario = await this.usuarioRepository.findById(id)
+
+    if (!usuario) throw new NotFoundException()
+
+    return usuario
   }
 }

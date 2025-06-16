@@ -1,16 +1,18 @@
 import express from 'express'
 import { configureRoutes } from './BirBnB/routes/routes.js'
 import { errorHandler } from './error-handler.js'
+import cors from 'cors'
 
 export class Server {
   controllers = {}
   // routes = []
   app
 
-  constructor(app, port = 3000) {
+  constructor(app, port = 6969) {
     this.app = app
     this.port = port
     this.app.use(express.json()) // * Middleware para parsear el cuerpo de las peticiones como JSON
+    this.app.use(cors()) // * Middleware para permitir CORS
   }
 
   setController(controllerClass, controller) {

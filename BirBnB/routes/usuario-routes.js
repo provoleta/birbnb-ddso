@@ -21,4 +21,8 @@ export default function registerUsuarioRoutes(app, getController) {
   app.post('/usuarios/login', (req, res) =>
     getController(UsuarioController).login(req, res),
   )
+
+  app.get('/usuarios/perfil', verifyToken, (req, res) =>
+    getController(UsuarioController).getProfile(req, res),
+  )
 }
