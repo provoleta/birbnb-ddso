@@ -1,5 +1,13 @@
 import './search-card.css'
-const SearchCard = ({ nombre, descripcion, precioPorNoche, fotos }) => {
+import { useNavigate } from 'react-router-dom'
+
+const SearchCard = ({ id, nombre, descripcion, precioPorNoche, fotos }) => {
+  const navigate = useNavigate()
+
+  const handleViewMore = () => {
+    navigate(`/alojamientos/${id}`)
+  }
+
   return (
     <div className="search-card-container">
       <div className="card-fotos">
@@ -10,7 +18,10 @@ const SearchCard = ({ nombre, descripcion, precioPorNoche, fotos }) => {
         <p>{descripcion}</p>
         <p className="card-precioPorNoche">${precioPorNoche} por noche</p>
       </div>
-      <button className="view-more-button"> Ver más </button>
+      <button className="view-more-button" onClick={handleViewMore}>
+        {' '}
+        Ver más{' '}
+      </button>
     </div>
   )
 }
