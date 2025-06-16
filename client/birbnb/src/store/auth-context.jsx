@@ -1,7 +1,7 @@
 import { createContext, useState, useContext } from 'react'
 import { useEffect } from 'react'
 import axios from 'axios'
-import { set } from 'mongoose'
+import Api from '../api/api'
 
 const AuthContext = createContext()
 
@@ -17,10 +17,10 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     if (token) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
-      axios
-        .get('usuarios/perfil', { baseURL: 'http://localhost:6969' })
-        .then((response) => {
-          setUser(response.data)
+      Api()
+        .getProfile(token)
+        .then((data) => {
+          setUser(data)
           setLogueado(true)
         })
         .catch((error) => {

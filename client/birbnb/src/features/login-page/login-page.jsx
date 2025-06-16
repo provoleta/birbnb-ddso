@@ -2,7 +2,7 @@ import './login-page.css'
 import { useAuthContext } from '../../store/auth-context'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import Api from '../../api/api'
 
 export default function LoginPage() {
   const { setToken } = useAuthContext()
@@ -28,19 +28,10 @@ export default function LoginPage() {
   const handleLogin = async (e) => {
     e.preventDefault()
     if (email && password) {
-      await axios
-        .post(
-          '/usuarios/login',
-          {
-            email: email,
-            password: password,
-          },
-          { baseURL: 'http://localhost:6969' },
-        )
-        .then((response) => {
-          const { token } = response.data
+      await Api()
+        .login(email, password)
+        .then((token) => {
           setToken(token)
-          navigate('/')
         })
         .catch((error) => {
           console.error('Login failed:', error)
@@ -52,18 +43,9 @@ export default function LoginPage() {
   const handleRegister = async (e) => {
     e.preventDefault()
     if (email && password && name) {
-      await axios
-        .post(
-          '/usuarios/signup',
-          {
-            name: name,
-            email: email,
-            password: password,
-          },
-          { baseURL: 'http://localhost:6969' },
-        )
-        .then((response) => {
-          const { token } = response.data
+      await Api()
+        .register(name, email, password)
+        .then((token) => {
           setToken(token)
           navigate('/')
         })
