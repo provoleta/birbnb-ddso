@@ -1,0 +1,14 @@
+.pie {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 10px;
+  background-color: #dddddd;
+}
+
+@media (min-width: 950px) {
+}
+
+.tw .wpp .ig {
+  margin: 20px;
+}
