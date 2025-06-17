@@ -17,3 +17,8 @@
   color: black;
   font-weight: 500;
 }
+
+.underline-button:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}

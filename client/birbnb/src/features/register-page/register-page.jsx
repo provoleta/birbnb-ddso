@@ -1,4 +1,4 @@
-import './login-page.css'
+import './register-page.css'
 import { useAuthContext } from '../../store/auth-context'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -12,24 +12,37 @@ export default function LoginPage() {
 
   const navigate = useNavigate()
 
-  const handleLogin = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault()
-    if (email && password) {
-      let token = await Api().login(email, password)
+    if (email && password && name) {
+      let token = await Api().register(name, email, password)
       await handleNewToken(token)
+      console.log('Token post handle:', token)
       navigate('/')
     }
   }
 
   const handleSwitch = () => {
-    navigate('/register')
+    navigate('/login')
   }
 
   return (
     <div className="login-page">
       <div className="login-container">
-        <h2>Iniciar Sesion</h2>
-        <form className="login-form" onSubmit={handleLogin}>
+        <h2>Crear Cuenta</h2>
+        <form className="login-form" onSubmit={handleRegister}>
+          <div className="input-container">
+            <label htmlFor="name">Nombre completo:</label>
+            <input
+              className="login-input"
+              type="text"
+              id="name"
+              name="name"
+              required
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+
           <div className="input-container">
             <label htmlFor="email">Email:</label>
             <input
@@ -55,16 +68,12 @@ export default function LoginPage() {
             />
           </div>
 
-          <button
-            type="submit"
-            //onClick={nuevoRegistro ? handleRegister : handleLogin}
-            className="login-button"
-          >
-            Login
+          <button type="submit" className="login-button">
+            Registrar
           </button>
 
           <div className="login-toggle" onClick={handleSwitch}>
-            Crear Cuenta
+            ¿Ya tenes cuenta? Iniciar sesión
           </div>
         </form>
       </div>

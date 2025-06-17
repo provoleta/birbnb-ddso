@@ -20,17 +20,21 @@ export function OnSession() {
       <IconButton onClick={verNotificaciones}>
         <NotificationIcon />
       </IconButton>
-      <Avatar
-        alt="User Avatar"
-        src="/images/user-avatar.png"
-        onClick={() => setProfileMenuOpen(!profileMenuOpen)}
-      />
-      {profileMenuOpen && (
-        <div className="profileMenu">
-          <button>Perfil</button>
-          <button onClick={handleLogout}>Cerrar sesión</button>
-        </div>
-      )}
+      <div className="user-info">
+        <Avatar
+          alt="User Avatar"
+          src="/images/user-avatar.png"
+          onClick={() => setProfileMenuOpen(!profileMenuOpen)}
+        />
+        {profileMenuOpen && (
+          <div className="profile-menu">
+            <button className="menu-button">Perfil</button>
+            <button className="menu-button" onClick={handleLogout}>
+              Cerrar sesión
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   )
 }

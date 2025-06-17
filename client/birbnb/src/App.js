@@ -10,6 +10,7 @@ import { SearchProvider } from './store/search-context.jsx'
 import Notificaciones from './features/notificaciones/notificaciones.jsx'
 
 import LoginPage from './features/login-page/login-page.jsx'
+import RegisterPage from './features/register-page/register-page.jsx'
 
 const theme = createTheme({
   palette: {
@@ -35,7 +36,7 @@ function App() {
               <Route path="/usuarios/notificaciones/:id" element={<Notificaciones />} />
             </Route>
             <Route path="/login" element={<LoginPage />} />
-            {/* <Route path="/register" element={<RegisterPage />} /> */}
+            <Route path="/register" element={<RegisterPage />} />
           </Routes>
         </BrowserRouter>
       </SearchProvider>
