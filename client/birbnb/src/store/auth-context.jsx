@@ -30,7 +30,7 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ handleNewToken, logueado, token }}>
+    <AuthContext.Provider value={{ handleNewToken, logueado, token, user }}>
       {children}
     </AuthContext.Provider>
   )

@@ -167,3 +167,20 @@
   color: #666;
   text-transform: uppercase;
 }
+
+.boton-reservar {
+  padding: 15px;
+  background-color: #a538ff; /* Color principal cuando está habilitado */
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.boton-reservar:disabled {
+  background-color: #cccccc; /* Gris cuando está deshabilitado */
+  color: #888888;
+  cursor: not-allowed;
+}

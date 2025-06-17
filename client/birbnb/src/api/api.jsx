@@ -86,6 +86,20 @@ function Api() {
         })
       return notificaciones
     },
+
+    crearReserva: async (reserva) => {
+      console.log('Creando reserva:', reserva)
+      return await instance
+        .post('/reservas', reserva)
+        .then((response) => {
+          console.log('Reserva creada con éxito:', response.data)
+          return response.data
+        })
+        .catch((error) => {
+          console.error('Error creating reservation:', error)
+          throw error
+        })
+    },
   }
 }
 

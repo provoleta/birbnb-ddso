@@ -1,12 +1,13 @@
 import { useParams } from 'react-router-dom'
 import './detail-page.css'
 import { alojamientos } from './alojamientosMockeados.js'
-import CaracteristicaItem from './components/caracteristica/caracteristica-item.jsx'
 import SliderFotos from './components/slider-fotos/slider-fotos.jsx'
 import ReservationCalendar from './components/calendario-reserva/calendario-reserva.jsx'
 import Anfitrion from './components/anfitrion-detail/anfitrion-detail.jsx'
 import { useState } from 'react'
 import Direccion from './components/direccion-detail/direccion-detail.jsx'
+import useCreacionReserva from './components/creacion-reserva/creacion-reserva.jsx'
+import Detalles from './components/detalles-detail/detalles-detail.jsx'
 
 const AlojamientoDetail = () => {
   const { id } = useParams()
@@ -17,6 +18,8 @@ const AlojamientoDetail = () => {
   const handlerFechas = (nuevasFechas) => {
     setFechas(nuevasFechas)
   }
+
+  const { procesarReserva } = useCreacionReserva(fechas, alojamiento.id)
 
   if (!alojamiento) return <div> `{} Alojamiento no encontrado😔`</div>
 
@@ -36,20 +39,6 @@ const AlojamientoDetail = () => {
   return (
     <div className="contenedor-general">
       <div className="contenedor-fachero">
-        {/* <div className="contenedor-direccion">
-          <div className="contenedor-titulo">
-            <h1>{alojamiento.nombre}</h1>
-          </div>
-          <p className="especificacion-direccion">
-            <LocationOnIcon fontSize="small" className="location-icon" />
-            {alojamiento.direccion.calle} {alojamiento.direccion.numero},{' '}
-            {alojamiento.direccion.ciudad} {alojamiento.direccion.pais}
-          </p>
-          <p className="locacion-puntual">
-            <GpsFixedIcon fontSize="small" className="gps-icon" />
-            Latitud: {alojamiento.direccion.lat} Longitud: {alojamiento.direccion.long}
-          </p>
-        </div> */}
         <Direccion alojamiento={alojamiento} />
       </div>
       <section className="imagenes">
@@ -59,17 +48,8 @@ const AlojamientoDetail = () => {
       <div className="contenedor-facheroinferior">
         <div className="contendor-inferior-foto">
           <section className="detalles-alojamiento">
-            <div className="descripcion">
-              <h2 className="titulo-descripcion">Descripcion alojamiento</h2>
-              <p>{alojamiento.descripcion}</p>
-            </div>
-            <h1 className="titulo-caracteristicas">¿Que ofrece este lugar?</h1>
-            <section className="caracteristicas">
-              {alojamiento.caracteristicas.map((caracteristica) => (
-                <CaracteristicaItem caracteristica={caracteristica} />
-              ))}
-            </section>
-            <Anfitrion alojamiento={alojamiento}></Anfitrion>
+            <Detalles alojamiento={alojamiento} />
+            <Anfitrion alojamiento={alojamiento} />
           </section>
 
           <section className="contenedor-reserva">
@@ -82,7 +62,12 @@ const AlojamientoDetail = () => {
                 onFechas={handlerFechas}
               />
             </div>
-            <button className="boton-reservar" disabled={!fechas[0] || !fechas[1]}>
+            <button
+              className="boton-reservar"
+              onClick={procesarReserva}
+              disabled={!fechas[0] || !fechas[1]}
+              type="button"
+            >
               Reservar
             </button>
           </section>
