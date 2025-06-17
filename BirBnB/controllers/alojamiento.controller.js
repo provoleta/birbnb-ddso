@@ -18,6 +18,8 @@ export default class AlojamientoController {
       moneda,
       page = 1,
       limit = 10,
+      checkIn,
+      checkOut,
     } = req.query
 
     const filters = {
@@ -32,6 +34,8 @@ export default class AlojamientoController {
       huespedesMax,
       caracteristicas,
       moneda,
+      checkIn,
+      checkOut,
     }
 
     const alojamientosPaginados = await this.alojamientoService.findAll(
