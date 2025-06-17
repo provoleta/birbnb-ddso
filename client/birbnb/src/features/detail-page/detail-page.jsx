@@ -66,6 +66,7 @@ const AlojamientoDetail = () => {
               className="boton-reservar"
               onClick={procesarReserva}
               disabled={!fechas[0] || !fechas[1]}
+              type="button"
             >
               Reservar
             </button>

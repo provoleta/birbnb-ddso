@@ -1,6 +1,13 @@
 import { useAuthContext } from '../../../../store/auth-context'
 import { useNavigate } from 'react-router-dom'
+import Api from '../../../../../src/api/api'
 
+function formatDateToDDMMYYYY(date) {
+  const day = String(date.getDate()).padStart(2, '0')
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const year = date.getFullYear()
+  return `${day}-${month}-${year}`
+}
 //{ fechaAlta, huespedReservadorId, idAlojamiento, rangoFechas } = reserva
 const useCreacionReserva = (fechas, alojamientoId) => {
   const { logueado, user } = useAuthContext()
@@ -20,18 +27,18 @@ const useCreacionReserva = (fechas, alojamientoId) => {
     }
 
     const reserva = {
-      fechaAlta: new Date().toISOString(),
+      fechaAlta: formatDateToDDMMYYYY(new Date()),
       huespedReservadorId: user._id,
       idAlojamiento: alojamientoId,
       rangoFechas: {
-        fechaInicio: fechas[0].toISOString(),
-        fechaFin: fechas[1].toISOString(),
+        fechaInicio: formatDateToDDMMYYYY(fechas[0]),
+        fechaFin: formatDateToDDMMYYYY(fechas[1]),
       },
     }
 
     console.log('Reserva a procesar:', reserva)
 
-    // Api().crearReserva(reserva, token)
+    Api().crearReserva(reserva)
 
     alert('¡Reserva creada con éxito!')
   }
