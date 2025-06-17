@@ -7,7 +7,7 @@ function CityInput({ handleChange, query, resultados }) {
   return (
     <div style={{ position: 'relative' }}>
       <input
-        className="main-input left"
+        className="search-section"
         type="text"
         placeholder="Buscar"
         value={query}

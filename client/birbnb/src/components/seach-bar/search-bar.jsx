@@ -36,34 +36,55 @@ function SearchBar() {
   }
 
   return (
-    <div className="app-nav-search">
-      <CityInput handleChange={handleChange} query={query} resultados={resultados} />
-      <input
-        className="main-input"
-        type="date"
-        placeholder="Check-in"
-        value={checkIn}
-        min={new Date().toISOString().split('T')[0]} // hoy?
-        onChange={(e) => setCheckIn(e.target.value)}
-      />
-      <input
-        className="main-input"
-        type="date"
-        placeholder="Check-out"
-        value={checkOut}
-        min={checkIn}
-        onChange={(e) => setCheckOut(e.target.value)}
-      />
-      <input
-        className="main-input right"
-        type="number"
-        placeholder="Huespedes"
-        value={huespedes}
-        onChange={(e) => setHuespedes(e.target.value)}
-      />
-      <button className="button-busqueda" onClick={handleSearch}>
-        Buscar
-      </button>
+    <div className="search-bar-container">
+      <div className="search-bar">
+        <div className="search-section">
+          <label>Where</label>
+          <CityInput handleChange={handleChange} query={query} resultados={resultados} />
+        </div>
+        <div className="divider"></div>
+        <div className="search-section">
+          <label>Check in</label>
+          <input
+            type="date"
+            placeholder="Add dates"
+            value={checkIn}
+            onChange={(e) => setCheckIn(e.target.value)}
+          />
+        </div>
+        <div className="divider"></div>
+        <div className="search-section">
+          <label>Check out</label>
+          <input
+            type="date"
+            placeholder="Add dates"
+            value={checkOut}
+            onChange={(e) => setCheckOut(e.target.value)}
+          />
+        </div>
+        <div className="divider"></div>
+        <div className="search-section">
+          <label>Who</label>
+          <input
+            type="number"
+            placeholder="Add guests"
+            value={huespedes}
+            onChange={(e) => setHuespedes(e.target.value)}
+            min="1"
+          />
+        </div>
+        <button className="search-button" onClick={handleSearch}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="white"
+            width="24px"
+            height="24px"
+          >
+            <path d="M15.5 14h-.79l-.28-.27a6.471 6.471 0 001.48-5.34C15.11 5.59 12.52 3 9.5 3S3.89 5.59 3.89 8.39c0 2.93 2.59 5.52 5.61 5.52 1.61 0 3.06-.63 4.11-1.68l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+          </svg>
+        </button>
+      </div>
     </div>
   )
 }
