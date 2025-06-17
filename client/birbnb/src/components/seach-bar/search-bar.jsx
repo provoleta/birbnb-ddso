@@ -2,6 +2,7 @@ import './search-bar.css'
 import { useState } from 'react'
 import { useSearchContext } from '../../store/search-context'
 import CityInput from './city-input/city-input'
+import { useNavigate } from 'react-router-dom'
 
 function SearchBar() {
   const { aplicarFiltros } = useSearchContext()
@@ -10,6 +11,7 @@ function SearchBar() {
   const [checkOut, setCheckOut] = useState('')
   const [huespedes, setHuespedes] = useState(0)
   const [resultados, setResultados] = useState([])
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
     const value = e.target.value
@@ -26,13 +28,14 @@ function SearchBar() {
   const [query, setQuery] = useState('')
   const datosPrueba = ['Buenos Aires', 'Córdoba'] // TODO resolver en el backend
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
     const params = new Map()
     params.set('ciudad', ciudad)
     params.set('checkIn', checkIn)
     params.set('checkOut', checkOut)
-    params.set('huespedes', huespedes)
+    params.set('huespedesMax', huespedes)
     aplicarFiltros(params)
+    navigate('/alojamientos')
   }
 
   return (
@@ -40,7 +43,13 @@ function SearchBar() {
       <div className="search-bar">
         <div className="search-section">
           <label>Destino</label>
-          <CityInput handleChange={handleChange} query={query} resultados={resultados} />
+          {/* <CityInput handleChange={handleChange} query={query} resultados={resultados} /> */}
+          <input
+            type="text"
+            placeholder="Add city"
+            value={ciudad}
+            onChange={(e) => setCiudad(e.target.value)}
+          />
         </div>
         <div className="divider"></div>
         <div className="search-section">

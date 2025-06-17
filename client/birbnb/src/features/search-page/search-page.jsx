@@ -5,11 +5,13 @@ import SortButton from './components/sort-button/sort-button.jsx'
 import SliderPrecio from './components/filters/slider-precio.jsx'
 import FiltrosCaracteristicas from './components/filters/caracteristicas.jsx'
 import { useState, useMemo } from 'react'
+import { useSearchContext } from '../../store/search-context.jsx'
 
 export default function SearchPage({ searchValue }) {
   const [sortOption, setSortOption] = useState('Menor precio') // Inicialmente se ordena por menor precio
   const [currentPage, setCurrentPage] = useState(1) // Estado para la página actual
   const itemsPerPage = 10 // Número de alojamientos por página
+  const { aplicarFiltros } = useSearchContext()
 
   // Ordenar alojamientos usando useMemo para evitar cálculos innecesarios
   const sortedAlojamientos = useMemo(() => {

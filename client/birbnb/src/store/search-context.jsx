@@ -11,10 +11,12 @@ export function SearchProvider({ children }) {
   const [searchParams, setSearchParams] = useState(new Map())
 
   const search = () => {
+    let filtrosJson = Object.fromEntries(searchParams)
+    console.log(filtrosJson)
     axios
       .get('/alojamientos', {
         baseURL: 'http://localhost:6969',
-        params: Object.fromEntries(searchParams),
+        params: filtrosJson,
       })
       .then((response) => {
         // Aquí puedes manejar la respuesta de la búsqueda
