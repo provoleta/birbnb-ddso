@@ -8,18 +8,42 @@ import { useState } from 'react'
 import Direccion from './components/direccion-detail/direccion-detail.jsx'
 import useCreacionReserva from './components/creacion-reserva/creacion-reserva.jsx'
 import Detalles from './components/detalles-detail/detalles-detail.jsx'
+import Api from '../../api/api.jsx'
+import { useEffect } from 'react'
 
 const AlojamientoDetail = () => {
   const { id } = useParams()
-  const alojamiento = alojamientos.find((alojamiento) => alojamiento.id === Number(id))
-
+  //const alojamiento = alojamientos.find((alojamiento) => alojamiento.id === Number(id))
+  const [alojamiento, setAlojamiento] = useState(null)
+  const [loading, setLoading] = useState(true)
   const [fechas, setFechas] = useState([null, null])
+
+  const { procesarReserva } = useCreacionReserva(fechas, id)
+
+  useEffect(() => {
+    Api()
+      .obtenerAlojamiento(id)
+      .then((data) => {
+        setAlojamiento(data)
+        setLoading(false)
+      })
+      .catch((error) => {
+        console.error('Error al obtener alojamiento:', error)
+        setLoading(false)
+      })
+  }, [id])
 
   const handlerFechas = (nuevasFechas) => {
     setFechas(nuevasFechas)
   }
 
-  const { procesarReserva } = useCreacionReserva(fechas, alojamiento.id)
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <p className="loading-text">Cargando información del alojamiento...</p>
+      </div>
+    )
+  }
 
   if (!alojamiento) return <div> `{} Alojamiento no encontrado😔`</div>
 

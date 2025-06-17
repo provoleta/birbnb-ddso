@@ -70,7 +70,7 @@ export default function SearchPage({ searchValue }) {
           {paginatedAlojamientos.map((result) => (
             <SearchCard
               key={result.id} // Esta línea es importante para que React pueda identificar cada elemento de la lista
-              id={result.id}
+              id={result.idAlojamiento}
               nombre={result.nombre}
               descripcion={result.descripcion}
               precioPorNoche={result.precioPorNoche}

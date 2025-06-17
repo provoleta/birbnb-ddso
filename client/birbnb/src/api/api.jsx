@@ -105,6 +105,7 @@ function Api() {
       return await instance
         .get(`/alojamientos/${id}`)
         .then((response) => {
+          console.log('Alojamiento obtenido API:', response.data)
           return response.data
         })
         .catch((error) => {
