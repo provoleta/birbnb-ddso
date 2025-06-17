@@ -33,6 +33,12 @@ export default class AlojamientoService {
     }
   }
 
+  async findById(id) {
+    const alojamiento = await this.alojamientoRepository.findById(id)
+    if (!alojamiento) throw new NotFoundException()
+    return this.toDTO(alojamiento)
+  }
+
   toDTO(alojamiento) {
     return {
       idAlojamiento: alojamiento.id,
