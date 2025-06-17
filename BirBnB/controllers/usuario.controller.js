@@ -9,18 +9,17 @@ export default class UsuarioController {
 
   // TODO: Definir como obtener el userId
   async findAll(req, res) {
-    const { userId, leida } = req.query
+    const { leida } = req.query
     const leidaBool = leida === 'true'
-    validarObjectId(userId)
-    const notificaciones = await this.notificacionService.findAll(leidaBool, userId)
+    validarObjectId(req.user.id)
+    const notificaciones = await this.notificacionService.findAll(leidaBool, req.user.id)
     return res.status(200).json(notificaciones)
   }
 
   async update(req, res) {
-    const { id, userId } = req.query
+    const { id } = req.query
     validarObjectId(id)
-    validarObjectId(userId)
-    const notificacion = await this.notificacionService.markAsRead(id, userId)
+    const notificacion = await this.notificacionService.markAsRead(id, req.user.id)
     return res.status(200).json(notificacion)
   }
 
