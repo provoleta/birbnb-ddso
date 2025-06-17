@@ -14,9 +14,19 @@ export function AuthProvider({ children }) {
   const [token, setToken] = useState(null)
   const [logueado, setLogueado] = useState(false)
 
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token')
+    if (storedToken) {
+      setToken(storedToken)
+      let userData = Api().getProfile(storedToken)
+      setUser(userData)
+      setLogueado(true)
+    }
+  }, [])
+
   const handleNewToken = async (newToken) => {
     setToken(newToken)
-    console.log(token)
+    localStorage.setItem('token', newToken)
     let userData = await Api().getProfile(newToken)
     setUser(userData)
     setLogueado(true)
@@ -27,6 +37,7 @@ export function AuthProvider({ children }) {
     setUser(null)
     setToken(null)
     setLogueado(false)
+    localStorage.removeItem('token')
   }
 
   return (
