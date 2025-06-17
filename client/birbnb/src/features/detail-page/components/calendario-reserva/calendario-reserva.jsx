@@ -3,7 +3,7 @@ import { useState } from 'react'
 import 'react-datepicker/dist/react-datepicker.css'
 import './calendario-reserva.css'
 
-function ReservationCalendar({ reservas }) {
+function ReservationCalendar({ reservas, onFechas }) {
   const [rangoFecha, setRangoFecha] = useState([null, null])
   const [fechaInicio, fechaFin] = rangoFecha
 
@@ -36,9 +36,15 @@ function ReservationCalendar({ reservas }) {
 
     if (fechaInicio && fechaFin && rangoContieneOcupadas(fechaInicio, fechaFin)) {
       setRangoFecha([null, null])
+      if (onFechas) {
+        onFechas([null, null])
+      }
       return
     }
     setRangoFecha(fechas)
+    if (onFechas) {
+      onFechas(fechas)
+    }
 
     if (fechas[0] && fechas[1]) {
       const inicio = fechas[0].toISOString().split('T')[0]

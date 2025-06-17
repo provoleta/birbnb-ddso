@@ -2,7 +2,6 @@ import WifiIcon from '@mui/icons-material/Wifi'
 import PoolIcon from '@mui/icons-material/Pool'
 import LocalParkingIcon from '@mui/icons-material/LocalParking'
 import PetsIcon from '@mui/icons-material/Pets'
-import '../../features/detail-page/detail-page.css'
 
 const CaracteristicaItem = ({ caracteristica }) => {
   const getIcon = (caracteristica) => {
