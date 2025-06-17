@@ -39,7 +39,7 @@ function SearchBar() {
     <div className="search-bar-container">
       <div className="search-bar">
         <div className="search-section">
-          <label>Where</label>
+          <label>Destino</label>
           <CityInput handleChange={handleChange} query={query} resultados={resultados} />
         </div>
         <div className="divider"></div>
@@ -64,7 +64,7 @@ function SearchBar() {
         </div>
         <div className="divider"></div>
         <div className="search-section">
-          <label>Who</label>
+          <label>Huéspedes</label>
           <input
             type="number"
             placeholder="Add guests"

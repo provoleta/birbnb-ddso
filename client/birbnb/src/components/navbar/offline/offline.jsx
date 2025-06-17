@@ -7,7 +7,7 @@ export function Offline() {
   const login = () => {
     navigate('/login')
   }
-
+  //TODO: Estaria bueno que Crear Cuenta sea un boton que te redireccione al formulario para registrarte
   return (
     <div className="app-nav-links">
       <div> ¿Sos Anfitrión? </div>
