@@ -45,4 +45,17 @@ export default class AlojamientoController {
     )
     res.json(alojamientosPaginados)
   }
+
+  async findById(req, res) {
+    const { id } = req.params
+    try {
+      const alojamiento = await this.alojamientoService.findById(id)
+      if (!alojamiento) {
+        return res.status(404).json({ error: 'Alojamiento no encontrado' })
+      }
+      res.json(alojamiento)
+    } catch {
+      res.status(500).json({ error: 'Error al obtener el alojamiento' })
+    }
+  }
 }
