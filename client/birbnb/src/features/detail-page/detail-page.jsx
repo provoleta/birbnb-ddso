@@ -1,14 +1,22 @@
 import { useParams } from 'react-router-dom'
 import './detail-page.css'
 import { alojamientos } from './alojamientosMockeados.js'
-import CaracteristicaItem from '../../components/caracteristica/caracteristica-item.jsx'
-import LocationOnIcon from '@mui/icons-material/LocationOn'
-import GpsFixedIcon from '@mui/icons-material/GpsFixed'
-import SliderFotos from '../../components/slider-fotos/slider-fotos.jsx'
-import ReservationCalendar from '../../components/calendario-reserva/calendario-reserva.jsx'
+import CaracteristicaItem from './components/caracteristica/caracteristica-item.jsx'
+import SliderFotos from './components/slider-fotos/slider-fotos.jsx'
+import ReservationCalendar from './components/calendario-reserva/calendario-reserva.jsx'
+import Anfitrion from './components/anfitrion-detail/anfitrion-detail.jsx'
+import { useState } from 'react'
+import Direccion from './components/direccion-detail/direccion-detail.jsx'
+
 const AlojamientoDetail = () => {
   const { id } = useParams()
   const alojamiento = alojamientos.find((alojamiento) => alojamiento.id === Number(id))
+
+  const [fechas, setFechas] = useState([null, null])
+
+  const handlerFechas = (nuevasFechas) => {
+    setFechas(nuevasFechas)
+  }
 
   if (!alojamiento) return <div> `{} Alojamiento no encontrado😔`</div>
 
@@ -28,7 +36,7 @@ const AlojamientoDetail = () => {
   return (
     <div className="contenedor-general">
       <div className="contenedor-fachero">
-        <div className="contenedor-direccion">
+        {/* <div className="contenedor-direccion">
           <div className="contenedor-titulo">
             <h1>{alojamiento.nombre}</h1>
           </div>
@@ -41,7 +49,8 @@ const AlojamientoDetail = () => {
             <GpsFixedIcon fontSize="small" className="gps-icon" />
             Latitud: {alojamiento.direccion.lat} Longitud: {alojamiento.direccion.long}
           </p>
-        </div>
+        </div> */}
+        <Direccion alojamiento={alojamiento} />
       </div>
       <section className="imagenes">
         <SliderFotos images={alojamiento.fotos} />
@@ -60,18 +69,7 @@ const AlojamientoDetail = () => {
                 <CaracteristicaItem caracteristica={caracteristica} />
               ))}
             </section>
-
-            <div className="anfitrion">
-              <h2>Anfitrion</h2>
-              <div className="perfil">
-                <img className="avatar" src="/images/16480.png" alt="Foto de perfil" />
-
-                <div className="informacion-perfil">
-                  <h4>{alojamiento.anfitrion.nombre}</h4>
-                  <p className="email">Contacto: {alojamiento.anfitrion.email}</p>
-                </div>
-              </div>
-            </div>
+            <Anfitrion alojamiento={alojamiento}></Anfitrion>
           </section>
 
           <section className="contenedor-reserva">
@@ -79,11 +77,14 @@ const AlojamientoDetail = () => {
               ${alojamiento.precioPorNoche} {moneda(alojamiento.moneda)} por noche
             </header>
             <div className="contenedor-datepicker">
-              <div className="contenedor-fechas">
-                <ReservationCalendar reservas={alojamiento.reservas} />
-              </div>
+              <ReservationCalendar
+                reservas={alojamiento.reservas}
+                onFechas={handlerFechas}
+              />
             </div>
-            <button className="boton-reservar">Reservar</button>
+            <button className="boton-reservar" disabled={!fechas[0] || !fechas[1]}>
+              Reservar
+            </button>
           </section>
         </div>
       </div>

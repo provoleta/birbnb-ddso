@@ -1,3 +1,7 @@
+.contenedor-general {
+  margin-bottom: 60px;
+}
+
 .contenedor-fachero {
   display: flex;
   flex-direction: column;
@@ -114,12 +118,6 @@
   display: flex;
   justify-content: center;
   overflow: visible; /* Allow calendar to be visible fully */
-}
-
-.contenedor-fechas {
-  width: 100%;
-  display: flex;
-  justify-content: center;
 }
 
 .boton-reservar {
