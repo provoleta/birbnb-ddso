@@ -6,10 +6,10 @@ import { useNavigate } from 'react-router'
 import { useAuthContext } from '../../../store/auth-context'
 
 export function OnSession() {
-  const user = useAuthContext() //TODO: terminar de hacerlo andar
+  const { user } = useAuthContext() //TODO: terminar de hacerlo andar
   const navigate = useNavigate()
   const verNotificaciones = () => {
-    navigate(`/usuarios/notificaciones/${user.token}`)
+    navigate(`/usuarios/notificaciones/${user._id}`)
   }
 
   return (
