@@ -14,21 +14,12 @@ export function AuthProvider({ children }) {
   const [token, setToken] = useState(null)
   const [logueado, setLogueado] = useState(false)
 
-
   const handleNewToken = async (newToken) => {
     setToken(newToken)
     console.log(token)
-    await Api()
-        .getProfile(token)
-        .then((data) => {
-          setUser(data)
-          setLogueado(true)
-        })
-        .catch((error) => {
-          console.error('Error fetching user profile:', error)
-          setUser(null)
-        })
-
+    let userData = await Api().getProfile(newToken)
+    setUser(userData)
+    setLogueado(true)
   }
 
   const logout = () => {
@@ -39,6 +30,8 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ handleNewToken, logueado }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ handleNewToken, logueado }}>
+      {children}
+    </AuthContext.Provider>
   )
 }
