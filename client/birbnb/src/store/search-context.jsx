@@ -9,6 +9,7 @@ export function useSearchContext() {
 
 export function SearchProvider({ children }) {
   const [searchParams, setSearchParams] = useState(new Map())
+  const [alojamientos, setAlojamientos] = useState([])
 
   const search = () => {
     let filtrosJson = Object.fromEntries(searchParams)
@@ -19,7 +20,6 @@ export function SearchProvider({ children }) {
       filtrosJson.checkOut = convertirFecha(filtrosJson.checkOut)
     }
 
-    console.log(filtrosJson)
     axios
       .get('/alojamientos', {
         baseURL: 'http://localhost:6969',
@@ -27,11 +27,12 @@ export function SearchProvider({ children }) {
       })
       .then((response) => {
         // Aquí puedes manejar la respuesta de la búsqueda
-        console.log('Resultados de búsqueda:', response.data)
+        setAlojamientos(response.data)
       })
       .catch((error) => {
         // Manejo de errores
         console.error('Error al buscar alojamientos:', error)
+        setAlojamientos([])
       })
   }
 
@@ -44,16 +45,18 @@ export function SearchProvider({ children }) {
   }
 
   return (
-    <SearchContext.Provider value={{ aplicarFiltros }}>{children}</SearchContext.Provider>
+    <SearchContext.Provider value={{ aplicarFiltros, alojamientos }}>
+      {children}
+    </SearchContext.Provider>
   )
 }
 
 const convertirFecha = (fecha) => {
   if (!(fecha instanceof Date)) {
-    fecha = new Date(fecha) // Asegúrate de que sea un objeto Date
+    fecha = new Date(fecha)
   }
-  const dia = String(fecha.getDate()).padStart(2, '0') // Agregar ceros si es necesario
-  const mes = String(fecha.getMonth() + 1).padStart(2, '0') // Los meses empiezan en 0
+  const dia = String(fecha.getDate()).padStart(2, '0')
+  const mes = String(fecha.getMonth() + 1).padStart(2, '0')
   const anio = fecha.getFullYear()
   return `${dia}-${mes}-${anio}`
 }

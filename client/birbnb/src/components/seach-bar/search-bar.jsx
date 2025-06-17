@@ -35,7 +35,9 @@ function SearchBar() {
     params.set('checkOut', checkOut)
     params.set('huespedesMax', huespedes)
     aplicarFiltros(params)
-    navigate('/alojamientos')
+    if (window.location.pathname !== '/alojamientos') {
+      navigate('/alojamientos')
+    }
   }
 
   return (

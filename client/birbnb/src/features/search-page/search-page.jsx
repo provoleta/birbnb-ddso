@@ -1,5 +1,4 @@
 import './search-page.css'
-import { alojamientos } from './alojamientosMockeados.js'
 import SearchCard from './components/search-card/search-card.jsx'
 import SortButton from './components/sort-button/sort-button.jsx'
 import SliderPrecio from './components/filters/slider-precio.jsx'
@@ -8,14 +7,20 @@ import { useState, useMemo } from 'react'
 import { useSearchContext } from '../../store/search-context.jsx'
 
 export default function SearchPage({ searchValue }) {
-  const [sortOption, setSortOption] = useState('Menor precio') // Inicialmente se ordena por menor precio
-  const [currentPage, setCurrentPage] = useState(1) // Estado para la página actual
-  const itemsPerPage = 10 // Número de alojamientos por página
-  const { aplicarFiltros } = useSearchContext()
+  const { alojamientos } = useSearchContext() // Obtener los alojamientos del contexto
+
+  console.log('Alojamientos en SearchPage:', alojamientos.data)
+  console.log('Valor de path: ', alojamientos.data?.[0]?.fotos?.[0]?.path)
+
+  const [sortOption, setSortOption] = useState('Menor precio')
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 10
 
   // Ordenar alojamientos usando useMemo para evitar cálculos innecesarios
   const sortedAlojamientos = useMemo(() => {
-    const alojamientosCopy = [...alojamientos] // Crea una copia para no modificar el original
+    const alojamientosCopy = Array.isArray(alojamientos?.data)
+      ? [...alojamientos.data]
+      : []
 
     return alojamientosCopy.sort((a, b) => {
       if (sortOption === 'Menor precio') {
@@ -24,7 +29,7 @@ export default function SearchPage({ searchValue }) {
         return b.precioPorNoche - a.precioPorNoche
       }
     })
-  }, [sortOption]) // Se recalcula solo cuando cambia la opción de ordenamiento
+  }, [sortOption, alojamientos]) // Se recalcula solo cuando cambia la opción de ordenamiento
 
   // Calcular los alojamientos que se deben mostrar en la página actual
   const paginatedAlojamientos = useMemo(() => {
@@ -69,7 +74,7 @@ export default function SearchPage({ searchValue }) {
               nombre={result.nombre}
               descripcion={result.descripcion}
               precioPorNoche={result.precioPorNoche}
-              fotos={result.fotos[0].path}
+              fotos={result.fotos?.[0]?.path}
             />
           ))}
         </div>
