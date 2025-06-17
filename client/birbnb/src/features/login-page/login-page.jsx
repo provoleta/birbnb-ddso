@@ -28,31 +28,19 @@ export default function LoginPage() {
   const handleLogin = async (e) => {
     e.preventDefault()
     if (email && password) {
-      await Api()
-        .login(email, password)
-        .then(async (token) => {
-          await handleNewToken(token)
-        })
-        .catch((error) => {
-          console.error('Login failed:', error)
-          alert('Login failed. Please check your credentials and try again.')
-        })
+      let token = await Api().login(email, password)
+      await handleNewToken(token)
+      navigate('/')
     }
   }
 
   const handleRegister = async (e) => {
     e.preventDefault()
     if (email && password && name) {
-      await Api()
-        .register(name, email, password)
-        .then(async (token) => {
-          await handleNewToken(token)
-          navigate('/')
-        })
-        .catch((error) => {
-          console.error('Registration failed:', error)
-          alert('Registration failed. Please check your details and try again.')
-        })
+      let token = await Api().register(name, email, password)
+      await handleNewToken(token)
+      console.log('Token post handle:', token)
+      navigate('/')
     }
   }
 
