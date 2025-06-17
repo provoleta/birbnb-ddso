@@ -14,6 +14,10 @@
   gap: 20px;
 }
 
+.fondo-notificaciones {
+  margin-top: 10px;
+}
+
 .fondo-gris {
   background-color: #00000013;
   padding: 15px;
