@@ -17,8 +17,29 @@ function ReservationCalendar({ reservas }) {
     return occupiedDates.some((rango) => fecha >= rango.start && fecha <= rango.end)
   }
 
+  const rangoContieneOcupadas = (inicio, fin) => {
+    if (!inicio || !fin) return false
+
+    // Revisa día por día entre inicio y fin
+    const currentDate = new Date(inicio)
+    while (currentDate <= fin) {
+      if (estaOcupada(new Date(currentDate))) {
+        return true
+      }
+      currentDate.setDate(currentDate.getDate() + 1)
+    }
+    return false
+  }
+
   const handlerFechas = (fechas) => {
+    const [fechaInicio, fechaFin] = fechas
+
+    if (fechaInicio && fechaFin && rangoContieneOcupadas(fechaInicio, fechaFin)) {
+      setRangoFecha([null, null])
+      return
+    }
     setRangoFecha(fechas)
+
     if (fechas[0] && fechas[1]) {
       const inicio = fechas[0].toISOString().split('T')[0]
       const fin = fechas[1].toISOString().split('T')[0]
