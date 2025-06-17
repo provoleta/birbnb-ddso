@@ -8,6 +8,7 @@ function Api() {
 
   return {
     login: async (email, password) => {
+      let tokenUsuario = null
       console.log('Intentando logear')
       await instance
         .post('/usuarios/login', {
@@ -16,12 +17,14 @@ function Api() {
         })
         .then((response) => {
           const { token } = response.data
-          return token
+          console.log('me llego', token)
+          tokenUsuario = token
         })
         .catch((error) => {
           console.error('Login failed:', error)
           alert('Login failed. Please check your credentials and try again.')
         })
+      return tokenUsuario
     },
 
     register: async (name, email, password) => {
