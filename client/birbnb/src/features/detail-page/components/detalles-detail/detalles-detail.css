@@ -2,6 +2,12 @@
   margin-top: 0px;
 }
 
+.descripcion {
+  max-width: 500px;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
 .caracteristicas {
   background: #fff;
   border-radius: 12px;

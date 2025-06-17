@@ -100,6 +100,19 @@ function Api() {
           throw error
         })
     },
+
+    obtenerAlojamiento: async (id) => {
+      return await instance
+        .get(`/alojamientos/${id}`)
+        .then((response) => {
+          console.log('Alojamiento obtenido API:', response.data)
+          return response.data
+        })
+        .catch((error) => {
+          console.error('Error fetching accommodation:', error)
+          throw error
+        })
+    },
   }
 }
 
