@@ -39,3 +39,28 @@
 .filtro-servicios-container {
   width: 50px;
 }
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.pagination-button {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.pagination-button.active {
+  background-color: #a538ff;
+  color: #fff;
+  border-color: #a538ff9d;
+}
+
+.pagination-button:hover {
+  background-color: #f7f7f7;
+}
