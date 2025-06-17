@@ -1,7 +1,7 @@
 /* Estilo para todos los días en el rango */
 .in-range-day {
-  background-color: #2684ff !important;
-  color: white !important;
+  background-color: #2684ff;
+  color: white;
   position: relative;
 }
 

@@ -98,14 +98,28 @@
 .contenedor-reserva {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: flex-start; /* Changed from space-around */
   width: 280px;
-  height: 280px;
-  padding: 0px 30px 0px 30px;
+  height: auto; /* Changed from fixed height */
+  padding: 20px 30px; /* Adjusted padding */
   margin-bottom: 50px;
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  gap: 15px; /* Add spacing between elements */
+}
+
+.contenedor-datepicker {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  overflow: visible; /* Allow calendar to be visible fully */
+}
+
+.contenedor-fechas {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .boton-reservar {
@@ -114,10 +128,6 @@
   color: #fff;
   border: none;
   border-radius: 12px;
-}
-
-.contenedor-datepicker .contenedor-fechas .contenedor-viajeros {
-  height: 10px;
 }
 
 .contenedor-facheroinferior {
