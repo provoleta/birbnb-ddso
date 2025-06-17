@@ -18,9 +18,13 @@ export function AuthProvider({ children }) {
     const storedToken = localStorage.getItem('token')
     if (storedToken) {
       setToken(storedToken)
-      let userData = Api().getProfile(storedToken)
-      setUser(userData)
-      setLogueado(true)
+      Api()
+        .getProfile(storedToken)
+        .then((userData) => {
+          console.log('User data from localStorage:', userData)
+          setUser(userData)
+          setLogueado(true)
+        })
     }
   }, [])
 
