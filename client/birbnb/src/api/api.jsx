@@ -65,6 +65,27 @@ function Api() {
           throw error
         })
     },
+
+    getNotificaciones: async (token, leida) => {
+      let notificaciones = null
+      console.log('Obteniendo notificaciones del usuario')
+      await instance
+        .get('/usuarios/notificaciones', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            leida: leida,
+          },
+        })
+        .then((response) => {
+          notificaciones = response.data
+        })
+        .catch((error) => {
+          console.error('Error fetching notifications:', error)
+        })
+      return notificaciones
+    },
   }
 }
 
