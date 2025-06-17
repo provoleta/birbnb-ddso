@@ -2,8 +2,8 @@ import { useAuthContext } from '../../../../store/auth-context'
 import { useNavigate } from 'react-router-dom'
 
 //{ fechaAlta, huespedReservadorId, idAlojamiento, rangoFechas } = reserva
-const useCreacionReserva = ({ fechas, alojamientoId }) => {
-  const { logueado, token, user } = useAuthContext()
+const useCreacionReserva = (fechas, alojamientoId) => {
+  const { logueado, user } = useAuthContext()
   const navigate = useNavigate()
 
   const procesarReserva = () => {
@@ -19,30 +19,21 @@ const useCreacionReserva = ({ fechas, alojamientoId }) => {
       return
     }
 
-    try {
-      const reserva = {
-        fechaAlta: new Date().toISOString(),
-        huespedReservadorId: user.id,
-        idAlojamiento: alojamientoId,
-        rangoFechas: {
-          fechaInicio: fechas[0].toISOString(),
-          fechaFin: fechas[1].toISOString(),
-        },
-      }
-
-      console.log('Reserva a procesar:', reserva)
-
-      // Aquí iría tu llamada a la API para crear la reserva
-      // Api().crearReserva(reserva, token)
-
-      alert('¡Reserva creada con éxito!')
-      // navigate('/mis-reservas');  // Opcional: redirigir a la página de reservas
-    } catch (error) {
-      console.error('Error al procesar la reserva:', error)
-      alert('Hubo un problema al crear la reserva. Intenta nuevamente.')
+    const reserva = {
+      fechaAlta: new Date().toISOString(),
+      huespedReservadorId: user._id,
+      idAlojamiento: alojamientoId,
+      rangoFechas: {
+        fechaInicio: fechas[0].toISOString(),
+        fechaFin: fechas[1].toISOString(),
+      },
     }
 
-    // Armo la reserva
+    console.log('Reserva a procesar:', reserva)
+
+    // Api().crearReserva(reserva, token)
+
+    alert('¡Reserva creada con éxito!')
   }
 
   return { procesarReserva }
