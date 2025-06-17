@@ -22,7 +22,7 @@ export function AuthProvider({ children }) {
     setLogueado(true)
   }
 
-  const logout = () => {
+  const handleLogout = () => {
     // Aquí podrías hacer una llamada a la API para cerrar sesión
     setUser(null)
     setToken(null)
@@ -30,7 +30,7 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ handleNewToken, logueado, token, user }}>
+    <AuthContext.Provider value={{ handleNewToken, logueado, token, user, handleLogout }}>
       {children}
     </AuthContext.Provider>
   )
