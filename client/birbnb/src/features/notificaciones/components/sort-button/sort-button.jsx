@@ -32,26 +32,26 @@ const SortButton = ({ currentSortOption, onSortChange }) => {
             },
           }}
         >
-          Ordenar por: {currentSortOption}
+          Mostrar: {currentSortOption}
         </Button>
 
         {dropdownOpen && (
           <div className="sort-options-dropdown">
             <div
               className={`sort-option ${
-                currentSortOption === 'Leidas primero' ? 'selected' : ''
+                currentSortOption === 'Leidas' ? 'selected' : ''
               }`}
-              onClick={() => handleSortOptionClick('Leidas primero')}
+              onClick={() => handleSortOptionClick('Leidas')}
             >
-              Leidas primero
+              Leidas
             </div>
             <div
               className={`sort-option ${
-                currentSortOption === 'No leidas primero' ? 'selected' : ''
+                currentSortOption === 'No leidas' ? 'selected' : ''
               }`}
-              onClick={() => handleSortOptionClick('No leidas primero')}
+              onClick={() => handleSortOptionClick('No leidas')}
             >
-              No leidas primero
+              No leidas
             </div>
           </div>
         )}

@@ -1,5 +1,8 @@
 import './reserva-card.css'
 import Api from '../../../../api/api'
+import Button from '@mui/material/Button'
+import DeleteIcon from '@mui/icons-material/Delete'
+
 const ReservaCard = ({
   alojamiento,
   fechaCreada,
@@ -8,13 +11,15 @@ const ReservaCard = ({
   rangoFechas,
   idReserva,
 }) => {
-  const CancelarReservaHandler = () => {
+  const CancelarReservaHandler = async () => {
     try {
-      Api.delete(`/reservas/${idReserva}`)
-      alert('Reserva borrada exitosamente')
+      const response = await Api().cancelarReserva(idReserva)
+      console.log(response)
+      response.status === '200'
+        ? alert('La reserva fue cancelada con exito')
+        : alert(response.message)
     } catch (error) {
       console.error('Error al cancelar la reserva:', error)
-      alert('No se pudo cancelar la reserva. Inténtalo de nuevo más tarde.')
     }
   }
 
@@ -35,9 +40,15 @@ const ReservaCard = ({
         <h3>Fecha llegada: {rangoFechas.fechaInicio}</h3>
         <h3>Fecha salida: {rangoFechas.fechaFin}</h3>
       </div>
-      <button className="cancelar-reserva-btn" onClick={CancelarReservaHandler}>
+      <Button
+        variant="contained"
+        style={{ position: 'relative', marginTop: 'auto' }}
+        startIcon={<DeleteIcon />}
+        color="secondary"
+        onClick={CancelarReservaHandler}
+      >
         Cancelar Reserva
-      </button>
+      </Button>
     </div>
   )
 }

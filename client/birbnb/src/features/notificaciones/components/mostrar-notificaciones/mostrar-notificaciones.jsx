@@ -1,29 +1,45 @@
 import NotificationCard from '../notification-card/notification-card'
 import SortButton from '../sort-button/sort-button'
-import { useMemo } from 'react'
-import { usuarios } from '../../usuariosMock'
+import { useEffect, useState } from 'react'
 import '../../notificaciones.css'
+import { useNavigate } from 'react-router'
+import Api from '../../../../api/api'
+import { useAuthContext } from '../../../../store/auth-context'
 
-const MostrarNotificaciones = ({ userId, sortOption, handleSortChange }) => {
-  const usuario = usuarios.find((usuario) => usuario._id === userId)
-  const notificaciones = usuario.notificaciones
+const MostrarNotificaciones = ({ id, sortOption, handleSortChange }) => {
+  const [notificaciones, setNotificaciones] = useState([])
+  const [loading, setLoading] = useState(true)
+  const { token, logueado } = useAuthContext()
+  const [leida, setLeida] = useState(false) //Por defecto quiero mostrar las no leidas
+  const navigate = useNavigate()
 
-  // Ordenar notificaciones usando useMemo para evitar cálculos innecesarios
-  const sortedNotifications = useMemo(() => {
-    const notificationsCopy = [...notificaciones] // Crea una copia para no modificar el original
+  useEffect(() => {
+    sortOption === 'Leidas' ? setLeida(true) : setLeida(false)
+  }, [sortOption])
 
-    return notificationsCopy.sort((a, b) => {
-      if (sortOption === 'Leidas primero') {
-        if (a.leida && !b.leida) return -1
-        if (!a.leida && b.leida) return 1
-        return 0
-      } else {
-        if (!a.leida && b.leida) return -1
-        if (a.leida && !b.leida) return 1
-        return 0
+  useEffect(() => {
+    const fetchNotificaciones = async () => {
+      try {
+        const response = await Api().getNotificaciones(token, leida)
+        // const data = await response.json()
+        setNotificaciones(response)
+      } catch (error) {
+        console.error('Error al obtener las notificaciones:', error)
+      } finally {
+        setLoading(false)
       }
-    })
-  }, [sortOption]) // Se recalcula solo cuando cambia la opción de ordenamiento
+    }
+
+    fetchNotificaciones()
+  }, [token, leida])
+
+  if (!logueado) {
+    navigate('/')
+  }
+
+  if (loading) {
+    return <div>Cargando reservas...</div>
+  }
 
   return (
     <>
@@ -32,7 +48,7 @@ const MostrarNotificaciones = ({ userId, sortOption, handleSortChange }) => {
         <SortButton currentSortOption={sortOption} onSortChange={handleSortChange} />
       </div>
       <div className="fondo-gris">
-        {sortedNotifications.map((result) => (
+        {notificaciones.map((result) => (
           <NotificationCard
             mensaje={result.mensaje}
             fechaAlta={result.fechaAlta}

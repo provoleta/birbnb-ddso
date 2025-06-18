@@ -143,6 +143,20 @@ function Api() {
           throw error
         })
     },
+    cancelarReserva: async (idReserva) => {
+      console.log(`Cancelando reserva: ${idReserva}`)
+      return await instance
+        .delete(`/reservas/${idReserva}`)
+        .then((response) => {
+          console.log('Reserva cancelada: ', response.data)
+          return response
+        })
+        .catch((error) => {
+          error.status === 410
+            ? alert('No se pudo cancelar la reserva ya que se excede el tiempo minimo')
+            : console.error('Error en la cancelacion de la reserva: ', error)
+        })
+    },
   }
 }
 
