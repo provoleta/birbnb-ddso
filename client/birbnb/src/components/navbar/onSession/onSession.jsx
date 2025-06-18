@@ -9,13 +9,13 @@ import { useState } from 'react'
 import { useEffect, useRef } from 'react'
 
 export function OnSession() {
-  const { token, handleLogout } = useAuthContext() //TODO: terminar de hacerlo andar
+  const { user, handleLogout } = useAuthContext() //TODO: terminar de hacerlo andar
 
   const navigate = useNavigate()
   const [profileMenuOpen, setProfileMenuOpen] = useState(false)
 
   const verNotificaciones = () => {
-    navigate(`/usuarios/notificaciones/${token}`)
+    navigate(`/usuarios/notificaciones/${user._id}`)
   }
 
   const menuRef = useRef(null)

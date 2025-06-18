@@ -8,11 +8,12 @@ const NotificationCard = ({
   fechaAlta,
   leida,
   fechaLeida,
-  token,
   idNotificacion,
+  handlerMarcarLeida,
 }) => {
-  const handlerMarcarLeida = () => {
-    // Api().marcarComoLeida(idNotificacion, token)
+  const onMarcarLeida = async () => {
+    console.log('Id de la notificacion a leer: ', idNotificacion)
+    await handlerMarcarLeida(idNotificacion)
   }
 
   return (
@@ -26,7 +27,7 @@ const NotificationCard = ({
       </div>
       <div className="card-end">
         <></>
-        <Checkbox onClick={handlerMarcarLeida} />
+        <Checkbox onClick={onMarcarLeida} disabled={leida} />
       </div>
     </div>
   )

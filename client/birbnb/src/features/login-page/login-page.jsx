@@ -15,9 +15,15 @@ export default function LoginPage() {
   const handleLogin = async (e) => {
     e.preventDefault()
     if (email && password) {
-      let token = await Api().login(email, password)
-      await handleNewToken(token)
-      navigate('/')
+      try {
+        let token = await Api().login(email, password)
+        await handleNewToken(token)
+        navigate('/')
+      } catch {
+        alert(
+          'Error durante el inicio de sesión, credenciales incorrectas o usuario no registrado.',
+        )
+      }
     }
   }
 
