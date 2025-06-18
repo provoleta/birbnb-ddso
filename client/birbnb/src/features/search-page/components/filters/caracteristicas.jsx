@@ -28,8 +28,6 @@ const FiltrosCaracteristicas = ({ servicios, setServicios }) => {
     })
   }
 
-  // Eventualmente calculo que esta lista debería cambiarse a un archivo de configuración.
-  // Definición de los servicios con sus propiedades
   const opcionesCaracteristicas = [
     {
       nombre: 'estacionamiento',

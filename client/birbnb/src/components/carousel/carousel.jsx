@@ -3,42 +3,52 @@ import ArrowBack from '@mui/icons-material/ArrowBack'
 import ArrowNext from '@mui/icons-material/ArrowForward'
 import Button from '@mui/material/Button'
 import Alojamiento from '../alojamiento/alojamiento'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function Carousel({ alojamientos }) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isSliding, setIsSliding] = useState(false)
-  const itemsPerPage = 3
-  const carouselRef = useRef(null)
+  const [itemsPerPage, setItemsPerPage] = useState(3)
+
+  useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth <= 576) {
+        setItemsPerPage(1)
+      } else if (window.innerWidth <= 992) {
+        setItemsPerPage(2)
+      } else {
+        setItemsPerPage(3)
+      }
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  useEffect(() => {
+    if (currentIndex > alojamientos.length - itemsPerPage) {
+      setCurrentIndex(Math.max(0, alojamientos.length - itemsPerPage))
+    }
+  }, [itemsPerPage, alojamientos.length])
 
   const handlePrev = () => {
     if (isSliding) return
-
     setIsSliding(true)
-    setCurrentIndex((prevIndex) => {
-      if (prevIndex === 0) {
-        return Math.max(0, alojamientos.length - itemsPerPage)
-      }
-      return Math.max(0, prevIndex - 1)
-    })
+    setCurrentIndex((prevIndex) => Math.max(0, prevIndex - 1))
   }
 
   const handleNext = () => {
     if (isSliding) return
-
     setIsSliding(true)
-    setCurrentIndex((prevIndex) => {
-      if (prevIndex + itemsPerPage >= alojamientos.length) {
-        return 0
-      }
-      return Math.min(alojamientos.length - itemsPerPage, prevIndex + 1)
-    })
+    setCurrentIndex((prevIndex) =>
+      prevIndex + itemsPerPage >= alojamientos.length ? prevIndex : prevIndex + 1,
+    )
   }
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsSliding(false)
-    }, 500)
+    }, 400)
     return () => clearTimeout(timer)
   }, [currentIndex])
 
@@ -47,7 +57,7 @@ export default function Carousel({ alojamientos }) {
       <Button
         className="nav-button prev-button"
         onClick={handlePrev}
-        disabled={isSliding}
+        disabled={isSliding || currentIndex === 0}
         aria-label="Anterior"
       >
         <ArrowBack />
@@ -55,14 +65,21 @@ export default function Carousel({ alojamientos }) {
 
       <div className="carousel-items-wrapper">
         <div
-          ref={carouselRef}
-          className={`carousel-items ${isSliding ? 'sliding' : ''}`}
+          className={`carousel-items${isSliding ? ' sliding' : ''}`}
           style={{
+            width: '100%',
             transform: `translateX(-${currentIndex * (100 / itemsPerPage)}%)`,
           }}
         >
           {alojamientos.map((home) => (
-            <div key={home.id} className="carousel-item">
+            <div
+              key={home.id}
+              className="carousel-item"
+              style={{
+                width: `${100 / itemsPerPage}%`,
+                minWidth: 0,
+              }}
+            >
               <Alojamiento alojamiento={home} />
             </div>
           ))}
@@ -72,7 +89,7 @@ export default function Carousel({ alojamientos }) {
       <Button
         className="nav-button next-button"
         onClick={handleNext}
-        disabled={isSliding}
+        disabled={isSliding || currentIndex >= alojamientos.length - itemsPerPage}
         aria-label="Siguiente"
       >
         <ArrowNext />

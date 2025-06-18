@@ -5,17 +5,7 @@ import Api from '../../api/api'
 
 function HomePage() {
   const [alojamientosCarousel, setAlojamientosCarousel] = useState([])
-  const [pageNumber, setPageNumber] = useState(1)
-  const [totalPages, setTotalPages] = useState(0)
-  const [pageSize, setPageSize] = useState(0)
-  const [currentPageHomes, setCurrentPageHomes] = useState([])
-  //TODO: Ir planteando comunicacion con el resto de la API para traerme los alojamientos.
 
-  console.log('Alojamientos en HomePage:', alojamientosCarousel)
-
-  const handlePageNumberChange = (newPageNumber) => {
-    setPageNumber(newPageNumber)
-  }
   useEffect(() => {
     Api()
       .obtenerAlojamientosCarousel() // Debes implementar este método en tu API si no existe

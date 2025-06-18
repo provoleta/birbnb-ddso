@@ -50,7 +50,7 @@ export function SearchProvider({ children }) {
   }
 
   return (
-    <SearchContext.Provider value={{ aplicarFiltros, alojamientos }}>
+    <SearchContext.Provider value={{ aplicarFiltros, alojamientos, searchParams }}>
       {children}
     </SearchContext.Provider>
   )
