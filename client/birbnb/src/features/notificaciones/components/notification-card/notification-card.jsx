@@ -1,8 +1,20 @@
 import { Checkbox } from '@mui/material'
 import '../../notificaciones.css'
 import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications'
+import Api from '../../../../api/api'
 
-const NotificationCard = ({ mensaje, fechaAlta, leida, fechaLeida }) => {
+const NotificationCard = ({
+  mensaje,
+  fechaAlta,
+  leida,
+  fechaLeida,
+  token,
+  idNotificacion,
+}) => {
+  const handlerMarcarLeida = () => {
+    // Api().marcarComoLeida(idNotificacion, token)
+  }
+
   return (
     <div className="card-container">
       <CircleNotificationsIcon style={{ fontSize: 64 }} className="notification-icon" />
@@ -14,7 +26,7 @@ const NotificationCard = ({ mensaje, fechaAlta, leida, fechaLeida }) => {
       </div>
       <div className="card-end">
         <></>
-        <Checkbox />
+        <Checkbox onClick={handlerMarcarLeida} />
       </div>
     </div>
   )

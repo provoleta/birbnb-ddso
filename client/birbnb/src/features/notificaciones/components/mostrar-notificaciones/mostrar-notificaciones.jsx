@@ -11,6 +11,7 @@ const MostrarNotificaciones = ({ id, sortOption, handleSortChange }) => {
   const [loading, setLoading] = useState(true)
   const { token, logueado } = useAuthContext()
   const [leida, setLeida] = useState(false) //Por defecto quiero mostrar las no leidas
+  const [fechaLeida, setFechaLeida] = useState(null)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -54,6 +55,8 @@ const MostrarNotificaciones = ({ id, sortOption, handleSortChange }) => {
             fechaAlta={result.fechaAlta}
             leida={result.leida}
             fechaLeida={result.fechaLeida}
+            token={token}
+            idNotificacion={result.id}
           />
         ))}
       </div>
