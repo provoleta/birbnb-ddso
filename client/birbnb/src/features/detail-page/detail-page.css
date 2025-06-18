@@ -189,8 +189,8 @@
 .detalles-alojamiento {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: baseline;
+  justify-content: baseline;
   width: 100%;
 }
 
@@ -216,6 +216,13 @@
   .caracteristicas,
   .contenedor-reserva {
     width: 90%;
+  }
+  .detalles-alojamiento {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
   }
 }
 
