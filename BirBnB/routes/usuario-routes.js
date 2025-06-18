@@ -6,7 +6,7 @@ export default function registerUsuarioRoutes(app, getController) {
     getController(UsuarioController).findAll(req, res),
   )
 
-  app.put('/usuarios/notificaciones/', verifyToken, (req, res) =>
+  app.put('/usuarios/notificaciones/:id', verifyToken, (req, res) =>
     getController(UsuarioController).update(req, res),
   )
 

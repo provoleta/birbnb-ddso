@@ -17,7 +17,7 @@ export default class UsuarioController {
   }
 
   async update(req, res) {
-    const { id } = req.query
+    const id = req.params.id
     validarObjectId(id)
     const notificacion = await this.notificacionService.markAsRead(id, req.user.id)
     return res.status(200).json(notificacion)
