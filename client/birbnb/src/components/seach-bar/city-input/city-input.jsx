@@ -1,8 +1,20 @@
 import './city-input.css'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
-function CityInput({ handleChange, query, resultados }) {
+function CityInput({ handleChange, query, resultados, ciudades }) {
   const [isFocused, setIsFocused] = useState(false)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    setLoading(false)
+    console.log('Ciudades cargadas:', ciudades)
+  }, [ciudades, resultados])
+
+  if (loading) {
+    return (
+      <p>Cargando...</p>
+    )
+  }
 
   return (
     <div style={{ position: 'relative' }}>
@@ -14,6 +26,12 @@ function CityInput({ handleChange, query, resultados }) {
         onChange={handleChange}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
+        onKeyDown={e => {
+          if (e.key === "Enter") {
+            e.target.blur();
+          }
+    }}
+        
       />
       {resultados.length > 0 && isFocused && (
         <div className="autocomplete-results">
@@ -28,6 +46,7 @@ function CityInput({ handleChange, query, resultados }) {
               onMouseDown={() => {
                 handleChange({ target: { value: item } })
               }}
+              
             >
               {item}
             </li>
