@@ -10,19 +10,18 @@ const MostrarReservas = ({ userId }) => {
   const { token, logueado } = useAuthContext()
   const navigate = useNavigate()
 
-  useEffect(() => {
-    const fetchReservas = async () => {
-      try {
-        const response = await Api().getReservas(token)
-        // const data = await response.json()
-        setReservas(response)
-      } catch (error) {
-        console.error('Error al obtener las reservas:', error)
-      } finally {
-        setLoading(false)
-      }
+  const fetchReservas = async () => {
+    try {
+      const response = await Api().getReservas(token)
+      // const data = await response.json()
+      setReservas(response)
+    } catch (error) {
+      console.error('Error al obtener las reservas:', error)
+    } finally {
+      setLoading(false)
     }
-
+  }
+  useEffect(() => {
     fetchReservas()
   }, [])
 
@@ -47,6 +46,7 @@ const MostrarReservas = ({ userId }) => {
             fechaAlta={result.fechaAlta}
             rangoFechas={result.rangoFechas}
             idReserva={result.idReserva}
+            onReservaCancelada={fetchReservas}
           />
         ))}
       </div>

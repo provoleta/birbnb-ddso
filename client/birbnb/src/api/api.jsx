@@ -157,6 +157,18 @@ function Api() {
             : console.error('Error en la cancelacion de la reserva: ', error)
         })
     },
+    marcarComoLeida: async (idNotificacion, token) => {
+      return await instance
+        .put(`/usuarios/notificaciones/${idNotificacion}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          console.log('Notificación marcada como leída:', response.data)
+          return response.data
+        })
+    },
   }
 }
 
