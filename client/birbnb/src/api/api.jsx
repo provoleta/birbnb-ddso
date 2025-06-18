@@ -21,7 +21,7 @@ function Api() {
         })
         .catch((error) => {
           console.error('Login failed:', error)
-          alert('Login failed. Please check your credentials and try again.')
+          throw error
         })
       return tokenUsuario
     },
