@@ -39,42 +39,38 @@ h3 + h3 {
 
 .card-end {
   display: flex;
-  position: absolute;
-  top: 0;
-  right: 0;
-  background-color: #ece6f0;
-  height: 100%;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
 }
 
 .notification-icon {
   margin-right: 15px;
+  font-size: 64px;
+  color: #673ab7;
 }
 
 .card-container {
-  background-color: #fef7ff;
+  background-color: #ffffff;
   display: flex;
-  flex-wrap: nowrap;
+  flex-direction: row;
   align-items: center;
-  width: 100%;
+  gap: 16px;
+  padding: 16px;
   border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   position: relative;
   box-sizing: border-box;
   padding: 10px;
   height: 27%;
 }
 
-.notification-icon {
-  padding: 20px;
-}
-
 .notification-card-content {
-  flex: 1 1;
+  flex: 1;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   margin-right: 12px;
+  text-align: left;
 }
 
 .notifications-filters-container {
@@ -106,4 +102,81 @@ h3 + h3 {
   margin-left: 2px;
   border-color: #6750a4;
   color: #4c2d9f;
+}
+
+/* Responsive para tablets y móviles */
+@media (max-width: 950px) {
+  .notifications-container {
+    flex-direction: column;
+    gap: 16px;
+    padding: 10px;
+  }
+
+  .notifications-filters-container {
+    flex-direction: row;
+    justify-content: center;
+    margin-right: 0;
+    gap: 8px;
+  }
+
+  .notification-button-style,
+  .notification-button-style-activo {
+    width: auto;
+    font-size: 1rem;
+    height: 48px;
+    border-radius: 24px;
+  }
+
+  .fondo-notificaciones {
+    padding: 4px;
+  }
+
+  .fondo-gris {
+    padding: 10px;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 600px) {
+  .notifications-container {
+    width: 100%;
+    padding: 8px;
+  }
+
+  .notifications-filters-container {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .notification-button-style,
+  .notification-button-style-activo {
+    width: 100%;
+    font-size: 0.9rem;
+    height: 40px;
+    border-radius: 20px;
+  }
+
+  .fondo-gris {
+    gap: 8px;
+    padding: 8px;
+  }
+
+  .card-container {
+    flex-direction: column;
+    align-items: center;
+    padding: 12px;
+    height: auto;
+    margin: 0px 0px;
+    gap: 12px;
+  }
+
+  .notification-card-content {
+    margin-right: 0;
+    text-align: center;
+  }
+
+  .notification-icon {
+    margin: 0 auto 12px;
+    padding: 0px;
+  }
 }
