@@ -39,6 +39,11 @@ export default class AlojamientoService {
     return this.toDTO(alojamiento)
   }
 
+  async getCities() {
+    const ciudades = await this.alojamientoRepository.getCities()
+    return ciudades
+  }
+
   toDTO(alojamiento) {
     return {
       idAlojamiento: alojamiento.id,

@@ -2,6 +2,8 @@ import RangoFechas from '../entities/rango-fechas.js'
 import { AlojamientoModel } from '../schemas/alojamiento-schema.js'
 
 export default class AlojamientoRepository {
+  ciudades = ['Buenos Aires', 'Mar del Plata']
+
   constructor() {
     this.model = AlojamientoModel
   }
@@ -102,5 +104,9 @@ export default class AlojamientoRepository {
   async countAll() {
     const totalAlojamientos = await this.model.countDocuments()
     return totalAlojamientos
+  }
+
+  async getCities() {
+    return this.ciudades
   }
 }

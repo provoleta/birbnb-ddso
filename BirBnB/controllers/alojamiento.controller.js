@@ -58,4 +58,14 @@ export default class AlojamientoController {
       res.status(500).json({ error: 'Error al obtener el alojamiento' })
     }
   }
+
+  async findCiudades(req, res) {
+    try {
+      const ciudades = await this.alojamientoService.getCities()
+      console.log('Ciudades obtenidas:', ciudades)
+      res.json(ciudades)
+    } catch (error) {
+      res.status(500).json({ error: 'Error al obtener las ciudades' })
+    }
+  }
 }
