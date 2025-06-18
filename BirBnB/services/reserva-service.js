@@ -135,7 +135,6 @@ export default class ReservaService {
     this.notificarReserva(alojamiento.anfitrion, reservaACrear)
 
     return reservaCreada.id
-
   }
 
   async findByUserId(userId) {
@@ -163,7 +162,7 @@ export default class ReservaService {
       huespedReservador: reserva.huespedReservador,
       alojamiento: reserva.alojamiento,
       rangoFechas: reserva.rangoFechas,
-      estado: reserva.EstadoReserva,
+      estado: reserva.estado,
       precioPorNoche: reserva.precioPorNoche,
       cambiosEstadoReserva: reserva.cambiosEstadoReserva,
     }
