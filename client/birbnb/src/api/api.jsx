@@ -1,5 +1,4 @@
 import axios from 'axios'
-//import { alojamientos } from '../features/search-page/alojamientosMockeados'
 
 function Api() {
   const instance = axios.create({
@@ -123,6 +122,24 @@ function Api() {
         })
         .catch((error) => {
           console.error('Error fetching carousel accommodations:', error)
+          throw error
+        })
+    },
+
+    getReservas: async (token) => {
+      console.log('Obteniendo reservas del usuario')
+      return await instance
+        .get('/usuarios/reservas', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          console.log('Reservas obtenidas:', response.data)
+          return response.data
+        })
+        .catch((error) => {
+          console.error('Error fetching reservations:', error)
           throw error
         })
     },

@@ -1,6 +1,6 @@
 import './register-page.css'
 import { useAuthContext } from '../../store/auth-context'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Api from '../../api/api'
 

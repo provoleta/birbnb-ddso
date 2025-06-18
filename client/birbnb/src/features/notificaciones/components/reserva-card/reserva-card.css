@@ -1,0 +1,56 @@
+.imagen-reserva {
+  height: 180px;
+  width: 100%;
+  border-radius: 12px;
+}
+
+.reserva-content {
+  padding: 8px;
+}
+
+.card-container {
+  background-color: #fef7ff;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  width: 100%;
+  border-radius: 12px;
+  position: relative;
+  box-sizing: border-box;
+  padding: 10px;
+  height: 27%;
+}
+
+.reservas-lista {
+  /* display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  padding: 16px; */
+  background-color: #00000013;
+  padding: 15px;
+  border-radius: 12px;
+  height: max-content;
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.reservas-lista > * {
+  flex: 1 1 300px;
+  max-width: 350px;
+  min-width: 250px;
+}
+
+@media (max-width: 600px) {
+  .reservas-lista {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 8px;
+  }
+  .reservas-lista > * {
+    max-width: 100%;
+    min-width: 0;
+  }
+}

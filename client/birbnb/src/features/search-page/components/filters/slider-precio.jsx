@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import { Slider, Typography, Box } from '@mui/material'
 
 const SliderPrecio = ({ rangoPrecio, setRangoPrecio }) => {

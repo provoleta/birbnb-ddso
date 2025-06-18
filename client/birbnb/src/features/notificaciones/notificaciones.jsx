@@ -3,6 +3,7 @@ import './notificaciones.css'
 import { useState } from 'react'
 import BotonesGrupo from './components/filters/tipos-de-notificaciones.jsx'
 import MostrarNotificaciones from './components/mostrar-notificaciones/mostrar-notificaciones.jsx'
+import MostrarReservas from './components/mostrar-reservas/mostrar-reservas.jsx'
 
 export default function Notificaciones() {
   const [sortOption, setSortOption] = useState('No leidas primero') // Inicialmente se ordena por no leidas
@@ -31,7 +32,7 @@ export default function Notificaciones() {
                 handleSortChange={handleSortChange}
               />
             ) : mostrarEnPantalla === 'reservas' ? (
-              <></>
+              <MostrarReservas userId={id} />
             ) : (
               <></>
             )}

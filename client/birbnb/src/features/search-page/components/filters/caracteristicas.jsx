@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar'
 import PoolIcon from '@mui/icons-material/Pool'
 import PetsIcon from '@mui/icons-material/Pets'
