@@ -158,8 +158,10 @@ function Api() {
         })
     },
     marcarComoLeida: async (idNotificacion, token) => {
+      console.log('Token: ', token)
+      console.log('Id notificacion ', idNotificacion)
       return await instance
-        .put(`/usuarios/notificaciones/${idNotificacion}`, {
+        .put(`/usuarios/notificaciones/${idNotificacion}`, null, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

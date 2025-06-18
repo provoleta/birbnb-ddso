@@ -12,6 +12,7 @@ const MostrarNotificaciones = ({ id, sortOption, handleSortChange }) => {
   const { token, logueado } = useAuthContext()
   const [leida, setLeida] = useState(false) //Por defecto quiero mostrar las no leidas
   const [fechaLeida, setFechaLeida] = useState(null)
+
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -39,7 +40,17 @@ const MostrarNotificaciones = ({ id, sortOption, handleSortChange }) => {
   }
 
   if (loading) {
-    return <div>Cargando reservas...</div>
+    return <div>Cargando notificaciones...</div>
+  }
+
+  const handlerMarcarLeida = async (idNotificacion) => {
+    const notificacionActualizada = await Api().marcarComoLeida(idNotificacion, token)
+
+    console.log('Notificación actualizada:', notificacionActualizada)
+
+    const response = await Api().getNotificaciones(token, leida)
+    // const data = await response.json()
+    setNotificaciones(response)
   }
 
   return (
@@ -55,8 +66,8 @@ const MostrarNotificaciones = ({ id, sortOption, handleSortChange }) => {
             fechaAlta={result.fechaAlta}
             leida={result.leida}
             fechaLeida={result.fechaLeida}
-            token={token}
-            idNotificacion={result.id}
+            idNotificacion={result.idNotificacion}
+            handlerMarcarLeida={handlerMarcarLeida}
           />
         ))}
       </div>
