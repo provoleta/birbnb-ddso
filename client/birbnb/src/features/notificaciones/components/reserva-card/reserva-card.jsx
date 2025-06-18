@@ -2,6 +2,7 @@ import './reserva-card.css'
 import Api from '../../../../api/api'
 import Button from '@mui/material/Button'
 import DeleteIcon from '@mui/icons-material/Delete'
+import { useEffect, useState } from 'react'
 
 const ReservaCard = ({
   alojamiento,
@@ -10,14 +11,16 @@ const ReservaCard = ({
   fechaAlta,
   rangoFechas,
   idReserva,
+  onReservaCancelada,
 }) => {
   const CancelarReservaHandler = async () => {
     try {
       const response = await Api().cancelarReserva(idReserva)
       console.log(response)
-      response.status === '200'
+      response.status === 204
         ? alert('La reserva fue cancelada con exito')
-        : alert(response.message)
+        : console.log(response.message)
+      onReservaCancelada()
     } catch (error) {
       console.error('Error al cancelar la reserva:', error)
     }
