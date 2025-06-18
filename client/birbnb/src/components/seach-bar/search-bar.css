@@ -73,7 +73,7 @@
   background-color: #a538ff9d;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 850px) {
   .search-bar {
     display: grid;
     grid-template-columns: 1fr 1fr;

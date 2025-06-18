@@ -28,3 +28,16 @@
 .gps-icon {
   padding-right: 5px;
 }
+
+@media (max-width: 600px) {
+  .contenedor-direccion {
+    width: 100%;
+  }
+  .contenedor-titulo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+  }
+}

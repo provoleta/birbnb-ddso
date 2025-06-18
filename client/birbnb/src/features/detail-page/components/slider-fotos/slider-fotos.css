@@ -48,3 +48,36 @@
 .next-button {
   right: 10px;
 }
+
+@media (max-width: 940px) {
+  .slider-container {
+    width: 70%;
+    margin-bottom: 20px;
+    padding: 0;
+  }
+  .slider-image-container {
+    aspect-ratio: 16 / 9;
+  }
+  .slider-image-container img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+}
+
+@media (max-width: 600px) {
+  .slider-container {
+    width: 70%;
+    margin: 10px;
+    padding: 0;
+  }
+  .slider-image-container {
+    aspect-ratio: 16 / 9;
+    max-height: 240px;
+  }
+  .slider-image-container img {
+    object-fit: cover;
+    border-radius: 6px;
+  }
+}

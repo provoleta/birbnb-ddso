@@ -31,8 +31,8 @@
   margin-bottom: 15px; /* Añade espacio en la parte inferior */
   display: flex;
   flex-direction: column;
-  /* Establecer altura fija */
-  height: 450px; /* Ajusta según necesites */
+  height: auto; /*Cambia esto
+  /* Elimina height: 450px; */
 }
 
 /* Este es el contenedor del alojamiento dentro del carousel-item */
@@ -46,7 +46,7 @@
 /* Asegúrate de que las imágenes tengan la misma altura */
 .carousel-item img {
   width: 100%;
-  height: 200px; /* Altura fija para todas las imágenes */
+  height: 200px; /* Mantén la altura fija solo para la imagen */
   object-fit: cover; /* Mantiene la proporción pero recorta si es necesario */
   border-radius: 8px;
 }
@@ -96,11 +96,13 @@
 @media (max-width: 992px) {
   .carousel-item {
     flex: 0 0 calc(50% - 10px); /* 2 items en tablets */
+    height: auto; /* Asegura que siga siendo auto */
   }
 }
 
 @media (max-width: 576px) {
   .carousel-item {
     flex: 0 0 100%; /* 1 item en móviles */
+    height: auto; /* Asegura que siga siendo auto */
   }
 }

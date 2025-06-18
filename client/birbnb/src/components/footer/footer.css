@@ -36,3 +36,17 @@ body,
 .ig {
   margin: 15px;
 }
+
+@media (max-width: 600px) {
+  .pie {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .tw,
+  .wpp,
+  .ig {
+    margin: 10px;
+  }
+}

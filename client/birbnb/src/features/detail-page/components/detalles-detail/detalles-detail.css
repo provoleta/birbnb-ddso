@@ -14,14 +14,14 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   padding: 10px;
   margin: 16px 0;
-  max-width: 400px; /* Opcional */
+  max-width: 400px;
+  align-self: center;
+  /* Opcional */
 }
 
 .titulo-caracteristicas {
   font-size: 24px;
   font-weight: 600;
-  padding-top: 0px;
-  margin-top: 0px;
 }
 
 .caracteristica-item {
@@ -31,4 +31,54 @@
 
 .icono-caracteristica {
   margin-right: 8px;
+}
+
+@media (max-width: 940px) {
+  .caracteristicas {
+    width: 80%;
+    max-width: 400px;
+    margin: 16px auto;
+  }
+  .titulo-caracteristicas {
+    font-size: 20px;
+    margin: 40px 0px;
+  }
+  .caracteristica-item {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 600px) {
+  .contenedor-general {
+    text-align: center;
+  }
+
+  .contenedor-titulo {
+    width: 100%;
+    padding-left: 0px;
+    align-items: center;
+  }
+
+  .caracteristicas {
+    width: 90%;
+    max-width: 350px;
+    margin: 16px auto;
+  }
+  .titulo-caracteristicas {
+    font-size: 18px;
+    padding: 0px 30px;
+    text-align: center;
+  }
+  .caracteristica-item {
+    font-size: 14px;
+  }
+
+  .titulo-descripcion {
+    padding: 0px 30px;
+  }
+
+  .descripcion {
+    padding: 0px 30px;
+    text-align: center;
+  }
 }

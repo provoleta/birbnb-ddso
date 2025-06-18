@@ -72,14 +72,7 @@ export default function Carousel({ alojamientos }) {
           }}
         >
           {alojamientos.map((home) => (
-            <div
-              key={home.id}
-              className="carousel-item"
-              style={{
-                width: `${100 / itemsPerPage}%`,
-                minWidth: 0,
-              }}
-            >
+            <div key={home.id} className="carousel-item">
               <Alojamiento alojamiento={home} />
             </div>
           ))}
