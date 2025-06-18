@@ -1,8 +1,9 @@
 import './search-bar.css'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSearchContext } from '../../store/search-context'
 import CityInput from './city-input/city-input'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 function SearchBar() {
   const { aplicarFiltros } = useSearchContext()
@@ -11,14 +12,29 @@ function SearchBar() {
   const [checkOut, setCheckOut] = useState('')
   const [huespedes, setHuespedes] = useState(0)
   const [resultados, setResultados] = useState([])
+  const [ciudades, setCiudades] = useState([])
   const navigate = useNavigate()
+
+  useEffect(() => {
+    const getCiudades = async () => {
+      axios.get('/ciudades', {
+        baseURL: 'http://localhost:6969',
+      }).then((response) => {
+        setCiudades(response.data)
+      }).catch((error) => {
+        console.error('Error fetching cities:', error)
+      })
+    }
+    getCiudades()
+    
+  }, [])
 
   const handleChange = (e) => {
     const value = e.target.value
     setQuery(value)
     if (value.length > 0) {
       setResultados(
-        datosPrueba.filter((item) => item.toLowerCase().includes(value.toLowerCase())),
+        ciudades.filter((item) => item.toLowerCase().includes(value.toLowerCase())),
       )
     } else {
       setResultados([])
@@ -26,11 +42,10 @@ function SearchBar() {
   }
 
   const [query, setQuery] = useState('')
-  const datosPrueba = ['Buenos Aires', 'Córdoba'] // TODO resolver en el backend
 
   const handleSearch = async () => {
     const params = new Map()
-    params.set('ciudad', ciudad)
+    params.set('ciudad', query)
     params.set('checkIn', checkIn)
     params.set('checkOut', checkOut)
     params.set('huespedesMax', huespedes)
@@ -45,13 +60,13 @@ function SearchBar() {
       <div className="search-bar">
         <div className="search-section">
           <label>Destino</label>
-          {/* <CityInput handleChange={handleChange} query={query} resultados={resultados} /> */}
-          <input
+          <CityInput handleChange={handleChange} query={query} resultados={resultados} ciudades={ciudades} /> 
+          {/* <input
             type="text"
             placeholder="Add city"
             value={ciudad}
             onChange={(e) => setCiudad(e.target.value)}
-          />
+          /> */}
         </div>
         <div className="divider"></div>
         <div className="search-section">
