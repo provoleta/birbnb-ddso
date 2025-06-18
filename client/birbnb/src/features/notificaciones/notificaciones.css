@@ -26,7 +26,7 @@
   gap: 20px;
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: auto;
 }
 
 h3 {
@@ -109,7 +109,6 @@ h3 + h3 {
   .notifications-container {
     flex-direction: column;
     gap: 16px;
-    padding: 10px;
   }
 
   .notifications-filters-container {
@@ -134,6 +133,7 @@ h3 + h3 {
   .fondo-gris {
     padding: 10px;
     gap: 12px;
+    width: auto;
   }
 }
 
