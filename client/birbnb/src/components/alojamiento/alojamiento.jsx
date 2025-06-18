@@ -6,14 +6,14 @@ import './alojamiento.css'
 export default function Alojamiento({ alojamiento }) {
   const navigate = useNavigate()
   const irAlAlojamiento = () => {
-    navigate(`/alojamientos/${alojamiento.id}`)
+    navigate(`/alojamientos/${alojamiento.idAlojamiento}`)
   }
 
   return (
     <Card className="alojamiento-item">
       <img
         className="alojamiento-foto"
-        src={alojamiento.fotos[0].path}
+        src={alojamiento.fotos?.[0]?.path}
         alt={alojamiento.nombre}
       />
       <div className="alojamiento-footer">

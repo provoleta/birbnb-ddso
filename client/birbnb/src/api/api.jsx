@@ -113,6 +113,19 @@ function Api() {
           throw error
         })
     },
+
+    obtenerAlojamientosCarousel: async () => {
+      return await instance
+        .get('/alojamientos?page=1&limit=6')
+        .then((response) => {
+          console.log('Alojamientos obtenidos para el carousel:', response.data)
+          return response.data
+        })
+        .catch((error) => {
+          console.error('Error fetching carousel accommodations:', error)
+          throw error
+        })
+    },
   }
 }
 

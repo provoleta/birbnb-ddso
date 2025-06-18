@@ -1,31 +1,38 @@
 import './home-page.css'
 import Carousel from '../../components/carousel/carousel.jsx'
-import { useState } from 'react'
-//import { getAlojamientos } from '../../api/api.js'
+import { useEffect, useState } from 'react'
+import Api from '../../api/api'
 
 function HomePage() {
+  const [alojamientosCarousel, setAlojamientosCarousel] = useState([])
   const [pageNumber, setPageNumber] = useState(1)
   const [totalPages, setTotalPages] = useState(0)
   const [pageSize, setPageSize] = useState(0)
   const [currentPageHomes, setCurrentPageHomes] = useState([])
   //TODO: Ir planteando comunicacion con el resto de la API para traerme los alojamientos.
 
+  console.log('Alojamientos en HomePage:', alojamientosCarousel)
+
   const handlePageNumberChange = (newPageNumber) => {
     setPageNumber(newPageNumber)
   }
+  useEffect(() => {
+    Api()
+      .obtenerAlojamientosCarousel() // Debes implementar este método en tu API si no existe
+      .then((data) => {
+        setAlojamientosCarousel(data.data) // Ajusta según la estructura de respuesta de tu backend
+      })
+      .catch((error) => {
+        console.error('Error al obtener alojamientos:', error)
+      })
+  }, [])
 
   return (
     <>
       <div className="home-sugerencias">
         <h1>Alojamientos que podrian interesarte...</h1>
       </div>
-      <Carousel
-        currentPageHomes={currentPageHomes}
-        pageNumber={pageNumber}
-        handlePageNumberChange={handlePageNumberChange}
-        totalPages={totalPages}
-        pagesize={pageSize}
-      ></Carousel>
+      <Carousel alojamientos={alojamientosCarousel}></Carousel>
     </>
   )
 }
