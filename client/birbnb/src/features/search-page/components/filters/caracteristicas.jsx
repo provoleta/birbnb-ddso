@@ -21,14 +21,7 @@ const CaracteristicaCheckbox = ({ nombre, icono, label, checked, onChange }) => 
   )
 }
 
-const FiltrosCaracteristicas = () => {
-  const [servicios, setServicios] = useState({
-    estacionamiento: false,
-    piscina: false,
-    mascotas: false,
-    wifi: false,
-  })
-
+const FiltrosCaracteristicas = ({ servicios, setServicios }) => {
   const handleChange = (event) => {
     setServicios({
       ...servicios,
@@ -50,7 +43,7 @@ const FiltrosCaracteristicas = () => {
       icono: <PoolIcon sx={{ color: '#673ab7' }} fontSize="small" />,
     },
     {
-      nombre: 'mascotas',
+      nombre: 'mascotas_permitidas',
       label: 'Mascotas permitidas',
       icono: <PetsIcon sx={{ color: '#673ab7' }} fontSize="small" />,
     },

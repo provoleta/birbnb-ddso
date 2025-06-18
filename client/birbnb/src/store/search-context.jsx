@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { createContext, useState, useContext } from 'react'
+import qs from 'qs'
 
 const SearchContext = createContext()
 
@@ -19,15 +20,18 @@ export function SearchProvider({ children }) {
     if (filtrosJson.checkOut) {
       filtrosJson.checkOut = convertirFecha(filtrosJson.checkOut)
     }
+    console.log('Filtros a aplicar: ', filtrosJson)
 
     axios
       .get('/alojamientos', {
         baseURL: 'http://localhost:6969',
         params: filtrosJson,
+        paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'repeat' }),
       })
       .then((response) => {
         // Aquí puedes manejar la respuesta de la búsqueda
         setAlojamientos(response.data)
+        console.log('Alojamientos filtrados', response.data)
       })
       .catch((error) => {
         // Manejo de errores
@@ -41,6 +45,7 @@ export function SearchProvider({ children }) {
       const valor = filtro instanceof Date ? convertirFecha(filtro) : filtro // Convertir fechas al formato DD-MM-YYYY
       setSearchParams((prev) => prev.set(nombre, valor))
     })
+
     search()
   }
 

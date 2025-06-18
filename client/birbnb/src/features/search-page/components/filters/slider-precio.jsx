@@ -1,11 +1,9 @@
 import React, { useState } from 'react'
 import { Slider, Typography, Box } from '@mui/material'
 
-const SliderPrecio = () => {
-  const [priceRange, setPriceRange] = useState([0, 1000000])
-
+const SliderPrecio = ({ rangoPrecio, setRangoPrecio }) => {
   const handlePriceChange = (event, newValue) => {
-    setPriceRange(newValue)
+    setRangoPrecio(newValue)
   }
   return (
     <div>
@@ -14,16 +12,16 @@ const SliderPrecio = () => {
       </Typography>
       <Box sx={{ width: '100%', padding: '0 10px' }}>
         <Slider
-          value={priceRange}
+          value={rangoPrecio}
           onChange={handlePriceChange}
           valueLabelDisplay="auto"
           min={0}
-          max={1000000}
-          step={10}
+          max={5000}
+          step={1}
         />
         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 1 }}>
-          <Typography variant="body2">${priceRange[0]}</Typography>
-          <Typography variant="body2">${priceRange[1]}</Typography>
+          <Typography variant="body2">${rangoPrecio[0]}</Typography>
+          <Typography variant="body2">${rangoPrecio[1]}</Typography>
         </Box>
       </Box>
     </div>
