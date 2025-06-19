@@ -39,13 +39,13 @@ const alojamientoSchema = new mongoose.Schema({
     required: true,
     enum: ['DOLAR_USA', 'PESO_ARG', 'REALES'],
   },
-  horarioCheckin: {
+  horarioCheckIn: {
     type: String,
     required: true,
     trim: true,
     validate: {
       validator: function (v) {
-        return /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/.test(v) // Formato HH:MM
+        return /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/.test(v)
       },
       message: (props) =>
         `${props.value} no es un formato de hora válido! Debe ser HH:MM`,
@@ -80,7 +80,7 @@ const alojamientoSchema = new mongoose.Schema({
     ref: 'Reserva',
   },
   fotos: {
-    type: fotoSchema,
+    type: [fotoSchema],
     required: true,
   },
 })
