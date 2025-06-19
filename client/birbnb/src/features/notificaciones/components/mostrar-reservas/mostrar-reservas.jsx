@@ -41,7 +41,6 @@ const MostrarReservas = ({ userId }) => {
           <ReservaCard
             key={result.id}
             alojamiento={result.alojamiento}
-            fechaCreada={result.createdAt}
             estado={result.estado}
             fechaAlta={result.fechaAlta}
             rangoFechas={result.rangoFechas}

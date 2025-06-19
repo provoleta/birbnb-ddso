@@ -78,7 +78,7 @@ const AlojamientoDetail = () => {
 
           <section className="contenedor-reserva">
             <header className="encabezado-reserva">
-              ${alojamiento.precioPorNoche} {moneda(alojamiento.moneda)} por noche
+              {moneda(alojamiento.moneda)} {alojamiento.precioPorNoche} por noche
             </header>
             <div className="contenedor-datepicker">
               <ReservationCalendar

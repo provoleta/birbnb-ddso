@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react'
 
 const ReservaCard = ({
   alojamiento,
-  fechaCreada,
   estado,
   fechaAlta,
   rangoFechas,
@@ -37,11 +36,10 @@ const ReservaCard = ({
       </div>
       <div className="reserva-content">
         <h3>{alojamiento.nombre}</h3>
-        <h3>Fecha de reserva: {fechaCreada}</h3>
         <h3>Estado: {estado}</h3>
         <h3>Fecha Alta: {fechaAlta}</h3>
-        <h3>Fecha llegada: {rangoFechas.fechaInicio}</h3>
-        <h3>Fecha salida: {rangoFechas.fechaFin}</h3>
+        <h3>Fecha Check-in: {rangoFechas.fechaInicio}</h3>
+        <h3>Fecha Check-out: {rangoFechas.fechaFin}</h3>
       </div>
       <Button
         variant="contained"
