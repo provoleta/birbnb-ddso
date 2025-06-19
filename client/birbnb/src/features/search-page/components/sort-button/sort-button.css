@@ -1,0 +1,26 @@
+.sort-options-dropdown {
+  width: max-content;
+  padding: 10px 10px 10px 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  font-size: 16px;
+  color: #333;
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  z-index: 1000;
+}
+
+.sort-option:hover {
+  border-radius: 8px;
+  background-color: #f0f0f0;
+  transition: all 0.2s;
+}
+
+.sort-option {
+  width: max-content;
+  padding: 10px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid #e0e0e0;
+}

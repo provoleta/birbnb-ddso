@@ -69,6 +69,7 @@ export default class AlojamientoRepository {
       .skip((pageNum - 1) * limitNum)
       .limit(limitNum)
 
+
     if (filters.checkIn !== '' && filters.checkOut !== '') {
       let alojamientosARetornar = null
       let rangoFechas = new RangoFechas(filters.checkIn, filters.checkOut)
@@ -79,6 +80,7 @@ export default class AlojamientoRepository {
     } else {
       return alojamientosFiltrados
     }
+
   }
 
   async addReserva(alojamientoId, reservaId) {

@@ -1,0 +1,71 @@
+.imagen-reserva {
+  height: 180px;
+  width: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.reserva-content {
+  padding: 16px; /* Agrega padding para mejorar el espaciado */
+  text-align: left; /* Asegura que el texto esté alineado a la izquierda */
+}
+
+.card-container {
+  background-color: #fef7ff;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  width: 100%;
+  border-radius: 12px;
+  position: relative;
+  box-sizing: border-box;
+  padding: 16px; /* Agrega padding general */
+  gap: 16px; /* Espaciado entre elementos */
+  height: auto; /* Ajusta la altura automáticamente */
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1); /* Agrega sombra para emprolijar */
+}
+
+.reservas-lista {
+  background-color: #00000013;
+  padding: 20px; /* Mejora el espaciado interno */
+  border-radius: 12px;
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.reservas-lista > * {
+  flex: 1 1 300px;
+  max-width: 350px;
+  min-width: 250px;
+}
+
+@media (max-width: 600px) {
+  .card-container {
+    flex-direction: column;
+    align-items: center;
+    padding: 12px; /* Ajusta el padding para pantallas pequeñas */
+    gap: 12px;
+  }
+
+  .imagen-reserva {
+    height: 120px;
+    width: 100%;
+    border-radius: 8px;
+  }
+
+  .reserva-content {
+    text-align: center; /* Centra el texto en mobile */
+    padding: 12px;
+  }
+
+  .reservas-lista {
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .reservas-lista > * {
+    max-width: 100%;
+    min-width: 0;
+  }
+}
