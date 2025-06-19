@@ -1,0 +1,182 @@
+.notifications-header {
+  margin-left: 2%;
+  font-size: 1.6rem;
+}
+
+.notifications-container {
+  position: relative;
+  display: flex;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+  gap: 20px;
+}
+
+.fondo-notificaciones {
+  padding: 8px;
+}
+
+.fondo-gris {
+  background-color: #00000013;
+  padding: 15px;
+  border-radius: 12px;
+  height: max-content;
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+  width: auto;
+}
+
+h3 {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+h3 + h3 {
+  margin-top: 0;
+}
+
+.card-end {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.notification-icon {
+  margin-right: 15px;
+  font-size: 64px;
+  color: #673ab7;
+}
+
+.card-container {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  position: relative;
+  box-sizing: border-box;
+  padding: 10px;
+  height: 27%;
+}
+
+.notification-card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  margin-right: 12px;
+  text-align: left;
+}
+
+.notifications-filters-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-right: 30px;
+}
+
+.notification-button-style {
+  font-size: 150%;
+  height: 64px;
+  width: 278px;
+  border-radius: 36px;
+  margin-left: 2px;
+  border: none;
+  background-color: white;
+}
+.notification-button-style:hover {
+  background-color: #0b0b0b08;
+}
+
+.notification-button-style-activo {
+  background-color: #b494ff4f;
+  font-size: 150%;
+  height: 64px;
+  width: 278px;
+  border-radius: 36px;
+  margin-left: 2px;
+  border-color: #6750a4;
+  color: #4c2d9f;
+}
+
+/* Responsive para tablets y móviles */
+@media (max-width: 950px) {
+  .notifications-container {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .notifications-filters-container {
+    flex-direction: row;
+    justify-content: center;
+    margin-right: 0;
+    gap: 8px;
+  }
+
+  .notification-button-style,
+  .notification-button-style-activo {
+    width: auto;
+    font-size: 1rem;
+    height: 48px;
+    border-radius: 24px;
+  }
+
+  .fondo-notificaciones {
+    padding: 4px;
+  }
+
+  .fondo-gris {
+    padding: 10px;
+    gap: 12px;
+    width: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .notifications-container {
+    width: 100%;
+    padding: 8px;
+  }
+
+  .notifications-filters-container {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .notification-button-style,
+  .notification-button-style-activo {
+    width: 100%;
+    font-size: 0.9rem;
+    height: 40px;
+    border-radius: 20px;
+  }
+
+  .fondo-gris {
+    gap: 8px;
+    padding: 8px;
+  }
+
+  .card-container {
+    flex-direction: column;
+    align-items: center;
+    padding: 12px;
+    height: auto;
+    margin: 0px 0px;
+    gap: 12px;
+  }
+
+  .notification-card-content {
+    margin-right: 0;
+    text-align: center;
+  }
+
+  .notification-icon {
+    margin: 0 auto 12px;
+    padding: 0px;
+  }
+}

@@ -1,0 +1,47 @@
+.onSession {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.profile-menu {
+  position: absolute;
+
+  right: 0; /* Pegado a la derecha */
+  margin-top: 8px; /* Un pequeño espacio opcional */
+  margin-right: 8px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 100;
+}
+
+.menu-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  height: 60px;
+  padding: 8px 16px !important;
+  color: #333 !important;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.menu-button:hover {
+  background-color: #c4c4c4;
+  border-radius: 8px;
+}
+
+.logOut-titulo {
+  font-size: 16px;
+  font-weight: light;
+  padding-right: 0px;
+}

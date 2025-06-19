@@ -16,6 +16,8 @@ export default class AlojamientoController {
       huespedesMax,
       caracteristicas,
       moneda,
+      checkIn,
+      checkOut,
       page = 1,
       limit = 10,
       checkIn,
