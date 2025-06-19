@@ -5,6 +5,7 @@ import { Server } from './server.js'
 import { MongoDBClient } from './BirBnB/config/database.js'
 
 import UsuarioRepository from './BirBnB/models/repositories/usuario-repository.js'
+import UsuarioService from './BirBnB/services/usuario-service.js'
 
 import AlojamientoRepository from './BirBnB/models/repositories/alojamiento-repository.js'
 import AlojamientoController from './BirBnB/controllers/alojamiento.controller.js'
@@ -21,7 +22,7 @@ import NotificacionService from './BirBnB/services/notificacion-service.js'
 import SaludController from './BirBnB/controllers/health.controller.js'
 
 const app = express()
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 6969
 const server = new Server(app, port) // * Crear una nueva instancia del servidor
 
 MongoDBClient.connect()
@@ -30,6 +31,7 @@ MongoDBClient.connect()
 const saludController = new SaludController()
 
 const usuarioRepository = new UsuarioRepository()
+const usuarioService = new UsuarioService(usuarioRepository)
 
 const alojamientoRepository = new AlojamientoRepository()
 const alojamientoService = new AlojamientoService(alojamientoRepository)
@@ -45,7 +47,11 @@ const reservaController = new ReservaController(reservaService)
 
 const notificacionRepository = new NotificacionRepository()
 const notificacionService = new NotificacionService(notificacionRepository)
-const usuarioController = new UsuarioController(notificacionService, reservaService)
+const usuarioController = new UsuarioController(
+  notificacionService,
+  reservaService,
+  usuarioService,
+)
 
 // Registro de controladores en el servidor
 server.setController(AlojamientoController, alojamientoController)
