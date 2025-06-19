@@ -18,7 +18,10 @@ const NotificationCard = ({
 
   return (
     <div className="card-container">
-      <CircleNotificationsIcon style={{ fontSize: 64 }} className="notification-icon" />
+      <CircleNotificationsIcon
+        style={{ fontSize: 64, margin: 0 }}
+        className="notification-icon"
+      />
       <div className="notification-card-content">
         <h3>{mensaje}</h3>
         <h3>Fecha alta: {fechaAlta}</h3>

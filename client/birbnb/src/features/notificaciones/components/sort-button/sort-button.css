@@ -28,3 +28,22 @@
 .button-container {
   display: flex;
 }
+
+/* Responsive para móviles */
+@media (max-width: 600px) {
+  .sort-options-dropdown {
+    width: 100%;
+    left: 0;
+    top: calc(100% + 8px);
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+
+  .sort-option {
+    padding: 8px 12px;
+  }
+
+  .button-container {
+    justify-content: center;
+  }
+}
