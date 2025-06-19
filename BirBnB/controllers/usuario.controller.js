@@ -52,7 +52,7 @@ export default class UsuarioController {
 
   async getProfile(req, res) {
     const id = req.user.id
-    console.log('Id', id)
+    //console.log('Id', id)
     const usuario = await this.usuarioService.getProfile(id)
     return res.status(200).json(usuario)
   }

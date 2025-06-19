@@ -8,7 +8,7 @@ function Api() {
   return {
     login: async (email, password) => {
       let tokenUsuario = null
-      console.log('Intentando logear')
+      //console.log('Intentando logear')
       await instance
         .post('/usuarios/login', {
           email: email,
@@ -16,7 +16,7 @@ function Api() {
         })
         .then((response) => {
           const { token } = response.data
-          console.log('me llego', token)
+          //console.log('me llego', token)
           tokenUsuario = token
         })
         .catch((error) => {
@@ -28,7 +28,7 @@ function Api() {
 
     register: async (name, email, password) => {
       let tokenUsuario = null
-      console.log('Intentando registrar')
+      //console.log('Intentando registrar')
       await instance
         .post('/usuarios/signup', {
           name: name,
@@ -37,7 +37,7 @@ function Api() {
         })
         .then((response) => {
           const { token } = response.data
-          console.log('me llego el token:', token)
+          //console.log('me llego el token:', token)
           tokenUsuario = token
         })
         .catch((error) => {
@@ -49,7 +49,7 @@ function Api() {
     },
 
     getProfile: async (token) => {
-      console.log('Obteniendo perfil del usuario')
+      //console.log('Obteniendo perfil del usuario')
       return await instance
         .get('/usuarios/perfil', {
           headers: {
@@ -67,7 +67,7 @@ function Api() {
 
     getNotificaciones: async (token, leida) => {
       let notificaciones = null
-      console.log('Obteniendo notificaciones del usuario')
+      //console.log('Obteniendo notificaciones del usuario')
       await instance
         .get('/usuarios/notificaciones', {
           headers: {
@@ -87,11 +87,11 @@ function Api() {
     },
 
     crearReserva: async (reserva) => {
-      console.log('Creando reserva:', reserva)
+      //console.log('Creando reserva:', reserva)
       return await instance
         .post('/reservas', reserva)
         .then((response) => {
-          console.log('Reserva creada con éxito:', response.data)
+          //console.log('Reserva creada con éxito:', response.data)
           return response.data
         })
         .catch((error) => {
@@ -104,7 +104,7 @@ function Api() {
       return await instance
         .get(`/alojamientos/${id}`)
         .then((response) => {
-          console.log('Alojamiento obtenido API:', response.data)
+          //console.log('Alojamiento obtenido API:', response.data)
           return response.data
         })
         .catch((error) => {
@@ -117,7 +117,7 @@ function Api() {
       return await instance
         .get('/alojamientos?page=1&limit=6')
         .then((response) => {
-          console.log('Alojamientos obtenidos para el carousel:', response.data)
+          //console.log('Alojamientos obtenidos para el carousel:', response.data)
           return response.data
         })
         .catch((error) => {
@@ -127,7 +127,7 @@ function Api() {
     },
 
     getReservas: async (token) => {
-      console.log('Obteniendo reservas del usuario')
+      //console.log('Obteniendo reservas del usuario')
       return await instance
         .get('/usuarios/reservas', {
           headers: {
@@ -135,7 +135,7 @@ function Api() {
           },
         })
         .then((response) => {
-          console.log('Reservas obtenidas:', response.data)
+          //console.log('Reservas obtenidas:', response.data)
           return response.data
         })
         .catch((error) => {
@@ -144,11 +144,11 @@ function Api() {
         })
     },
     cancelarReserva: async (idReserva) => {
-      console.log(`Cancelando reserva: ${idReserva}`)
+      //console.log(`Cancelando reserva: ${idReserva}`)
       return await instance
         .delete(`/reservas/${idReserva}`)
         .then((response) => {
-          console.log('Reserva cancelada: ', response.data)
+          //console.log('Reserva cancelada: ', response.data)
           return response
         })
         .catch((error) => {
@@ -158,8 +158,8 @@ function Api() {
         })
     },
     marcarComoLeida: async (idNotificacion, token) => {
-      console.log('Token: ', token)
-      console.log('Id notificacion ', idNotificacion)
+      //console.log('Token: ', token)
+      //console.log('Id notificacion ', idNotificacion)
       return await instance
         .put(`/usuarios/notificaciones/${idNotificacion}`, null, {
           headers: {
@@ -167,7 +167,7 @@ function Api() {
           },
         })
         .then((response) => {
-          console.log('Notificación marcada como leída:', response.data)
+          //console.log('Notificación marcada como leída:', response.data)
           return response.data
         })
     },

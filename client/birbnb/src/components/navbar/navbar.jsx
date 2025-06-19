@@ -16,7 +16,7 @@ const Navbar = () => {
             {/* <img src="/images/logo.png" alt="Logo" /> */}
             <LogoConAudio />
           </div>
-          {console.log('logueado', logueado)}
+          {/* {console.log('logueado', logueado)} */}
           {logueado ? <OnSession /> : <Offline />}
         </div>
         <SearchBar />
