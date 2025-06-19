@@ -20,7 +20,7 @@ export function AuthProvider({ children }) {
       Api()
         .getProfile(storedToken)
         .then((userData) => {
-          console.log('User data from localStorage:', userData)
+          //console.log('User data from localStorage:', userData)
           setUser(userData)
           setLogueado(true)
         })

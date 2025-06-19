@@ -20,7 +20,7 @@ export function SearchProvider({ children }) {
     if (filtrosJson.checkOut) {
       filtrosJson.checkOut = convertirFecha(filtrosJson.checkOut)
     }
-    console.log('Filtros a aplicar: ', filtrosJson)
+    //console.log('Filtros a aplicar: ', filtrosJson)
 
     axios
       .get('/alojamientos', {
@@ -31,7 +31,7 @@ export function SearchProvider({ children }) {
       .then((response) => {
         // Aquí puedes manejar la respuesta de la búsqueda
         setAlojamientos(response.data)
-        console.log('Alojamientos filtrados', response.data)
+        //console.log('Alojamientos filtrados', response.data)
       })
       .catch((error) => {
         // Manejo de errores

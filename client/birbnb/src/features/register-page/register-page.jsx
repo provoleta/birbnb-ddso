@@ -17,7 +17,7 @@ export default function LoginPage() {
     if (email && password && name) {
       let token = await Api().register(name, email, password)
       await handleNewToken(token)
-      console.log('Token post handle:', token)
+      //console.log('Token post handle:', token)
       navigate('/')
     }
   }

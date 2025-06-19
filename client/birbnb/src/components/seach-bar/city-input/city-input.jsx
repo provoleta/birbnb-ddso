@@ -7,13 +7,11 @@ function CityInput({ handleChange, query, resultados, ciudades }) {
 
   useEffect(() => {
     setLoading(false)
-    console.log('Ciudades cargadas:', ciudades)
+    //console.log('Ciudades cargadas:', ciudades)
   }, [ciudades, resultados])
 
   if (loading) {
-    return (
-      <p>Cargando...</p>
-    )
+    return <p>Cargando...</p>
   }
 
   return (
@@ -26,12 +24,11 @@ function CityInput({ handleChange, query, resultados, ciudades }) {
         onChange={handleChange}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
-        onKeyDown={e => {
-          if (e.key === "Enter") {
-            e.target.blur();
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            e.target.blur()
           }
-    }}
-        
+        }}
       />
       {resultados.length > 0 && isFocused && (
         <div className="autocomplete-results">
@@ -46,7 +43,6 @@ function CityInput({ handleChange, query, resultados, ciudades }) {
               onMouseDown={() => {
                 handleChange({ target: { value: item } })
               }}
-              
             >
               {item}
             </li>
