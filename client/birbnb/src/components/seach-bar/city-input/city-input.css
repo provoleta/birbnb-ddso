@@ -1,0 +1,28 @@
+.autocomplete-results {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin: 5px 0 0 0;
+  padding: 0;
+  list-style: none;
+  z-index: 10;
+}
+
+.search-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+}
+
+.search-section input {
+  height: 40px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  padding: 0 12px;
+  font-size: 14px;
+  outline: none;
+}

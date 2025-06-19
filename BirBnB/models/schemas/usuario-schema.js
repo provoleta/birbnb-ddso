@@ -14,11 +14,6 @@ const usuarioSchema = new mongoose.Schema({
     unique: true,
     trim: true,
   },
-  password: {
-    type: String,
-    required: true,
-    trim: true,
-  },
   tipo: {
     type: String,
     enum: ['HUESPED', 'ANFITRION'],

@@ -1,0 +1,43 @@
+.contenedor-direccion {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 890px;
+  /* background-color: aqua; */
+}
+
+.contenedor-titulo {
+  /* background-color: blueviolet; */
+  display: flex;
+  padding: 20px 0px 0px 0px;
+}
+
+.especificacion-direccion {
+  padding: 0px 0px 0px 0px;
+  margin: 0px;
+}
+
+.location-icon {
+  padding-right: 5px;
+}
+
+.locacion-puntual {
+  margin: 0px 0px 20px 0px;
+}
+
+.gps-icon {
+  padding-right: 5px;
+}
+
+@media (max-width: 600px) {
+  .contenedor-direccion {
+    width: 100%;
+  }
+  .contenedor-titulo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+  }
+}

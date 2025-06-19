@@ -16,10 +16,10 @@ export default class AlojamientoController {
       huespedesMax,
       caracteristicas,
       moneda,
-      page = 1,
-      limit = 10,
       checkIn,
       checkOut,
+      page = 1,
+      limit = 10,
     } = req.query
 
     const filters = {
@@ -44,28 +44,5 @@ export default class AlojamientoController {
       limit,
     )
     res.json(alojamientosPaginados)
-  }
-
-  async findById(req, res) {
-    const { id } = req.params
-    try {
-      const alojamiento = await this.alojamientoService.findById(id)
-      if (!alojamiento) {
-        return res.status(404).json({ error: 'Alojamiento no encontrado' })
-      }
-      res.json(alojamiento)
-    } catch {
-      res.status(500).json({ error: 'Error al obtener el alojamiento' })
-    }
-  }
-
-  async findCiudades(req, res) {
-    try {
-      const ciudades = await this.alojamientoService.getCities()
-      console.log('Ciudades obtenidas:', ciudades)
-      res.json(ciudades)
-    } catch (error) {
-      res.status(500).json({ error: 'Error al obtener las ciudades' })
-    }
   }
 }

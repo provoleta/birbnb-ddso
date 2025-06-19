@@ -1,9 +1,6 @@
-import RangoFechas from '../entities/rango-fechas.js'
 import { AlojamientoModel } from '../schemas/alojamiento-schema.js'
 
 export default class AlojamientoRepository {
-  ciudades = ['Buenos Aires', 'Mar del Plata']
-
   constructor() {
     this.model = AlojamientoModel
   }
@@ -11,41 +8,37 @@ export default class AlojamientoRepository {
   async filterBy(filters = {}, pageNum, limitNum) {
     const query = {}
 
-    if (filters.ciudad && filters.ciudad !== '') {
+    if (filters.ciudad) {
       query['direccion.ciudad'] = { $regex: filters.ciudad, $options: 'i' }
     }
-    if (filters.pais && filters.pais !== '') {
+    if (filters.pais) {
       query['direccion.pais'] = { $regex: filters.pais, $options: 'i' }
     }
-    if (filters.calle && filters.calle !== '') {
+    if (filters.calle) {
       query['direccion.calle'] = { $regex: filters.calle, $options: 'i' }
     }
-    if (filters.numero && filters.numero !== '') {
+    if (filters.numero) {
       query['direccion.numero'] = Number(filters.numero)
     }
-    if (filters.lat && filters.lat !== '') {
+    if (filters.lat) {
       query['direccion.lat'] = Number(filters.lat)
     }
-    if (filters.long && filters.long !== '') {
+    if (filters.long) {
       query['direccion.long'] = Number(filters.long)
     }
 
-    if (filters.precioGt && filters.precioGt !== '') {
+    if (filters.precioGt) {
       query.precioPorNoche = { $gte: Number(filters.precioGt) }
     }
 
-    if (filters.precioLt && filters.precioLt !== '') {
+    if (filters.precioLt) {
       query.precioPorNoche = { $lte: Number(filters.precioLt) }
     }
 
-    if (
-      filters.huespedesMax &&
-      filters.huespedesMax !== '0' &&
-      filters.huespedesMax !== ''
-    ) {
-      query.cantHuespedesMax = { $gte: filters.huespedesMax }
+    if (filters.huespedesMax) {
+      query.cantHuespedesMax = { $lte: filters.huespedesMax }
     }
-    if (filters.caracteristicas && filters.caracteristicas !== '') {
+    if (filters.caracteristicas) {
       const caracteristicasArray = Array.isArray(filters.caracteristicas)
         ? filters.caracteristicas
         : [filters.caracteristicas]
@@ -59,7 +52,7 @@ export default class AlojamientoRepository {
       } //  $in se usa para filtrar por un array de valores. Se usa en la base de datos MongoDB para filtrar por caracteristicas.
     }
 
-    if (filters.moneda && filters.moneda !== '') {
+    if (filters.moneda) {
       query.moneda = { $regex: filters.moneda, $options: 'i' }
     }
 
@@ -69,16 +62,15 @@ export default class AlojamientoRepository {
       .skip((pageNum - 1) * limitNum)
       .limit(limitNum)
 
-    if (filters.checkIn !== '' && filters.checkOut !== '') {
-      let alojamientosARetornar = null
-      let rangoFechas = new RangoFechas(filters.checkIn, filters.checkOut)
-      alojamientosARetornar = alojamientosFiltrados.filter((alojamiento) =>
-        alojamiento.estasDisponibleEn(rangoFechas),
-      )
-      return alojamientosARetornar
-    } else {
-      return alojamientosFiltrados
-    }
+    return alojamientosFiltrados.filter((alojamiento) => {
+      if (filters.checkIn && filters.checkOut) {
+        console.log(
+          `Verificando disponibilidad de alojamiento ${alojamiento._id} entre ${filters.checkIn} y ${filters.checkOut}`,
+        )
+        return alojamiento.estasDisponibleEn(filters.checkIn, filters.checkOut)
+      }
+      return false
+    })
   }
 
   async addReserva(alojamientoId, reservaId) {
@@ -104,9 +96,5 @@ export default class AlojamientoRepository {
   async countAll() {
     const totalAlojamientos = await this.model.countDocuments()
     return totalAlojamientos
-  }
-
-  async getCities() {
-    return this.ciudades
   }
 }

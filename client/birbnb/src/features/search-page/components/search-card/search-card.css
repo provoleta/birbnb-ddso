@@ -1,0 +1,126 @@
+.search-card-container {
+  background-color: #00000013;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 15px;
+  border-radius: 16px;
+  position: relative;
+  box-sizing: border-box;
+  transition: box-shadow 0.2s;
+}
+
+.card-fotos {
+  flex: 0 0 180px;
+  height: 180px;
+  padding: 20px;
+}
+
+.card-fotos img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.card-content {
+  flex: 1;
+  padding: 20px 20px 20px 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.card-content h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.card-content p {
+  margin: 0 0 15px;
+  color: #666;
+  line-height: 1.6;
+}
+
+.card-price {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #444;
+}
+
+.view-more-button {
+  background-color: #c01ee917;
+  padding: 16px;
+  margin: 20px;
+  border-radius: 16px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  align-self: flex-end;
+}
+
+.view-more-button:hover {
+  background-color: #7214c0fb;
+  color: #ebe8e8;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+@media (max-width: 1024px) {
+  .search-card-container {
+    flex-direction: column;
+    align-items: stretch;
+    min-width: 0;
+  }
+  .card-fotos {
+    flex: none;
+    width: 100%;
+    height: 200px;
+    padding: 10px 10px 0 10px;
+  }
+  .card-fotos img {
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+  }
+  .card-content {
+    padding: 10px 10px 0 10px;
+  }
+  .view-more-button {
+    margin: 10px;
+    width: 90%;
+    align-self: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .search-card-container {
+    flex-direction: column;
+    align-items: stretch;
+    margin-bottom: 10px;
+    border-radius: 10px;
+  }
+  .card-fotos {
+    height: 140px;
+    padding: 5px 5px 0 5px;
+  }
+  .card-fotos img {
+    border-radius: 8px;
+  }
+  .card-content {
+    padding: 8px 8px 0 8px;
+  }
+  .card-content h3 {
+    font-size: 1.1rem;
+  }
+  .view-more-button {
+    font-size: 14px;
+    padding: 10px;
+    margin: 8px;
+    border-radius: 10px;
+    width: 95%;
+  }
+}
