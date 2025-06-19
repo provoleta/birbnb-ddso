@@ -6,18 +6,9 @@ import stylisticJs from '@stylistic/eslint-plugin-js'
 export default defineConfig([
   {
     files: ['**/*.{js,mjs,cjs}'],
-    plugins: { js, '@stylistic/js': stylisticJs, react: 'eslint-plugin-react' },
-    extends: ['js/recommended', 'eslint:recommended', 'plugin:react/recommended'],
-    parserOptions: {
-      ecmaFeatures: {
-        jsx: true,
-      },
-      ecmaVersion: 'latest',
-      sourceType: 'module',
-    },
+    plugins: { js, '@stylistic/js': stylisticJs },
+    extends: ['js/recommended'],
     rules: {
-      'react/prop-types': 'off', // Desactiva advertencias de prop-types si usas TypeScript o no los usas
-      'react/react-in-jsx-scope': 'off', // Desactiva advertencia si usas React 17+
       '@stylistic/js/semi': ['error', 'never'],
       'no-unused-vars': [
         'error',
@@ -27,11 +18,6 @@ export default defineConfig([
           ignoreRestSiblings: true,
         },
       ],
-    },
-    settings: {
-      react: {
-        version: 'detect',
-      },
     },
   },
   {

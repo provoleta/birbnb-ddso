@@ -68,15 +68,17 @@ export default class AlojamientoRepository {
       .populate(['anfitrion', 'reservas'])
       .skip((pageNum - 1) * limitNum)
       .limit(limitNum)
-    return alojamientosFiltrados.filter((alojamiento) => {
-      if (filters.checkIn && filters.checkOut) {
-        console.log(
-          `Verificando disponibilidad de alojamiento ${alojamiento._id} entre ${filters.checkIn} y ${filters.checkOut}`,
-        )
-        return alojamiento.estasDisponibleEn(filters.checkIn, filters.checkOut)
-      }
-      return false
-    })
+
+    if (filters.checkIn !== '' && filters.checkOut !== '') {
+      let alojamientosARetornar = null
+      let rangoFechas = new RangoFechas(filters.checkIn, filters.checkOut)
+      alojamientosARetornar = alojamientosFiltrados.filter((alojamiento) =>
+        alojamiento.estasDisponibleEn(rangoFechas),
+      )
+      return alojamientosARetornar
+    } else {
+      return alojamientosFiltrados
+    }
   }
 
   async addReserva(alojamientoId, reservaId) {
