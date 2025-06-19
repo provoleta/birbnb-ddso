@@ -30,3 +30,5 @@
     - Los errores mostrarlos, no dejarlos en console log
     - Adobe color wheel para buscar una paleta de colores.
     - Estaria bueno que los action buttons tengan un color que los distinga.
+    - No se termina de entender que los checkboxes de marcar como leida una notificacion son para eso
+    - Formato de fecha para mostrar una reserva todavia se lee con el formato de la DB
