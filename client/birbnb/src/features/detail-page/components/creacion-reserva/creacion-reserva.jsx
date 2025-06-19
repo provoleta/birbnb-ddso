@@ -41,6 +41,7 @@ const useCreacionReserva = (fechas, alojamientoId) => {
     Api().crearReserva(reserva)
 
     alert('¡Reserva creada con éxito!')
+    window.location.reload()
   }
 
   return { procesarReserva }

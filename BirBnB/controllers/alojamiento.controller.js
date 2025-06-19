@@ -20,8 +20,6 @@ export default class AlojamientoController {
       checkOut,
       page = 1,
       limit = 10,
-      checkIn,
-      checkOut,
     } = req.query
 
     const filters = {
