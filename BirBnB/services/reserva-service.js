@@ -1,6 +1,7 @@
 import ExcededTimeException from '../exceptions/exceded-time-exception.js'
 import DisponibilidadException from '../exceptions/disponibilidad-exception.js'
 import NotFoundException from '../exceptions/not-found-exception.js'
+import UnauthorizedException from '../exceptions/unauthorized-exception.js'
 import { EstadoReserva, Reserva } from '../models/entities/reserva.js'
 import { FactoryNotificacion } from '../models/entities/factory-notificacion.js'
 import RangoFechas from '../models/entities/rango-fechas.js'
@@ -21,9 +22,13 @@ export default class ReservaService {
     this.usuarioRepository = usuarioRepository
   }
 
-  async update(reserva) {
+  async update(reserva, solicitanteId) {
     const reservaAmodificar = await this.reservaRepository.findById(reserva.id)
     if (!reservaAmodificar) throw new NotFoundException()
+
+    if (reservaAeliminar.huespedReservador.id !== solicitanteId) {
+      throw new UnauthorizedException()
+    }
 
     const alojamiento = await this.alojamientoRepository.findById(
       reservaAmodificar.alojamiento.id,
@@ -56,10 +61,14 @@ export default class ReservaService {
     return this.toDTO(reservaModificada)
   }
 
-  async delete(reservaId) {
+  async delete(reservaId, solicitanteId) {
     const reservaAeliminar = await this.reservaRepository.findById(reservaId)
 
     if (!reservaAeliminar) throw new NotFoundException()
+
+    if (reservaAeliminar.huespedReservador.id !== solicitanteId) {
+      throw new UnauthorizedException()
+    }
 
     if (dayjs().isAfter(reservaAeliminar.rangoFechas.fechaInicio, 'DD/MM/YYYY')) {
       throw new ExcededTimeException()

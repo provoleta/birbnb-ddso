@@ -7,7 +7,8 @@ export default class ReservaController {
 
   async create(req, res) {
     const reserva = req.body
-    const { fechaAlta, huespedReservadorId, idAlojamiento, rangoFechas } = reserva
+    const huespedReservadorId = req.user.id
+    const { fechaAlta, idAlojamiento, rangoFechas } = reserva
 
     if (!fechaAlta || !huespedReservadorId || !idAlojamiento || !rangoFechas) {
       return res.status(400).json({ error: 'Reserva mal formada' })
@@ -21,8 +22,9 @@ export default class ReservaController {
 
   async delete(req, res) {
     const reservaId = req.params.id
+    const huespedReservadorId = req.user.id
     validarObjectId(reservaId)
-    await this.reservaService.delete(reservaId)
+    await this.reservaService.delete(reservaId, huespedReservadorId)
     res.status(204).json({
       message: 'Reserva eliminada correctamente',
     })
@@ -30,13 +32,14 @@ export default class ReservaController {
 
   async update(req, res) {
     const reserva = req.body
+    const huespedReservadorId = req.user.id
     const { id, rangoFechas } = reserva
 
     if (!id || !rangoFechas) {
       return res.status(400).json({ error: 'Reserva mal formada' })
     }
     validarObjectId(id)
-    const nuevo = await this.reservaService.update(reserva)
+    const nuevo = await this.reservaService.update(reserva, huespedReservadorId)
     res.status(204).json(nuevo)
   }
 }
