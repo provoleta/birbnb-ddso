@@ -1,6 +1,6 @@
 import WifiIcon from '@mui/icons-material/Wifi'
 import PoolIcon from '@mui/icons-material/Pool'
-import LocalParkingIcon from '@mui/icons-material/LocalParking'
+import LocalParkingIcon from './coche-estacionado.png'
 import PetsIcon from '@mui/icons-material/Pets'
 
 const CaracteristicaItem = ({ caracteristica }) => {
@@ -11,7 +11,7 @@ const CaracteristicaItem = ({ caracteristica }) => {
       case 'PISCINA':
         return <PoolIcon />
       case 'ESTACIONAMIENTO':
-        return <LocalParkingIcon />
+        return <img src={LocalParkingIcon} alt="estacionamiento disponible" />
       case 'MASCOTAS_PERMITIDAS':
         return <PetsIcon />
       default:
@@ -28,7 +28,7 @@ const CaracteristicaItem = ({ caracteristica }) => {
 
   return (
     <div className="caracteristica-item">
-      <p>
+      <p className="parrafo-caracteristica">
         {getIcon && (
           <span className="icono-caracteristica">{getIcon(caracteristica)}</span>
         )}

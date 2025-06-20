@@ -10,6 +10,7 @@ import useCreacionReserva from './components/creacion-reserva/creacion-reserva.j
 import Detalles from './components/detalles-detail/detalles-detail.jsx'
 import Api from '../../api/api.jsx'
 import { useEffect } from 'react'
+import Mapa from './components/mapa-detail/mapa-detail.jsx'
 
 const AlojamientoDetail = () => {
   const { id } = useParams()
@@ -95,6 +96,14 @@ const AlojamientoDetail = () => {
               Reservar
             </button>
           </section>
+        </div>
+      </div>
+      <div className="contenedor-mapa">
+        <div className="contenedor-centrado">
+          <div className="contenedor-titulomapa">
+            <h2 className="titulo-mapa">¿Dónde vas a estar?</h2>
+          </div>
+          <Mapa alojamiento={alojamiento}></Mapa>
         </div>
       </div>
     </div>
