@@ -8,7 +8,7 @@ import { useState } from 'react'
 import Direccion from './components/direccion-detail/direccion-detail.jsx'
 import useCreacionReserva from './components/creacion-reserva/creacion-reserva.jsx'
 import Detalles from './components/detalles-detail/detalles-detail.jsx'
-import Api from '../../api/api.jsx'
+import api from '../../api/api.jsx'
 import { useEffect } from 'react'
 import Mapa from './components/mapa-detail/mapa-detail.jsx'
 
@@ -22,7 +22,7 @@ const AlojamientoDetail = () => {
   const { procesarReserva } = useCreacionReserva(fechas, id)
 
   useEffect(() => {
-    Api()
+    api
       .obtenerAlojamiento(id)
       .then((data) => {
         setAlojamiento(data)

@@ -3,7 +3,7 @@ import SortButton from '../sort-button/sort-button'
 import { useEffect, useState } from 'react'
 import '../../notificaciones.css'
 import { useNavigate } from 'react-router'
-import Api from '../../../../api/api'
+import api from '../../../../api/api'
 import { useAuthContext } from '../../../../store/auth-context'
 
 const MostrarNotificaciones = ({ id, sortOption, handleSortChange }) => {
@@ -22,7 +22,7 @@ const MostrarNotificaciones = ({ id, sortOption, handleSortChange }) => {
   useEffect(() => {
     const fetchNotificaciones = async () => {
       try {
-        const response = await Api().getNotificaciones(token, leida)
+        const response = await api.getNotificaciones(leida)
         // const data = await response.json()
         setNotificaciones(response)
       } catch (error) {
@@ -44,11 +44,11 @@ const MostrarNotificaciones = ({ id, sortOption, handleSortChange }) => {
   }
 
   const handlerMarcarLeida = async (idNotificacion) => {
-    const notificacionActualizada = await Api().marcarComoLeida(idNotificacion, token)
+    const notificacionActualizada = await api.marcarComoLeida(idNotificacion)
 
     console.log('Notificación actualizada:', notificacionActualizada)
 
-    const response = await Api().getNotificaciones(token, leida)
+    const response = await api.getNotificaciones(token, leida)
     // const data = await response.json()
     setNotificaciones(response)
   }

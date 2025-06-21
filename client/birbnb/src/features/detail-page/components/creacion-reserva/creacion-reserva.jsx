@@ -1,6 +1,6 @@
 import { useAuthContext } from '../../../../store/auth-context'
 import { useNavigate } from 'react-router-dom'
-import Api from '../../../../../src/api/api'
+import api from '../../../../../src/api/api'
 
 function formatDateToDDMMYYYY(date) {
   const day = String(date.getDate()).padStart(2, '0')
@@ -38,7 +38,7 @@ const useCreacionReserva = (fechas, alojamientoId) => {
 
     console.log('Reserva a procesar:', reserva)
 
-    Api().crearReserva(reserva)
+    api.crearReserva(reserva)
 
     alert('¡Reserva creada con éxito!')
     window.location.reload()

@@ -2,7 +2,7 @@ import './login-page.css'
 import { useAuthContext } from '../../store/auth-context'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Api from '../../api/api'
+import api from '../../api/api'
 
 export default function LoginPage() {
   const { handleNewToken } = useAuthContext()
@@ -16,7 +16,7 @@ export default function LoginPage() {
     e.preventDefault()
     if (email && password) {
       try {
-        let token = await Api().login(email, password)
+        let token = await api.login(email, password)
         await handleNewToken(token)
         navigate('/')
       } catch {

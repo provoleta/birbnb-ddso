@@ -1,5 +1,5 @@
 import ReservaCard from '../reserva-card/reserva-card'
-import Api from '../../../../api/api'
+import api from '../../../../api/api'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../../../../store/auth-context'
@@ -7,12 +7,12 @@ import { useAuthContext } from '../../../../store/auth-context'
 const MostrarReservas = ({ userId }) => {
   const [reservas, setReservas] = useState([])
   const [loading, setLoading] = useState(true)
-  const { token, logueado } = useAuthContext()
+  const { logueado } = useAuthContext()
   const navigate = useNavigate()
 
   const fetchReservas = async () => {
     try {
-      const response = await Api().getReservas(token)
+      const response = await api.getReservas()
       // const data = await response.json()
       setReservas(response)
     } catch (error) {

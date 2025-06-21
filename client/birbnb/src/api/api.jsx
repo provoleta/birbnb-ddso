@@ -1,177 +1,163 @@
 import axios from 'axios'
 
-function Api() {
-  const instance = axios.create({
-    baseURL: 'http://localhost:6969',
-  })
+class Api {
+  constructor() {
+    this.tokenAuth = null
+    this.axiosInstance = axios.create({
+      baseURL: 'http://localhost:6969',
+    })
+  }
 
-  return {
-    login: async (email, password) => {
-      let tokenUsuario = null
-      //console.log('Intentando logear')
-      await instance
-        .post('/usuarios/login', {
-          email: email,
-          password: password,
-        })
-        .then((response) => {
-          const { token } = response.data
-          //console.log('me llego', token)
-          tokenUsuario = token
-        })
-        .catch((error) => {
-          console.error('Login failed:', error)
-          throw error
-        })
-      return tokenUsuario
-    },
+  async login(email, password) {
+    await this.axiosInstance
+      .post('/usuarios/login', {
+        email: email,
+        password: password,
+      })
+      .then((response) => {
+        const { token } = response.data
 
-    register: async (name, email, password) => {
-      let tokenUsuario = null
-      //console.log('Intentando registrar')
-      await instance
-        .post('/usuarios/signup', {
-          name: name,
-          email: email,
-          password: password,
-        })
-        .then((response) => {
-          const { token } = response.data
-          //console.log('me llego el token:', token)
-          tokenUsuario = token
-        })
-        .catch((error) => {
-          console.error('Registration failed:', error)
-          alert('Registration failed. Please check your details and try again.')
-        })
+        this.tokenAuth = token
+      })
+      .catch((error) => {
+        console.error('Login failed:', error)
+        throw error
+      })
+    return this.tokenAuth
+  }
 
-      return tokenUsuario
-    },
+  async register(name, email, password) {
+    await this.axiosInstance
+      .post('/usuarios/signup', {
+        name: name,
+        email: email,
+        password: password,
+      })
+      .then((response) => {
+        const { token } = response.data
 
-    getProfile: async (token) => {
-      //console.log('Obteniendo perfil del usuario')
-      return await instance
-        .get('/usuarios/perfil', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((response) => {
-          return response.data
-        })
-        .catch((error) => {
-          console.error('Error fetching user profile:', error)
-          throw error
-        })
-    },
+        this.tokenAuth = token
+      })
+      .catch((error) => {
+        console.error('Registration failed:', error)
+        alert('Registration failed. Please check your details and try again.')
+      })
 
-    getNotificaciones: async (token, leida) => {
-      let notificaciones = null
-      //console.log('Obteniendo notificaciones del usuario')
-      await instance
-        .get('/usuarios/notificaciones', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          params: {
-            leida: leida,
-          },
-        })
-        .then((response) => {
-          notificaciones = response.data
-        })
-        .catch((error) => {
-          console.error('Error fetching notifications:', error)
-        })
-      return notificaciones
-    },
+    return this.tokenAuth
+  }
 
-    crearReserva: async (reserva) => {
-      //console.log('Creando reserva:', reserva)
-      return await instance
-        .post('/reservas', reserva)
-        .then((response) => {
-          //console.log('Reserva creada con éxito:', response.data)
-          return response.data
-        })
-        .catch((error) => {
-          console.error('Error creating reservation:', error)
-          throw error
-        })
-    },
+  async getProfile() {
+    return await this.axiosInstance
+      .get('/usuarios/perfil', {
+        headers: {
+          Authorization: `Bearer ${this.tokenAuth}`,
+        },
+      })
+      .then((response) => {
+        return response.data
+      })
+      .catch((error) => {
+        console.error('Error fetching user profile:', error)
+        throw error
+      })
+  }
 
-    obtenerAlojamiento: async (id) => {
-      return await instance
-        .get(`/alojamientos/${id}`)
-        .then((response) => {
-          //console.log('Alojamiento obtenido API:', response.data)
-          return response.data
-        })
-        .catch((error) => {
-          console.error('Error fetching accommodation:', error)
-          throw error
-        })
-    },
+  async getNotificaciones(leida) {
+    let notificaciones = null
 
-    obtenerAlojamientosCarousel: async () => {
-      return await instance
-        .get('/alojamientos?page=1&limit=6')
-        .then((response) => {
-          //console.log('Alojamientos obtenidos para el carousel:', response.data)
-          return response.data
-        })
-        .catch((error) => {
-          console.error('Error fetching carousel accommodations:', error)
-          throw error
-        })
-    },
+    await this.axiosInstance
+      .get('/usuarios/notificaciones', {
+        headers: {
+          Authorization: `Bearer ${this.tokenAuth}`,
+        },
+        params: {
+          leida: leida,
+        },
+      })
+      .then((response) => {
+        notificaciones = response.data
+      })
+      .catch((error) => {
+        console.error('Error fetching notifications:', error)
+      })
+    return notificaciones
+  }
 
-    getReservas: async (token) => {
-      //console.log('Obteniendo reservas del usuario')
-      return await instance
-        .get('/usuarios/reservas', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((response) => {
-          //console.log('Reservas obtenidas:', response.data)
-          return response.data
-        })
-        .catch((error) => {
-          console.error('Error fetching reservations:', error)
-          throw error
-        })
-    },
-    cancelarReserva: async (idReserva) => {
-      //console.log(`Cancelando reserva: ${idReserva}`)
-      return await instance
-        .delete(`/reservas/${idReserva}`)
-        .then((response) => {
-          //console.log('Reserva cancelada: ', response.data)
-          return response
-        })
-        .catch((error) => {
-          error.status === 410
-            ? alert('No se pudo cancelar la reserva ya que se excede el tiempo minimo')
-            : console.error('Error en la cancelacion de la reserva: ', error)
-        })
-    },
-    marcarComoLeida: async (idNotificacion, token) => {
-      //console.log('Token: ', token)
-      //console.log('Id notificacion ', idNotificacion)
-      return await instance
-        .put(`/usuarios/notificaciones/${idNotificacion}`, null, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((response) => {
-          //console.log('Notificación marcada como leída:', response.data)
-          return response.data
-        })
-    },
+  async crearReserva(reserva) {
+    return await this.axiosInstance
+      .post('/reservas', reserva)
+      .then((response) => {
+        return response.data
+      })
+      .catch((error) => {
+        console.error('Error creating reservation:', error)
+        throw error
+      })
+  }
+
+  async obtenerAlojamiento(id) {
+    return await this.axiosInstance
+      .get(`/alojamientos/${id}`)
+      .then((response) => {
+        return response.data
+      })
+      .catch((error) => {
+        console.error('Error fetching accommodation:', error)
+        throw error
+      })
+  }
+
+  async obtenerAlojamientosCarousel() {
+    return await this.axiosInstance
+      .get('/alojamientos?page=1&limit=6')
+      .then((response) => {
+        return response.data
+      })
+      .catch((error) => {
+        console.error('Error fetching carousel accommodations:', error)
+        throw error
+      })
+  }
+
+  async getReservas() {
+    return await this.axiosInstance
+      .get('/usuarios/reservas', {
+        headers: {
+          Authorization: `Bearer ${this.tokenAuth}`,
+        },
+      })
+      .then((response) => {
+        return response.data
+      })
+      .catch((error) => {
+        console.error('Error fetching reservations:', error)
+        throw error
+      })
+  }
+  async cancelarReserva(idReserva) {
+    return await this.axiosInstance
+      .delete(`/reservas/${idReserva}`)
+      .then((response) => {
+        return response
+      })
+      .catch((error) => {
+        error.status === 410
+          ? alert('No se pudo cancelar la reserva ya que se excede el tiempo minimo')
+          : console.error('Error en la cancelacion de la reserva: ', error)
+      })
+  }
+  async marcarComoLeida(idNotificacion) {
+    return await this.axiosInstance
+      .put(`/usuarios/notificaciones/${idNotificacion}`, null, {
+        headers: {
+          Authorization: `Bearer ${this.tokenAuth}`,
+        },
+      })
+      .then((response) => {
+        return response.data
+      })
   }
 }
 
-export default Api
+const api = new Api()
+export default api

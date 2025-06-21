@@ -1,6 +1,6 @@
 import { createContext, useState, useContext } from 'react'
 import { useEffect } from 'react'
-import Api from '../api/api'
+import api from '../api/api'
 
 const AuthContext = createContext()
 
@@ -17,20 +17,18 @@ export function AuthProvider({ children }) {
     const storedToken = localStorage.getItem('token')
     if (storedToken) {
       setToken(storedToken)
-      Api()
-        .getProfile(storedToken)
-        .then((userData) => {
-          //console.log('User data from localStorage:', userData)
-          setUser(userData)
-          setLogueado(true)
-        })
+      api.tokenAuth = storedToken
+      api.getProfile().then((userData) => {
+        setUser(userData)
+        setLogueado(true)
+      })
     }
   }, [])
 
   const handleNewToken = async (newToken) => {
     setToken(newToken)
     localStorage.setItem('token', newToken)
-    let userData = await Api().getProfile(newToken)
+    let userData = await api.getProfile(newToken)
     setUser(userData)
     setLogueado(true)
   }

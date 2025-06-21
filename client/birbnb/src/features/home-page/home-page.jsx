@@ -1,16 +1,16 @@
 import './home-page.css'
 import Carousel from '../../components/carousel/carousel.jsx'
 import { useEffect, useState } from 'react'
-import Api from '../../api/api'
+import api from '../../api/api'
 
 function HomePage() {
   const [alojamientosCarousel, setAlojamientosCarousel] = useState([])
 
   useEffect(() => {
-    Api()
-      .obtenerAlojamientosCarousel() // Debes implementar este método en tu API si no existe
+    api
+      .obtenerAlojamientosCarousel()
       .then((data) => {
-        setAlojamientosCarousel(data.data) // Ajusta según la estructura de respuesta de tu backend
+        setAlojamientosCarousel(data.data)
       })
       .catch((error) => {
         console.error('Error al obtener alojamientos:', error)

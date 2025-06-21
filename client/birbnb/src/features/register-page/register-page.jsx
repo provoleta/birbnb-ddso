@@ -2,7 +2,7 @@ import './register-page.css'
 import { useAuthContext } from '../../store/auth-context'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Api from '../../api/api'
+import api from '../../api/api'
 
 export default function LoginPage() {
   const { handleNewToken } = useAuthContext()
@@ -15,7 +15,7 @@ export default function LoginPage() {
   const handleRegister = async (e) => {
     e.preventDefault()
     if (email && password && name) {
-      let token = await Api().register(name, email, password)
+      let token = await api.register(name, email, password)
       await handleNewToken(token)
       //console.log('Token post handle:', token)
       navigate('/')
