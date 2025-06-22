@@ -1,5 +1,5 @@
 import { Checkbox } from '@mui/material'
-import '../../notificaciones.css'
+import '../../perfil.css'
 import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications'
 import Api from '../../../../api/api'
 

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../../../../store/auth-context'
 
-const MostrarReservas = ({ userId }) => {
+const MostrarReservas = () => {
   const [reservas, setReservas] = useState([])
   const [loading, setLoading] = useState(true)
   const { logueado } = useAuthContext()

@@ -1,17 +1,21 @@
 import NotificationCard from '../notification-card/notification-card'
 import SortButton from '../sort-button/sort-button'
 import { useEffect, useState } from 'react'
-import '../../notificaciones.css'
+import '../../perfil.css'
 import { useNavigate } from 'react-router'
 import api from '../../../../api/api'
 import { useAuthContext } from '../../../../store/auth-context'
 
-const MostrarNotificaciones = ({ id, sortOption, handleSortChange }) => {
+const MostrarNotificaciones = () => {
+  const [sortOption, setSortOption] = useState('No leidas') // Inicialmente se ordena por no leidas
   const [notificaciones, setNotificaciones] = useState([])
   const [loading, setLoading] = useState(true)
   const { token, logueado } = useAuthContext()
   const [leida, setLeida] = useState(false) //Por defecto quiero mostrar las no leidas
-  const [fechaLeida, setFechaLeida] = useState(null)
+
+  const handleSortChange = (option) => {
+    setSortOption(option)
+  }
 
   const navigate = useNavigate()
 

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import '../../notificaciones.css'
+import '../../perfil.css'
 
 function BotonesGrupo({ setMostrar }) {
   const [activo, setActivo] = useState('notificaciones')

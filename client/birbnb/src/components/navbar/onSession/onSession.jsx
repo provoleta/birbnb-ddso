@@ -15,7 +15,7 @@ export function OnSession() {
   const [profileMenuOpen, setProfileMenuOpen] = useState(false)
 
   const verNotificaciones = () => {
-    navigate(`/usuarios/notificaciones/${user._id}`)
+    navigate(`/usuarios/perfil`)
   }
 
   const menuRef = useRef(null)
