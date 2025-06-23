@@ -1,8 +1,19 @@
 import { createContext, useState, useContext } from 'react'
 import { useEffect } from 'react'
 import api from '../api/api'
+import dayjs from 'dayjs'
 
 const AuthContext = createContext()
+
+function ultimaValidacionValida(ultimaActualizacion) {
+  if (!ultimaActualizacion) return false
+
+  const fechaUltimaActualizacion = dayjs(ultimaActualizacion)
+  const fechaActual = dayjs()
+  console.log('Fecha actual:', fechaActual.format())
+  console.log('Fecha última actualización:', fechaUltimaActualizacion.format())
+  return fechaActual.diff(fechaUltimaActualizacion, 'minute') <= 59
+}
 
 export function useAuthContext() {
   return useContext(AuthContext)
@@ -16,6 +27,8 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const storedToken = localStorage.getItem('token')
     if (storedToken) {
+      const ultimaActualizacion = localStorage.getItem('ultimaActualizacion')
+      if (!ultimaValidacionValida(ultimaActualizacion)) return
       setToken(storedToken)
       api.tokenAuth = storedToken
       api.getProfile().then((userData) => {
@@ -28,6 +41,7 @@ export function AuthProvider({ children }) {
   const handleNewToken = async (newToken) => {
     setToken(newToken)
     localStorage.setItem('token', newToken)
+    localStorage.setItem('ultimaActualizacion', dayjs().toISOString())
     let userData = await api.getProfile(newToken)
     setUser(userData)
     setLogueado(true)
