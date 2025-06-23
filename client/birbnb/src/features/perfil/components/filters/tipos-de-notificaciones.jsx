@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import '../../perfil.css'
+import { useNavigate } from 'react-router-dom'
 
-function BotonesGrupo({ setMostrar }) {
+function BotonesGrupo() {
   const [activo, setActivo] = useState('notificaciones')
+  const navigate = useNavigate()
 
   const handleClick = (nombreBoton) => {
     setActivo(nombreBoton)
-    setMostrar(nombreBoton)
+    navigate(`/usuarios/perfil/${nombreBoton}`)
   }
 
   //TODO: agregar funcionalidad a los botones ademas de cambiar de estado

@@ -2,6 +2,7 @@ import './onSession.css'
 import Avatar from '@mui/material/Avatar'
 import IconButton from '@mui/material/IconButton'
 import NotificationIcon from '@mui/icons-material/Notifications'
+import BookmarkIcon from '@mui/icons-material/Bookmark'
 import LogoutIcon from '@mui/icons-material/Logout' // Importa el ícono de logout
 import { useNavigate } from 'react-router'
 import { useAuthContext } from '../../../store/auth-context'
@@ -14,8 +15,8 @@ export function OnSession() {
   const navigate = useNavigate()
   const [profileMenuOpen, setProfileMenuOpen] = useState(false)
 
-  const verNotificaciones = () => {
-    navigate(`/usuarios/perfil`)
+  const verPerfil = (opcion) => {
+    navigate(`/usuarios/perfil${opcion}`)
   }
 
   const menuRef = useRef(null)
@@ -42,8 +43,11 @@ export function OnSession() {
 
   return (
     <div className="onSession">
-      <IconButton onClick={verNotificaciones}>
+      <IconButton onClick={() => verPerfil('/notificaciones')}>
         <NotificationIcon />
+      </IconButton>
+      <IconButton onClick={() => verPerfil('/reservas')}>
+        <BookmarkIcon />
       </IconButton>
       <div className="user-info">
         <Avatar

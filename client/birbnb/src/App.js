@@ -33,7 +33,16 @@ function App() {
               <Route index element={<HomePage />} />
               <Route path="/alojamientos" element={<SearchPage />} />
               <Route path="/alojamientos/:id" element={<DetailAlojamiento />} />
-              <Route path="/usuarios/perfil/" element={<Perfil />} />
+              <Route path="/usuarios/perfil/">
+                <Route
+                  path="reservas"
+                  element={<Perfil mostrarEnPantalla={'reservas'} />}
+                />
+                <Route
+                  path="notificaciones"
+                  element={<Perfil mostrarEnPantalla="notificaciones" />}
+                />
+              </Route>
             </Route>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
