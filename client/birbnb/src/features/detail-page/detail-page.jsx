@@ -1,6 +1,5 @@
 import { useParams } from 'react-router-dom'
 import './detail-page.css'
-import { alojamientos } from './alojamientosMockeados.js'
 import SliderFotos from './components/slider-fotos/slider-fotos.jsx'
 import ReservationCalendar from './components/calendario-reserva/calendario-reserva.jsx'
 import Anfitrion from './components/anfitrion-detail/anfitrion-detail.jsx'

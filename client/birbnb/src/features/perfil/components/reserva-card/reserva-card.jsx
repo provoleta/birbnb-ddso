@@ -2,7 +2,6 @@ import './reserva-card.css'
 import Api from '../../../../api/api'
 import Button from '@mui/material/Button'
 import DeleteIcon from '@mui/icons-material/Delete'
-import { useEffect, useState } from 'react'
 
 const ReservaCard = ({
   alojamiento,
