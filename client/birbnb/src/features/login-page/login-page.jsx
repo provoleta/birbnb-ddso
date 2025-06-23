@@ -1,6 +1,6 @@
 import './login-page.css'
 import { useAuthContext } from '../../store/auth-context'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import api from '../../api/api'
 
@@ -8,7 +8,6 @@ export default function LoginPage() {
   const { handleNewToken } = useAuthContext()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [name, setName] = useState('')
 
   const navigate = useNavigate()
 

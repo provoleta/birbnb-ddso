@@ -10,7 +10,7 @@ import { useState } from 'react'
 import { useEffect, useRef } from 'react'
 
 export function OnSession() {
-  const { user, handleLogout } = useAuthContext() //TODO: terminar de hacerlo andar
+  const { handleLogout } = useAuthContext() //TODO: terminar de hacerlo andar
 
   const navigate = useNavigate()
   const [profileMenuOpen, setProfileMenuOpen] = useState(false)
