@@ -16,6 +16,7 @@ export default class ReservaController {
 
     validarObjectId(huespedReservadorId)
     validarObjectId(idAlojamiento)
+    reserva.huespedReservadorId = huespedReservadorId
     const nuevo = await this.reservaService.create(reserva)
     res.status(201).json(nuevo)
   }

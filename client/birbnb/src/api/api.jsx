@@ -85,8 +85,13 @@ class Api {
 
   async crearReserva(reserva) {
     return await this.axiosInstance
-      .post('/reservas', reserva)
+      .post('/reservas', reserva, {
+        headers: {
+          Authorization: `Bearer ${this.tokenAuth}`,
+        },
+      })
       .then((response) => {
+        console.log(response.data)
         return response.data
       })
       .catch((error) => {
@@ -136,7 +141,11 @@ class Api {
   }
   async cancelarReserva(idReserva) {
     return await this.axiosInstance
-      .delete(`/reservas/${idReserva}`)
+      .delete(`/reservas/${idReserva}`, {
+        headers: {
+          Authorization: `Bearer ${this.tokenAuth}`,
+        },
+      })
       .then((response) => {
         return response
       })

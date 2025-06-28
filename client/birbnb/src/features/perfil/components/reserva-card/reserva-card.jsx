@@ -13,7 +13,7 @@ const ReservaCard = ({
 }) => {
   const CancelarReservaHandler = async () => {
     try {
-      const response = await Api().cancelarReserva(idReserva)
+      const response = await Api.cancelarReserva(idReserva)
       console.log(response)
       response.status === 204
         ? alert('La reserva fue cancelada con exito')

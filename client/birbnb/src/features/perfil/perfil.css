@@ -80,7 +80,7 @@ h3 + h3 {
   margin-right: 30px;
 }
 
-.notification-button-style {
+.opcion-button-style {
   font-size: 150%;
   height: 64px;
   width: 278px;
@@ -89,11 +89,11 @@ h3 + h3 {
   border: none;
   background-color: white;
 }
-.notification-button-style:hover {
+.opcion-button-style:hover {
   background-color: #0b0b0b08;
 }
 
-.notification-button-style-activo {
+.opcion-button-style-activo {
   background-color: #b494ff4f;
   font-size: 150%;
   height: 64px;
@@ -118,8 +118,8 @@ h3 + h3 {
     gap: 8px;
   }
 
-  .notification-button-style,
-  .notification-button-style-activo {
+  .opcion-button-style,
+  .opcion-button-style-activo {
     width: auto;
     font-size: 1rem;
     height: 48px;
@@ -148,8 +148,8 @@ h3 + h3 {
     gap: 12px;
   }
 
-  .notification-button-style,
-  .notification-button-style-activo {
+  .opcion-button-style,
+  .opcion-button-style-activo {
     width: 100%;
     font-size: 0.9rem;
     height: 40px;

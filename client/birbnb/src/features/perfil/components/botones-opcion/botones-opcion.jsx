@@ -3,7 +3,7 @@ import '../../perfil.css'
 import { useNavigate } from 'react-router-dom'
 
 function BotonesGrupo({ mostrarEnPantalla }) {
-  const [activo, setActivo] = useState(mostrarEnPantalla)
+  const [activo, setActivo] = useState(mostrarEnPantalla || 'notificaciones')
   const navigate = useNavigate()
 
   const handleClick = (nombreBoton) => {

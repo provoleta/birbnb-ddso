@@ -28,7 +28,6 @@ const useCreacionReserva = (fechas, alojamientoId) => {
 
     const reserva = {
       fechaAlta: formatDateToDDMMYYYY(new Date()),
-      huespedReservadorId: user._id,
       idAlojamiento: alojamientoId,
       rangoFechas: {
         fechaInicio: formatDateToDDMMYYYY(fechas[0]),
