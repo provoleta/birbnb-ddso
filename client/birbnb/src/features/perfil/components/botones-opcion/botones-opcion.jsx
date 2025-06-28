@@ -2,8 +2,8 @@ import { useState } from 'react'
 import '../../perfil.css'
 import { useNavigate } from 'react-router-dom'
 
-function BotonesGrupo() {
-  const [activo, setActivo] = useState('notificaciones')
+function BotonesGrupo({ mostrarEnPantalla }) {
+  const [activo, setActivo] = useState(mostrarEnPantalla)
   const navigate = useNavigate()
 
   const handleClick = (nombreBoton) => {
@@ -17,8 +17,8 @@ function BotonesGrupo() {
       <button
         className={
           activo === 'notificaciones'
-            ? 'notification-button-style-activo'
-            : 'notification-button-style'
+            ? 'opcion-button-style-activo'
+            : 'opcion-button-style'
         }
         onClick={() => handleClick('notificaciones')}
       >
@@ -26,9 +26,7 @@ function BotonesGrupo() {
       </button>
       <button
         className={
-          activo === 'reservas'
-            ? 'notification-button-style-activo'
-            : 'notification-button-style'
+          activo === 'reservas' ? 'opcion-button-style-activo' : 'opcion-button-style'
         }
         onClick={() => handleClick('reservas')}
       >

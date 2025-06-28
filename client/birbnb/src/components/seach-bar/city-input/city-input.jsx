@@ -7,7 +7,6 @@ function CityInput({ handleChange, query, resultados, ciudades }) {
 
   useEffect(() => {
     setLoading(false)
-    //console.log('Ciudades cargadas:', ciudades)
   }, [ciudades, resultados])
 
   if (loading) {
@@ -19,7 +18,7 @@ function CityInput({ handleChange, query, resultados, ciudades }) {
       <input
         className="search-section"
         type="text"
-        placeholder="Buscar"
+        placeholder="Buscar ciudad"
         value={query}
         onChange={handleChange}
         onFocus={() => setIsFocused(true)}

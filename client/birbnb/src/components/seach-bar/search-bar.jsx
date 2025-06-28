@@ -17,16 +17,18 @@ function SearchBar() {
 
   useEffect(() => {
     const getCiudades = async () => {
-      axios.get('/ciudades', {
-        baseURL: 'http://localhost:6969',
-      }).then((response) => {
-        setCiudades(response.data)
-      }).catch((error) => {
-        console.error('Error fetching cities:', error)
-      })
+      axios
+        .get('/ciudades', {
+          baseURL: 'http://localhost:6969',
+        })
+        .then((response) => {
+          setCiudades(response.data)
+        })
+        .catch((error) => {
+          console.error('Error fetching cities:', error)
+        })
     }
     getCiudades()
-    
   }, [])
 
   const handleChange = (e) => {
@@ -60,20 +62,19 @@ function SearchBar() {
       <div className="search-bar">
         <div className="search-section">
           <label>Destino</label>
-          <CityInput handleChange={handleChange} query={query} resultados={resultados} ciudades={ciudades} /> 
-          {/* <input
-            type="text"
-            placeholder="Add city"
-            value={ciudad}
-            onChange={(e) => setCiudad(e.target.value)}
-          /> */}
+          <CityInput
+            handleChange={handleChange}
+            query={query}
+            resultados={resultados}
+            ciudades={ciudades}
+          />
         </div>
         <div className="divider"></div>
         <div className="search-section">
           <label>Check in</label>
           <input
             type="date"
-            placeholder="Add dates"
+            placeholder="Agregar fechas"
             value={checkIn}
             onChange={(e) => setCheckIn(e.target.value)}
           />
@@ -83,7 +84,7 @@ function SearchBar() {
           <label>Check out</label>
           <input
             type="date"
-            placeholder="Add dates"
+            placeholder="Agregar fechas"
             value={checkOut}
             onChange={(e) => setCheckOut(e.target.value)}
           />
@@ -93,7 +94,7 @@ function SearchBar() {
           <label>Huéspedes</label>
           <input
             type="number"
-            placeholder="Add guests"
+            placeholder="Agregar huespedes"
             value={huespedes}
             onChange={(e) => setHuespedes(e.target.value)}
             min="1"
