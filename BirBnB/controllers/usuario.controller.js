@@ -30,6 +30,22 @@ export default class UsuarioController {
     res.status(200).json(reserva)
   }
 
+  async singupAnfitrion(req, res) {
+    const { email, password, name, telefono, alojamiento } = req.body
+    if (!email || !password || !name) {
+      return res.status(400).json({ message: 'Todos los campos son obligatorios' })
+    }
+
+    const token = await this.usuarioService.singupAnfitrion(
+      email,
+      password,
+      name,
+      telefono,
+      alojamiento,
+    )
+    return res.status(201).json({ token })
+  }
+
   async signup(req, res) {
     const { email, password, name } = req.body
     if (!email || !password || !name) {

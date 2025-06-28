@@ -1,10 +1,10 @@
-import './register-page.css'
-import { useAuthContext } from '../../store/auth-context'
+import '../register-page.css'
+import { useAuthContext } from '../../../store/auth-context'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import api from '../../api/api'
+import api from '../../../api/api'
 
-export default function RegisterPage() {
+export default function RegisterAnfitrionPage() {
   const { handleNewToken } = useAuthContext()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -23,7 +23,7 @@ export default function RegisterPage() {
   }
 
   const handleSwitch = () => {
-    navigate('/login')
+    navigate('/register')
   }
 
   return (
@@ -73,7 +73,7 @@ export default function RegisterPage() {
           </button>
 
           <div className="login-toggle" onClick={handleSwitch}>
-            ¿Ya tenes cuenta? Iniciar sesión
+            ¿No sos Anfitrion? Crea una cuenta de huesped
           </div>
         </form>
       </div>

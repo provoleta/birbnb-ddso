@@ -14,10 +14,17 @@ export function Offline() {
     navigate('/register')
   }
 
+  const registerAnfitrion = () => {
+    navigate('/register/anfitrion')
+  }
+
   return (
     <nav>
       {/* Links visibles en desktop */}
       <div className="app-nav-links">
+        <div className="underline-button" onClick={registerAnfitrion}>
+          ¿Sos Anfitrion?
+        </div>
         <div className="underline-button" onClick={register}>
           Crear Cuenta
         </div>

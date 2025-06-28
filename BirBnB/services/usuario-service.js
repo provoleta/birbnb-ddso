@@ -27,6 +27,29 @@ export default class UsuarioService {
     return token
   }
 
+  async signupAnfitrion(email, password, nombre, telefono, alojamiento) {
+    const existeEmail = await this.usuarioRepository.findByEmail(email)
+    if (existeEmail) throw new EmailException()
+
+    const usuario = await this.usuarioRepository.signup(
+      email,
+      bcrypt.hashSync(password),
+      nombre,
+      'anfitrion',
+    )
+
+    // TODO
+    this.alojamientoRepository.crearAlojamiento(alojamiento)
+
+    const token = jwt.sign(
+      { id: usuario.id },
+      process.env.JWT_SECRET || 'tu_secreto_seguro',
+      { expiresIn: '1h' },
+    )
+
+    return token
+  }
+
   async login(email, password) {
     const user = await this.usuarioRepository.findByEmail(email)
     if (!user) throw new NotFoundException()

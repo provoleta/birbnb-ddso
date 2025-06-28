@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import '../../perfil.css'
 import { useNavigate } from 'react-router-dom'
+import { useAuthContext } from '../../../../store/auth-context.jsx'
 
 function BotonesGrupo({ mostrarEnPantalla }) {
   const [activo, setActivo] = useState(mostrarEnPantalla)
+  const { esAnfitrion } = useAuthContext()
   const navigate = useNavigate()
 
   const handleClick = (nombreBoton) => {
@@ -11,7 +13,7 @@ function BotonesGrupo({ mostrarEnPantalla }) {
     navigate(`/usuarios/perfil/${nombreBoton}`)
   }
 
-  //TODO: agregar funcionalidad a los botones ademas de cambiar de estado
+  // TODO: agregar funcionalidad a los botones ademas de cambiar de estado
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <button
@@ -32,32 +34,20 @@ function BotonesGrupo({ mostrarEnPantalla }) {
       >
         Reservas
       </button>
-      {/* <button
-        className={
-          activo === 'alojamiento'
-            ? 'notification-button-style-activo'
-            : 'notification-button-style'
-        }
-        onClick={() => handleClick('alojamiento')}
-      >
-        Alojamientos
-      </button> */}
+      {esAnfitrion && (
+        <button
+          className={
+            activo === 'alojamientos'
+              ? 'opcion-button-style-activo'
+              : 'opcion-button-style'
+          }
+          onClick={() => handleClick('alojamientos')}
+        >
+          Alojamientos
+        </button>
+      )}
     </div>
   )
 }
 
 export default BotonesGrupo
-
-//        {botones.map((texto, idx) => (
-//   <button
-//   key={idx}
-//   onClick={() => setActivo(idx)}
-//   className={
-//     activo === idx
-//       ? 'notification-button-style-activo'
-//       : 'notification-button-style'
-//   }
-// >
-//   {texto}
-// </button>
-// ))}
