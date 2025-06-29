@@ -3,3 +3,17 @@
   width: 900px;
   height: 450px;
 }
+
+@media (max-width: 940px) {
+  .mapa {
+    width: 700px;
+    height: 400px;
+  }
+}
+
+@media (max-width: 600px) {
+  .mapa {
+    width: 500px;
+    height: 250px;
+  }
+}
