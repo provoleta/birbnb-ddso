@@ -1,17 +1,20 @@
-import { useNavigate } from 'react-router-dom'
 import './offline.css'
 import { useState } from 'react'
+import SesionFlotante from '../../sesion-flotante/sesion-flotante'
 
 export function Offline() {
-  const navigate = useNavigate()
+  const [showSesionFlotante, setShowSesionFlotante] = useState(false)
+  const [initialMode, setInitialMode] = useState('')
   const [menuOpen, setMenuOpen] = useState(false)
 
   const login = () => {
-    navigate('/login')
+    setShowSesionFlotante(true)
+    setInitialMode('login')
   }
 
   const register = () => {
-    navigate('/register')
+    setShowSesionFlotante(true)
+    setInitialMode('register')
   }
 
   return (
@@ -50,6 +53,11 @@ export function Offline() {
           </>
         )}
       </div>
+      <SesionFlotante
+        isOpen={showSesionFlotante}
+        onClose={() => setShowSesionFlotante(false)}
+        initialMode={initialMode}
+      />
     </nav>
   )
 }
