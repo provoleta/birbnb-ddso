@@ -16,25 +16,50 @@ body,
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   margin-top: auto;
-  background-color: #dddddd;
-  border-top: black 1px solid;
+  background-color: #f7f7f7;
+  border-top: #dddddd 1px solid;
+}
+
+.contenedor-footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 100% !important;
+}
+
+.info-extra {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  gap: 300px;
+}
+
+.contenedor-angosto {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  gap: 770px;
+  width: 100%; /* Ajusta el ancho máximo según tus necesidades */
+  margin: 0 auto; /* Centra el contenedor */
+  padding: 0px; /* Espacio interno */
+  border-top: #dddddd 1px solid;
 }
 
 @media (min-width: 950px) {
 }
 
 .tw {
-  margin: 15px;
+  margin: 12px;
 }
 
 .wpp {
-  margin: 15px;
+  margin: 12px;
 }
 
 .ig {
-  margin: 15px;
+  margin: 12px;
 }
 
 @media (max-width: 600px) {
