@@ -1,4 +1,5 @@
 import AlojamientoController from '../controllers/alojamiento.controller.js'
+import { verifyToken } from '../controllers/utils.js'
 
 export default function registerAlojamientoRoutes(app, getController) {
   app.get('/alojamientos', async (req, res) =>
@@ -11,5 +12,9 @@ export default function registerAlojamientoRoutes(app, getController) {
 
   app.get('/ciudades', async (req, res) =>
     getController(AlojamientoController).findCiudades(req, res),
+  )
+
+  app.post('/alojamientos', verifyToken, (req, res) =>
+    getController(AlojamientoController).create(req, res),
   )
 }

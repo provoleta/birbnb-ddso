@@ -5,7 +5,7 @@ export default class UsuarioRepository {
     this.model = UsuarioModel
   }
 
-  async signup(email, password, nombre) {
+  async signup(email, password, nombre, tipo) {
     const usuarioExistente = await this.model.findOne({ email })
     if (usuarioExistente) {
       return null
@@ -16,7 +16,7 @@ export default class UsuarioRepository {
       email,
       password,
       notificaciones: [],
-      tipo: 'HUESPED', // Por defecto, el tipo es HUESPED
+      tipo,
     })
     return await usuario.save()
   }

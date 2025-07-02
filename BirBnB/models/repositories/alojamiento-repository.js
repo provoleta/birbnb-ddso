@@ -8,6 +8,18 @@ export default class AlojamientoRepository {
     this.model = AlojamientoModel
   }
 
+  async save(alojamiento) {
+    const query = alojamiento.id ? { _id: alojamiento.id } : { _id: new this.model()._id }
+
+    return await this.model
+      .findOneAndUpdate(query, alojamiento, {
+        new: true,
+        runValidators: true,
+        upsert: true,
+      })
+      .populate(['anfitrion'])
+  }
+
   async filterBy(filters = {}, pageNum, limitNum) {
     const query = {}
 
@@ -69,7 +81,6 @@ export default class AlojamientoRepository {
       .skip((pageNum - 1) * limitNum)
       .limit(limitNum)
 
-
     if (filters.checkIn !== '' && filters.checkOut !== '') {
       let alojamientosARetornar = null
       let rangoFechas = new RangoFechas(filters.checkIn, filters.checkOut)
@@ -80,7 +91,6 @@ export default class AlojamientoRepository {
     } else {
       return alojamientosFiltrados
     }
-
   }
 
   async addReserva(alojamientoId, reservaId) {

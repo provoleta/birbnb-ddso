@@ -3,9 +3,12 @@ import bcrypt from 'bcryptjs'
 import NotFoundException from '../exceptions/not-found-exception.js'
 import PasswordException from '../exceptions/password-exception.js'
 import EmailException from '../exceptions/email-exception.js'
+import { Alojamiento } from '../models/entities/alojamiento.js'
+
 export default class UsuarioService {
-  constructor(usuarioRepository) {
+  constructor(usuarioRepository, alojamientoRepository) {
     this.usuarioRepository = usuarioRepository
+    this.alojamientoRepository = alojamientoRepository
   }
 
   async signup(email, password, nombre) {
@@ -16,6 +19,7 @@ export default class UsuarioService {
       email,
       bcrypt.hashSync(password),
       nombre,
+      'HUESPED',
     )
 
     const token = jwt.sign(
@@ -35,11 +39,11 @@ export default class UsuarioService {
       email,
       bcrypt.hashSync(password),
       nombre,
-      'anfitrion',
+      'ANFITRION',
     )
 
     // TODO
-    this.alojamientoRepository.crearAlojamiento(alojamiento)
+    this.alojamientoRepository.save(this.alojamientoFromDTO(alojamiento, usuario))
 
     const token = jwt.sign(
       { id: usuario.id },
@@ -72,5 +76,22 @@ export default class UsuarioService {
     if (!usuario) throw new NotFoundException()
 
     return usuario
+  }
+
+  alojamientoFromDTO(alojamientoDTO, anfitrion) {
+    return new Alojamiento(
+      anfitrion,
+      alojamientoDTO.nombre,
+      alojamientoDTO.descripcion,
+      alojamientoDTO.precioPorNoche,
+      alojamientoDTO.moneda,
+      alojamientoDTO.horarioCheckIn,
+      alojamientoDTO.horarioCheckOut,
+      alojamientoDTO.direccion,
+      alojamientoDTO.cantHuespedesMax,
+      alojamientoDTO.caracteristicas || [],
+      [],
+      [],
+    )
   }
 }

@@ -36,7 +36,7 @@ export default class UsuarioController {
       return res.status(400).json({ message: 'Todos los campos son obligatorios' })
     }
 
-    const token = await this.usuarioService.singupAnfitrion(
+    const token = await this.usuarioService.signupAnfitrion(
       email,
       password,
       name,

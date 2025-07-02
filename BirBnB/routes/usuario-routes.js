@@ -18,6 +18,10 @@ export default function registerUsuarioRoutes(app, getController) {
     getController(UsuarioController).signup(req, res),
   )
 
+  app.post('/usuarios/signup-anfitrion', (req, res) =>
+    getController(UsuarioController).singupAnfitrion(req, res),
+  )
+
   app.post('/usuarios/login', (req, res) =>
     getController(UsuarioController).login(req, res),
   )
