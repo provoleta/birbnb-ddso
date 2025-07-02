@@ -3,22 +3,21 @@ import '../../perfil.css'
 import { useNavigate } from 'react-router-dom'
 
 function BotonesGrupo({ mostrarEnPantalla }) {
-  const [activo, setActivo] = useState(mostrarEnPantalla || 'notificaciones')
+  const [activo, setActivo] = useState(mostrarEnPantalla)
   const navigate = useNavigate()
-
   const handleClick = (nombreBoton) => {
     setActivo(nombreBoton)
     navigate(`/usuarios/perfil/${nombreBoton}`)
   }
 
-  //TODO: agregar funcionalidad a los botones ademas de cambiar de estado
+  // Obtener el segmento de la URL para determinar el botón activo
+  const path = window.location.pathname.split('/').pop()
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <button
         className={
-          activo === 'notificaciones'
-            ? 'opcion-button-style-activo'
-            : 'opcion-button-style'
+          path === 'notificaciones' ? 'opcion-button-style-activo' : 'opcion-button-style'
         }
         onClick={() => handleClick('notificaciones')}
       >
@@ -26,7 +25,7 @@ function BotonesGrupo({ mostrarEnPantalla }) {
       </button>
       <button
         className={
-          activo === 'reservas' ? 'opcion-button-style-activo' : 'opcion-button-style'
+          path === 'reservas' ? 'opcion-button-style-activo' : 'opcion-button-style'
         }
         onClick={() => handleClick('reservas')}
       >
@@ -34,7 +33,7 @@ function BotonesGrupo({ mostrarEnPantalla }) {
       </button>
       {/* <button
         className={
-          activo === 'alojamiento'
+          path === 'alojamiento'
             ? 'notification-button-style-activo'
             : 'notification-button-style'
         }

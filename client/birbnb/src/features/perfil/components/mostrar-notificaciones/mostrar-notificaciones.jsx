@@ -63,18 +63,21 @@ const MostrarNotificaciones = () => {
       <div className="button-container">
         <SortButton currentSortOption={sortOption} onSortChange={handleSortChange} />
       </div>
-      <div className="fondo-gris">
-        {notificaciones.map((result) => (
-          <NotificationCard
-            mensaje={result.mensaje}
-            fechaAlta={result.fechaAlta}
-            leida={result.leida}
-            fechaLeida={result.fechaLeida}
-            idNotificacion={result.idNotificacion}
-            handlerMarcarLeida={handlerMarcarLeida}
-          />
-        ))}
-      </div>
+      {notificaciones.length > 0 && (
+        <div className="fondo-gris">
+          {notificaciones.map((result) => (
+            <NotificationCard
+              mensaje={result.mensaje}
+              fechaAlta={result.fechaAlta}
+              leida={result.leida}
+              fechaLeida={result.fechaLeida}
+              idNotificacion={result.idNotificacion}
+              handlerMarcarLeida={handlerMarcarLeida}
+            />
+          ))}
+        </div>
+      )}
+      {notificaciones.length == 0 && <p1>Sin notificaciones.</p1>}
     </>
   )
 }

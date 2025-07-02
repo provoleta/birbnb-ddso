@@ -1,6 +1,7 @@
 import './sort-button.css'
 import { useState, useRef } from 'react'
 import { Button, ClickAwayListener } from '@mui/material'
+import FilterAltIcon from '@mui/icons-material/FilterAlt'
 
 const SortButton = ({ currentSortOption, onSortChange }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
@@ -17,7 +18,7 @@ const SortButton = ({ currentSortOption, onSortChange }) => {
         <Button
           ref={buttonRef}
           variant="outlined"
-          startIcon={<>&#8593;&#8595;</>}
+          startIcon={<FilterAltIcon />}
           onClick={() => setDropdownOpen(!dropdownOpen)}
           sx={{
             borderRadius: '25px',

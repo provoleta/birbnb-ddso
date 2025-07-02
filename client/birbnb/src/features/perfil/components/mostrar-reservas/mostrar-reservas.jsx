@@ -13,7 +13,6 @@ const MostrarReservas = () => {
   const fetchReservas = async () => {
     try {
       const response = await api.getReservas()
-      // const data = await response.json()
       setReservas(response)
     } catch (error) {
       console.error('Error al obtener las reservas:', error)
@@ -36,19 +35,22 @@ const MostrarReservas = () => {
   return (
     <>
       <h2>Tus reservas</h2>
-      <div className="fondo-gris">
-        {reservas.map((result) => (
-          <ReservaCard
-            key={result.id}
-            alojamiento={result.alojamiento}
-            estado={result.estado}
-            fechaAlta={result.fechaAlta}
-            rangoFechas={result.rangoFechas}
-            idReserva={result.idReserva}
-            onReservaCancelada={fetchReservas}
-          />
-        ))}
-      </div>
+      {reservas.length > 0 && (
+        <div className="fondo-gris">
+          {reservas.map((result) => (
+            <ReservaCard
+              key={result.id}
+              alojamiento={result.alojamiento}
+              estado={result.estado}
+              fechaAlta={result.fechaAlta}
+              rangoFechas={result.rangoFechas}
+              idReserva={result.idReserva}
+              onReservaCancelada={fetchReservas}
+            />
+          ))}
+        </div>
+      )}
+      {reservas.length == 0 && <p1>Todavia no se realizaron reservas.</p1>}
     </>
   )
 }

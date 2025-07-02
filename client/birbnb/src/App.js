@@ -40,7 +40,7 @@ function App() {
                 />
                 <Route
                   path="notificaciones"
-                  element={<Perfil mostrarEnPantalla="notificaciones" />}
+                  element={<Perfil mostrarEnPantalla={'notificaciones'} />}
                 />
               </Route>
             </Route>

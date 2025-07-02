@@ -3,6 +3,14 @@ import Api from '../../../../api/api'
 import Button from '@mui/material/Button'
 import DeleteIcon from '@mui/icons-material/Delete'
 
+const formatDate = (dateString) => {
+  const date = new Date(dateString)
+  const day = String(date.getDate()).padStart(2, '0')
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const year = date.getFullYear()
+  return `${day}/${month}/${year}`
+}
+
 const ReservaCard = ({
   alojamiento,
   estado,
@@ -36,15 +44,19 @@ const ReservaCard = ({
       <div className="reserva-content">
         <h3>{alojamiento.nombre}</h3>
         <h3>Estado: {estado}</h3>
-        <h3>Fecha Alta: {fechaAlta}</h3>
-        <h3>Fecha Check-in: {rangoFechas.fechaInicio}</h3>
-        <h3>Fecha Check-out: {rangoFechas.fechaFin}</h3>
+        <h3>Fecha Alta: {formatDate(fechaAlta)}</h3>
+        <h3>Fecha Check-in: {formatDate(rangoFechas.fechaInicio)}</h3>
+        <h3>Fecha Check-out: {formatDate(rangoFechas.fechaFin)}</h3>
       </div>
       <Button
         variant="contained"
-        style={{ position: 'relative', marginTop: 'auto' }}
+        style={{
+          position: 'relative',
+          marginTop: 'auto',
+          backgroundColor: '#FFD700',
+          color: '#000',
+        }}
         startIcon={<DeleteIcon />}
-        color="secondary"
         onClick={CancelarReservaHandler}
       >
         Cancelar Reserva
