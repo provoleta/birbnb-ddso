@@ -1,6 +1,6 @@
 import { useAuthContext } from '../../../../store/auth-context'
-import { useNavigate } from 'react-router-dom'
 import api from '../../../../../src/api/api'
+import { useState } from 'react'
 
 function formatDateToDDMMYYYY(date) {
   const day = String(date.getDate()).padStart(2, '0')
@@ -9,18 +9,15 @@ function formatDateToDDMMYYYY(date) {
   return `${day}-${month}-${year}`
 }
 //{ fechaAlta, huespedReservadorId, idAlojamiento, rangoFechas } = reserva
-const useCreacionReserva = (fechas, alojamientoId) => {
-  const { logueado, user } = useAuthContext()
-  const navigate = useNavigate()
+const useCreacionReserva = (
+  fechas,
+  alojamientoId,
+  showSesionFlotante,
+  setConfirmacionReserva,
+) => {
+  const { user } = useAuthContext()
 
   const procesarReserva = () => {
-    if (!logueado) {
-      navigate('/login', {
-        state: { redirectAfterLogin: `/alojamientos/${alojamientoId}` },
-      })
-      return
-    }
-
     if (!user) {
       alert('Espera un momento mientras cargamos tu información...')
       return
@@ -37,10 +34,14 @@ const useCreacionReserva = (fechas, alojamientoId) => {
 
     console.log('Reserva a procesar:', reserva)
 
-    api.crearReserva(reserva)
-
-    alert('¡Reserva creada con éxito!')
-    window.location.reload()
+    try {
+      api.crearReserva(reserva)
+      setConfirmacionReserva(true)
+    } catch (error) {
+      console.error('Error al procesar la reserva:', error)
+      alert('Error al procesar la reserva. Por favor, inténtalo de nuevo más tarde.')
+      return
+    }
   }
 
   return { procesarReserva }

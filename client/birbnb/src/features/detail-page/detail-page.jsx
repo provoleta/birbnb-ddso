@@ -1,25 +1,46 @@
 import { useParams } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 import './detail-page.css'
+// Abstraccion de componentes
 import SliderFotos from './components/slider-fotos/slider-fotos.jsx'
 import ReservationCalendar from './components/calendario-reserva/calendario-reserva.jsx'
 import Anfitrion from './components/anfitrion-detail/anfitrion-detail.jsx'
-import { useState } from 'react'
 import Direccion from './components/direccion-detail/direccion-detail.jsx'
-import useCreacionReserva from './components/creacion-reserva/creacion-reserva.jsx'
 import Detalles from './components/detalles-detail/detalles-detail.jsx'
-import api from '../../api/api.jsx'
-import { useEffect } from 'react'
 import Mapa from './components/mapa-detail/mapa-detail.jsx'
+// Creacion de reserva
+import api from '../../api/api.jsx'
+import useCreacionReserva from './components/creacion-reserva/creacion-reserva.jsx'
+import SesionFlotante from '../../components/sesion-flotante/sesion-flotante.jsx'
+
+import { useAuthContext } from '../../store/auth-context.jsx'
+import VentanaFlotanteReserva from './components/ventana-flotante/ventanaFlotante.jsx'
 
 const AlojamientoDetail = () => {
   const { id } = useParams()
-  //const alojamiento = alojamientos.find((alojamiento) => alojamiento.id === Number(id))
   const [alojamiento, setAlojamiento] = useState(null)
   const [loading, setLoading] = useState(true)
   const [fechas, setFechas] = useState([null, null])
+  const [showConfirmacionReserva, setConfirmacionReserva] = useState(false)
+  const { procesarReserva } = useCreacionReserva(
+    fechas,
+    id,
+    showConfirmacionReserva,
+    setConfirmacionReserva,
+  )
 
-  const { procesarReserva } = useCreacionReserva(fechas, id)
+  const { logueado } = useAuthContext()
+  const [showSesionFlotante, setShowSesionFlotante] = useState(false)
+  const [initialMode, setInitialMode] = useState('login')
 
+  const handlerReservar = () => {
+    if (!logueado) {
+      setShowSesionFlotante(true)
+      setInitialMode('register')
+    } else {
+      procesarReserva()
+    }
+  }
   useEffect(() => {
     api
       .obtenerAlojamiento(id)
@@ -88,13 +109,24 @@ const AlojamientoDetail = () => {
             </div>
             <button
               className="boton-reservar"
-              onClick={procesarReserva}
+              onClick={handlerReservar}
               disabled={!fechas[0] || !fechas[1]}
               type="button"
             >
               Reservar
             </button>
           </section>
+          {showConfirmacionReserva && (
+            <div>
+              <VentanaFlotanteReserva
+                mensaje={'¡Reserva creada con éxito!'}
+                onClose={() => {
+                  setConfirmacionReserva(false)
+                  window.location.reload()
+                }}
+              />
+            </div>
+          )}
         </div>
       </div>
       <div className="contenedor-mapa">
@@ -105,6 +137,11 @@ const AlojamientoDetail = () => {
           <Mapa alojamiento={alojamiento}></Mapa>
         </div>
       </div>
+      <SesionFlotante
+        isOpen={showSesionFlotante}
+        onClose={() => setShowSesionFlotante(false)}
+        initialMode={initialMode}
+      />
     </div>
   )
 }
