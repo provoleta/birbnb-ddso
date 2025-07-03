@@ -9,6 +9,10 @@
   padding: 15px;
 }
 
+.anfitrion {
+  width: 403px;
+}
+
 .avatar {
   border-radius: 50%;
   height: 80px;
@@ -34,8 +38,12 @@
 
 @media (max-width: 940px) {
   .anfitrion {
-    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
     width: 100%;
+    max-width: 430px;
   }
 }
 
@@ -46,7 +54,7 @@
   }
 
   .anfitrion {
-    max-width: 400px;
+    max-width: 70%;
     width: 100%;
   }
 }

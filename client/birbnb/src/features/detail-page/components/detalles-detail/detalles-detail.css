@@ -48,15 +48,24 @@
 
 @media (max-width: 940px) {
   .caracteristicas {
-    max-width: 400px;
+    width: 100%;
+    max-width: 100% !important;
     margin: 16px auto;
   }
   .titulo-caracteristicas {
+    font-weight: bold;
     font-size: 20px;
-    margin: 40px 0px;
+    margin: 40px 0px 0px 0px;
   }
   .caracteristica-item {
     font-size: 15px;
+  }
+
+  .contenedor-descripcion {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
 }
 
@@ -73,11 +82,12 @@
 
   .caracteristicas {
     width: 100%;
-    max-width: 70%;
+    max-width: 70% !important;
     margin: 16px auto;
   }
   .titulo-caracteristicas {
     font-size: 18px;
+    font-weight: bold;
     padding: 0px 30px;
     text-align: center;
   }

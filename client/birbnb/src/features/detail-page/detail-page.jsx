@@ -24,12 +24,7 @@ const AlojamientoDetail = () => {
   const [loading, setLoading] = useState(true)
   const [fechas, setFechas] = useState([null, null])
   const [showConfirmacionReserva, setConfirmacionReserva] = useState(false)
-  const { procesarReserva } = useCreacionReserva(
-    fechas,
-    id,
-    showConfirmacionReserva,
-    setConfirmacionReserva,
-  )
+  const { procesarReserva } = useCreacionReserva(fechas, id, setConfirmacionReserva)
 
   const { logueado } = useAuthContext()
   const [showSesionFlotante, setShowSesionFlotante] = useState(false)
@@ -144,6 +139,7 @@ const AlojamientoDetail = () => {
         isOpen={showSesionFlotante}
         onClose={() => setShowSesionFlotante(false)}
         initialMode={initialMode}
+        // functionAfterLogin={procesarReserva}
       />
     </div>
   )

@@ -104,6 +104,18 @@ h3 + h3 {
   color: #4c2d9f;
 }
 
+.notification-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.notification-info h3 {
+  margin: 0;
+  font-size: 15px;
+}
+
 /* Responsive para tablets y móviles */
 @media (max-width: 950px) {
   .perfil-container {

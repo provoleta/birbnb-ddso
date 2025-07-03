@@ -4,6 +4,12 @@ import Button from '@mui/material/Button'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { useState } from 'react'
 import VentanaConfirmacion from '../ventana-confirmacion/ventana-confirmacion.jsx'
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
+import LoginIcon from '@mui/icons-material/Login'
+import LogoutIcon from '@mui/icons-material/Logout'
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import PendingIcon from '@mui/icons-material/Pending'
+import CancelIcon from '@mui/icons-material/Cancel'
 
 const formatDate = (dateString) => {
   const date = new Date(dateString)
@@ -37,6 +43,17 @@ const ReservaCard = ({
     }
   }
 
+  const iconoSegunEstado = (estado) => {
+    switch (estado) {
+      case 'CONFIRMADA':
+        return <CheckCircleIcon style={{ color: '#4CAF50' }} />
+      case 'PENDIENTE':
+        return <PendingIcon style={{ color: '#FF9800' }} />
+      case 'CANCELADA':
+        return <CancelIcon style={{ color: '#F44336' }} />
+    }
+  }
+
   const handleCancelarReserva = () => {
     setShowCancelarReserva(true)
   }
@@ -52,10 +69,25 @@ const ReservaCard = ({
       </div>
       <div className="reserva-content">
         <h3>{alojamiento.nombre}</h3>
-        <h3>Estado: {estado}</h3>
-        <h3>Fecha Alta: {formatDate(fechaAlta)}</h3>
-        <h3>Fecha Check-in: {formatDate(rangoFechas.fechaInicio)}</h3>
-        <h3>Fecha Check-out: {formatDate(rangoFechas.fechaFin)}</h3>
+        <div className="reserva-info">
+          {iconoSegunEstado(estado)}
+          <h3>Estado: {estado}</h3>
+        </div>
+
+        <div className="reserva-info">
+          <CalendarTodayIcon style={{ color: '#666' }} />
+          <h3>Fecha Alta: {formatDate(fechaAlta)}</h3>
+        </div>
+
+        <div className="reserva-info">
+          <LoginIcon style={{ color: '#4CAF50' }} />
+          <h3>Fecha Check-in: {formatDate(rangoFechas.fechaInicio)}</h3>
+        </div>
+
+        <div className="reserva-info">
+          <LogoutIcon style={{ color: '#F44336' }} />
+          <h3>Fecha Check-out: {formatDate(rangoFechas.fechaFin)}</h3>
+        </div>
       </div>
       <Button
         variant="contained"

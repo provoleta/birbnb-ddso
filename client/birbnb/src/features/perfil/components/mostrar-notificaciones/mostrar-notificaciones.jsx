@@ -76,7 +76,7 @@ const MostrarNotificaciones = () => {
           ))}
         </div>
       )}
-      {notificaciones.length === 0 && <p1>Sin notificaciones.</p1>}
+      {notificaciones.length === 0 && <p>Sin notificaciones.</p>}
     </>
   )
 }

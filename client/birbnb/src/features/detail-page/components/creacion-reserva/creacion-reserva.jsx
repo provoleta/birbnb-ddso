@@ -7,13 +7,9 @@ function formatDateToDDMMYYYY(date) {
   const year = date.getFullYear()
   return `${day}-${month}-${year}`
 }
+
 //{ fechaAlta, huespedReservadorId, idAlojamiento, rangoFechas } = reserva
-const useCreacionReserva = (
-  fechas,
-  alojamientoId,
-  showSesionFlotante,
-  setConfirmacionReserva,
-) => {
+const useCreacionReserva = (fechas, alojamientoId, setConfirmacionReserva) => {
   const { user } = useAuthContext()
 
   const procesarReserva = () => {

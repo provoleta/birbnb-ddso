@@ -342,6 +342,8 @@
     margin-bottom: 20px;
     align-self: center;
     box-sizing: border-box;
+    width: 100%;
+    max-width: 70%;
   }
   .avatar {
     height: 60px;

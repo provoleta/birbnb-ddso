@@ -30,6 +30,10 @@ const SesionFlotante = ({ isOpen, onClose, initialMode }) => {
       if (token) {
         await handleNewToken(token)
         onClose()
+        // Llamo a una funcion que se haga directamente despues de que se logueo con exito
+        // if (functionAfterLogin != null) {
+        //   functionAfterLogin()
+        // }
       }
     } catch (error) {
       console.error('Error en autenticación:', error)

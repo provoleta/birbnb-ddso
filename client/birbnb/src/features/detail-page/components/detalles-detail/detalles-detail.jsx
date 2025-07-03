@@ -3,7 +3,7 @@ import CaracteristicaItem from '../caracteristica/caracteristica-item.jsx'
 
 const Detalles = ({ alojamiento }) => {
   return (
-    <div>
+    <div className="contenedor-descripcion">
       <div className="descripcion">
         <h2 className="titulo-descripcion">Descripcion alojamiento</h2>
         <p className="descripcion">{alojamiento.descripcion}</p>
