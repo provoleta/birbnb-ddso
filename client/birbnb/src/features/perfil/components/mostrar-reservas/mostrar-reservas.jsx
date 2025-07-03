@@ -3,6 +3,7 @@ import api from '../../../../api/api'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../../../../store/auth-context'
+import CircularIndeterminate from '../../../../components/loader/loader'
 
 const MostrarReservas = () => {
   const [reservas, setReservas] = useState([])
@@ -29,9 +30,10 @@ const MostrarReservas = () => {
   }
 
   if (loading) {
-    return <div>Cargando reservas...</div>
+    // Falta bajarlo un poco
+    return <CircularIndeterminate />
   }
-  console.log('Reservas del usuario:', reservas)
+  //console.log('Reservas del usuario:', reservas)
   return (
     <>
       <h2>Tus reservas</h2>

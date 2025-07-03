@@ -7,10 +7,10 @@ const VentanaConfirmacion = ({ mensaje, onConfirm, onCancel }) => {
       <Box className="ventana-flotante-confirmacion">
         <h2>{mensaje}</h2>
         <button className="boton-confirmar-reserva" onClick={onConfirm}>
-          Confirmar
+          CONFIRMAR
         </button>
         <button className="boton-cerrar-ventana" onClick={onCancel}>
-          Cancelar
+          CANCELAR
         </button>
       </Box>
     </div>

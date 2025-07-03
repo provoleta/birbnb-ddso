@@ -27,9 +27,9 @@ const ReservaCard = ({
     try {
       const response = await Api.cancelarReserva(idReserva)
       console.log(response)
-      response.status === 204
-        ? alert('La reserva fue cancelada con exito')
-        : console.log(response.message)
+      // response.status === 204
+      //   ? alert('La reserva fue cancelada con exito')
+      //   : console.log(response.message)
       onReservaCancelada()
       setShowCancelarReserva(false)
     } catch (error) {
@@ -70,13 +70,13 @@ const ReservaCard = ({
       >
         Cancelar Reserva
       </Button>
-      {/* {showCancelarReserva && (
+      {showCancelarReserva && (
         <VentanaConfirmacion
           mensaje="¿Estás seguro de que deseas cancelar esta reserva?"
           onConfirm={CancelarReservaHandler}
           onCancel={() => setShowCancelarReserva(false)}
         />
-      )} */}
+      )}
     </div>
   )
 }
