@@ -1,4 +1,4 @@
-.ventana-flotante-reserva {
+.ventana-flotante-confirmacion {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -12,21 +12,16 @@
   text-align: center;
   font-size: 1.1rem;
   z-index: 1001; /* Asegurar que esté por encima del overlay */
-  animation: fadeInModal 0.3s ease-out;
 }
 
-.ventana-flotante-reserva-overlay {
+.ventana-flotante-confirmacion-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(8px); /* Aplicar blur al fondo */
-  -webkit-backdrop-filter: blur(8px);
   z-index: 1000;
   cursor: pointer; /* Indicar que se puede hacer clic para cerrar */
-  animation: fadeInOverlay 0.3s ease-out;
 }
 
 .boton-cerrar-ventana {
@@ -42,24 +37,4 @@
 
 .boton-cerrar-ventana:hover {
   background: #e54449;
-}
-
-@keyframes fadeInModal {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
-}
-
-@keyframes fadeInOverlay {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
 }

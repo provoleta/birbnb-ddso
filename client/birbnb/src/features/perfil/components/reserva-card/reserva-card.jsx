@@ -2,6 +2,8 @@ import './reserva-card.css'
 import Api from '../../../../api/api'
 import Button from '@mui/material/Button'
 import DeleteIcon from '@mui/icons-material/Delete'
+import { useState } from 'react'
+import VentanaConfirmacion from '../ventana-confirmacion/ventana-confirmacion.jsx'
 
 const formatDate = (dateString) => {
   const date = new Date(dateString)
@@ -19,6 +21,8 @@ const ReservaCard = ({
   idReserva,
   onReservaCancelada,
 }) => {
+  const [showCancelarReserva, setShowCancelarReserva] = useState(false)
+
   const CancelarReservaHandler = async () => {
     try {
       const response = await Api.cancelarReserva(idReserva)
@@ -27,9 +31,14 @@ const ReservaCard = ({
         ? alert('La reserva fue cancelada con exito')
         : console.log(response.message)
       onReservaCancelada()
+      setShowCancelarReserva(false)
     } catch (error) {
       console.error('Error al cancelar la reserva:', error)
     }
+  }
+
+  const handleCancelarReserva = () => {
+    setShowCancelarReserva(true)
   }
 
   return (
@@ -57,10 +66,17 @@ const ReservaCard = ({
           color: '#000',
         }}
         startIcon={<DeleteIcon />}
-        onClick={CancelarReservaHandler}
+        onClick={handleCancelarReserva}
       >
         Cancelar Reserva
       </Button>
+      {/* {showCancelarReserva && (
+        <VentanaConfirmacion
+          mensaje="¿Estás seguro de que deseas cancelar esta reserva?"
+          onConfirm={CancelarReservaHandler}
+          onCancel={() => setShowCancelarReserva(false)}
+        />
+      )} */}
     </div>
   )
 }

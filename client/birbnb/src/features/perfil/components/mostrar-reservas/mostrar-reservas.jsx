@@ -50,7 +50,7 @@ const MostrarReservas = () => {
           ))}
         </div>
       )}
-      {reservas.length == 0 && <p1>Todavia no se realizaron reservas.</p1>}
+      {reservas.length === 0 && <p>Todavia no se realizaron reservas.</p>}
     </>
   )
 }

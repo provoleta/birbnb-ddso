@@ -27,7 +27,6 @@ const MostrarNotificaciones = () => {
     const fetchNotificaciones = async () => {
       try {
         const response = await api.getNotificaciones(leida)
-        // const data = await response.json()
         setNotificaciones(response)
       } catch (error) {
         console.error('Error al obtener las notificaciones:', error)
@@ -77,7 +76,7 @@ const MostrarNotificaciones = () => {
           ))}
         </div>
       )}
-      {notificaciones.length == 0 && <p1>Sin notificaciones.</p1>}
+      {notificaciones.length === 0 && <p1>Sin notificaciones.</p1>}
     </>
   )
 }

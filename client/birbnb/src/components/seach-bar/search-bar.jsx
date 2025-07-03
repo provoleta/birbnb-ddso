@@ -7,10 +7,9 @@ import axios from 'axios'
 
 function SearchBar() {
   const { aplicarFiltros } = useSearchContext()
-  const [ciudad, setCiudad] = useState('')
   const [checkIn, setCheckIn] = useState('')
   const [checkOut, setCheckOut] = useState('')
-  const [huespedes, setHuespedes] = useState(0)
+  const [huespedes, setHuespedes] = useState(1)
   const [resultados, setResultados] = useState([])
   const [ciudades, setCiudades] = useState([])
   const navigate = useNavigate()

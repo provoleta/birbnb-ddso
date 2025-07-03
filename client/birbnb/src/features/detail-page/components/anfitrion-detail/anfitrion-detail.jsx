@@ -2,7 +2,7 @@ import './anfitrion-detail.css'
 
 const Anfitrion = ({ alojamiento }) => {
   return (
-    <div>
+    <div className="anfitrion">
       <h2>Anfitrion</h2>
       <div className="perfil">
         <img className="avatar" src="/images/16480.png" alt="Foto de perfil" />

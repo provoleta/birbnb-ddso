@@ -8,6 +8,8 @@ import Anfitrion from './components/anfitrion-detail/anfitrion-detail.jsx'
 import Direccion from './components/direccion-detail/direccion-detail.jsx'
 import Detalles from './components/detalles-detail/detalles-detail.jsx'
 import Mapa from './components/mapa-detail/mapa-detail.jsx'
+import CircularIndeterminate from '../../components/loader/loader.jsx'
+
 // Creacion de reserva
 import api from '../../api/api.jsx'
 import useCreacionReserva from './components/creacion-reserva/creacion-reserva.jsx'
@@ -60,9 +62,10 @@ const AlojamientoDetail = () => {
 
   if (loading) {
     return (
-      <div className="loading-container">
-        <p className="loading-text">Cargando información del alojamiento...</p>
-      </div>
+      // <div className="loading-container">
+      //   <p className="loading-text">Cargando información del alojamiento...</p>
+      // </div>ç
+      <CircularIndeterminate></CircularIndeterminate>
     )
   }
 
@@ -116,18 +119,18 @@ const AlojamientoDetail = () => {
               Reservar
             </button>
           </section>
-          {showConfirmacionReserva && (
-            <div>
-              <VentanaFlotanteReserva
-                mensaje={'¡Reserva creada con éxito!'}
-                onClose={() => {
-                  setConfirmacionReserva(false)
-                  window.location.reload()
-                }}
-              />
-            </div>
-          )}
         </div>
+        {showConfirmacionReserva && (
+          <div>
+            <VentanaFlotanteReserva
+              mensaje={'¡Reserva creada con éxito!'}
+              onClose={() => {
+                setConfirmacionReserva(false)
+                window.location.reload()
+              }}
+            />
+          </div>
+        )}
       </div>
       <div className="contenedor-mapa">
         <div className="contenedor-centrado">

@@ -9,11 +9,10 @@ const Mapa = ({ alojamiento }) => {
   return (
     <div className="mapa">
       <iframe
-        title="Mapa"
-        width="100%"
+        width="99%"
         height="100%"
-        frameBorder="0"
-        style={{ border: 0, borderRadius: '16px' }}
+        max-width="600px"
+        style={{ borderRadius: '16px' }}
         src={url}
         allowFullScreen
       ></iframe>

@@ -1,6 +1,5 @@
 import { useAuthContext } from '../../../../store/auth-context'
 import api from '../../../../../src/api/api'
-import { useState } from 'react'
 
 function formatDateToDDMMYYYY(date) {
   const day = String(date.getDate()).padStart(2, '0')

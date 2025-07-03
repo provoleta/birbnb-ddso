@@ -48,7 +48,6 @@
 
 @media (max-width: 940px) {
   .caracteristicas {
-    width: 80%;
     max-width: 400px;
     margin: 16px auto;
   }
@@ -73,8 +72,8 @@
   }
 
   .caracteristicas {
-    width: 90%;
-    max-width: 350px;
+    width: 100%;
+    max-width: 70%;
     margin: 16px auto;
   }
   .titulo-caracteristicas {

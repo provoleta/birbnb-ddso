@@ -1,6 +1,4 @@
 import './perfil.css'
-import { useParams } from 'react-router-dom'
-import { useState } from 'react'
 import BotonesGrupo from './components/botones-opcion/botones-opcion.jsx'
 import MostrarNotificaciones from './components/mostrar-notificaciones/mostrar-notificaciones.jsx'
 import MostrarReservas from './components/mostrar-reservas/mostrar-reservas.jsx'

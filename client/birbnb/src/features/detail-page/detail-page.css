@@ -61,7 +61,6 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  flex-wrap: nowrap;
   gap: 40px;
 }
 
@@ -111,7 +110,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 900px;
+  width: auto;
 }
 
 .contenedor-titulomapa {
@@ -241,7 +240,9 @@
   }
   .caracteristicas,
   .contenedor-reserva {
-    width: 90%;
+    width: 100%;
+    max-width: 400px;
+    align-self: center;
   }
   .detalles-alojamiento {
     display: flex;
@@ -251,6 +252,9 @@
     width: 100%;
   }
 
+  .contenedor-centrado {
+    max-width: 600px;
+  }
   .contenedor-mapa {
     display: flex;
     flex-direction: column;

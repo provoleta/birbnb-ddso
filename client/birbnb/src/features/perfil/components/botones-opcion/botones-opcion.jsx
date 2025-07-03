@@ -10,7 +10,6 @@ function BotonesGrupo({ mostrarEnPantalla }) {
     navigate(`/usuarios/perfil/${nombreBoton}`)
   }
 
-  // Obtener el segmento de la URL para determinar el botón activo
   const path = window.location.pathname.split('/').pop()
 
   return (

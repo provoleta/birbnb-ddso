@@ -10,8 +10,8 @@ function ultimaValidacionValida(ultimaActualizacion) {
 
   const fechaUltimaActualizacion = dayjs(ultimaActualizacion)
   const fechaActual = dayjs()
-  console.log('Fecha actual:', fechaActual.format())
-  console.log('Fecha última actualización:', fechaUltimaActualizacion.format())
+  //console.log('Fecha actual:', fechaActual.format())
+  //console.log('Fecha última actualización:', fechaUltimaActualizacion.format())
   return fechaActual.diff(fechaUltimaActualizacion, 'minute') <= 59
 }
 
