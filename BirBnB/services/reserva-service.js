@@ -70,7 +70,10 @@ export default class ReservaService {
       throw new UnauthorizedException()
     }
 
-    if (dayjs().isAfter(reservaAeliminar.rangoFechas.fechaInicio, 'DD/MM/YYYY')) {
+    if (
+      dayjs().isAfter(reservaAeliminar.rangoFechas.fechaInicio, 'DD/MM/YYYY') &&
+      dayjs().isBefore(reservaAeliminar.rangoFechas.fechaFin, 'DD/MM/YYYY')
+    ) {
       throw new ExcededTimeException()
     }
 
@@ -150,6 +153,8 @@ export default class ReservaService {
     const usuario = await this.usuarioRepository.findById(userId)
     if (!usuario) throw new NotFoundException()
 
+    // Solo trae las reservas que no estan caducadas. Si se quisiera traer todas, habria que pasar true
+    // como segundo parametro en filterByUserId
     const reservas = await this.reservaRepository.filterByUserId(userId)
 
     if (!reservas) throw new NotFoundException()

@@ -7,7 +7,6 @@ export default class UsuarioController {
     this.usuarioService = usuarioService
   }
 
-  // TODO: Definir como obtener el userId
   async findAll(req, res) {
     const { leida } = req.query
     const leidaBool = leida === 'true'
@@ -24,8 +23,6 @@ export default class UsuarioController {
   }
 
   async findReservas(req, res) {
-    // const userId = req.params.userId
-    // validarObjectId(userId)
     const reserva = await this.reservaService.findByUserId(req.user.id)
     res.status(200).json(reserva)
   }

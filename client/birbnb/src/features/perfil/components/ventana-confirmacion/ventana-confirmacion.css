@@ -21,7 +21,7 @@
   width: 100vw;
   height: 100vh;
   z-index: 1000;
-  cursor: pointer; /* Indicar que se puede hacer clic para cerrar */
+  /* Indicar que se puede hacer clic para cerrar */
 }
 
 .boton-cerrar-ventana {
@@ -34,10 +34,11 @@
   font-size: 1rem;
   transition: background-color 0.3s ease;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .boton-cerrar-ventana:hover {
-  background: rgb(255, 215, 0);
+  background: rgb(211, 192, 84);
 }
 
 .boton-confirmar-reserva {
@@ -51,8 +52,9 @@
   transition: background-color 0.3s ease;
   margin-right: 20px;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .boton-confirmar-reserva:hover {
-  background: rgb(255, 215, 0);
+  background: rgb(211, 192, 84);
 }
