@@ -9,7 +9,7 @@
   width: 100%;
   object-fit: cover;
   display: block;
-  border-radius: 8px 8px 0 0;
+  border-radius: 8px 8px 8px 8px;
   cursor: pointer;
 }
 
@@ -31,6 +31,8 @@
 .alojamiento-footer-actions {
   display: flex;
   flex-direction: column;
-  align-items: stretch;
-  margin-top: auto; /* Empuja el botón hacia abajo */
+  justify-content: center;
+  margin-top: auto;
+  width: content; /* Empuja el botón hacia abajo */
+  margin: 0 4px;
 }
