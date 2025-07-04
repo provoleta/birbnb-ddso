@@ -13,10 +13,6 @@ const Direccion = ({ alojamiento }) => {
         {alojamiento.direccion.calle} {alojamiento.direccion.numero},{' '}
         {alojamiento.direccion.ciudad} {alojamiento.direccion.pais}
       </p>
-      <p className="locacion-puntual">
-        <GpsFixedIcon fontSize="small" className="gps-icon" />
-        Latitud: {alojamiento.direccion.lat} Longitud: {alojamiento.direccion.long}
-      </p>
     </div>
   )
 }

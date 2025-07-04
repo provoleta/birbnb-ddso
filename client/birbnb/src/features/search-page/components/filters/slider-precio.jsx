@@ -1,3 +1,4 @@
+import './slider.css'
 import { Slider, Typography, Box } from '@mui/material'
 
 const SliderPrecio = ({ rangoPrecio, setRangoPrecio }) => {
@@ -5,7 +6,7 @@ const SliderPrecio = ({ rangoPrecio, setRangoPrecio }) => {
     setRangoPrecio(newValue)
   }
   return (
-    <div>
+    <div className="slider-precio-container">
       <Typography gutterBottom variant="h6">
         Rango de precio
       </Typography>

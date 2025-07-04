@@ -3,6 +3,14 @@
   width: 900px;
   height: 450px;
 }
+.mapa iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 16px;
+  display: block;
+  max-width: 100%;
+}
 
 @media (max-width: 940px) {
   .mapa {

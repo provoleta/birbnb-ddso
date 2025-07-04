@@ -70,6 +70,14 @@
     align-items: center;
   }
 
+  .contenedor-descripcion {
+    width: 100%;
+    max-width: 100vw;
+    box-sizing: border-box;
+    padding: 0 10px;
+    overflow-x: hidden;
+  }
+
   .caracteristicas {
     width: 100%;
     max-width: 70% !important;

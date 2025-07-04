@@ -68,7 +68,7 @@
 }
 
 .menu-button {
-  background-color: #ac04df;
+  background-color: #c814ff;
   padding: 10px 16px;
   border: none;
   border-radius: 8px;
@@ -77,10 +77,12 @@
   font-weight: bold !important;
   color: #ffffff !important;
   transition: background-color 0.3s;
+  min-width: min-content;
 }
 
 .menu-button:hover {
   background-color: #512da8;
+  color: #000000 !important;
 }
 
 /* Mostrar el menú hamburguesa en mobile */
@@ -96,5 +98,9 @@
 
   .hamburger-icon {
     display: block;
+  }
+  .menu-content {
+    min-width: min-content;
+    max-width: 130px;
   }
 }
