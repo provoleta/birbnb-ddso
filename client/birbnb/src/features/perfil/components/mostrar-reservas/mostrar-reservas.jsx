@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../../../../store/auth-context'
 import CircularIndeterminate from '../../../../components/loader/loader'
+import '../../perfil.css'
 
 const MostrarReservas = () => {
   const [reservas, setReservas] = useState([])

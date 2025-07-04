@@ -1,0 +1,14 @@
+.botones-opcion-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 240px;
+}
+
+@media (max-width: 950px) {
+  .botones-opcion-container {
+    flex-direction: row;
+    gap: 8px;
+    width: 100%;
+  }
+}

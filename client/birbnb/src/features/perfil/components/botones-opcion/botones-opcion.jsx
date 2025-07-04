@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import '../../perfil.css'
 import { useNavigate } from 'react-router-dom'
+import './botones.css'
 
 function BotonesGrupo({ mostrarEnPantalla }) {
   const [activo, setActivo] = useState(mostrarEnPantalla)
@@ -13,7 +14,7 @@ function BotonesGrupo({ mostrarEnPantalla }) {
   const path = window.location.pathname.split('/').pop()
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <div className="botones-opcion-container">
       <button
         className={
           path === 'notificaciones' ? 'opcion-button-style-activo' : 'opcion-button-style'
@@ -30,16 +31,6 @@ function BotonesGrupo({ mostrarEnPantalla }) {
       >
         Reservas
       </button>
-      {/* <button
-        className={
-          path === 'alojamiento'
-            ? 'notification-button-style-activo'
-            : 'notification-button-style'
-        }
-        onClick={() => handleClick('alojamiento')}
-      >
-        Alojamientos
-      </button> */}
     </div>
   )
 }
