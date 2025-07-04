@@ -1,7 +1,7 @@
 import { Slider, Typography, Box } from '@mui/material'
 
 const SliderPrecio = ({ rangoPrecio, setRangoPrecio }) => {
-  const handlePriceChange = (event, newValue) => {
+  const handlePriceChange = (newValue) => {
     setRangoPrecio(newValue)
   }
   return (
@@ -15,7 +15,7 @@ const SliderPrecio = ({ rangoPrecio, setRangoPrecio }) => {
           onChange={handlePriceChange}
           valueLabelDisplay="auto"
           min={0}
-          max={5000}
+          max={250}
           step={1}
         />
         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 1 }}>

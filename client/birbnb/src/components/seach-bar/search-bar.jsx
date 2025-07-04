@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 function SearchBar() {
-  const { aplicarFiltros } = useSearchContext()
+  const { limpiarFiltros, aplicarFiltros } = useSearchContext()
   const [checkIn, setCheckIn] = useState('')
   const [checkOut, setCheckOut] = useState('')
   const [huespedes, setHuespedes] = useState(1)
@@ -45,15 +45,16 @@ function SearchBar() {
   const [query, setQuery] = useState('')
 
   const handleSearch = async () => {
+    limpiarFiltros()
     const params = new Map()
     params.set('ciudad', query)
     params.set('checkIn', checkIn)
     params.set('checkOut', checkOut)
     params.set('huespedesMax', huespedes)
+
     aplicarFiltros(params)
-    if (window.location.pathname !== '/alojamientos') {
-      navigate('/alojamientos')
-    }
+
+    navigate('/alojamientos')
   }
 
   return (
