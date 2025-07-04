@@ -1,7 +1,7 @@
 import { Slider, Typography, Box } from '@mui/material'
 
 const SliderPrecio = ({ rangoPrecio, setRangoPrecio }) => {
-  const handlePriceChange = (newValue) => {
+  const handlePriceChange = (event, newValue) => {
     setRangoPrecio(newValue)
   }
   return (

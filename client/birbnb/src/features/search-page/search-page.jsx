@@ -23,7 +23,9 @@ export default function SearchPage() {
 
   const sortedAlojamientos = useMemo(() => {
     const alojamientosCopy = Array.isArray(alojamientos?.data)
-      ? [...alojamientos.data]
+      ? alojamientos.data.filter(
+          (a) => a.precioPorNoche >= rangoPrecio[0] && a.precioPorNoche <= rangoPrecio[1],
+        )
       : []
 
     return alojamientosCopy.sort((a, b) => {
@@ -33,7 +35,7 @@ export default function SearchPage() {
         return b.precioPorNoche - a.precioPorNoche
       }
     })
-  }, [sortOption, alojamientos])
+  }, [sortOption, alojamientos, rangoPrecio])
 
   // Calcular los alojamientos que se deben mostrar en la página actual
   const paginatedAlojamientos = useMemo(() => {
