@@ -52,6 +52,12 @@ function SearchBar() {
     params.set('checkOut', checkOut)
     params.set('huespedesMax', huespedes)
 
+    if (checkIn > checkOut) {
+      const [checkInValue, checkOutValue] = [checkOut, checkIn]
+      setCheckIn(checkInValue)
+      setCheckOut(checkOutValue)
+    }
+
     aplicarFiltros(params)
 
     navigate('/alojamientos')
