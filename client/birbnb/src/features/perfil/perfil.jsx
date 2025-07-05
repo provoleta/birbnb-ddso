@@ -17,9 +17,9 @@ export default function Perfil({ mostrarEnPantalla }) {
               <MostrarNotificaciones />
             ) : mostrarEnPantalla === 'reservas' ? (
               <MostrarReservas />
-            ) : (
+            ) : mostrarEnPantalla === 'alojamientos' ? (
               <MostrarAlojamientos />
-            )}
+            ) : null}
           </div>
         </div>
       </div>

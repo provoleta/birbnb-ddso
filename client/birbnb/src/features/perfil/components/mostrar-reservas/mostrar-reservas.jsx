@@ -42,7 +42,7 @@ const MostrarReservas = () => {
         <div className="fondo-gris">
           {reservas.map((result) => (
             <ReservaCard
-              key={result.id}
+              key={result.idReserva}
               alojamiento={result.alojamiento}
               estado={result.estado}
               fechaAlta={result.fechaAlta}

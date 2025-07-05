@@ -166,6 +166,22 @@ class Api {
         return response.data
       })
   }
+
+  async getAlojamientosAnfitrion(idAnfitrion) {
+    return await this.axiosInstance
+      .get(`/usuarios/alojamientos`, {
+        headers: {
+          Authorization: `Bearer ${this.tokenAuth}`,
+        },
+      })
+      .then((response) => {
+        return response.data
+      })
+      .catch((error) => {
+        console.error('Error fetching alojamientos:', error)
+        throw error
+      })
+  }
 }
 
 const api = new Api()

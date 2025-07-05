@@ -31,6 +31,14 @@ function BotonesGrupo({ mostrarEnPantalla }) {
       >
         Reservas
       </button>
+      <button
+        className={
+          path === 'alojamientos' ? 'opcion-button-style-activo' : 'opcion-button-style'
+        }
+        onClick={() => handleClick('alojamientos')}
+      >
+        Alojamientos
+      </button>
     </div>
   )
 }
