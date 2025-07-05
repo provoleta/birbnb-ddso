@@ -1,6 +1,5 @@
 import './direccion-detail.css'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
-import GpsFixedIcon from '@mui/icons-material/GpsFixed'
 
 const Direccion = ({ alojamiento }) => {
   return (

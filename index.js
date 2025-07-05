@@ -34,7 +34,10 @@ const usuarioRepository = new UsuarioRepository()
 const usuarioService = new UsuarioService(usuarioRepository)
 
 const alojamientoRepository = new AlojamientoRepository()
-const alojamientoService = new AlojamientoService(alojamientoRepository)
+const alojamientoService = new AlojamientoService(
+  alojamientoRepository,
+  usuarioRepository,
+)
 const alojamientoController = new AlojamientoController(alojamientoService)
 
 const reservaRepository = new ReservaRepository()
@@ -51,6 +54,7 @@ const usuarioController = new UsuarioController(
   notificacionService,
   reservaService,
   usuarioService,
+  alojamientoService,
 )
 
 // Registro de controladores en el servidor

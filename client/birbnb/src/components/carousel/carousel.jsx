@@ -72,7 +72,7 @@ export default function Carousel({ alojamientos }) {
           }}
         >
           {alojamientos.map((home) => (
-            <div key={home.id} className="carousel-item">
+            <div key={home.idAlojamiento} className="carousel-item">
               <Alojamiento alojamiento={home} />
             </div>
           ))}

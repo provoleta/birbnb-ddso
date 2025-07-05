@@ -1,10 +1,11 @@
 import { validarObjectId } from './utils.js'
 
 export default class UsuarioController {
-  constructor(notificacionService, reservaService, usuarioService) {
+  constructor(notificacionService, reservaService, usuarioService, alojamientoService) {
     this.notificacionService = notificacionService
     this.reservaService = reservaService
     this.usuarioService = usuarioService
+    this.alojamientoService = alojamientoService
   }
 
   async findAll(req, res) {
@@ -25,6 +26,11 @@ export default class UsuarioController {
   async findReservas(req, res) {
     const reserva = await this.reservaService.findByUserId(req.user.id)
     res.status(200).json(reserva)
+  }
+
+  async findAlojamientos(req, res) {
+    const alojamientos = await this.alojamientoService.findByUserId(req.user.id)
+    res.status(200).json(alojamientos)
   }
 
   async signup(req, res) {

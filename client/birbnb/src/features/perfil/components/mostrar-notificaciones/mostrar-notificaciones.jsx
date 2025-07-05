@@ -66,6 +66,7 @@ const MostrarNotificaciones = () => {
         <div className="fondo-gris">
           {notificaciones.map((result) => (
             <NotificationCard
+              key={result.idNotificacion}
               mensaje={result.mensaje}
               fechaAlta={result.fechaAlta}
               leida={result.leida}

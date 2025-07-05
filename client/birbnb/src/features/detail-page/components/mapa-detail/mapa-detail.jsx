@@ -14,6 +14,7 @@ const Mapa = ({ alojamiento }) => {
         max-width="600px"
         style={{ borderRadius: '16px', display: 'block', maxWidth: '100%' }}
         src={url}
+        title="Mapa de ubicación del alojamiento"
         allowFullScreen
       ></iframe>
     </div>

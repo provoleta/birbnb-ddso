@@ -1,8 +1,9 @@
 import NotFoundException from '../exceptions/not-found-exception.js'
 
 export default class AlojamientoService {
-  constructor(alojamientoRepository) {
+  constructor(alojamientoRepository, usuarioRepository) {
     this.alojamientoRepository = alojamientoRepository
+    this.usuarioRepository = usuarioRepository
   }
 
   async findAll(filters = {}, page = 1, limit = 10) {
@@ -42,6 +43,20 @@ export default class AlojamientoService {
   async getCities() {
     const ciudades = await this.alojamientoRepository.getCities()
     return ciudades
+  }
+
+  async findByUserId(userId) {
+    const usuario = await this.usuarioRepository.findById(userId)
+
+    if (!usuario) throw new NotFoundException()
+
+    const alojamientos = await this.alojamientoRepository.filterByUserId(userId)
+
+    if (!alojamientos) throw new NotFoundException()
+
+    const alojamientosDTO = alojamientos.map((alojamiento) => this.toDTO(alojamiento))
+
+    return alojamientosDTO
   }
 
   toDTO(alojamiento) {

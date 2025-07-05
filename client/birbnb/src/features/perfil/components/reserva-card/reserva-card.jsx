@@ -48,6 +48,8 @@ const ReservaCard = ({
         return <PendingIcon style={{ color: '#FF9800' }} />
       case 'CANCELADA':
         return <CancelIcon style={{ color: '#F44336' }} />
+      default:
+        return <PendingIcon style={{ color: '#FF9800' }} />
     }
   }
 

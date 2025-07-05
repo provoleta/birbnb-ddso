@@ -58,13 +58,13 @@ body,
 @media (max-width: 950px) {
   .contenedor-angosto {
     gap: 30px;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     padding: 12px 0;
   }
   .info-extra {
     gap: 30px;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
   }
 }

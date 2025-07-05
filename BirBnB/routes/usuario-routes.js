@@ -14,6 +14,10 @@ export default function registerUsuarioRoutes(app, getController) {
     getController(UsuarioController).findReservas(req, res),
   )
 
+  app.get('/usuarios/alojamientos', verifyToken, (req, res) =>
+    getController(UsuarioController).findAlojamientos(req, res),
+  )
+
   app.post('/usuarios/signup', (req, res) =>
     getController(UsuarioController).signup(req, res),
   )

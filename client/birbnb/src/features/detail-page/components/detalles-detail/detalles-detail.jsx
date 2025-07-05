@@ -10,8 +10,8 @@ const Detalles = ({ alojamiento }) => {
       </div>
       <h2>¿Que ofrece este lugar?</h2>
       <section className="caracteristicas">
-        {alojamiento.caracteristicas.map((caracteristica) => (
-          <CaracteristicaItem caracteristica={caracteristica} />
+        {alojamiento.caracteristicas.map((caracteristica, index) => (
+          <CaracteristicaItem key={index} caracteristica={caracteristica} />
         ))}
       </section>
     </div>
