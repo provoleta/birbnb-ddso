@@ -52,7 +52,7 @@ function SearchBar() {
     params.set('checkOut', checkOut)
     params.set('huespedesMax', huespedes)
 
-    if (checkIn > checkOut) {
+    if (checkIn && checkOut && checkIn > checkOut) {
       const [checkInValue, checkOutValue] = [checkOut, checkIn]
       setCheckIn(checkInValue)
       setCheckOut(checkOutValue)
