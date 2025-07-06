@@ -45,3 +45,46 @@
   font-weight: light;
   padding-right: 0px;
 }
+
+.hamburger-menu {
+  display: none;
+}
+
+.session-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+@media (max-width: 600px) {
+  .onSession {
+    flex-direction: row;
+    align-items: center;
+  }
+  .hamburger-menu {
+    display: block;
+  }
+  .session-buttons {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-10px);
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-direction: row;
+    gap: 12px;
+    position: absolute;
+    top: 60px;
+    right: 10px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    padding: 16px;
+    z-index: 1000;
+  }
+  .session-buttons.open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+    display: flex;
+  }
+}

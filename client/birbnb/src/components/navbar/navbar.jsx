@@ -13,10 +13,8 @@ const Navbar = () => {
       <div className="app-nav">
         <div className="app-nav-header">
           <div className="app-nav-logo">
-            {/* <img src="/images/logo.png" alt="Logo" /> */}
             <LogoConAudio />
           </div>
-          {/* {console.log('logueado', logueado)} */}
           {logueado ? <OnSession /> : <Offline />}
         </div>
         <SearchBar />

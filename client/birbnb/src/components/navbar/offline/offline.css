@@ -24,22 +24,19 @@
   cursor: pointer;
 }
 
-/* Menú hamburguesa oculto en desktop */
 .hamburger-menu {
   display: none;
 }
 
 .hamburger-icon {
   font-size: 2rem;
-  font-weight: bold !important;
-  color: rgb(0, 0, 0) !important;
+  color: black;
   cursor: pointer;
   display: none;
   background: none;
   border: none;
 }
 
-/* Fondo oscuro para cerrar el menú */
 .menu-backdrop {
   position: fixed;
   top: 0;
@@ -50,7 +47,6 @@
   z-index: 999;
 }
 
-/* Menú hamburguesa desplegable */
 .menu-content {
   display: flex;
   flex-direction: column;
@@ -85,10 +81,9 @@
   color: #000000 !important;
 }
 
-/* Mostrar el menú hamburguesa en mobile */
 @media (max-width: 600px) {
   .app-nav-links {
-    display: none; /* Oculta los enlaces en desktop */
+    display: none;
   }
 
   .hamburger-menu {

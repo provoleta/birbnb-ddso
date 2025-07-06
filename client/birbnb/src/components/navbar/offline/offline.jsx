@@ -1,6 +1,7 @@
 import './offline.css'
 import { useState } from 'react'
 import SesionFlotante from '../../sesion-flotante/sesion-flotante'
+import MenuIcon from '@mui/icons-material/Menu'
 
 export function Offline() {
   const [showSesionFlotante, setShowSesionFlotante] = useState(false)
@@ -19,7 +20,6 @@ export function Offline() {
 
   return (
     <nav>
-      {/* Links visibles en desktop */}
       <div className="app-nav-links">
         <div className="underline-button" onClick={register}>
           Crear Cuenta
@@ -28,19 +28,14 @@ export function Offline() {
           Iniciar Sesion
         </button>
       </div>
-
-      {/* Menú hamburguesa para mobile */}
       <div className="hamburger-menu">
-        <button
-          className="hamburger-icon"
+        <MenuIcon
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Abrir menú"
-        >
-          &#9776;
-        </button>
+          className="hamburger-icon"
+        />
         {menuOpen && (
           <>
-            {/* Fondo oscuro para cerrar el menú al hacer clic fuera */}
             <div className="menu-backdrop" onClick={() => setMenuOpen(false)}></div>
             <div className="menu-content">
               <button className="menu-button" onClick={login}>

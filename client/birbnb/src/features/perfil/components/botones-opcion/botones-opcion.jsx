@@ -49,17 +49,3 @@ function BotonesGrupo({ mostrarEnPantalla }) {
 }
 
 export default BotonesGrupo
-
-//        {botones.map((texto, idx) => (
-//   <button
-//   key={idx}
-//   onClick={() => setActivo(idx)}
-//   className={
-//     activo === idx
-//       ? 'notification-button-style-activo'
-//       : 'notification-button-style'
-//   }
-// >
-//   {texto}
-// </button>
-// ))}
