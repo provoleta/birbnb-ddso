@@ -140,11 +140,15 @@ class Api {
         throw error
       })
   }
-  async cancelarReserva(idReserva) {
+  async cancelarReserva(idReserva, motivo) {
+    console.log(motivo)
     return await this.axiosInstance
       .delete(`/reservas/${idReserva}`, {
         headers: {
           Authorization: `Bearer ${this.tokenAuth}`,
+        },
+        data: {
+          motivo: motivo,
         },
       })
       .then((response) => {

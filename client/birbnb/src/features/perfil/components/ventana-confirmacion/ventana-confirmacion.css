@@ -58,3 +58,8 @@
 .boton-confirmar-reserva:hover {
   background: rgb(211, 192, 84);
 }
+
+.motivo-texto {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
