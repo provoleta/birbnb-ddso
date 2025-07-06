@@ -1,11 +1,23 @@
+import dayjs from 'dayjs'
+
 const AlojamientoCard = ({ alojamiento }) => {
   const recaudacionTotal = (reservas) => {
-    return reservasNuevasYConfirmadas(reservas).reduce(total)
+    return reservasNuevasYConfirmadas(reservas).reduce((total, reserva) => {
+      return total + RecaudacionPorReserva(reserva)
+    }, 0)
+  }
+
+  const RecaudacionPorReserva = (reserva) => {
+    const diasReserva = dayjs(reserva.rangoFechas.fechaFin).diff(
+      dayjs(reserva.rangoFechas.fechaInicio),
+      'day',
+    )
+    return diasReserva * reserva.precioPorNoche
   }
 
   // FALTA TERMINARLO Y ABSTRAER BIEN LA LOGICA 🚨
   const totalReservasConfirmadas = (reservas) => {
-    reservas.filter((reserva) => reservasNuevasYConfirmadas(reservas))
+    return reservasNuevasYConfirmadas(reservas).length
   }
 
   const reservasNuevasYConfirmadas = (reservas) => {
@@ -14,12 +26,8 @@ const AlojamientoCard = ({ alojamiento }) => {
     )
   }
 
-  const reservasConfirmadas = (reservas) => {
-    return reservas.filter((reserva) => reserva.estado === 'CONFIRMADA')
-  }
-
   const fechaProxima = (rangoFechas) => {
-    return rangoFechas.fechaInicio > new Date()
+    return rangoFechas.fechaInicio > dayjs().toISOString()
   }
 
   return (
@@ -41,7 +49,7 @@ const AlojamientoCard = ({ alojamiento }) => {
         </div>
 
         <div className="alojamiento-info">
-          <h3>Dinero : {recaudacionTotal(alojamiento.reservas)} </h3>
+          <h3>Dinero recaudado: {recaudacionTotal(alojamiento.reservas)} </h3>
         </div>
 
         <div className="alojamiento-info"></div>
