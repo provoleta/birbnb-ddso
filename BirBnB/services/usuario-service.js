@@ -19,9 +19,8 @@ export default class UsuarioService {
       email,
       bcrypt.hashSync(password),
       nombre,
-      'HUESPED',
       profileImage,
-
+      'HUESPED',
     )
 
     const token = jwt.sign(
