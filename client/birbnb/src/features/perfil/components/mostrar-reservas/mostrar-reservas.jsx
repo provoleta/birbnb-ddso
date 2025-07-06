@@ -3,6 +3,8 @@ import api from '../../../../api/api'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../../../../store/auth-context'
+import CircularIndeterminate from '../../../../components/loader/loader'
+import '../../perfil.css'
 
 const MostrarReservas = () => {
   const [reservas, setReservas] = useState([])
@@ -13,7 +15,6 @@ const MostrarReservas = () => {
   const fetchReservas = async () => {
     try {
       const response = await api.getReservas()
-      // const data = await response.json()
       setReservas(response)
     } catch (error) {
       console.error('Error al obtener las reservas:', error)
@@ -30,25 +31,29 @@ const MostrarReservas = () => {
   }
 
   if (loading) {
-    return <div>Cargando reservas...</div>
+    // Falta bajarlo un poco
+    return <CircularIndeterminate />
   }
-  console.log('Reservas del usuario:', reservas)
+  //console.log('Reservas del usuario:', reservas)
   return (
     <>
       <h2>Tus reservas</h2>
-      <div className="fondo-gris">
-        {reservas.map((result) => (
-          <ReservaCard
-            key={result.id}
-            alojamiento={result.alojamiento}
-            estado={result.estado}
-            fechaAlta={result.fechaAlta}
-            rangoFechas={result.rangoFechas}
-            idReserva={result.idReserva}
-            onReservaCancelada={fetchReservas}
-          />
-        ))}
-      </div>
+      {reservas.length > 0 && (
+        <div className="fondo-gris">
+          {reservas.map((result) => (
+            <ReservaCard
+              key={result.idReserva}
+              alojamiento={result.alojamiento}
+              estado={result.estado}
+              fechaAlta={result.fechaAlta}
+              rangoFechas={result.rangoFechas}
+              idReserva={result.idReserva}
+              onReservaCancelada={fetchReservas}
+            />
+          ))}
+        </div>
+      )}
+      {reservas.length === 0 && <p>Todavia no se realizaron reservas.</p>}
     </>
   )
 }

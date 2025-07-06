@@ -61,7 +61,6 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  flex-wrap: nowrap;
   gap: 40px;
 }
 
@@ -111,7 +110,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 900px;
+  width: auto;
 }
 
 .contenedor-titulomapa {
@@ -241,13 +240,37 @@
   }
   .caracteristicas,
   .contenedor-reserva {
-    width: 90%;
+    width: 100%;
+    max-width: 400px;
+    align-self: center;
   }
   .detalles-alojamiento {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 100%;
+  }
+
+  .contenedor-centrado {
+    max-width: 600px;
+  }
+  .contenedor-mapa {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .titulo-mapa {
+    text-align: center;
+  }
+
+  .contenedor-titulomapa {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
   }
 }
@@ -315,16 +338,35 @@
     box-sizing: border-box;
   }
   .contenedor-reserva {
-    padding: 12px 8px;
+    padding: 12px 16px;
     margin-bottom: 20px;
     align-self: center;
     box-sizing: border-box;
+    width: 100%;
+    max-width: 70%;
+    min-width: min-content;
   }
   .avatar {
     height: 60px;
     width: 60px;
   }
 
-  .contenedor-fachero {
+  .contenedor-mapa {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 0px;
+  }
+
+  .titulo-mapa {
+    text-align: center;
+  }
+
+  .contenedor-titulomapa {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
   }
 }

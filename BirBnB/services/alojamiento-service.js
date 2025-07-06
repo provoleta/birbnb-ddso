@@ -2,8 +2,9 @@ import NotFoundException from '../exceptions/not-found-exception.js'
 import { Alojamiento } from '../models/entities/alojamiento.js'
 
 export default class AlojamientoService {
-  constructor(alojamientoRepository) {
+  constructor(alojamientoRepository, usuarioRepository) {
     this.alojamientoRepository = alojamientoRepository
+    this.usuarioRepository = usuarioRepository
   }
 
   async findAll(filters = {}, page = 1, limit = 10) {
@@ -45,11 +46,26 @@ export default class AlojamientoService {
     return ciudades
   }
 
+
   async create(alojamiento, anfitrion) {
     const nuevoAlojamiento = await this.alojamientoRepository.save(
       this.fromDTO(alojamiento, anfitrion),
     )
     return this.toDTO(nuevoAlojamiento)
+
+  async findByUserId(userId) {
+    const usuario = await this.usuarioRepository.findById(userId)
+
+    if (!usuario) throw new NotFoundException()
+
+    const alojamientos = await this.alojamientoRepository.filterByUserId(userId)
+
+    if (!alojamientos) throw new NotFoundException()
+
+    const alojamientosDTO = alojamientos.map((alojamiento) => this.toDTO(alojamiento))
+
+    return alojamientosDTO
+
   }
 
   toDTO(alojamiento) {

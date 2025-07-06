@@ -1,5 +1,11 @@
 ## Progreso
 
+    🔳 v0.9.2
+        - Ahora cuando se entra a notificaciones y reservas desde el perfil se visualizan correctamente los botones según la opción elegida.
+        - Se cambió el ícono del botón de filtrar notificaciones a acorde al contexto del mismo.
+        - Se visualiza correctamente cuando no hay notificaciones o reservas realizadas
+        - Se cambió el color del botón para cancelar reserva.
+
     🔳 v0.9.1
         - Corrijo semantica en un import a kebab-case
         - Modifico el toDTO para reserva para que presente el id de la reserva cuando se accede al endpoint.

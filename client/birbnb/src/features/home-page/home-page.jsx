@@ -20,7 +20,7 @@ function HomePage() {
   return (
     <>
       <div className="home-sugerencias">
-        <h1>Alojamientos que podrian interesarte...</h1>
+        <h1>Alojamientos que podrían interesarte...</h1>
       </div>
       <Carousel alojamientos={alojamientosCarousel}></Carousel>
     </>

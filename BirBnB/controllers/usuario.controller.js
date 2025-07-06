@@ -1,13 +1,13 @@
 import { validarObjectId } from './utils.js'
 
 export default class UsuarioController {
-  constructor(notificacionService, reservaService, usuarioService) {
+  constructor(notificacionService, reservaService, usuarioService, alojamientoService) {
     this.notificacionService = notificacionService
     this.reservaService = reservaService
     this.usuarioService = usuarioService
+    this.alojamientoService = alojamientoService
   }
 
-  // TODO: Definir como obtener el userId
   async findAll(req, res) {
     const { leida } = req.query
     const leidaBool = leida === 'true'
@@ -24,11 +24,10 @@ export default class UsuarioController {
   }
 
   async findReservas(req, res) {
-    // const userId = req.params.userId
-    // validarObjectId(userId)
     const reserva = await this.reservaService.findByUserId(req.user.id)
     res.status(200).json(reserva)
   }
+
 
   async singupAnfitrion(req, res) {
     const { email, password, name, telefono, alojamiento } = req.body
@@ -44,15 +43,20 @@ export default class UsuarioController {
       alojamiento,
     )
     return res.status(201).json({ token })
+
+  async findAlojamientos(req, res) {
+    const alojamientos = await this.alojamientoService.findByUserId(req.user.id)
+    res.status(200).json(alojamientos)
+
   }
 
   async signup(req, res) {
-    const { email, password, name } = req.body
+    const { email, password, name, profileImage } = req.body
     if (!email || !password || !name) {
       return res.status(400).json({ message: 'Todos los campos son obligatorios' })
     }
 
-    const token = await this.usuarioService.signup(email, password, name)
+    const token = await this.usuarioService.signup(email, password, name, profileImage)
     return res.status(201).json({ token })
   }
 

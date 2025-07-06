@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { ReservaModel } from '../schemas/reserva-schema.js'
 
 export default class ReservaRepository {
@@ -30,7 +31,16 @@ export default class ReservaRepository {
 
   // filterByUserId
 
-  async filterByUserId(userId) {
+  async filterByUserId(userId, reservasCaducadas = false) {
+    // el = false hace que reservasCaducadas sea opcional
+    if (!reservasCaducadas) {
+      return await this.model
+        .find({
+          huespedReservador: userId,
+          'rangoFechas.fechaInicio': { $gte: dayjs().toISOString() },
+        })
+        .populate(['huespedReservador', 'alojamiento'])
+    }
     return await this.model
       .find({ huespedReservador: userId })
       .populate(['huespedReservador', 'alojamiento'])

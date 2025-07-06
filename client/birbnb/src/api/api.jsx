@@ -26,12 +26,13 @@ class Api {
     return this.tokenAuth
   }
 
-  async register(name, email, password) {
+  async register(name, email, password, profileImage) {
     await this.axiosInstance
       .post('/usuarios/signup', {
         name: name,
         email: email,
         password: password,
+        profileImage: profileImage,
       })
       .then((response) => {
         const { token } = response.data
@@ -85,8 +86,13 @@ class Api {
 
   async crearReserva(reserva) {
     return await this.axiosInstance
-      .post('/reservas', reserva)
+      .post('/reservas', reserva, {
+        headers: {
+          Authorization: `Bearer ${this.tokenAuth}`,
+        },
+      })
       .then((response) => {
+        console.log(response.data)
         return response.data
       })
       .catch((error) => {
@@ -134,9 +140,17 @@ class Api {
         throw error
       })
   }
-  async cancelarReserva(idReserva) {
+  async cancelarReserva(idReserva, motivo) {
+    console.log(motivo)
     return await this.axiosInstance
-      .delete(`/reservas/${idReserva}`)
+      .delete(`/reservas/${idReserva}`, {
+        headers: {
+          Authorization: `Bearer ${this.tokenAuth}`,
+        },
+        data: {
+          motivo: motivo,
+        },
+      })
       .then((response) => {
         return response
       })
@@ -155,6 +169,22 @@ class Api {
       })
       .then((response) => {
         return response.data
+      })
+  }
+
+  async getAlojamientosAnfitrion(idAnfitrion) {
+    return await this.axiosInstance
+      .get(`/usuarios/alojamientos`, {
+        headers: {
+          Authorization: `Bearer ${this.tokenAuth}`,
+        },
+      })
+      .then((response) => {
+        return response.data
+      })
+      .catch((error) => {
+        console.error('Error fetching alojamientos:', error)
+        throw error
       })
   }
 }

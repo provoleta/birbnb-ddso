@@ -12,29 +12,87 @@ body,
   flex-direction: column;
 }
 
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
 .pie {
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  margin-top: auto;
-  background-color: #dddddd;
-  border-top: black 1px solid;
+  justify-content: center;
+  margin-top: 12px;
+  background-color: #f7f7f7;
+  border-top: #dddddd 1px solid;
 }
 
-@media (min-width: 950px) {
+.contenedor-footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 100% !important;
+}
+
+.info-extra {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  gap: 300px;
+}
+
+.contenedor-angosto {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  gap: 770px;
+  width: 100%; /* Ajusta el ancho máximo según tus necesidades */
+  margin: 0 auto; /* Centra el contenedor */
+  padding: 0px; /* Espacio interno */
+  border-top: #dddddd 1px solid;
+}
+
+.iconos {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+@media (max-width: 950px) {
+  .contenedor-angosto {
+    gap: 30px;
+    flex-direction: row;
+    align-items: center;
+    padding: 12px 0;
+  }
+  .info-extra {
+    gap: 30px;
+    flex-direction: row;
+    align-items: center;
+  }
 }
 
 .tw {
-  margin: 15px;
+  margin: 12px;
 }
 
 .wpp {
-  margin: 15px;
+  margin: 12px;
 }
 
 .ig {
-  margin: 15px;
+  margin: 12px;
+}
+
+.contenedor-angosto {
+  gap: 50px;
+}
+
+.info-extra {
+  gap: 100px;
 }
 
 @media (max-width: 600px) {
@@ -42,11 +100,41 @@ body,
     width: 100%;
     flex-direction: column;
     align-items: center;
+    padding: 16px 0;
+  }
+
+  .contenedor-footer {
+    width: 100% !important;
+  }
+
+  .contenedor-angosto {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 0;
+    border: none;
+  }
+
+  .contenedor-info-derecha,
+  .contenedor-info-centro,
+  .contenedor-info-izquierda {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0px;
+  }
+
+  .info-extra {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
   }
 
   .tw,
   .wpp,
   .ig {
-    margin: 10px;
+    margin: 10px auto;
+    display: block;
   }
 }

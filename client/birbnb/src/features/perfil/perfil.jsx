@@ -17,10 +17,9 @@ export default function Perfil({ mostrarEnPantalla }) {
               <MostrarNotificaciones />
             ) : mostrarEnPantalla === 'reservas' ? (
               <MostrarReservas />
-            ) : (
-              // TODO revisar, esto se muestra siempre que no llegue lo de arriba, pero deberia ser solo si es anfitrion
+            ) : mostrarEnPantalla === 'alojamientos' ? (
               <MostrarAlojamientos />
-            )}
+            ) : null}
           </div>
         </div>
       </div>

@@ -1,17 +1,21 @@
-import { useNavigate } from 'react-router-dom'
 import './offline.css'
 import { useState } from 'react'
+import SesionFlotante from '../../sesion-flotante/sesion-flotante'
+import MenuIcon from '@mui/icons-material/Menu'
 
 export function Offline() {
-  const navigate = useNavigate()
+  const [showSesionFlotante, setShowSesionFlotante] = useState(false)
+  const [initialMode, setInitialMode] = useState('')
   const [menuOpen, setMenuOpen] = useState(false)
 
   const login = () => {
-    navigate('/login')
+    setShowSesionFlotante(true)
+    setInitialMode('login')
   }
 
   const register = () => {
-    navigate('/register')
+    setShowSesionFlotante(true)
+    setInitialMode('register')
   }
 
   const registerAnfitrion = () => {
@@ -20,7 +24,6 @@ export function Offline() {
 
   return (
     <nav>
-      {/* Links visibles en desktop */}
       <div className="app-nav-links">
         <div className="underline-button" onClick={registerAnfitrion}>
           ¿Sos Anfitrion?
@@ -32,19 +35,14 @@ export function Offline() {
           Iniciar Sesion
         </button>
       </div>
-
-      {/* Menú hamburguesa para mobile */}
       <div className="hamburger-menu">
-        <button
-          className="hamburger-icon"
+        <MenuIcon
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Abrir menú"
-        >
-          &#9776;
-        </button>
+          className="hamburger-icon"
+        />
         {menuOpen && (
           <>
-            {/* Fondo oscuro para cerrar el menú al hacer clic fuera */}
             <div className="menu-backdrop" onClick={() => setMenuOpen(false)}></div>
             <div className="menu-content">
               <button className="menu-button" onClick={login}>
@@ -57,6 +55,11 @@ export function Offline() {
           </>
         )}
       </div>
+      <SesionFlotante
+        isOpen={showSesionFlotante}
+        onClose={() => setShowSesionFlotante(false)}
+        initialMode={initialMode}
+      />
     </nav>
   )
 }

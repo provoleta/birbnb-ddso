@@ -31,7 +31,10 @@ MongoDBClient.connect()
 const saludController = new SaludController()
 
 const alojamientoRepository = new AlojamientoRepository()
-const alojamientoService = new AlojamientoService(alojamientoRepository)
+const alojamientoService = new AlojamientoService(
+  alojamientoRepository,
+  usuarioRepository,
+)
 const alojamientoController = new AlojamientoController(alojamientoService)
 
 const usuarioRepository = new UsuarioRepository()
@@ -51,6 +54,7 @@ const usuarioController = new UsuarioController(
   notificacionService,
   reservaService,
   usuarioService,
+  alojamientoService,
 )
 
 // Registro de controladores en el servidor

@@ -11,6 +11,7 @@ export function useSearchContext() {
 export function SearchProvider({ children }) {
   const [searchParams, setSearchParams] = useState(new Map())
   const [alojamientos, setAlojamientos] = useState([])
+  const [switchLimpiar, setSwitchLimpiar] = useState(false)
 
   const search = () => {
     let filtrosJson = Object.fromEntries(searchParams)
@@ -29,12 +30,10 @@ export function SearchProvider({ children }) {
         paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'repeat' }),
       })
       .then((response) => {
-        // Aquí puedes manejar la respuesta de la búsqueda
         setAlojamientos(response.data)
         //console.log('Alojamientos filtrados', response.data)
       })
       .catch((error) => {
-        // Manejo de errores
         console.error('Error al buscar alojamientos:', error)
         setAlojamientos([])
       })
@@ -49,8 +48,21 @@ export function SearchProvider({ children }) {
     search()
   }
 
+  const limpiarFiltros = () => {
+    setSwitchLimpiar(!switchLimpiar)
+    setSearchParams(new Map())
+  }
+
   return (
-    <SearchContext.Provider value={{ aplicarFiltros, alojamientos, searchParams }}>
+    <SearchContext.Provider
+      value={{
+        switchLimpiar,
+        limpiarFiltros,
+        aplicarFiltros,
+        alojamientos,
+        searchParams,
+      }}
+    >
       {children}
     </SearchContext.Provider>
   )

@@ -121,4 +121,10 @@ export default class AlojamientoRepository {
   async getCities() {
     return this.ciudades
   }
+
+  async filterByUserId(userId) {
+    return await this.model
+      .find({ anfitrion: userId })
+      .populate(['anfitrion', 'reservas'])
+  }
 }

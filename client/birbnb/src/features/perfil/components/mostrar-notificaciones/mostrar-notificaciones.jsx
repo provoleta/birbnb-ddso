@@ -5,6 +5,7 @@ import '../../perfil.css'
 import { useNavigate } from 'react-router'
 import api from '../../../../api/api'
 import { useAuthContext } from '../../../../store/auth-context'
+import CircularIndeterminate from '../../../../components/loader/loader'
 
 const MostrarNotificaciones = () => {
   const [sortOption, setSortOption] = useState('No leidas') // Inicialmente se ordena por no leidas
@@ -27,7 +28,6 @@ const MostrarNotificaciones = () => {
     const fetchNotificaciones = async () => {
       try {
         const response = await api.getNotificaciones(leida)
-        // const data = await response.json()
         setNotificaciones(response)
       } catch (error) {
         console.error('Error al obtener las notificaciones:', error)
@@ -44,7 +44,7 @@ const MostrarNotificaciones = () => {
   }
 
   if (loading) {
-    return <div>Cargando notificaciones...</div>
+    return <CircularIndeterminate />
   }
 
   const handlerMarcarLeida = async (idNotificacion) => {
@@ -63,18 +63,22 @@ const MostrarNotificaciones = () => {
       <div className="button-container">
         <SortButton currentSortOption={sortOption} onSortChange={handleSortChange} />
       </div>
-      <div className="fondo-gris">
-        {notificaciones.map((result) => (
-          <NotificationCard
-            mensaje={result.mensaje}
-            fechaAlta={result.fechaAlta}
-            leida={result.leida}
-            fechaLeida={result.fechaLeida}
-            idNotificacion={result.idNotificacion}
-            handlerMarcarLeida={handlerMarcarLeida}
-          />
-        ))}
-      </div>
+      {notificaciones.length > 0 && (
+        <div className="fondo-gris">
+          {notificaciones.map((result) => (
+            <NotificationCard
+              key={result.idNotificacion}
+              mensaje={result.mensaje}
+              fechaAlta={result.fechaAlta}
+              leida={result.leida}
+              fechaLeida={result.fechaLeida}
+              idNotificacion={result.idNotificacion}
+              handlerMarcarLeida={handlerMarcarLeida}
+            />
+          ))}
+        </div>
+      )}
+      {notificaciones.length === 0 && <p>Sin notificaciones.</p>}
     </>
   )
 }

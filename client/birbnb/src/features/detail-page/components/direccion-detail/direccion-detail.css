@@ -3,11 +3,10 @@
   flex-direction: column;
   justify-content: flex-start;
   width: 890px;
-  /* background-color: aqua; */
+  margin-bottom: 10px;
 }
 
 .contenedor-titulo {
-  /* background-color: blueviolet; */
   display: flex;
   padding: 20px 0px 0px 0px;
 }

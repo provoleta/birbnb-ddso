@@ -1,26 +1,27 @@
 import { useState } from 'react'
 import '../../perfil.css'
 import { useNavigate } from 'react-router-dom'
+import './botones.css'
 import { useAuthContext } from '../../../../store/auth-context.jsx'
 
 function BotonesGrupo({ mostrarEnPantalla }) {
   const [activo, setActivo] = useState(mostrarEnPantalla)
   const { esAnfitrion } = useAuthContext()
   const navigate = useNavigate()
-
   const handleClick = (nombreBoton) => {
     setActivo(nombreBoton)
     navigate(`/usuarios/perfil/${nombreBoton}`)
   }
+  const { user } = useAuthContext()
+  const tipoUsuario = user?.tipo
 
-  // TODO: agregar funcionalidad a los botones ademas de cambiar de estado
+  const path = window.location.pathname.split('/').pop()
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <div className="botones-opcion-container">
       <button
         className={
-          activo === 'notificaciones'
-            ? 'opcion-button-style-activo'
-            : 'opcion-button-style'
+          path === 'notificaciones' ? 'opcion-button-style-activo' : 'opcion-button-style'
         }
         onClick={() => handleClick('notificaciones')}
       >
@@ -28,18 +29,18 @@ function BotonesGrupo({ mostrarEnPantalla }) {
       </button>
       <button
         className={
-          activo === 'reservas' ? 'opcion-button-style-activo' : 'opcion-button-style'
+          path === 'reservas' ? 'opcion-button-style-activo' : 'opcion-button-style'
         }
         onClick={() => handleClick('reservas')}
       >
         Reservas
       </button>
-      {esAnfitrion && (
+
+      {tipoUsuario === 'ANFITRION' && (
         <button
           className={
-            activo === 'alojamientos'
-              ? 'opcion-button-style-activo'
-              : 'opcion-button-style'
+            path === 'alojamientos' ? 'opcion-button-style-activo' : 'opcion-button-style'
+
           }
           onClick={() => handleClick('alojamientos')}
         >

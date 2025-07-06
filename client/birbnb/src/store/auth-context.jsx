@@ -11,7 +11,6 @@ function ultimaValidacion(ultimaActualizacion) {
 
   const fechaUltimaActualizacion = dayjs(ultimaActualizacion)
   const fechaActual = dayjs()
-
   return fechaActual.diff(fechaUltimaActualizacion, 'minute') <= 59
 }
 

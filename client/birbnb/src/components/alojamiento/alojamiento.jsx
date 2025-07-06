@@ -15,6 +15,7 @@ export default function Alojamiento({ alojamiento }) {
         className="alojamiento-foto"
         src={alojamiento.fotos?.[0]?.path}
         alt={alojamiento.nombre}
+        onClick={irAlAlojamiento}
       />
       <div className="alojamiento-footer">
         <div className="alojamiento-footer-data">
@@ -28,11 +29,11 @@ export default function Alojamiento({ alojamiento }) {
             size="large"
             onClick={irAlAlojamiento}
             style={{
-              display: 'block', // Asegura que sea visible
+              display: 'block', // visible
               marginTop: '10px', // Espacio superior
               marginBottom: '5px', // Espacio inferior
               padding: '8px 16px', // Padding interno
-              backgroundColor: '#A62DFD', // Color principal de tu app
+              backgroundColor: '#A62DFD',
               color: 'white',
               border: 'none',
               borderRadius: '8px',

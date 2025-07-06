@@ -8,9 +8,19 @@ class FactoryNotificacion {
    * @param {Reserva} reserva
    * @returns
    */
-  static mensajeSegunEstado(reserva) {
+
+  static formateoMotivo(motivo) {
+    if (motivo && motivo.trim() !== '') {
+      return ` con motivo: ${motivo.trim()}`
+    } else {
+      return ''
+    }
+  }
+
+  static mensajeSegunEstado(reserva, motivo) {
     const cantidadDias = reserva.calcularCantidadDias()
     const inicioReserva = reserva.fechaInicio
+    const motivoAcoplar = this.formateoMotivo(motivo)
 
     switch (reserva.estado) {
       case EstadoReserva.PENDIENTE:
@@ -33,7 +43,7 @@ class FactoryNotificacion {
       case EstadoReserva.CANCELADA:
         return {
           contenido: new MensajePlano(
-            `La reserva para ${reserva.nombreAlojamiento} fue cancelada`,
+            `La reserva para ${reserva.nombreAlojamiento} fue cancelada${motivoAcoplar}`,
           ),
           destinatario: reserva.alojamiento.anfitrion,
         }
@@ -48,8 +58,8 @@ class FactoryNotificacion {
    * @param {Reserva} reserva
    * @returns {Notificacion}
    */
-  static crearSegunReserva(reserva) {
-    const mensaje = FactoryNotificacion.mensajeSegunEstado(reserva)
+  static crearSegunReserva(reserva, motivo) {
+    const mensaje = FactoryNotificacion.mensajeSegunEstado(reserva, motivo)
     return new Notificacion(
       mensaje.contenido.cuerpo,
       mensaje.destinatario,

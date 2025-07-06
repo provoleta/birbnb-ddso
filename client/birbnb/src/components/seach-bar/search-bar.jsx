@@ -6,11 +6,10 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 function SearchBar() {
-  const { aplicarFiltros } = useSearchContext()
-  const [ciudad, setCiudad] = useState('')
+  const { limpiarFiltros, aplicarFiltros } = useSearchContext()
   const [checkIn, setCheckIn] = useState('')
   const [checkOut, setCheckOut] = useState('')
-  const [huespedes, setHuespedes] = useState(0)
+  const [huespedes, setHuespedes] = useState(1)
   const [resultados, setResultados] = useState([])
   const [ciudades, setCiudades] = useState([])
   const navigate = useNavigate()
@@ -46,15 +45,22 @@ function SearchBar() {
   const [query, setQuery] = useState('')
 
   const handleSearch = async () => {
+    limpiarFiltros()
     const params = new Map()
     params.set('ciudad', query)
     params.set('checkIn', checkIn)
     params.set('checkOut', checkOut)
     params.set('huespedesMax', huespedes)
-    aplicarFiltros(params)
-    if (window.location.pathname !== '/alojamientos') {
-      navigate('/alojamientos')
+
+    if (checkIn && checkOut && checkIn > checkOut) {
+      const [checkInValue, checkOutValue] = [checkOut, checkIn]
+      setCheckIn(checkInValue)
+      setCheckOut(checkOutValue)
     }
+
+    aplicarFiltros(params)
+
+    navigate('/alojamientos')
   }
 
   return (
@@ -98,17 +104,30 @@ function SearchBar() {
             value={huespedes}
             onChange={(e) => setHuespedes(e.target.value)}
             min="1"
+            readOnly={false}
+            // Bloqueo que escriban o modifiquen el numero de huespedes sin usar la flecha
+            onKeyDown={(e) => {
+              if (e.key !== 'Tab') {
+                e.preventDefault()
+              }
+            }}
+            onPaste={(e) => e.preventDefault()}
           />
         </div>
         <button className="search-button" onClick={handleSearch}>
           <svg
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="white"
-            width="24px"
-            height="24px"
           >
-            <path d="M15.5 14h-.79l-.28-.27a6.471 6.471 0 001.48-5.34C15.11 5.59 12.52 3 9.5 3S3.89 5.59 3.89 8.39c0 2.93 2.59 5.52 5.61 5.52 1.61 0 3.06-.63 4.11-1.68l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+            <path
+              d="M19 19L13 13M15 8C15 11.866 11.866 15 8 15C4.134 15 1 11.866 1 8C1 4.134 4.134 1 8 1C11.866 1 15 4.134 15 8Z"
+              stroke="white"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
           </svg>
         </button>
       </div>

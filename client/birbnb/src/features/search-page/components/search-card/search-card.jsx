@@ -9,7 +9,7 @@ const SearchCard = ({ id, nombre, descripcion, precioPorNoche, fotos }) => {
   }
 
   return (
-    <div className="search-card-container">
+    <div className="search-card-container" onClick={handleViewMore}>
       <div className="card-fotos">
         <img src={fotos} alt={nombre} />
       </div>
