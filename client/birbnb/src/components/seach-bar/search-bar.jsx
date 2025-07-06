@@ -107,7 +107,7 @@ function SearchBar() {
             readOnly={false}
             // Bloqueo que escriban o modifiquen el numero de huespedes sin usar la flecha
             onKeyDown={(e) => {
-              if (e.key !== 'Tab') {
+              if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown' && e.key !== 'Tab') {
                 e.preventDefault()
               }
             }}
