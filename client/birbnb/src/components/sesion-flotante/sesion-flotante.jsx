@@ -46,10 +46,6 @@ const SesionFlotante = ({ isOpen, onClose, initialMode }) => {
       if (token) {
         await handleNewToken(token)
         onClose()
-        // Llamo a una funcion que se haga directamente despues de que se logueo con exito
-        // if (functionAfterLogin != null) {
-        //   functionAfterLogin()
-        // }
       }
     } catch (error) {
       console.error('Error en autenticación:', error)
@@ -87,13 +83,31 @@ const SesionFlotante = ({ isOpen, onClose, initialMode }) => {
             {mode === 'register' && (
               <div className="input-container">
                 <label htmlFor="profileImage">Foto de perfil:</label>
-                <input
-                  className="auth-input"
-                  type="file"
-                  id="profileImage"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                />
+                <div className="file-input-wrapper">
+                  <input
+                    className="auth-input file-input-hidden"
+                    type="file"
+                    id="profileImage"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                  />
+                  <label htmlFor="profileImage" className="file-input-button">
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M12 16L7 11L8.4 9.6L11 12.2V4H13V12.2L15.6 9.6L17 11L12 16Z"
+                        fill="currentColor"
+                      />
+                      <path d="M20 18H4V20H20V18Z" fill="currentColor" />
+                    </svg>
+                    {profileImage ? profileImage.name : 'Seleccionar imagen'}
+                  </label>
+                </div>
                 {imagePreview && (
                   <div className="image-preview">
                     <img

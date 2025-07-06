@@ -27,7 +27,6 @@ class Api {
   }
 
   async register(name, email, password, profileImage) {
-    console.log(profileImage)
     await this.axiosInstance
       .post('/usuarios/signup', {
         name: name,
