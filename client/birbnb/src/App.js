@@ -11,6 +11,7 @@ import Perfil from './features/perfil/perfil.jsx'
 
 import LoginPage from './features/login-page/login-page.jsx'
 import RegisterPage from './features/register-page/register-page.jsx'
+import RegisterAnfitrionPage from './features/register-page/anfitrion/register-anfitrion.jsx'
 
 const theme = createTheme({
   palette: {
@@ -49,7 +50,10 @@ function App() {
               </Route>
             </Route>
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/register">
+              <Route index element={<RegisterPage />} />
+              <Route path="anfitrion" element={<RegisterAnfitrionPage />} />
+            </Route>
           </Routes>
         </BrowserRouter>
       </SearchProvider>

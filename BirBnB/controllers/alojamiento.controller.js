@@ -68,4 +68,16 @@ export default class AlojamientoController {
       res.status(500).json({ error: 'Error al obtener las ciudades' })
     }
   }
+
+  async create(req, res) {
+    const alojamiento = req.body
+    const anfitrion = req.user.id
+
+    if (!alojamiento || !anfitrion) {
+      return res.status(400).json({ error: 'Alojamiento mal formado' })
+    }
+
+    const nuevo = await this.alojamientoService.create(alojamiento, anfitrion)
+    res.status(201).json(nuevo)
+  }
 }

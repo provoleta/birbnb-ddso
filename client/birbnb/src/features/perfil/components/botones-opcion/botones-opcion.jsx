@@ -6,6 +6,7 @@ import { useAuthContext } from '../../../../store/auth-context.jsx'
 
 function BotonesGrupo({ mostrarEnPantalla }) {
   const [activo, setActivo] = useState(mostrarEnPantalla)
+  const { esAnfitrion } = useAuthContext()
   const navigate = useNavigate()
   const handleClick = (nombreBoton) => {
     setActivo(nombreBoton)
@@ -34,10 +35,12 @@ function BotonesGrupo({ mostrarEnPantalla }) {
       >
         Reservas
       </button>
+
       {tipoUsuario === 'ANFITRION' && (
         <button
           className={
             path === 'alojamientos' ? 'opcion-button-style-activo' : 'opcion-button-style'
+
           }
           onClick={() => handleClick('alojamientos')}
         >
