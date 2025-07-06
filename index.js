@@ -30,15 +30,15 @@ MongoDBClient.connect()
 // Configuracion de dependencias
 const saludController = new SaludController()
 
+const usuarioRepository = new UsuarioRepository()
+
 const alojamientoRepository = new AlojamientoRepository()
 const alojamientoService = new AlojamientoService(
   alojamientoRepository,
   usuarioRepository,
 )
-const alojamientoController = new AlojamientoController(alojamientoService)
-
-const usuarioRepository = new UsuarioRepository()
 const usuarioService = new UsuarioService(usuarioRepository, alojamientoRepository)
+const alojamientoController = new AlojamientoController(alojamientoService)
 
 const reservaRepository = new ReservaRepository()
 const reservaService = new ReservaService(

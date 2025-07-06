@@ -46,12 +46,12 @@ export default class AlojamientoService {
     return ciudades
   }
 
-
   async create(alojamiento, anfitrion) {
     const nuevoAlojamiento = await this.alojamientoRepository.save(
       this.fromDTO(alojamiento, anfitrion),
     )
     return this.toDTO(nuevoAlojamiento)
+  }
 
   async findByUserId(userId) {
     const usuario = await this.usuarioRepository.findById(userId)
@@ -65,7 +65,6 @@ export default class AlojamientoService {
     const alojamientosDTO = alojamientos.map((alojamiento) => this.toDTO(alojamiento))
 
     return alojamientosDTO
-
   }
 
   toDTO(alojamiento) {

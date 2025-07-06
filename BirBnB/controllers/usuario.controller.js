@@ -28,7 +28,6 @@ export default class UsuarioController {
     res.status(200).json(reserva)
   }
 
-
   async singupAnfitrion(req, res) {
     const { email, password, name, telefono, alojamiento } = req.body
     if (!email || !password || !name) {
@@ -43,11 +42,11 @@ export default class UsuarioController {
       alojamiento,
     )
     return res.status(201).json({ token })
+  }
 
   async findAlojamientos(req, res) {
     const alojamientos = await this.alojamientoService.findByUserId(req.user.id)
     res.status(200).json(alojamientos)
-
   }
 
   async signup(req, res) {
