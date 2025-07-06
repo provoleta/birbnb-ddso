@@ -28,10 +28,13 @@ const ReservaCard = ({
   onReservaCancelada,
 }) => {
   const [showCancelarReserva, setShowCancelarReserva] = useState(false)
+  // const [motivoCancelacion, setMotivoCancelacion] = useState("")
+  const [motivo, setMotivo] = useState('')
 
   const CancelarReservaHandler = async () => {
     try {
-      const response = await Api.cancelarReserva(idReserva)
+      console.log(motivo)
+      const response = await Api.cancelarReserva(idReserva, motivo)
       console.log(response)
       onReservaCancelada()
       setShowCancelarReserva(false)
@@ -106,6 +109,7 @@ const ReservaCard = ({
           mensaje="¿Estás seguro de que deseas cancelar esta reserva?"
           onConfirm={CancelarReservaHandler}
           onCancel={() => setShowCancelarReserva(false)}
+          setMotivo={setMotivo}
         />
       )}
     </div>

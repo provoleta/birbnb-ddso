@@ -9,6 +9,9 @@ const SesionFlotante = ({ isOpen, onClose, initialMode }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
+  const [profileImage, setProfileImage] = useState(null)
+  const [imagePreview, setImagePreview] = useState(null)
+  const [imageBase64, setImageBase64] = useState(null)
   const { handleNewToken } = useAuthContext()
 
   useEffect(() => {
@@ -17,6 +20,19 @@ const SesionFlotante = ({ isOpen, onClose, initialMode }) => {
     }
   }, [initialMode])
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0]
+    if (file) {
+      setProfileImage(file)
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setImagePreview(reader.result)
+        setImageBase64(reader.result.split(',')[1])
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
@@ -24,16 +40,12 @@ const SesionFlotante = ({ isOpen, onClose, initialMode }) => {
       if (mode === 'login') {
         token = await api.login(email, password)
       } else {
-        token = await api.register(name, email, password)
+        token = await api.register(name, email, password, imageBase64)
       }
 
       if (token) {
         await handleNewToken(token)
         onClose()
-        // Llamo a una funcion que se haga directamente despues de que se logueo con exito
-        // if (functionAfterLogin != null) {
-        //   functionAfterLogin()
-        // }
       }
     } catch (error) {
       console.error('Error en autenticación:', error)
@@ -65,6 +77,51 @@ const SesionFlotante = ({ isOpen, onClose, initialMode }) => {
                   onChange={(e) => setName(e.target.value)}
                   required
                 />
+              </div>
+            )}
+
+            {mode === 'register' && (
+              <div className="input-container">
+                <label htmlFor="profileImage">Foto de perfil:</label>
+                <div className="file-input-wrapper">
+                  <input
+                    className="auth-input file-input-hidden"
+                    type="file"
+                    id="profileImage"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                  />
+                  <label htmlFor="profileImage" className="file-input-button">
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M12 16L7 11L8.4 9.6L11 12.2V4H13V12.2L15.6 9.6L17 11L12 16Z"
+                        fill="currentColor"
+                      />
+                      <path d="M20 18H4V20H20V18Z" fill="currentColor" />
+                    </svg>
+                    {profileImage ? profileImage.name : 'Seleccionar imagen'}
+                  </label>
+                </div>
+                {imagePreview && (
+                  <div className="image-preview">
+                    <img
+                      src={imagePreview}
+                      alt="Vista previa"
+                      style={{
+                        width: '100px',
+                        height: '100px',
+                        objectFit: 'cover',
+                        borderRadius: '50%',
+                      }}
+                    />
+                  </div>
+                )}
               </div>
             )}
 

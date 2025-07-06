@@ -26,12 +26,13 @@ class Api {
     return this.tokenAuth
   }
 
-  async register(name, email, password) {
+  async register(name, email, password, profileImage) {
     await this.axiosInstance
       .post('/usuarios/signup', {
         name: name,
         email: email,
         password: password,
+        profileImage: profileImage,
       })
       .then((response) => {
         const { token } = response.data
@@ -139,11 +140,15 @@ class Api {
         throw error
       })
   }
-  async cancelarReserva(idReserva) {
+  async cancelarReserva(idReserva, motivo) {
+    console.log(motivo)
     return await this.axiosInstance
       .delete(`/reservas/${idReserva}`, {
         headers: {
           Authorization: `Bearer ${this.tokenAuth}`,
+        },
+        data: {
+          motivo: motivo,
         },
       })
       .then((response) => {

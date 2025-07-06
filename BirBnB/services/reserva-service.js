@@ -61,7 +61,7 @@ export default class ReservaService {
     return this.toDTO(reservaModificada)
   }
 
-  async delete(reservaId, solicitanteId) {
+  async delete(reservaId, solicitanteId, motivo) {
     const reservaAeliminar = await this.reservaRepository.findById(reservaId)
 
     if (!reservaAeliminar) throw new NotFoundException()
@@ -105,7 +105,7 @@ export default class ReservaService {
     )
     reservaANotificar.estado = EstadoReserva.CANCELADA
 
-    await this.notificarReserva(anfitrion, reservaANotificar)
+    await this.notificarReserva(anfitrion, reservaANotificar, motivo)
   }
 
   async create(reserva) {
@@ -164,8 +164,8 @@ export default class ReservaService {
     return historialReservas
   }
 
-  async notificarReserva(usuario, reserva) {
-    const notificacion = FactoryNotificacion.crearSegunReserva(reserva)
+  async notificarReserva(usuario, reserva, motivo) {
+    const notificacion = FactoryNotificacion.crearSegunReserva(reserva, motivo)
     await this.usuarioRepository.findAndUpdate(usuario, notificacion)
   }
 

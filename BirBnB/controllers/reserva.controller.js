@@ -24,8 +24,10 @@ export default class ReservaController {
   async delete(req, res) {
     const reservaId = req.params.id
     const huespedReservadorId = req.user.id
+    const motivo = req.body.motivo
+
     validarObjectId(reservaId)
-    await this.reservaService.delete(reservaId, huespedReservadorId)
+    await this.reservaService.delete(reservaId, huespedReservadorId, motivo)
     res.status(204).json({
       message: 'Reserva eliminada correctamente',
     })
