@@ -36,14 +36,14 @@ const MostrarAlojamientos = () => {
     // Falta bajarlo un poco
     return <CircularIndeterminate />
   }
-
   return (
     <>
       <h2>Tus Alojamientos</h2>
+
       {alojamientos.length > 0 && (
         <div className="fondo-gris">
           {alojamientos.map((result) => (
-            <AlojamientoCard key={result.id} alojamiento={result.alojamiento} />
+            <AlojamientoCard key={result.idAlojamiento} alojamiento={result} />
           ))}
         </div>
       )}

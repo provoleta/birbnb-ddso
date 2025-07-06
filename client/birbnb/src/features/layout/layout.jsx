@@ -5,7 +5,9 @@ const Layout = () => {
   return (
     <section className="app-container">
       <Navbar />
-      <Outlet />
+      <main className="main-content">
+        <Outlet />
+      </main>
       <Footer />
     </section>
   )
