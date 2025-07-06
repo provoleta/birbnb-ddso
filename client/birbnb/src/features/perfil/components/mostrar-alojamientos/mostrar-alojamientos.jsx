@@ -4,6 +4,7 @@ import api from '../../../../api/api'
 import { useAuthContext } from '../../../../store/auth-context'
 import '../../perfil.css'
 import AlojamientoCard from '../alojamiento-card/alojamiento-card'
+//import './alojamientos.css'
 
 import CircularIndeterminate from '../../../../components/loader/loader'
 
@@ -33,7 +34,6 @@ const MostrarAlojamientos = () => {
   }
 
   if (loading) {
-    // Falta bajarlo un poco
     return <CircularIndeterminate />
   }
   return (
@@ -47,7 +47,6 @@ const MostrarAlojamientos = () => {
           ))}
         </div>
       )}
-      {alojamientos.length === 0 && <p>No contas con alojamientos a tu nombre</p>}
     </>
   )
 }

@@ -3,6 +3,10 @@ import './ventana-confirmacion.css'
 import { useState } from 'react'
 
 const VentanaConfirmacion = ({ mensaje, onConfirm, onCancel, setMotivo }) => {
+  const cancelarReserva = () => {
+    setMotivo('')
+    onCancel()
+  }
   return (
     <div className="ventana-flotante-confirmacion-overlay">
       <Box className="ventana-flotante-confirmacion">
@@ -18,7 +22,7 @@ const VentanaConfirmacion = ({ mensaje, onConfirm, onCancel, setMotivo }) => {
         <button className="boton-confirmar-reserva" onClick={onConfirm}>
           CONFIRMAR
         </button>
-        <button className="boton-cerrar-ventana" onClick={onCancel}>
+        <button className="boton-cerrar-ventana" onClick={cancelarReserva}>
           CANCELAR
         </button>
       </Box>

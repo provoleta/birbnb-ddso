@@ -5,6 +5,7 @@ import '../../perfil.css'
 import { useNavigate } from 'react-router'
 import api from '../../../../api/api'
 import { useAuthContext } from '../../../../store/auth-context'
+import CircularIndeterminate from '../../../../components/loader/loader'
 
 const MostrarNotificaciones = () => {
   const [sortOption, setSortOption] = useState('No leidas') // Inicialmente se ordena por no leidas
@@ -43,7 +44,7 @@ const MostrarNotificaciones = () => {
   }
 
   if (loading) {
-    return <div>Cargando notificaciones...</div>
+    return <CircularIndeterminate />
   }
 
   const handlerMarcarLeida = async (idNotificacion) => {
