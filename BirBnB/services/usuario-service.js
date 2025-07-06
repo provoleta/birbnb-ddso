@@ -8,7 +8,7 @@ export default class UsuarioService {
     this.usuarioRepository = usuarioRepository
   }
 
-  async signup(email, password, nombre) {
+  async signup(email, password, nombre, profileImage = null) {
     const existeEmail = await this.usuarioRepository.findByEmail(email)
     if (existeEmail) throw new EmailException()
 
@@ -16,6 +16,7 @@ export default class UsuarioService {
       email,
       bcrypt.hashSync(password),
       nombre,
+      profileImage,
     )
 
     const token = jwt.sign(

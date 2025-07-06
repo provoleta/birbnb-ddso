@@ -28,6 +28,10 @@ const usuarioSchema = new mongoose.Schema({
     type: [notificacionSchema],
     default: [],
   },
+  profileImage: {
+    type: String,
+    default: null,
+  },
 })
 
 usuarioSchema.loadClass(Usuario)

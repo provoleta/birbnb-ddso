@@ -9,6 +9,9 @@ const SesionFlotante = ({ isOpen, onClose, initialMode }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
+  const [profileImage, setProfileImage] = useState(null)
+  const [imagePreview, setImagePreview] = useState(null)
+  const [imageBase64, setImageBase64] = useState(null)
   const { handleNewToken } = useAuthContext()
 
   useEffect(() => {
@@ -17,6 +20,19 @@ const SesionFlotante = ({ isOpen, onClose, initialMode }) => {
     }
   }, [initialMode])
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0]
+    if (file) {
+      setProfileImage(file)
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setImagePreview(reader.result)
+        setImageBase64(reader.result.split(',')[1])
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
@@ -24,7 +40,7 @@ const SesionFlotante = ({ isOpen, onClose, initialMode }) => {
       if (mode === 'login') {
         token = await api.login(email, password)
       } else {
-        token = await api.register(name, email, password)
+        token = await api.register(name, email, password, imageBase64)
       }
 
       if (token) {
@@ -65,6 +81,33 @@ const SesionFlotante = ({ isOpen, onClose, initialMode }) => {
                   onChange={(e) => setName(e.target.value)}
                   required
                 />
+              </div>
+            )}
+
+            {mode === 'register' && (
+              <div className="input-container">
+                <label htmlFor="profileImage">Foto de perfil:</label>
+                <input
+                  className="auth-input"
+                  type="file"
+                  id="profileImage"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                />
+                {imagePreview && (
+                  <div className="image-preview">
+                    <img
+                      src={imagePreview}
+                      alt="Vista previa"
+                      style={{
+                        width: '100px',
+                        height: '100px',
+                        objectFit: 'cover',
+                        borderRadius: '50%',
+                      }}
+                    />
+                  </div>
+                )}
               </div>
             )}
 

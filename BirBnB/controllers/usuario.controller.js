@@ -34,12 +34,12 @@ export default class UsuarioController {
   }
 
   async signup(req, res) {
-    const { email, password, name } = req.body
+    const { email, password, name, profileImage } = req.body
     if (!email || !password || !name) {
       return res.status(400).json({ message: 'Todos los campos son obligatorios' })
     }
 
-    const token = await this.usuarioService.signup(email, password, name)
+    const token = await this.usuarioService.signup(email, password, name, profileImage)
     return res.status(201).json({ token })
   }
 
