@@ -6,11 +6,14 @@
   gap: 10px;
 }
 
+.user-info {
+  cursor: pointer;
+}
+
 .profile-menu {
   position: absolute;
-
-  right: 0; /* Pegado a la derecha */
-  margin-top: 8px; /* Un pequeño espacio opcional */
+  right: 0;
+  margin-top: 8px;
   margin-right: 8px;
   background: #fff;
   border-radius: 8px;
@@ -19,6 +22,17 @@
   flex-direction: column;
   justify-content: center;
   z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-10px);
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.profile-menu.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
 }
 
 .menu-button {

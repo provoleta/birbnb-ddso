@@ -18,9 +18,9 @@ export function OnSession() {
   const [profileMenuOpen, setProfileMenuOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
 
-  const menuRef = useRef(null)         // Para el menú de perfil
+  const menuRef = useRef(null)
   const avatarRef = useRef(null)
-  const sessionButtonsRef = useRef(null) // Para el menú hamburguesa
+  const sessionButtonsRef = useRef(null)
 
   const verPerfil = (opcion) => {
     navigate(`/usuarios/perfil${opcion}`)
@@ -29,7 +29,6 @@ export function OnSession() {
 
   useEffect(() => {
     function handleClickOutside(event) {
-      // Cierra menú de perfil si está abierto y el click es fuera
       if (
         profileMenuOpen &&
         menuRef.current &&
@@ -39,7 +38,6 @@ export function OnSession() {
       ) {
         setProfileMenuOpen(false)
       }
-      // Cierra menú hamburguesa si está abierto y el click es fuera
       if (
         menuOpen &&
         sessionButtonsRef.current &&
@@ -87,16 +85,14 @@ export function OnSession() {
           ref={avatarRef}
           onClick={() => setProfileMenuOpen(!profileMenuOpen)}
         />
-        {profileMenuOpen && (
-          <div className="profile-menu" ref={menuRef}>
-            <IconButton className="menu-button" onClick={handleLogout}>
-              <p className="logOut-titulo" style={{ marginRight: '10px' }}>
-                Cerrar sesión{' '}
-              </p>
-              <LogoutIcon />
-            </IconButton>
-          </div>
-        )}
+        <div className={`profile-menu${profileMenuOpen ? ' open' : ''}`} ref={menuRef}>
+          <IconButton className="menu-button" onClick={handleLogout}>
+            <p className="logOut-titulo" style={{ marginRight: '10px' }}>
+              Cerrar sesión{' '}
+            </p>
+            <LogoutIcon />
+          </IconButton>
+        </div>
       </div>
     </div>
   )
