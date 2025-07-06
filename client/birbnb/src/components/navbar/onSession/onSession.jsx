@@ -2,16 +2,17 @@ import './onSession.css'
 import Avatar from '@mui/material/Avatar'
 import IconButton from '@mui/material/IconButton'
 import NotificationIcon from '@mui/icons-material/Notifications'
+import HomeIcon from '@mui/icons-material/Home'
 import BookmarkIcon from '@mui/icons-material/Bookmark'
-import LogoutIcon from '@mui/icons-material/Logout' // Importa el ícono de logout
+import LogoutIcon from '@mui/icons-material/Logout'
 import { useNavigate } from 'react-router'
 import { useAuthContext } from '../../../store/auth-context'
 import { useState } from 'react'
 import { useEffect, useRef } from 'react'
 
 export function OnSession() {
-  const { handleLogout } = useAuthContext() //TODO: terminar de hacerlo andar
-
+  const { handleLogout, user } = useAuthContext() //TODO: terminar de hacerlo andar
+  const tipoUsuario = user?.tipo
   const navigate = useNavigate()
   const [profileMenuOpen, setProfileMenuOpen] = useState(false)
 
@@ -49,6 +50,11 @@ export function OnSession() {
       <IconButton onClick={() => verPerfil('/reservas')}>
         <BookmarkIcon />
       </IconButton>
+      {tipoUsuario === 'ANFITRION' && (
+        <IconButton onClick={() => verPerfil('/alojamientos')}>
+          <HomeIcon />
+        </IconButton>
+      )}
       <div className="user-info">
         <Avatar
           alt="User Avatar"
@@ -60,7 +66,7 @@ export function OnSession() {
           <div className="profile-menu" ref={menuRef}>
             <IconButton className="menu-button" onClick={handleLogout}>
               <p className="logOut-titulo" style={{ marginRight: '10px' }}>
-                Log out{' '}
+                Cerrar sesión{' '}
               </p>
               <LogoutIcon />
             </IconButton>

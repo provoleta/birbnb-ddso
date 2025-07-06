@@ -2,6 +2,7 @@ import { useState } from 'react'
 import '../../perfil.css'
 import { useNavigate } from 'react-router-dom'
 import './botones.css'
+import { useAuthContext } from '../../../../store/auth-context.jsx'
 
 function BotonesGrupo({ mostrarEnPantalla }) {
   const [activo, setActivo] = useState(mostrarEnPantalla)
@@ -10,6 +11,8 @@ function BotonesGrupo({ mostrarEnPantalla }) {
     setActivo(nombreBoton)
     navigate(`/usuarios/perfil/${nombreBoton}`)
   }
+  const { user } = useAuthContext()
+  const tipoUsuario = user?.tipo
 
   const path = window.location.pathname.split('/').pop()
 
@@ -31,14 +34,16 @@ function BotonesGrupo({ mostrarEnPantalla }) {
       >
         Reservas
       </button>
-      <button
-        className={
-          path === 'alojamientos' ? 'opcion-button-style-activo' : 'opcion-button-style'
-        }
-        onClick={() => handleClick('alojamientos')}
-      >
-        Alojamientos
-      </button>
+      {tipoUsuario === 'ANFITRION' && (
+        <button
+          className={
+            path === 'alojamientos' ? 'opcion-button-style-activo' : 'opcion-button-style'
+          }
+          onClick={() => handleClick('alojamientos')}
+        >
+          Alojamientos
+        </button>
+      )}
     </div>
   )
 }
