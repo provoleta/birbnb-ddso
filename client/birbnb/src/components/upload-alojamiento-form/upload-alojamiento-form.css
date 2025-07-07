@@ -19,14 +19,7 @@
   padding: 32px 36px;
 }
 
-.nombre-container,
-.descripcion-container,
-.precio-container,
-.titulo-container,
-.lugar-container,
-.direccion-container,
-.horario-container,
-.caracteristicas-container {
+.input-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -61,19 +54,50 @@
   cursor: pointer;
 }
 
-.imagen-container {
-  width: 100%;
+.imagenes-preview-list {
+  display: flex;
+  flex-direction: row;
+  margin: 0 0 16px 0;
+  align-items: center;
+  justify-content: center;
 }
 
 .imagen-preview {
   width: 100%;
+  display: block;
   height: auto;
   border-radius: 8px;
-  margin-bottom: 16px;
 }
 
 .imagen-preview:hover {
   opacity: 0.5;
+}
+
+.imagen-preview-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.delete-icon {
+  width: 100%;
+  height: 100%;
+
+  position: absolute;
+  background: rgba(255, 111, 111, 0.85);
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+  display: none;
+  z-index: 2;
+  transition: background 0.2s;
+  font-size: 22px;
+}
+
+.imagen-preview-container:hover .delete-icon {
+  display: block;
 }
 
 .submit-button:hover {
@@ -85,13 +109,7 @@
     padding: 18px 8px;
     max-width: 98vw;
   }
-  .nombre-container,
-  .descripcion-container,
-  .precio-container,
-  .titulo-container,
-  .lugar-container,
-  .direccion-container,
-  .caracteristicas-container {
+  .input-container {
     flex-direction: column;
     gap: 10px;
   }
