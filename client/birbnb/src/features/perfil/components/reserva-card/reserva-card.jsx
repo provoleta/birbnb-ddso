@@ -63,7 +63,7 @@ const ReservaCard = ({
       <div>
         <img
           className="imagen-reserva"
-          src={`data:image/jpeg;base64,${alojamiento.fotos[0].path}`}
+          src={`data:image/jpeg;base64,${alojamiento.fotos[0]?.path}`}
           alt={alojamiento.nombre}
         />
       </div>
