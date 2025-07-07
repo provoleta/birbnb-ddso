@@ -1,3 +1,4 @@
+import AlojamientoCaracteristicasField from './form-fields/caracteristicas-field'
 import AlojamientoTextField from './form-fields/text-field'
 import AlojamientoNumberField from './form-fields/number-field'
 import AlojamientoMonedaField from './form-fields/moneda-field'
@@ -22,6 +23,17 @@ export default function UploadAlojamientoForm() {
   const [imageBase64, setImagesBase64] = useState([])
   const [horarioCheckIn, setHorarioCheckIn] = useState('')
   const [horarioCheckOut, setHorarioCheckOut] = useState('')
+  const [caracteristicas, setCaracteristicas] = useState({
+    WIFI: false,
+    MASCOTAS_PERMITIDAS: false,
+    PISCINA: false,
+    ESTACIONAMIENTO: false,
+  })
+
+  const handleCaracteristicas = (e) => {
+    const { name, checked } = e.target
+    setCaracteristicas((prev) => ({ ...prev, [name]: checked }))
+  }
 
   const handleChange = (setter) => (e) => {
     setter(e.target.value)
@@ -72,6 +84,7 @@ export default function UploadAlojamientoForm() {
         lat,
         long,
       },
+      caracteristicas: Object.keys(caracteristicas).filter((key) => caracteristicas[key]),
       cantHuespedesMax: Number(cantHuespedesMax),
       fotos: Array.isArray(imageBase64) ? imageBase64 : [imageBase64],
     }
@@ -87,6 +100,7 @@ export default function UploadAlojamientoForm() {
             label="Nombre del Alojamiento"
             value={nombre}
             onChange={handleChange(setNombre)}
+            required
           />
         </div>
 
@@ -96,6 +110,7 @@ export default function UploadAlojamientoForm() {
             label="Descipcion"
             value={descripcion}
             onChange={handleChange(setDescripcion)}
+            required
           />
         </div>
 
@@ -105,18 +120,21 @@ export default function UploadAlojamientoForm() {
             label="Moneda"
             value={moneda}
             onChange={handleChange(setMoneda)}
+            required
           />
           <AlojamientoNumberField
             id="precio"
             label="Precio por noche"
             value={precio}
             onChange={handleChange(setPrecio)}
+            required
           />
           <AlojamientoNumberField
             id="cantidad-huespedes"
             label="Maxima cantidad de huespedes"
             value={cantHuespedesMax}
             onChange={handleChange(setCantHuespedesMax)}
+            required
           />
         </div>
 
@@ -126,12 +144,14 @@ export default function UploadAlojamientoForm() {
             label="Ciudad"
             value={ciudad}
             onChange={handleChange(setCiudad)}
+            required
           />
           <AlojamientoTextField
             id="pais"
             label="Pais"
             value={pais}
             onChange={handleChange(setPais)}
+            required
           />
         </div>
 
@@ -141,6 +161,7 @@ export default function UploadAlojamientoForm() {
             label="Calle"
             value={calle}
             onChange={handleChange(setCalle)}
+            required
           />
           <AlojamientoNumberField
             id="altura"
@@ -148,6 +169,7 @@ export default function UploadAlojamientoForm() {
             value={altura}
             min={1}
             onChange={handleChange(setAltura)}
+            required
           />
         </div>
 
@@ -160,6 +182,7 @@ export default function UploadAlojamientoForm() {
             maxLength={5}
             onChange={handleHorarioChange(setHorarioCheckIn)}
             onBlur={handleHorarioBlur(setHorarioCheckIn)}
+            required
           />
           <AlojamientoTextField
             id="horario-check-out"
@@ -169,6 +192,7 @@ export default function UploadAlojamientoForm() {
             maxLength={5}
             onChange={handleHorarioChange(setHorarioCheckOut)}
             onBlur={handleHorarioBlur(setHorarioCheckOut)}
+            required
           />
         </div>
 
@@ -192,6 +216,13 @@ export default function UploadAlojamientoForm() {
             label="Imagenes del alojamiento"
             onChange={handleImageChange}
             image={imagePreview}
+            required
+          />
+        </div>
+        <div className="caracteristicas-container">
+          <AlojamientoCaracteristicasField
+            caracteristicas={caracteristicas}
+            onChange={handleCaracteristicas}
           />
         </div>
 

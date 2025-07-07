@@ -4,10 +4,18 @@ import ReservaController from '../../BirBnB/controllers/reserva.controller.js'
 import { expect, jest, test } from '@jest/globals'
 import request from 'supertest'
 import { Reserva } from '../../BirBnB/models/entities/reserva.js'
-//import NotFoundException from '../exceptions/not-found-exception.js'
+import jwt from 'jsonwebtoken'
 
 const server = buildTestServer()
 server.configureRoutes()
+
+// Token de prueba para autenticación
+const testUserId = '000000000000000000000001'
+const testToken = jwt.sign(
+  { id: testUserId, email: 'test@example.com' },
+  process.env.JWT_SECRET || 'tu_secreto_seguro',
+  { expiresIn: '1h' },
+)
 
 const reservaRepository = {
   findAll: jest.fn(),
@@ -249,35 +257,6 @@ const reservaController = new ReservaController(reservaService)
 
 server.setController(ReservaController, reservaController)
 
-// 🚨🚨🚨 TODO: POR AHORA ESTE TEST NO SE IMPLEMENTA YA QUE NO SABEMOS COMO SACAR LA ID A TRAVES DE LA SESION 🚨🚨
-// describe('GET /reservas/:userId', () => {
-//   beforeEach(() => {
-//     jest.clearAllMocks()
-//   })
-
-//   test('Debe retornar status 200 y las reservas del usuario', async () => {
-//     const response = await request(server.app).get('/reservas/000000000000000000000001')
-
-//     expect(response.status).toBe(200)
-//     expect(Array.isArray(response.body)).toBe(true)
-//     expect(response.body.length).toBe(2)
-//     expect(reservaRepository.filterByUserId).toHaveBeenCalledWith(
-//       '000000000000000000000001',
-//     )
-//     expect(response.body[0]).toHaveProperty('huespedReservador')
-//     expect(response.body[0]).toHaveProperty('alojamiento')
-//     expect(response.body[0]).toHaveProperty('rangoFechas')
-//     expect(response.body[0]).toHaveProperty('precioPorNoche')
-//   })
-
-//   test('Debe retornar status 404 si no encuentra al usuario', async () => {
-//     reservaRepository.filterByUserId = jest.fn().mockResolvedValue(null)
-//     const response = await request(server.app).get('/reservas/000000000000000000000009')
-//     expect(reservaRepository.filterByUserId).toHaveBeenCalled()
-//     expect(response.status).toBe(404)
-//   })
-// })
-
 describe('POST /reservas', () => {
   beforeEach(() => {
     jest.clearAllMocks()
@@ -286,7 +265,85 @@ describe('POST /reservas', () => {
   test('Debe retornar status 201 y la reserva creada', async () => {
     const reserva = {
       fechaAlta: '08-05-2025',
-      huespedReservadorId: '000000000000000000000001',
+      idAlojamiento: '000000000000000000000001',
+      rangoFechas: {
+        fechaInicio: '18-09-2025',
+        fechaFin: '01-10-2025',
+      },
+    }
+
+    alojamientoRepository.findById = jest.fn().mockResolvedValue({
+      id: '000000000000000000000001',
+      nombre: 'Casa de Playa',
+      descripcion: 'Casa de playa en Mar del Plata',
+      precioPorNoche: 150,
+      moneda: 'DOLAR_USA',
+      horarioCheckin: '14:00',
+      horarioCheckOut: '10:00',
+      direccion: {
+        calle: 'Av. Libertador',
+        numero: 123,
+        ciudad: 'Mar del Plata',
+        provincia: 'Buenos Aires',
+        pais: 'Argentina',
+        lat: -38.0,
+        long: -57.0,
+      },
+      cantHuespedesMax: 4,
+      caracteristicas: [],
+      reservas: [],
+      fotos: [],
+      estasDisponibleEn: jest.fn().mockReturnValue(true),
+    })
+
+    const response = await request(server.app)
+      .post('/reservas')
+      .set('Authorization', `Bearer ${testToken}`)
+      .send(reserva)
+
+    expect(response.status).toBe(201)
+    expect(reservaRepository.save).toHaveBeenCalled()
+    expect(reservaRepository.save).toHaveBeenCalledWith(expect.any(Reserva))
+  })
+
+  test('Debe retornar status 401 si no se proporciona token', async () => {
+    const reserva = {
+      fechaAlta: '08-05-2025',
+      idAlojamiento: '000000000000000000000001',
+      rangoFechas: {
+        fechaInicio: '18-05-2025',
+        fechaFin: '01-06-2025',
+      },
+    }
+
+    const response = await request(server.app).post('/reservas').send(reserva)
+
+    expect(response.status).toBe(401)
+    expect(reservaRepository.save).not.toHaveBeenCalled()
+  })
+
+  test('Debe retornar status 400 si faltan campos obligatorios', async () => {
+    const reserva = {
+      // fechaAlta faltante
+      idAlojamiento: '000000000000000000000001',
+      rangoFechas: {
+        fechaInicio: '18-05-2025',
+        fechaFin: '01-06-2025',
+      },
+    }
+
+    const response = await request(server.app)
+      .post('/reservas')
+      .set('Authorization', `Bearer ${testToken}`)
+      .send(reserva)
+
+    expect(response.status).toBe(400)
+    expect(response.body.error).toBe('Reserva mal formada')
+  })
+
+  test('Debe retornar status 406 si no se puede crear la reserva por disponibilidad', async () => {
+    const reserva = {
+      fechaAlta: '08-05-2025',
       idAlojamiento: '000000000000000000000001',
       rangoFechas: {
         fechaInicio: '18-05-2025',
@@ -315,51 +372,14 @@ describe('POST /reservas', () => {
       caracteristicas: [],
       reservas: [],
       fotos: [],
-      estasDisponibleEn: jest.fn().mockReturnValue(true),
-    })
-
-    const response = await request(server.app).post('/reservas').send(reserva)
-    expect(response.status).toBe(201)
-    expect(reservaRepository.save).toHaveBeenCalled()
-    expect(reservaRepository.save).toHaveBeenCalledWith(expect.any(Reserva))
-  })
-
-  test('Debe retornar status 406 si no se puede crear la reserva', async () => {
-    const reserva = {
-      fechaAlta: '08-05-2025',
-      huespedReservadorId: '000000000000000000000001',
-      idAlojamiento: '000000000000000000000001',
-      rangoFechas: {
-        fechaInicio: 'Sun, 18 May 2025 03:00:00 GMT',
-        fechaFin: 'Sun, 1 June 2025 03:00:00 GMT',
-      },
-    }
-
-    alojamientoRepository.findById = jest.fn().mockResolvedValue({
-      id: '000000000000000000000001',
-      nombre: 'Casa de Playa',
-      descripcion: 'Casa de playa en Mar del Plata',
-      precioPorNoche: 150,
-      moneda: 'DOLAR_USA',
-      horarioCheckin: '14:00',
-      horarioCheckOut: '10:00',
-      direccion: {
-        calle: 'Av. Libertador',
-        numero: 123,
-        ciudad: 'Mar del Plata',
-        provincia: 'Buenos Aires',
-        pais: 'Argentina',
-        lat: -38.0,
-        long: -57.0,
-      },
-      cantHuespedesMax: 4,
-      caracteristicas: [],
-      reservas: [],
-      fotos: [],
       estasDisponibleEn: jest.fn().mockReturnValue(false),
     })
 
-    const response = await request(server.app).post('/reservas').send(reserva)
+    const response = await request(server.app)
+      .post('/reservas')
+      .set('Authorization', `Bearer ${testToken}`)
+      .send(reserva)
+
     expect(response.status).toBe(406)
     expect(reservaRepository.save).not.toHaveBeenCalled()
   })
@@ -370,10 +390,12 @@ describe('DELETE /reservas/:id', () => {
     jest.clearAllMocks()
   })
 
-  test('Debe retornar status 200 y la reserva eliminada', async () => {
-    const response = await request(server.app).delete(
-      '/reservas/000000000000000000000001',
-    )
+  test('Debe retornar status 204 y eliminar la reserva correctamente', async () => {
+    const response = await request(server.app)
+      .delete('/reservas/000000000000000000000001')
+      .set('Authorization', `Bearer ${testToken}`)
+      .send({ motivo: 'Cancelación por emergencia' })
+
     expect(response.status).toBe(204)
     expect(reservaRepository.delete).toHaveBeenCalledWith('000000000000000000000001')
     expect(alojamientoRepository.removeReserva).toHaveBeenCalled()
@@ -383,11 +405,22 @@ describe('DELETE /reservas/:id', () => {
     )
   })
 
+  test('Debe retornar status 401 si no se proporciona token', async () => {
+    const response = await request(server.app)
+      .delete('/reservas/000000000000000000000001')
+      .send({ motivo: 'Cancelación por emergencia' })
+
+    expect(response.status).toBe(401)
+    expect(reservaRepository.delete).not.toHaveBeenCalled()
+  })
+
   test('Debe retornar status 404 si no encuentra la reserva', async () => {
     reservaRepository.findById = jest.fn().mockResolvedValue(null)
-    const response = await request(server.app).delete(
-      '/reservas/000000000000000000000009',
-    )
+    const response = await request(server.app)
+      .delete('/reservas/000000000000000000000009')
+      .set('Authorization', `Bearer ${testToken}`)
+      .send({ motivo: 'Cancelación por emergencia' })
+
     expect(response.status).toBe(404)
     expect(reservaRepository.delete).not.toHaveBeenCalled()
     expect(alojamientoRepository.removeReserva).not.toHaveBeenCalled()
@@ -434,19 +467,68 @@ describe('DELETE /reservas/:id', () => {
         fotos: [],
       },
       rangoFechas: {
-        fechaInicio: 'Sun, 18 May 2025 03:00:00 GMT',
-        fechaFin: 'Sun, 1 June 2025 03:00:00 GMT',
+        fechaInicio: '2025-07-01T03:00:00Z',
+        fechaFin: '2025-08-27T03:00:00Z',
       },
       estado: 'PENDIENTE',
       precioPorNoche: 150,
       cambiosEstadoReserva: [],
     })
 
-    const response = await request(server.app).delete(
-      '/reservas/000000000000000000000003',
-    )
+    const response = await request(server.app)
+      .delete('/reservas/000000000000000000000003')
+      .set('Authorization', `Bearer ${testToken}`)
+      .send({ motivo: 'Cancelación tardía' })
+
     expect(response.status).toBe(410)
     expect(reservaRepository.delete).not.toHaveBeenCalled()
     expect(alojamientoRepository.removeReserva).not.toHaveBeenCalled()
+  })
+})
+
+describe('PATCH /reservas/:id', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
+  test('Debe retornar status 204 al actualizar el estado de la reserva', async () => {
+    const response = await request(server.app)
+      .patch('/reservas/000000000000000000000001')
+      .set('Authorization', `Bearer ${testToken}`)
+      .send({ estado: 'CONFIRMADA' })
+
+    expect(response.status).toBe(204)
+  })
+
+  test('Debe retornar status 204 al actualizar las fechas de la reserva', async () => {
+    const response = await request(server.app)
+      .patch('/reservas/000000000000000000000001')
+      .set('Authorization', `Bearer ${testToken}`)
+      .send({
+        rangoFechas: {
+          fechaInicio: '20-05-2025',
+          fechaFin: '25-05-2025',
+        },
+      })
+
+    expect(response.status).toBe(204)
+  })
+
+  test('Debe retornar status 400 si no se proporcionan campos para actualizar', async () => {
+    const response = await request(server.app)
+      .patch('/reservas/000000000000000000000001')
+      .set('Authorization', `Bearer ${testToken}`)
+      .send({})
+
+    expect(response.status).toBe(400)
+    expect(response.body.error).toBe('Campos faltantes para actualizar reserva')
+  })
+
+  test('Debe retornar status 401 si no se proporciona token', async () => {
+    const response = await request(server.app)
+      .patch('/reservas/000000000000000000000001')
+      .send({ estado: 'CONFIRMADA' })
+
+    expect(response.status).toBe(401)
   })
 })
