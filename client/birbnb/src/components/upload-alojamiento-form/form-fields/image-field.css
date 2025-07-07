@@ -3,7 +3,6 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 12px 16px;
   border: 2px dashed #cccccc;
   border-radius: 8px;
   background-color: #f8f9fa;
@@ -24,4 +23,8 @@
 
 .alojamiento-image-field:active {
   transform: translateY(1px);
+}
+
+.image-upload-label {
+  cursor: pointer;
 }
