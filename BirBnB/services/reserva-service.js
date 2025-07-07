@@ -15,18 +15,11 @@ export default class ReservaService {
    * @param {ReservaRepository} reservaRepository
    * @param {AlojamientoRepository} alojamientoRepository
    * @param {UsuarioRepository} usuarioRepository
-   * @param {NotificacionService} notificacionService
    */
-  constructor(
-    reservaRepository,
-    alojamientoRepository,
-    usuarioRepository,
-    notificacionService,
-  ) {
+  constructor(reservaRepository, alojamientoRepository, usuarioRepository) {
     this.reservaRepository = reservaRepository
     this.alojamientoRepository = alojamientoRepository
     this.usuarioRepository = usuarioRepository
-    this.notificacionService = notificacionService
   }
 
   async updateDate(reservaId, huespedReservadorId, rangoFechas) {
@@ -79,20 +72,9 @@ export default class ReservaService {
       throw new UnauthorizedException()
     }
 
-    reservaModificarEstado.actualizarEstado(nuevoEstado, 'Estado actualizado desde API')
+    reservaModificarEstado.actualizarEstado(nuevoEstado, 'razon')
 
     const reservaModificada = await this.reservaRepository.save(reservaModificarEstado)
-
-    // Determinar quién recibe la notificación según el estado
-    let destinatario
-    if (nuevoEstado === EstadoReserva.CONFIRMADA) {
-      destinatario = reservaModificada.huespedReservador // El huésped recibe confirmación
-    } else {
-      destinatario = reservaModificada.alojamiento.anfitrion // El anfitrión recibe otras notificaciones
-    }
-
-    // Manejar notificaciones después de guardar
-    await this.notificarReserva(destinatario, reservaModificada)
 
     return this.toDTO(reservaModificada)
   }

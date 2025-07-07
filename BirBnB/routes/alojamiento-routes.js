@@ -18,6 +18,7 @@ export default function registerAlojamientoRoutes(app, getController) {
     getController(AlojamientoController).create(req, res),
   )
 
+  //TODO EMPROLIJAR ESTA NEGRADA
   app.get('/geocode', async (req, res) => {
     const { calle, numero, ciudad, pais } = req.query
     const direccion = encodeURIComponent(`${calle} ${numero}, ${ciudad}, ${pais}`)
