@@ -12,6 +12,7 @@ import Perfil from './features/perfil/perfil.jsx'
 import LoginPage from './features/login-page/login-page.jsx'
 import RegisterPage from './features/register-page/register-page.jsx'
 import RegisterAnfitrionPage from './features/register-page/anfitrion/register-anfitrion.jsx'
+import UploadPage from './features/upload-page/upload-page.jsx'
 
 const theme = createTheme({
   palette: {
@@ -34,6 +35,7 @@ function App() {
               <Route index element={<HomePage />} />
               <Route path="/alojamientos" element={<SearchPage />} />
               <Route path="/alojamientos/:id" element={<DetailAlojamiento />} />
+              <Route path="upload" element={<UploadPage />} />
               <Route path="/usuarios/perfil/">
                 <Route
                   path="reservas"

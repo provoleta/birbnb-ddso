@@ -187,6 +187,22 @@ class Api {
         throw error
       })
   }
+
+  async subirAlojamiento(alojamiento) {
+    return await this.axiosInstance
+      .post('/alojamientos', alojamiento, {
+        headers: {
+          Authorization: `Bearer ${this.tokenAuth}`,
+        },
+      })
+      .then((response) => {
+        return response.data
+      })
+      .catch((error) => {
+        console.error('Error fetching alojamientos:', error)
+        throw error
+      })
+  }
 }
 
 const api = new Api()

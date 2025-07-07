@@ -11,7 +11,8 @@ export class Server {
   constructor(app, port = 6969) {
     this.app = app
     this.port = port
-    this.app.use(express.json()) // * Middleware para parsear el cuerpo de las peticiones como JSON
+    this.app.use(express.json({ limit: '50mb' })) // * Middleware para parsear el cuerpo de las peticiones como JSON
+    this.app.use(express.urlencoded({ limit: '50mb' }))
     this.app.use(cors()) // * Middleware para permitir CORS
   }
 

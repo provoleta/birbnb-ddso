@@ -47,6 +47,7 @@ const MostrarAlojamientos = () => {
           ))}
         </div>
       )}
+      {alojamientos.length === 0 && <p>Todavia no tenes alojamientos.</p>}
     </>
   )
 }

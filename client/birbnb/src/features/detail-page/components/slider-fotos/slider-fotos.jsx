@@ -6,6 +6,13 @@ const SliderFotos = ({ images }) => {
 
   const [currentIndex, setCurrentIndex] = useState(0)
 
+  const getImageSrc = (base64String) => {
+    console.log('Base64 String:', base64String)
+    if (!base64String) return null
+    if (base64String.startsWith('data:')) return base64String
+    return `data:image/jpeg;base64,${base64String}`
+  }
+
   const nextImage = () => {
     setCurrentIndex((prevIndex) =>
       prevIndex === imagesPath.length - 1 ? 0 : prevIndex + 1,
@@ -28,7 +35,7 @@ const SliderFotos = ({ images }) => {
           {imagesPath.map((image, index) => (
             <img
               key={index}
-              src={image}
+              src={getImageSrc(image)}
               alt={`Imagen ${index + 1}`}
               className="slider-image"
             />
