@@ -49,6 +49,7 @@ export default class AlojamientoService {
   }
 
   async create(alojamiento, anfitrion) {
+    await this.ciudadRepository.addCity(alojamiento.direccion.ciudad)
     const nuevoAlojamiento = await this.alojamientoRepository.save(
       this.fromDTO(alojamiento, anfitrion),
     )
