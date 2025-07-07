@@ -12,6 +12,7 @@ const SesionFlotante = ({ isOpen, onClose, initialMode }) => {
   const [profileImage, setProfileImage] = useState(null)
   const [imagePreview, setImagePreview] = useState(null)
   const [imageBase64, setImageBase64] = useState(null)
+  const [biografia, setBiografia] = useState('')
   const { handleNewToken } = useAuthContext()
 
   useEffect(() => {
@@ -39,8 +40,10 @@ const SesionFlotante = ({ isOpen, onClose, initialMode }) => {
       let token
       if (mode === 'login') {
         token = await api.login(email, password)
-      } else {
+      } else if (mode === 'register') {
         token = await api.register(name, email, password, imageBase64)
+      } else if (mode === 'register-anfitrion') {
+        token = await api.registerAnfitrion(name, email, password, biografia, imageBase64)
       }
 
       if (token) {
@@ -66,7 +69,7 @@ const SesionFlotante = ({ isOpen, onClose, initialMode }) => {
 
         <div className="modal-body">
           <form className="auth-form" onSubmit={handleSubmit}>
-            {mode === 'register' && (
+            {(mode === 'register' || mode === 'register-anfitrion') && (
               <div className="input-container">
                 <label htmlFor="name">Nombre completo:</label>
                 <input
@@ -80,7 +83,7 @@ const SesionFlotante = ({ isOpen, onClose, initialMode }) => {
               </div>
             )}
 
-            {mode === 'register' && (
+            {(mode === 'register' || mode === 'register-anfitrion') && (
               <div className="input-container">
                 <label htmlFor="profileImage">Foto de perfil:</label>
                 <div className="file-input-wrapper">
@@ -149,19 +152,34 @@ const SesionFlotante = ({ isOpen, onClose, initialMode }) => {
               />
             </div>
 
+            {mode === 'register-anfitrion' && (
+              <div className="input-container">
+                <label htmlFor="biografia">Biografia:</label>
+                <input
+                  className="auth-input"
+                  type="biografia"
+                  id="biografia"
+                  value={biografia}
+                  onChange={(e) => setBiografia(e.target.value)}
+                  required
+                />
+              </div>
+            )}
             <button type="submit" className="auth-button">
               {mode === 'login' ? 'Iniciar Sesión' : 'Registrarse'}
             </button>
           </form>
 
-          <div
-            className="auth-toggle"
-            onClick={() => setMode(mode === 'login' ? 'register' : 'login')}
-          >
-            {mode === 'login'
-              ? '¿No tienes cuenta? Regístrate'
-              : '¿Ya tienes cuenta? Inicia sesión'}
-          </div>
+          {mode !== 'register-anfitrion' && (
+            <div
+              className="auth-toggle"
+              onClick={() => setMode(mode === 'login' ? 'register' : 'login')}
+            >
+              {mode === 'login'
+                ? '¿No tienes cuenta? Regístrate'
+                : '¿Ya tienes cuenta? Inicia sesión'}
+            </div>
+          )}
         </div>
       </div>
     </div>
