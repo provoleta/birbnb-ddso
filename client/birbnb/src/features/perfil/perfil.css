@@ -95,6 +95,7 @@ h3 + h3 {
   border: 0.1px solid #787879;
   background-color: white;
 }
+
 .opcion-button-style:hover {
   background-color: #0b0b0b08;
 }
@@ -138,7 +139,9 @@ h3 + h3 {
 
   .opcion-button-style,
   .opcion-button-style-activo {
+
     width: 100%;
+
     font-size: 1rem;
     height: 48px;
     border-radius: 24px;

@@ -2,11 +2,13 @@ import './offline.css'
 import { useState } from 'react'
 import SesionFlotante from '../../sesion-flotante/sesion-flotante'
 import MenuIcon from '@mui/icons-material/Menu'
+import { useNavigate } from 'react-router-dom'
 
 export function Offline() {
   const [showSesionFlotante, setShowSesionFlotante] = useState(false)
   const [initialMode, setInitialMode] = useState('')
   const [menuOpen, setMenuOpen] = useState(false)
+  const navigate = useNavigate()
 
   const login = () => {
     setShowSesionFlotante(true)
@@ -18,9 +20,16 @@ export function Offline() {
     setInitialMode('register')
   }
 
+  const registerAnfitrion = () => {
+    navigate('/register/anfitrion')
+  }
+
   return (
     <nav>
       <div className="app-nav-links">
+        <div className="underline-button" onClick={registerAnfitrion}>
+          ¿Sos Anfitrion?
+        </div>
         <div className="underline-button" onClick={register}>
           Crear Cuenta
         </div>

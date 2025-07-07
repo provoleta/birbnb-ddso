@@ -33,7 +33,6 @@ MongoDBClient.connect()
 const saludController = new SaludController()
 
 const usuarioRepository = new UsuarioRepository()
-const usuarioService = new UsuarioService(usuarioRepository)
 
 const ciudadRepository = new CiudadRepository()
 const alojamientoRepository = new AlojamientoRepository()
@@ -42,6 +41,7 @@ const alojamientoService = new AlojamientoService(
   usuarioRepository,
   ciudadRepository,
 )
+const usuarioService = new UsuarioService(usuarioRepository, alojamientoRepository)
 const alojamientoController = new AlojamientoController(alojamientoService)
 
 const reservaRepository = new ReservaRepository()

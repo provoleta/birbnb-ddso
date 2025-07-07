@@ -22,44 +22,44 @@ export default class ReservaService {
     this.usuarioRepository = usuarioRepository
   }
 
-  async update(reserva, solicitanteId) {
-    const reservaAmodificar = await this.reservaRepository.findById(reserva.id)
-    if (!reservaAmodificar) throw new NotFoundException()
+  async updateDate(reservaId, huespedReservadorId, rangoFechas) {
+    const reservaAModificar = await this.reservaRepository.findById(reservaId)
+    if (!reservaAModificar) throw new NotFoundException()
 
-    if (reservaAeliminar.huespedReservador.id !== solicitanteId) {
+    if (reservaAeliminar.huespedReservador.id !== huespedReservadorId) {
       throw new UnauthorizedException()
     }
 
     const alojamiento = await this.alojamientoRepository.findById(
-      reservaAmodificar.alojamiento.id,
+      reservaAModificar.alojamiento.id,
     )
 
-    const disponibilidad = alojamiento.estasDisponibleParaCambiar(
-      reserva.rangoFechas,
-      reserva.id,
-    )
+    const disponibilidad = alojamiento.estasDisponibleParaCambiar(rangoFechas, reservaId)
 
-    if (!disponibilidad) throw new DisponibilidadException(reserva.alojamiento)
+    if (!disponibilidad) throw new DisponibilidadException(reservaAModificar.alojamiento)
 
     const nuevoRangoDeFechas = new RangoFechas(
-      dayjs(reserva.rangoFechas.fechaInicio, 'DD/MM/YYYY'),
-      dayjs(reserva.rangoFechas.fechaFin, 'DD/MM/YYYY'),
+      dayjs(rangoFechas.fechaInicio, 'DD/MM/YYYY'),
+      dayjs(rangoFechas.fechaFin, 'DD/MM/YYYY'),
     )
 
     // Verifico que si la quiero actualizar, no este iniciada la misma
-    if (dayjs().isAfter(reservaAmodificar.rangoFechas.fechaInicio)) {
+    if (dayjs().isAfter(reservaAModificar.rangoFechas.fechaInicio)) {
       throw new ExcededTimeException()
     }
 
-    reservaAmodificar.rangoFechas = new RangoFechas(
+    reservaAModificar.rangoFechas = new RangoFechas(
       nuevoRangoDeFechas.fechaInicio.toISOString(),
       nuevoRangoDeFechas.fechaFin.toISOString(),
     )
 
-    const reservaModificada = await this.reservaRepository.save(reservaAmodificar)
+    const reservaModificada = await this.reservaRepository.save(reservaAModificar)
 
     return this.toDTO(reservaModificada)
   }
+
+  // TODO: Implementar, ver que hacer con el estado si se cancela la reserva.
+  async updateState(reservaId, huespedReservadorId, nuevoEstado) {}
 
   async delete(reservaId, solicitanteId, motivo) {
     const reservaAeliminar = await this.reservaRepository.findById(reservaId)

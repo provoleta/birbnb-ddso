@@ -1,4 +1,5 @@
 import NotFoundException from '../exceptions/not-found-exception.js'
+import { Alojamiento } from '../models/entities/alojamiento.js'
 
 export default class AlojamientoService {
   constructor(alojamientoRepository, usuarioRepository, ciudadRepository) {
@@ -47,6 +48,13 @@ export default class AlojamientoService {
     return ciudades.map((ciudad) => ciudad.nombre)
   }
 
+  async create(alojamiento, anfitrion) {
+    const nuevoAlojamiento = await this.alojamientoRepository.save(
+      this.fromDTO(alojamiento, anfitrion),
+    )
+    return this.toDTO(nuevoAlojamiento)
+  }
+
   async findByUserId(userId) {
     const usuario = await this.usuarioRepository.findById(userId)
 
@@ -77,5 +85,22 @@ export default class AlojamientoService {
       reservas: alojamiento.reservas,
       fotos: alojamiento.fotos,
     }
+  }
+
+  fromDTO(alojamientoDTO, anfitrion) {
+    return new Alojamiento(
+      anfitrion,
+      alojamientoDTO.nombre,
+      alojamientoDTO.descripcion,
+      alojamientoDTO.precioPorNoche,
+      alojamientoDTO.moneda,
+      alojamientoDTO.horarioCheckIn,
+      alojamientoDTO.horarioCheckOut,
+      alojamientoDTO.direccion,
+      alojamientoDTO.cantHuespedesMax,
+      alojamientoDTO.caracteristicas || [],
+      [],
+      [], // TODO resolver como se obtienen las fotos para el front
+    )
   }
 }

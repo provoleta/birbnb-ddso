@@ -5,13 +5,12 @@ import dayjs from 'dayjs'
 
 const AuthContext = createContext()
 
-function ultimaValidacionValida(ultimaActualizacion) {
+// Se fija que el token no este en el storage hace mas de una hora
+function ultimaValidacion(ultimaActualizacion) {
   if (!ultimaActualizacion) return false
 
   const fechaUltimaActualizacion = dayjs(ultimaActualizacion)
   const fechaActual = dayjs()
-  //console.log('Fecha actual:', fechaActual.format())
-  //console.log('Fecha última actualización:', fechaUltimaActualizacion.format())
   return fechaActual.diff(fechaUltimaActualizacion, 'minute') <= 59
 }
 
@@ -28,7 +27,7 @@ export function AuthProvider({ children }) {
     const storedToken = localStorage.getItem('token')
     if (storedToken) {
       const ultimaActualizacion = localStorage.getItem('ultimaActualizacion')
-      if (!ultimaValidacionValida(ultimaActualizacion)) return
+      if (!ultimaValidacion(ultimaActualizacion)) return
       setToken(storedToken)
       api.tokenAuth = storedToken
       api.getProfile().then((userData) => {
@@ -48,7 +47,7 @@ export function AuthProvider({ children }) {
   }
 
   const handleLogout = () => {
-    // Aquí podrías hacer una llamada a la API para cerrar sesión
+    // TODO ver que onda con el back
     setUser(null)
     setToken(null)
     setLogueado(false)

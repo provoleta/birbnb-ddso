@@ -11,7 +11,8 @@ export default function registerReservaRoutes(app, getController) {
     getController(ReservaController).delete(req, res),
   )
 
-  app.put('/reservas', verifyToken, (req, res) =>
+  // Actualiza fecha
+  app.patch('/reservas/:id', verifyToken, (req, res) =>
     getController(ReservaController).update(req, res),
   )
 }
