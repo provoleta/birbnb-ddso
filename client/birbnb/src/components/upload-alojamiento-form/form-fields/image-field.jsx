@@ -1,3 +1,5 @@
+import './image-field.css'
+
 export default function AlojamientoImageField({ id, label, onChange, image }) {
   return (
     <div className="alojamiento-image-field">

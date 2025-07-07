@@ -1,0 +1,27 @@
+.alojamiento-image-field {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border: 2px dashed #cccccc;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  color: #666666;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-align: center;
+  min-height: 50px;
+}
+
+.alojamiento-image-field:hover {
+  border-color: rgb(166, 45, 253);
+  background-color: rgba(166, 45, 253, 0.05);
+  color: rgb(166, 45, 253);
+}
+
+.alojamiento-image-field:active {
+  transform: translateY(1px);
+}

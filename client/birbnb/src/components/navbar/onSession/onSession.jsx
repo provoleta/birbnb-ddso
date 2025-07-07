@@ -100,7 +100,7 @@ export function OnSession() {
           onClick={() => setProfileMenuOpen(!profileMenuOpen)}
         />
         <div className={`profile-menu${profileMenuOpen ? ' open' : ''}`} ref={menuRef}>
-          <h3 className="profile-name">{user?.nombre}</h3>
+          <div className="profile-name">{user?.nombre}</div>
           <IconButton className="menu-button" onClick={handleLogout}>
             <p className="logOut-titulo" style={{ marginRight: '10px' }}>
               Cerrar sesión{' '}
