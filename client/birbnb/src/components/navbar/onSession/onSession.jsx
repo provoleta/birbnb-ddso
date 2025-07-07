@@ -5,6 +5,7 @@ import NotificationIcon from '@mui/icons-material/Notifications'
 import HomeIcon from '@mui/icons-material/Home'
 import BookmarkIcon from '@mui/icons-material/Bookmark'
 import LogoutIcon from '@mui/icons-material/Logout'
+import PlusIcon from '@mui/icons-material/Add'
 import { useNavigate } from 'react-router'
 import { useAuthContext } from '../../../store/auth-context'
 import { useState, useEffect, useRef } from 'react'
@@ -21,6 +22,10 @@ export function OnSession() {
   const menuRef = useRef(null)
   const avatarRef = useRef(null)
   const sessionButtonsRef = useRef(null)
+
+  const nuevoAlojamiento = () => {
+    navigate('/upload')
+  }
 
   const verPerfil = (opcion) => {
     navigate(`/usuarios/perfil${opcion}`)
@@ -72,6 +77,9 @@ export function OnSession() {
         className={`session-buttons${menuOpen ? ' open' : ''}`}
         ref={sessionButtonsRef}
       >
+        <IconButton onClick={nuevoAlojamiento}>
+          <PlusIcon />
+        </IconButton>
         <IconButton onClick={() => verPerfil('/notificaciones')}>
           <NotificationIcon />
         </IconButton>

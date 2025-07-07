@@ -8,10 +8,17 @@ const SearchCard = ({ id, nombre, descripcion, precioPorNoche, fotos }) => {
     navigate(`/alojamientos/${id}`)
   }
 
+  const getImageSrc = (base64String) => {
+    console.log('Base64 String:', base64String)
+    if (!base64String) return null
+    if (base64String.startsWith('data:')) return base64String
+    return `data:image/jpeg;base64,${base64String}`
+  }
+
   return (
     <div className="search-card-container" onClick={handleViewMore}>
       <div className="card-fotos">
-        <img src={fotos} alt={nombre} />
+        <img src={getImageSrc(fotos)} alt={nombre} />
       </div>
       <div className="card-content">
         <h3>{nombre}</h3>

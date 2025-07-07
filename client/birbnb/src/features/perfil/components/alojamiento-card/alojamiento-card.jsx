@@ -12,6 +12,13 @@ const AlojamientoCard = ({ alojamiento }) => {
     }, 0)
   }
 
+  const getImageSrc = (base64String) => {
+    console.log('Base64 String:', base64String)
+    if (!base64String) return null
+    if (base64String.startsWith('data:')) return base64String
+    return `data:image/jpeg;base64,${base64String}`
+  }
+
   const RecaudacionPorReserva = (reserva) => {
     const diasReserva = dayjs(reserva.rangoFechas.fechaFin).diff(
       dayjs(reserva.rangoFechas.fechaInicio),
@@ -40,7 +47,7 @@ const AlojamientoCard = ({ alojamiento }) => {
       <div>
         <img
           className="imagen-alojamiento"
-          src={alojamiento.fotos[0].path}
+          src={getImageSrc(alojamiento.fotos[0].path)}
           alt={alojamiento.nombre}
         />
       </div>
