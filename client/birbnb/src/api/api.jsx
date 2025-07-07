@@ -4,7 +4,7 @@ class Api {
   constructor() {
     this.tokenAuth = null
     this.axiosInstance = axios.create({
-      baseURL: 'http://localhost:6969',
+      baseURL: process.env.REACT_APP_IP_BACK || 'http://localhost:6969',
     })
   }
 
