@@ -21,6 +21,8 @@ import NotificacionService from './BirBnB/services/notificacion-service.js'
 
 import SaludController from './BirBnB/controllers/health.controller.js'
 
+import CiudadRepository from './BirBnB/models/repositories/ciudad-repository.js'
+
 const app = express()
 const port = process.env.PORT || 6969
 const server = new Server(app, port) // * Crear una nueva instancia del servidor
@@ -33,10 +35,12 @@ const saludController = new SaludController()
 const usuarioRepository = new UsuarioRepository()
 const usuarioService = new UsuarioService(usuarioRepository)
 
+const ciudadRepository = new CiudadRepository()
 const alojamientoRepository = new AlojamientoRepository()
 const alojamientoService = new AlojamientoService(
   alojamientoRepository,
   usuarioRepository,
+  ciudadRepository,
 )
 const alojamientoController = new AlojamientoController(alojamientoService)
 

@@ -1,9 +1,10 @@
 import NotFoundException from '../exceptions/not-found-exception.js'
 
 export default class AlojamientoService {
-  constructor(alojamientoRepository, usuarioRepository) {
+  constructor(alojamientoRepository, usuarioRepository, ciudadRepository) {
     this.alojamientoRepository = alojamientoRepository
     this.usuarioRepository = usuarioRepository
+    this.ciudadRepository = ciudadRepository
   }
 
   async findAll(filters = {}, page = 1, limit = 10) {
@@ -40,9 +41,10 @@ export default class AlojamientoService {
     return this.toDTO(alojamiento)
   }
 
+  // TODO Cuando se implemente la agregación de alojamientos, guardar en el repositorio de ciudades la ciudad del alojamiento
   async getCities() {
-    const ciudades = await this.alojamientoRepository.getCities()
-    return ciudades
+    const ciudades = await this.ciudadRepository.getCities()
+    return ciudades.map((ciudad) => ciudad.nombre)
   }
 
   async findByUserId(userId) {
