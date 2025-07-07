@@ -26,7 +26,7 @@ export default class ReservaService {
     const reservaAModificar = await this.reservaRepository.findById(reservaId)
     if (!reservaAModificar) throw new NotFoundException()
 
-    if (reservaAeliminar.huespedReservador.id !== huespedReservadorId) {
+    if (reservaAModificar.huespedReservador.id !== huespedReservadorId) {
       throw new UnauthorizedException()
     }
 
@@ -58,8 +58,53 @@ export default class ReservaService {
     return this.toDTO(reservaModificada)
   }
 
-  // TODO: Implementar, ver que hacer con el estado si se cancela la reserva.
-  async updateState(reservaId, huespedReservadorId, nuevoEstado) {}
+  // TODO: Ver que devolver cuando eliminamos la reserva
+  // TODO: Implementar corroboracion de que el tipo que la cancela es el dueño del alojamiento
+
+  async updateState(reservaId, nuevoEstado, motivo) {
+    const reservaAModificar = await this.reservaRepository.findById(reservaId)
+
+    if (!reservaAModificar) throw new NotFoundException()
+
+    reservaAModificar.estado = nuevoEstado
+
+    if (nuevoEstado === 'CANCELADA') {
+      if (
+        dayjs().isAfter(reservaAModificar.rangoFechas.fechaInicio, 'DD/MM/YYYY') &&
+        dayjs().isBefore(reservaAModificar.rangoFechas.fechaFin, 'DD/MM/YYYY')
+      ) {
+        throw new ExcededTimeException()
+      }
+
+      await this.notificarReserva(
+        reservaAModificar.huespedReservador,
+        reservaAModificar,
+        motivo,
+      )
+
+      const eliminada = await this.reservaRepository.delete(reservaId)
+      if (!eliminada) throw new NotFoundException()
+
+      const alojamientoSinReserva = await this.alojamientoRepository.removeReserva(
+        reservaAModificar.alojamiento.id,
+        reservaId,
+      )
+
+      if (!alojamientoSinReserva) throw new NotFoundException()
+    } else {
+      const notificacion = FactoryNotificacion.crearSegunReserva(
+        reservaAModificar,
+        motivo,
+      )
+
+      await this.notificarReserva(
+        reservaAModificar.huespedReservador,
+        reservaAModificar,
+        motivo,
+      )
+      return this.toDTO(reservaAModificar)
+    }
+  }
 
   async delete(reservaId, solicitanteId, motivo) {
     const reservaAeliminar = await this.reservaRepository.findById(reservaId)
@@ -144,7 +189,7 @@ export default class ReservaService {
 
     this.alojamientoRepository.addReserva(alojamientoId, reservaCreada.id)
 
-    this.notificarReserva(alojamiento.anfitrion, reservaACrear)
+    this.notificarReserva(alojamiento.anfitrion, reservaACrear, '')
 
     return reservaCreada.id
   }

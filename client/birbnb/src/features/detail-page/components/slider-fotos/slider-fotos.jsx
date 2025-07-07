@@ -7,7 +7,6 @@ const SliderFotos = ({ images }) => {
   const [currentIndex, setCurrentIndex] = useState(0)
 
   const getImageSrc = (base64String) => {
-    console.log('Base64 String:', base64String)
     if (!base64String) return null
     if (base64String.startsWith('data:')) return base64String
     return `data:image/jpeg;base64,${base64String}`
@@ -42,8 +41,6 @@ const SliderFotos = ({ images }) => {
           ))}
         </div>
       </div>
-
-      {/* Botones de navegación */}
       <button className="slider-button prev-button" onClick={prevImage}>
         &#10094;
       </button>

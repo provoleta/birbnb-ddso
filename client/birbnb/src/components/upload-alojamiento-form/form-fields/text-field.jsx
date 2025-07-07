@@ -1,7 +1,14 @@
 import { TextField } from '@mui/material'
 import '../upload-alojamiento-form.css'
 
-export default function AlojamientoTextField({ id, label, value, onChange }) {
+export default function AlojamientoTextField({
+  id,
+  label,
+  value,
+  onChange,
+  onBlur,
+  ...props
+}) {
   return (
     <div className="alojamiento-text-field">
       <TextField
@@ -10,6 +17,8 @@ export default function AlojamientoTextField({ id, label, value, onChange }) {
         variant="outlined"
         value={value}
         onChange={onChange}
+        onBlur={onBlur}
+        {...props}
       />
     </div>
   )

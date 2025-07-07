@@ -34,7 +34,7 @@ export default class ReservaController {
   }
 
   async update(req, res) {
-    const { estado, rangoFechas } = req.body
+    const { estado, rangoFechas, motivo } = req.body
     const huespedReservadorId = req.user.id
     const reservaId = req.params.id
 
@@ -51,13 +51,9 @@ export default class ReservaController {
         rangoFechas,
       )
     } else {
-      nuevo = await this.reservaService.updateState(
-        reservaId,
-        huespedReservadorId,
-        estado,
-      )
+      nuevo = await this.reservaService.updateState(reservaId, estado, motivo)
     }
 
-    res.status(204).json(nuevo)
+    res.status(200).json(nuevo)
   }
 }

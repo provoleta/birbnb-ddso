@@ -17,7 +17,6 @@ export default function RegisterPage() {
     if (email && password && name) {
       let token = await api.register(name, email, password)
       await handleNewToken(token)
-      //console.log('Token post handle:', token)
       navigate('/')
     }
   }

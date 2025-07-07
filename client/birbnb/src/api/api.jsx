@@ -4,7 +4,7 @@ class Api {
   constructor() {
     this.tokenAuth = null
     this.axiosInstance = axios.create({
-      baseURL: 'http://localhost:6969',
+      baseURL: process.env.REACT_APP_IP_BACK || 'http://localhost:6969',
     })
   }
 
@@ -101,7 +101,7 @@ class Api {
         notificaciones = response.data
       })
       .catch((error) => {
-        console.error('Error fetching notifications:', error)
+        console.error('Error fetching notifications:', error.message)
       })
     return notificaciones
   }
@@ -114,7 +114,6 @@ class Api {
         },
       })
       .then((response) => {
-        console.log(response.data)
         return response.data
       })
       .catch((error) => {
@@ -158,12 +157,11 @@ class Api {
         return response.data
       })
       .catch((error) => {
-        console.error('Error fetching reservations:', error)
+        console.error('Error fetching reservations:', error.message)
         throw error
       })
   }
   async cancelarReserva(idReserva, motivo) {
-    console.log(motivo)
     return await this.axiosInstance
       .delete(`/reservas/${idReserva}`, {
         headers: {
@@ -205,7 +203,7 @@ class Api {
         return response.data
       })
       .catch((error) => {
-        console.error('Error fetching alojamientos:', error)
+        console.error('Error fetching alojamientos:', error.message)
         throw error
       })
   }
@@ -222,6 +220,25 @@ class Api {
       })
       .catch((error) => {
         console.error('Error fetching alojamientos:', error)
+        throw error
+      })
+  }
+
+  async obtenerCoordenadas(direccion) {
+    return await this.axiosInstance
+      .get('/geocode', {
+        params: {
+          calle: direccion.calle,
+          numero: direccion.numero,
+          ciudad: direccion.ciudad,
+          pais: direccion.pais,
+        },
+      })
+      .then((response) => {
+        return response.data
+      })
+      .catch((error) => {
+        console.error('Error fetching coordinates:', error)
         throw error
       })
   }

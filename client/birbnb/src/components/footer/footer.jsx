@@ -27,11 +27,11 @@ const Footer = () => {
         </div>
         <div className="contenedor-angosto">
           <p>© 2025 Birbnb, Inc.</p>
-          <icon className="iconos">
+          <div className="iconos">
             <InstagramIcon className="ig" />
             <TwitterIcon className="tw" />
             <WhatsAppIcon className="wpp" />
-          </icon>
+          </div>
         </div>
       </div>
     </footer>

@@ -49,7 +49,6 @@ function ReservationCalendar({ reservas, onFechas }) {
     if (fechas[0] && fechas[1]) {
       const inicio = fechas[0].toISOString().split('T')[0]
       const fin = fechas[1].toISOString().split('T')[0]
-      console.log(`Fecha de inicio: ${inicio}, Fecha de fin: ${fin}`)
     }
   }
 
