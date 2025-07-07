@@ -27,13 +27,11 @@ const useCreacionReserva = (fechas, alojamientoId, setConfirmacionReserva) => {
       },
     }
 
-    console.log('Reserva a procesar:', reserva)
-
     try {
       api.crearReserva(reserva)
       setConfirmacionReserva(true)
     } catch (error) {
-      console.error('Error al procesar la reserva:', error)
+      console.error('Error al procesar la reserva:', error.message)
       alert('Error al procesar la reserva. Por favor, inténtalo de nuevo más tarde.')
       return
     }

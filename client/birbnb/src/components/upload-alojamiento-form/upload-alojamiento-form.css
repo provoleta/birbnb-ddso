@@ -24,7 +24,8 @@
 .precio-container,
 .titulo-container,
 .lugar-container,
-.direccion-container {
+.direccion-container,
+.horario-container {
   display: flex;
   flex-direction: row;
   justify-content: center;

@@ -4,6 +4,7 @@ import AlojamientoMonedaField from './form-fields/moneda-field'
 import AlojamientoImageField from './form-fields/image-field'
 import api from '../../api/api'
 import { useState } from 'react'
+import { handleHorarioChange, handleHorarioBlur } from './utils'
 import './upload-alojamiento-form.css'
 
 export default function UploadAlojamientoForm() {
@@ -19,6 +20,8 @@ export default function UploadAlojamientoForm() {
   const [alojamientoImage, setAlojamientoImage] = useState(null)
   const [imagePreview, setImagesPreview] = useState([])
   const [imageBase64, setImagesBase64] = useState([])
+  const [horarioCheckIn, setHorarioCheckIn] = useState('')
+  const [horarioCheckOut, setHorarioCheckOut] = useState('')
 
   const handleChange = (setter) => (e) => {
     setter(e.target.value)
@@ -47,26 +50,32 @@ export default function UploadAlojamientoForm() {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
+    const { lat, long } = await api.obtenerCoordenadas({
+      calle,
+      numero: altura,
+      ciudad,
+      pais,
+    })
+
     const alojamientoData = {
       nombre,
       descripcion,
       precioPorNoche: Number(precio),
       moneda,
-      horarioCheckIn: '12:00',
-      horarioCheckOut: '15:00',
+      horarioCheckIn: horarioCheckIn || '12:00',
+      horarioCheckOut: horarioCheckOut || '12:00',
       direccion: {
         calle,
         numero: Number(altura),
         ciudad,
         pais,
-        lat: 1.8712,
-        long: 8.6321,
+        lat,
+        long,
       },
       cantHuespedesMax: Number(cantHuespedesMax),
       fotos: Array.isArray(imageBase64) ? imageBase64 : [imageBase64],
     }
     await api.subirAlojamiento(alojamientoData)
-    console.log(alojamientoData)
   }
 
   return (
@@ -137,7 +146,29 @@ export default function UploadAlojamientoForm() {
             id="altura"
             label="Altura"
             value={altura}
+            min={1}
             onChange={handleChange(setAltura)}
+          />
+        </div>
+
+        <div className="horario-container">
+          <AlojamientoTextField
+            id="horario-check-in"
+            label="Horario Check In"
+            value={horarioCheckIn}
+            placeholder="HH:MM"
+            maxLength={5}
+            onChange={handleHorarioChange(setHorarioCheckIn)}
+            onBlur={handleHorarioBlur(setHorarioCheckIn)}
+          />
+          <AlojamientoTextField
+            id="horario-check-out"
+            label="Horario Check Out"
+            value={horarioCheckOut}
+            placeholder="HH:MM"
+            maxLength={5}
+            onChange={handleHorarioChange(setHorarioCheckOut)}
+            onBlur={handleHorarioBlur(setHorarioCheckOut)}
           />
         </div>
 

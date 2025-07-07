@@ -33,13 +33,11 @@ const ReservaCard = ({
 
   const CancelarReservaHandler = async () => {
     try {
-      console.log(motivo)
-      const response = await Api.cancelarReserva(idReserva, motivo)
-      console.log(response)
+      await Api.cancelarReserva(idReserva, motivo)
       onReservaCancelada()
       setShowCancelarReserva(false)
     } catch (error) {
-      console.error('Error al cancelar la reserva:', error)
+      alert('Error al cancelar la reserva:', error)
     }
   }
 
@@ -65,7 +63,7 @@ const ReservaCard = ({
       <div>
         <img
           className="imagen-reserva"
-          src={alojamiento.fotos[0].path}
+          src={`data:image/jpeg;base64,${alojamiento.fotos[0].path}`}
           alt={alojamiento.nombre}
         />
       </div>

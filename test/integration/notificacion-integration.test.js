@@ -88,7 +88,6 @@ describe('PUT /notificaciones', () => {
     expect(response.status).toBe(200)
     expect(notificacionRepository.findById).toHaveBeenCalled()
     expect(notificacionRepository.update).toHaveBeenCalled()
-    console.log('response', response.body)
     expect(response.body.leida).toBe(true)
   })
 

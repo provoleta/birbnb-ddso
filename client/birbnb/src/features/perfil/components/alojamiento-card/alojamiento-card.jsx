@@ -13,7 +13,6 @@ const AlojamientoCard = ({ alojamiento }) => {
   }
 
   const getImageSrc = (base64String) => {
-    console.log('Base64 String:', base64String)
     if (!base64String) return null
     if (base64String.startsWith('data:')) return base64String
     return `data:image/jpeg;base64,${base64String}`
@@ -41,13 +40,12 @@ const AlojamientoCard = ({ alojamiento }) => {
   const fechaProxima = (rangoFechas) => {
     return rangoFechas.fechaInicio > dayjs().toISOString()
   }
-  console.log('Alojamiento: ', alojamiento)
   return (
     <div className="card-container-alojamiento">
       <div>
         <img
           className="imagen-alojamiento"
-          src={getImageSrc(alojamiento.fotos[0].path)}
+          src={getImageSrc(alojamiento.fotos[0]?.path)}
           alt={alojamiento.nombre}
         />
       </div>
