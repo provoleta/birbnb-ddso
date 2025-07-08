@@ -35,7 +35,7 @@ const ReservasPendientesCard = ({
 
   const CancelarReservaHandler = async () => {
     try {
-      await Api.modificarReserva(idReserva, motivo, 'CANCELADA')
+      await Api.modificarEstadoReserva(idReserva, motivo, 'CANCELADA')
       onReservaCancelada()
       setShowCancelarReserva(false)
     } catch (error) {
@@ -45,7 +45,7 @@ const ReservasPendientesCard = ({
 
   const ConfirmarReservaHandler = async () => {
     try {
-      await Api.modificarReserva(idReserva, motivo, 'CONFIRMADA')
+      await Api.modificarEstadoReserva(idReserva, motivo, 'CONFIRMADA')
       onReservaConfirmada()
       setShowConfirmarReserva(false)
     } catch (error) {

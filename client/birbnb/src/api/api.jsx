@@ -244,7 +244,7 @@ class Api {
       })
   }
 
-  async modificarReserva(reservaId, motivo, estado) {
+  async modificarEstadoReserva(reservaId, motivo, estado) {
     return await this.axiosInstance
       .patch(
         `/reservas/${reservaId}`,
@@ -262,7 +262,29 @@ class Api {
         return response.data
       })
       .catch((error) => {
-        console.error('Error fetching reservas:', error)
+        console.error('Error actualizando estado reservas:', error)
+        throw error
+      })
+  }
+
+  async modificarFechasReserva(reservaId, rangoFechas) {
+    return await this.axiosInstance
+      .patch(
+        `/reservas/${reservaId}`,
+        {
+          rangoFechas: rangoFechas,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${this.tokenAuth}`,
+          },
+        },
+      )
+      .then((response) => {
+        return response.data
+      })
+      .catch((error) => {
+        console.error('Error actualizando fechas de reserva: ', error)
         throw error
       })
   }

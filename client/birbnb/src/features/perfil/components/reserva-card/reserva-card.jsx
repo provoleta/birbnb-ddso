@@ -4,6 +4,7 @@ import Button from '@mui/material/Button'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { useState } from 'react'
 import VentanaConfirmacion from '../ventana-confirmacion/ventana-confirmacion.jsx'
+import ReservationCalendar from '../../../detail-page/components/calendario-reserva/calendario-reserva.jsx'
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
 import LoginIcon from '@mui/icons-material/Login'
 import LogoutIcon from '@mui/icons-material/Logout'
@@ -30,6 +31,9 @@ const ReservaCard = ({
   const [showCancelarReserva, setShowCancelarReserva] = useState(false)
   // const [motivoCancelacion, setMotivoCancelacion] = useState("")
   const [motivo, setMotivo] = useState('')
+  const [fechas, setFechas] = useState([null, null])
+  const [showCalendario, setShowCalendario] = useState(false)
+  const [alojamientoConReserva, setAlojamientoConReserva] = useState(null)
 
   const CancelarReservaHandler = async () => {
     try {
@@ -56,6 +60,22 @@ const ReservaCard = ({
 
   const handleCancelarReserva = () => {
     setShowCancelarReserva(true)
+  }
+
+  const handlerFechas = (nuevasFechas) => {
+    setFechas(nuevasFechas)
+  }
+
+  const handleModificarReserva = () => {
+    // 1. Mostrar el calendario
+    //setShowCalendario(true)
+    // 2. Llamar a la api
+    // const alojamientoConReservas = fetchAlojamiento(alojamiento._id)
+    // setAlojamientoConReserva(alojamientoConReservas)
+    // try {
+    //   await Api.modificarReserva()
+    // }
+    // Refresh
   }
 
   return (
@@ -102,12 +122,34 @@ const ReservaCard = ({
       >
         Cancelar Reserva
       </Button>
+
+      <Button
+        variant="contained"
+        style={{
+          position: 'relative',
+          marginTop: 'auto',
+          backgroundColor: '#FFD700',
+          color: '#000',
+        }}
+        startIcon={<CalendarTodayIcon />}
+        onClick={handleModificarReserva}
+      >
+        Modificar Reserva
+      </Button>
+
       {showCancelarReserva && (
         <VentanaConfirmacion
           mensaje="¿Estás seguro de que deseas cancelar esta reserva?"
           onConfirm={CancelarReservaHandler}
           onCancel={() => setShowCancelarReserva(false)}
           setMotivo={setMotivo}
+        />
+      )}
+
+      {showCalendario && (
+        <ReservationCalendar
+          reservas={alojamientoConReserva.reservas}
+          onFechas={handlerFechas}
         />
       )}
     </div>
