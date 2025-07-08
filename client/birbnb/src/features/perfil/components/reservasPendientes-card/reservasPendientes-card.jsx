@@ -1,7 +1,10 @@
 import Api from '../../../../api/api'
 import Button from '@mui/material/Button'
 import { useState } from 'react'
-import VentanaConfirmacion from '../ventana-confirmacion/ventana-confirmacion.jsx'
+import {
+  VentanaConfirmacion,
+  VentanaConfirmarReserva,
+} from '../ventana-confirmacion/ventana-confirmacion.jsx'
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
 import LoginIcon from '@mui/icons-material/Login'
 import LogoutIcon from '@mui/icons-material/Logout'
@@ -119,8 +122,8 @@ const ReservasPendientesCard = ({
         Confirmar reserva
       </Button>
       {showConfirmarReserva && (
-        <VentanaConfirmacion
-          mensaje="¿Estás seguro de que deseas cancelar esta reserva?"
+        <VentanaConfirmarReserva
+          mensaje="¿Estás seguro de que deseas cancelar esta negro?"
           onConfirm={ConfirmarReservaHandler}
           onCancel={() => setShowConfirmarReserva(false)}
           setMotivo={setMotivo}

@@ -24,7 +24,7 @@ const Anfitrion = ({ alojamiento }) => {
 
         <div className="informacion-perfil">
           <h4>{alojamiento.anfitrion.nombre}</h4>
-          <p className="email">Contacto: {alojamiento.anfitrion.email}</p>
+          <p className="biografia">{alojamiento.anfitrion.biografia}</p>
         </div>
       </div>
     </div>

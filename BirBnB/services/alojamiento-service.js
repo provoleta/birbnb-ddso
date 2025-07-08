@@ -25,8 +25,6 @@ export default class AlojamientoService {
 
     const data = alojamientosFiltrados.map((alojamiento) => this.toDTO(alojamiento)) // Se mapean los alojamientos filtrados a un formato DTO para ser devueltos al cliente.
 
-    //console.log('Alojamientos :', data)
-
     return {
       page: pageNum,
       per_page: limitNum,

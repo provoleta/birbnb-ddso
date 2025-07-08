@@ -30,4 +30,15 @@ const VentanaConfirmacion = ({ mensaje, onConfirm, onCancel, setMotivo }) => {
   )
 }
 
-export default VentanaConfirmacion
+const VentanaConfirmarReserva = ({ onConfirm }) => (
+  <div className="ventana-flotante-confirmacion-overlay">
+    <Box className="ventana-flotante-confirmacion">
+      <h2>Reserva confirmada exitosamente</h2>
+      <button className="boton-confirmar-reserva" onClick={onConfirm}>
+        CERRAR
+      </button>
+    </Box>
+  </div>
+)
+
+export { VentanaConfirmacion, VentanaConfirmarReserva }

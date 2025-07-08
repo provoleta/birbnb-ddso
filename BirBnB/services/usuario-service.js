@@ -78,6 +78,18 @@ export default class UsuarioService {
     return usuario
   }
 
+  async getReservas(idUsuario) {
+    const usuario = await this.usuarioRepository.findById(idUsuario)
+
+    if (!usuario) throw new NotFoundException()
+
+    const reservas = await this.usuarioRepository.getReservas(idUsuario)
+
+    if (!reservas) throw new NotFoundException()
+
+    return reservas
+  }
+
   alojamientoFromDTO(alojamientoDTO, anfitrion) {
     return new Alojamiento(
       anfitrion,

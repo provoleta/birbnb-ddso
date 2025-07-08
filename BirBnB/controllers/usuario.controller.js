@@ -24,8 +24,8 @@ export default class UsuarioController {
   }
 
   async findReservas(req, res) {
-    const reserva = await this.reservaService.findByUserId(req.user.id)
-    res.status(200).json(reserva)
+    const reservas = await this.usuarioService.getReservas(req.user.id)
+    res.status(200).json(reservas)
   }
 
   async singupAnfitrion(req, res) {
@@ -71,7 +71,6 @@ export default class UsuarioController {
 
   async getProfile(req, res) {
     const id = req.user.id
-    //console.log('Id', id)
     const usuario = await this.usuarioService.getProfile(id)
     return res.status(200).json(usuario)
   }

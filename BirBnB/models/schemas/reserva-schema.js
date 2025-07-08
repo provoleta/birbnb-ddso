@@ -53,4 +53,6 @@ const reservaSchema = new mongoose.Schema(
 rangoFechasSchema.loadClass(RangoFechas)
 reservaSchema.loadClass(Reserva)
 
-export const ReservaModel = mongoose.model('Reserva', reservaSchema)
+const ReservaModel = mongoose.model('Reserva', reservaSchema)
+
+export { ReservaModel, reservaSchema }

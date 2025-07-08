@@ -38,20 +38,11 @@ export default class ReservaService {
 
     if (!disponibilidad) throw new DisponibilidadException(reservaAModificar.alojamiento)
 
-    const nuevoRangoDeFechas = new RangoFechas(
-      dayjs(rangoFechas.fechaInicio, 'DD/MM/YYYY'),
-      dayjs(rangoFechas.fechaFin, 'DD/MM/YYYY'),
-    )
-
-    // Verifico que si la quiero actualizar, no este iniciada la misma
     if (dayjs().isAfter(reservaAModificar.rangoFechas.fechaInicio)) {
       throw new ExcededTimeException()
     }
 
-    reservaAModificar.rangoFechas = new RangoFechas(
-      nuevoRangoDeFechas.fechaInicio.toISOString(),
-      nuevoRangoDeFechas.fechaFin.toISOString(),
-    )
+    reservaAModificar.rangoFechas = rangoFechas
 
     const reservaModificada = await this.reservaRepository.save(reservaAModificar)
 
@@ -83,6 +74,7 @@ export default class ReservaService {
       )
 
       const eliminada = await this.reservaRepository.delete(reservaId)
+      await this.usuarioRepository.removeReserva(reservaId)
       if (!eliminada) throw new NotFoundException()
 
       const alojamientoSinReserva = await this.alojamientoRepository.removeReserva(
@@ -126,6 +118,8 @@ export default class ReservaService {
 
     const eliminada = await this.reservaRepository.delete(reservaId)
     if (!eliminada) throw new NotFoundException()
+    const reservaUsuarioEliminada = await this.usuarioRepository.removeReserva(reservaId)
+    if (!reservaUsuarioEliminada) throw new NotFoundException()
 
     const alojamientoSinReserva = await this.alojamientoRepository.removeReserva(
       reservaAeliminar.alojamiento.id,
@@ -133,6 +127,10 @@ export default class ReservaService {
     )
 
     if (!alojamientoSinReserva) throw new NotFoundException()
+
+    const reservaEliminada = await this.usuarioRepository.removeReserva(reservaId)
+
+    if (!reservaEliminada) throw new NotFoundException()
 
     const rangoFormateado = new RangoFechas(
       dayjs(reservaAeliminar.rangoFechas.fechaInicio, 'DD/MM/YYYY'),
@@ -190,6 +188,7 @@ export default class ReservaService {
     const reservaCreada = await this.reservaRepository.save(reservaACrear)
 
     this.alojamientoRepository.addReserva(alojamientoId, reservaCreada.id)
+    this.usuarioRepository.addReserva(huespedReservador.id, reservaCreada.id)
 
     this.notificarReserva(alojamiento.anfitrion, reservaACrear, '')
 
@@ -197,12 +196,12 @@ export default class ReservaService {
   }
 
   async findByUserId(userId) {
-    const usuario = await this.usuarioRepository.findById(userId)
-    if (!usuario) throw new NotFoundException()
+    // const usuario = await this.usuarioRepository.findById(userId)
+    // if (!usuario) throw new NotFoundException()
 
     // Solo trae las reservas que no estan caducadas. Si se quisiera traer todas, habria que pasar true
     // como segundo parametro en filterByUserId
-    const reservas = await this.reservaRepository.filterByUserId(userId)
+    const reservas = await this.usuarioRepository.getReservas(userId)
 
     if (!reservas) throw new NotFoundException()
 
