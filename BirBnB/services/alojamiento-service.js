@@ -8,14 +8,23 @@ export default class AlojamientoService {
     this.ciudadRepository = ciudadRepository
   }
 
-  async findAll(filters = {}, page = 1, limit = 10) {
+  setearOrden(filters) {
+    if (filters.sortBy === 'descendente') {
+      filters.sortBy = -1
+    } else {
+      filters.sortBy = 1
+    }
+    return filters
+  }
+  async findAll(filters = {}, page = 1, limit = 5) {
     // Se le pasan los parametros de busqueda y paginacion a la funcion. Si no se pasan, se le asignan los valores por defecto indicados.
     const pageNum = Math.max(Number(page), 1)
     const limitNum = Math.min(Math.max(Number(limit), 1), 100)
 
+    const filtersSeteados = this.setearOrden(filters)
     // TODO : Cambiar implementacion cuando se utilice la base de datos
     const alojamientosFiltrados = await this.alojamientoRepository.filterBy(
-      filters,
+      filtersSeteados,
       pageNum,
       limitNum,
     )

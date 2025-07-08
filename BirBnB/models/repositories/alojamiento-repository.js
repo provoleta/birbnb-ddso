@@ -76,6 +76,7 @@ export default class AlojamientoRepository {
 
     const alojamientosFiltrados = await this.model
       .find(query)
+      .sort({ precioPorNoche: filters.sortBy })
       .populate(['anfitrion', 'reservas'])
       .skip((pageNum - 1) * limitNum)
       .limit(limitNum)
