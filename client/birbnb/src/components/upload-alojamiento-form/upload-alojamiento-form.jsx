@@ -94,7 +94,7 @@ export default function UploadAlojamientoForm() {
   return (
     <div className="container">
       <form onSubmit={handleSubmit} className="upload-alojamiento">
-        <div className="input-container">
+        <div className="input-container-upload">
           <AlojamientoTextField
             id="nombre"
             label="Nombre del Alojamiento"
@@ -104,7 +104,7 @@ export default function UploadAlojamientoForm() {
           />
         </div>
 
-        <div className="input-container">
+        <div className="input-container-upload">
           <AlojamientoTextField
             id="descripcion"
             label="Descipcion"
@@ -114,7 +114,7 @@ export default function UploadAlojamientoForm() {
           />
         </div>
 
-        <div className="input-container">
+        <div className="input-container-upload">
           <AlojamientoMonedaField
             id="moneda"
             label="Moneda"
@@ -138,7 +138,7 @@ export default function UploadAlojamientoForm() {
           />
         </div>
 
-        <div className="input-container">
+        <div className="input-container-upload">
           <AlojamientoTextField
             id="ciudad"
             label="Ciudad"
@@ -155,7 +155,7 @@ export default function UploadAlojamientoForm() {
           />
         </div>
 
-        <div className="input-container">
+        <div className="input-container-upload">
           <AlojamientoTextField
             id="calle"
             label="Calle"
@@ -173,7 +173,7 @@ export default function UploadAlojamientoForm() {
           />
         </div>
 
-        <div className="input-container">
+        <div className="input-container-upload">
           <AlojamientoTextField
             id="horario-check-in"
             label="Horario Check In"
@@ -231,7 +231,7 @@ export default function UploadAlojamientoForm() {
             required
           />
         </div>
-        <div className="input-container">
+        <div className="input-container-upload">
           <AlojamientoCaracteristicasField
             caracteristicas={caracteristicas}
             onChange={handleCaracteristicas}

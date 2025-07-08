@@ -19,7 +19,7 @@
   padding: 32px 36px;
 }
 
-.input-container {
+.input-container-upload {
   display: flex;
   flex-direction: row;
   justify-content: center;
