@@ -1,7 +1,5 @@
-import './reserva-card.css'
 import Api from '../../../../api/api'
 import Button from '@mui/material/Button'
-import DeleteIcon from '@mui/icons-material/Delete'
 import { useState } from 'react'
 import VentanaConfirmacion from '../ventana-confirmacion/ventana-confirmacion.jsx'
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
@@ -10,6 +8,8 @@ import LogoutIcon from '@mui/icons-material/Logout'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import PendingIcon from '@mui/icons-material/Pending'
 import CancelIcon from '@mui/icons-material/Cancel'
+import DoneIcon from '@mui/icons-material/Done'
+import ClearIcon from '@mui/icons-material/Clear'
 
 const formatDate = (dateString) => {
   const date = new Date(dateString)
@@ -19,25 +19,37 @@ const formatDate = (dateString) => {
   return `${day}/${month}/${year}`
 }
 
-const ReservaCard = ({
+const ReservasPendientesCard = ({
   alojamiento,
   estado,
   fechaAlta,
   rangoFechas,
   idReserva,
   onReservaCancelada,
+  onReservaConfirmada,
 }) => {
   const [showCancelarReserva, setShowCancelarReserva] = useState(false)
+  const [showConfirmarReserva, setShowConfirmarReserva] = useState(false)
   // const [motivoCancelacion, setMotivoCancelacion] = useState("")
   const [motivo, setMotivo] = useState('')
 
   const CancelarReservaHandler = async () => {
     try {
-      await Api.cancelarReserva(idReserva, motivo)
+      await Api.modificarReserva(idReserva, motivo, 'CANCELADA')
       onReservaCancelada()
       setShowCancelarReserva(false)
     } catch (error) {
       alert('Error al cancelar la reserva:', error)
+    }
+  }
+
+  const ConfirmarReservaHandler = async () => {
+    try {
+      await Api.modificarReserva(idReserva, motivo, 'CONFIRMADA')
+      onReservaConfirmada()
+      setShowConfirmarReserva(false)
+    } catch (error) {
+      alert('Error al confirmar la reserva:', error)
     }
   }
 
@@ -56,6 +68,10 @@ const ReservaCard = ({
 
   const handleCancelarReserva = () => {
     setShowCancelarReserva(true)
+  }
+
+  const handleConfirmarReserva = () => {
+    setShowConfirmarReserva(true)
   }
 
   return (
@@ -97,10 +113,31 @@ const ReservaCard = ({
           backgroundColor: '#FFD700',
           color: '#000',
         }}
-        startIcon={<DeleteIcon />}
+        startIcon={<DoneIcon />}
+        onClick={handleConfirmarReserva}
+      >
+        Confirmar reserva
+      </Button>
+      {showConfirmarReserva && (
+        <VentanaConfirmacion
+          mensaje="¿Estás seguro de que deseas cancelar esta reserva?"
+          onConfirm={ConfirmarReservaHandler}
+          onCancel={() => setShowConfirmarReserva(false)}
+          setMotivo={setMotivo}
+        />
+      )}
+      <Button
+        variant="contained"
+        style={{
+          position: 'relative',
+          marginTop: 'auto',
+          backgroundColor: '#FFD700',
+          color: '#000',
+        }}
+        startIcon={<ClearIcon />}
         onClick={handleCancelarReserva}
       >
-        Cancelar Reserva
+        Rechazar reserva
       </Button>
       {showCancelarReserva && (
         <VentanaConfirmacion
@@ -114,4 +151,4 @@ const ReservaCard = ({
   )
 }
 
-export default ReservaCard
+export default ReservasPendientesCard

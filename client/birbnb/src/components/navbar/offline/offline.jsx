@@ -21,7 +21,8 @@ export function Offline() {
   }
 
   const registerAnfitrion = () => {
-    navigate('/register/anfitrion')
+    setShowSesionFlotante(true)
+    setInitialMode('register-anfitrion')
   }
 
   return (

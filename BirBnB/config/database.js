@@ -4,7 +4,7 @@ export class MongoDBClient {
   static async connect() {
     try {
       const conn = await mongoose.connect(
-        process.env.MONGODB_URI + '/' + process.env.MONGODB_DB_NAME ||
+        process.env.MONGODB_URI + process.env.MONGODB_DB_NAME ||
           'mongodb://127.0.0.1:27017/birbnb',
       )
       console.log(`MongoDB is connected: ${conn.connection.host}`)

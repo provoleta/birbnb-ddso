@@ -32,6 +32,11 @@ const usuarioSchema = new mongoose.Schema({
     type: String,
     default: null,
   },
+  biografia: {
+    type: String,
+    default: null,
+    trim: true,
+  },
 })
 
 usuarioSchema.loadClass(Usuario)

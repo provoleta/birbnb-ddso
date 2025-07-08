@@ -22,18 +22,31 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
   const [token, setToken] = useState(null)
   const [logueado, setLogueado] = useState(false)
+  const [loadingAuth, setLoadingAuth] = useState(true) // NUEVO
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token')
     if (storedToken) {
       const ultimaActualizacion = localStorage.getItem('ultimaActualizacion')
-      if (!ultimaValidacion(ultimaActualizacion)) return
+      if (!ultimaValidacion(ultimaActualizacion)) {
+        setLoadingAuth(false)
+        return
+      }
       setToken(storedToken)
       api.tokenAuth = storedToken
-      api.getProfile().then((userData) => {
-        setUser(userData)
-        setLogueado(true)
-      })
+      api
+        .getProfile()
+        .then((userData) => {
+          setUser(userData)
+          setLogueado(true)
+          setLoadingAuth(false)
+        })
+        .catch(() => {
+          setLogueado(false)
+          setLoadingAuth(false)
+        })
+    } else {
+      setLoadingAuth(false)
     }
   }, [])
 
@@ -55,7 +68,9 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ handleNewToken, logueado, token, user, handleLogout }}>
+    <AuthContext.Provider
+      value={{ handleNewToken, logueado, token, user, handleLogout, loadingAuth }}
+    >
       {children}
     </AuthContext.Provider>
   )

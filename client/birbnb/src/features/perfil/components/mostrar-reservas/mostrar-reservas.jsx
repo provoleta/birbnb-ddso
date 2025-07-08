@@ -9,7 +9,7 @@ import '../../perfil.css'
 const MostrarReservas = () => {
   const [reservas, setReservas] = useState([])
   const [loading, setLoading] = useState(true)
-  const { logueado } = useAuthContext()
+  const { logueado, loadingAuth } = useAuthContext()
   const navigate = useNavigate()
 
   const fetchReservas = async () => {
@@ -22,19 +22,24 @@ const MostrarReservas = () => {
       setLoading(false)
     }
   }
-  useEffect(() => {
-    fetchReservas()
-  }, [])
 
-  if (!logueado) {
-    navigate('/')
-  }
+  useEffect(() => {
+    if (!loadingAuth && logueado) {
+      fetchReservas()
+    }
+  }, [loadingAuth, logueado])
+
+  useEffect(() => {
+    if (!logueado && !loadingAuth) {
+      navigate('/')
+    }
+  }, [logueado, navigate, loadingAuth])
 
   if (loading) {
     // Falta bajarlo un poco
     return <CircularIndeterminate />
   }
-  //console.log('Reservas del usuario:', reservas)
+
   return (
     <>
       <h2>Tus reservas</h2>

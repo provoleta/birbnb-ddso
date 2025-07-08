@@ -101,7 +101,12 @@ export default class AlojamientoService {
       alojamientoDTO.cantHuespedesMax,
       alojamientoDTO.caracteristicas || [],
       [],
-      [], // TODO resolver como se obtienen las fotos para el front
+      alojamientoDTO.fotos.map((foto) => {
+        return {
+          descripcion: 'hola',
+          path: foto,
+        }
+      }),
     )
   }
 }

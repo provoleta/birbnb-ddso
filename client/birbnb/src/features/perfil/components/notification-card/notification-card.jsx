@@ -23,7 +23,6 @@ const NotificationCard = ({
   }
 
   const onMarcarLeida = async () => {
-    console.log('Id de la notificacion a leer: ', idNotificacion)
     await handlerMarcarLeida(idNotificacion)
   }
 

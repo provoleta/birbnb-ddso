@@ -5,6 +5,7 @@ import NotificationIcon from '@mui/icons-material/Notifications'
 import HomeIcon from '@mui/icons-material/Home'
 import BookmarkIcon from '@mui/icons-material/Bookmark'
 import LogoutIcon from '@mui/icons-material/Logout'
+import PlusIcon from '@mui/icons-material/Add'
 import { useNavigate } from 'react-router'
 import { useAuthContext } from '../../../store/auth-context'
 import { useState, useEffect, useRef } from 'react'
@@ -21,6 +22,10 @@ export function OnSession() {
   const menuRef = useRef(null)
   const avatarRef = useRef(null)
   const sessionButtonsRef = useRef(null)
+
+  const nuevoAlojamiento = () => {
+    navigate('/upload')
+  }
 
   const verPerfil = (opcion) => {
     navigate(`/usuarios/perfil${opcion}`)
@@ -79,9 +84,14 @@ export function OnSession() {
           <BookmarkIcon />
         </IconButton>
         {tipoUsuario === 'ANFITRION' && (
-          <IconButton onClick={() => verPerfil('/alojamientos')}>
-            <HomeIcon />
-          </IconButton>
+          <>
+            <IconButton onClick={() => verPerfil('/alojamientos')}>
+              <HomeIcon />
+            </IconButton>
+            <IconButton onClick={nuevoAlojamiento}>
+              <PlusIcon />
+            </IconButton>
+          </>
         )}
       </div>
       <div className="user-info">
@@ -92,6 +102,7 @@ export function OnSession() {
           onClick={() => setProfileMenuOpen(!profileMenuOpen)}
         />
         <div className={`profile-menu${profileMenuOpen ? ' open' : ''}`} ref={menuRef}>
+          <div className="profile-name">{user?.nombre}</div>
           <IconButton className="menu-button" onClick={handleLogout}>
             <p className="logOut-titulo" style={{ marginRight: '10px' }}>
               Cerrar sesión{' '}

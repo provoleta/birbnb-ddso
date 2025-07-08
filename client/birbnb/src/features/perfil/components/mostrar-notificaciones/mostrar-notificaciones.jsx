@@ -11,7 +11,7 @@ const MostrarNotificaciones = () => {
   const [sortOption, setSortOption] = useState('No leidas') // Inicialmente se ordena por no leidas
   const [notificaciones, setNotificaciones] = useState([])
   const [loading, setLoading] = useState(true)
-  const { token, logueado } = useAuthContext()
+  const { token, logueado, loadingAuth } = useAuthContext()
   const [leida, setLeida] = useState(false) //Por defecto quiero mostrar las no leidas
 
   const handleSortChange = (option) => {
@@ -25,35 +25,34 @@ const MostrarNotificaciones = () => {
   }, [sortOption])
 
   useEffect(() => {
-    const fetchNotificaciones = async () => {
-      try {
-        const response = await api.getNotificaciones(leida)
-        setNotificaciones(response)
-      } catch (error) {
-        console.error('Error al obtener las notificaciones:', error)
-      } finally {
-        setLoading(false)
+    if (!loadingAuth && logueado) {
+      const fetchNotificaciones = async () => {
+        try {
+          const response = await api.getNotificaciones(leida)
+          setNotificaciones(Array.isArray(response) ? response : [])
+        } catch (error) {
+          console.error('Error al obtener las notificaciones:', error.message)
+        } finally {
+          setLoading(false)
+        }
       }
+      fetchNotificaciones()
     }
+  }, [token, leida, loadingAuth, logueado])
 
-    fetchNotificaciones()
-  }, [token, leida])
-
-  if (!logueado) {
-    navigate('/')
-  }
+  useEffect(() => {
+    if (!logueado && !loadingAuth) {
+      navigate('/')
+    }
+  }, [logueado, loadingAuth, navigate])
 
   if (loading) {
     return <CircularIndeterminate />
   }
 
   const handlerMarcarLeida = async (idNotificacion) => {
-    const notificacionActualizada = await api.marcarComoLeida(idNotificacion)
-
-    console.log('Notificación actualizada:', notificacionActualizada)
-
+    await api.marcarComoLeida(idNotificacion)
     const response = await api.getNotificaciones(token, leida)
-    // const data = await response.json()
     setNotificaciones(response)
   }
 

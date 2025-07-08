@@ -9,11 +9,17 @@ export default function Alojamiento({ alojamiento }) {
     navigate(`/alojamientos/${alojamiento.idAlojamiento}`)
   }
 
+  const getImageSrc = (base64String) => {
+    if (!base64String) return null
+    if (base64String.startsWith('data:')) return base64String
+    return `data:image/jpeg;base64,${base64String}`
+  }
+
   return (
     <Card className="alojamiento-item">
       <img
         className="alojamiento-foto"
-        src={alojamiento.fotos?.[0]?.path}
+        src={getImageSrc(alojamiento.fotos?.[0]?.path)}
         alt={alojamiento.nombre}
         onClick={irAlAlojamiento}
       />
