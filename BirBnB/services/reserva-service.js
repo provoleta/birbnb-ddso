@@ -102,7 +102,9 @@ export default class ReservaService {
         reservaAModificar,
         motivo,
       )
-      return this.toDTO(reservaAModificar)
+
+      const reservaModificada = await this.reservaRepository.save(reservaAModificar)
+      return this.toDTO(reservaModificada)
     }
   }
 

@@ -38,6 +38,7 @@ export default class ReservaController {
     const huespedReservadorId = req.user.id
     const reservaId = req.params.id
 
+    console.log(reservaId)
     validarObjectId(reservaId)
     validarObjectId(huespedReservadorId)
     let nuevo

@@ -49,6 +49,10 @@ function App() {
                   path="alojamientos"
                   element={<Perfil mostrarEnPantalla={'alojamientos'} />}
                 />
+                <Route
+                  path="reservas-pendientes"
+                  element={<Perfil mostrarEnPantalla={'reservas-pendientes'} />}
+                />
               </Route>
             </Route>
             <Route path="/login" element={<LoginPage />} />

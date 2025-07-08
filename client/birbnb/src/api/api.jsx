@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { data } from 'react-router'
 
 class Api {
   constructor() {
@@ -217,6 +218,29 @@ class Api {
       })
       .catch((error) => {
         console.error('Error fetching coordinates:', error)
+        throw error
+      })
+  }
+
+  async modificarReserva(reservaId, motivo, estado) {
+    return await this.axiosInstance
+      .patch(
+        `/reservas/${reservaId}`,
+        {
+          motivo: motivo,
+          estado: estado,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${this.tokenAuth}`,
+          },
+        },
+      )
+      .then((response) => {
+        return response.data
+      })
+      .catch((error) => {
+        console.error('Error fetching reservas:', error)
         throw error
       })
   }
