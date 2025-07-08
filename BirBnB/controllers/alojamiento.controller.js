@@ -18,7 +18,7 @@ export default class AlojamientoController {
       moneda,
       checkIn,
       checkOut,
-      sortBy = 'descendente',
+      sortBy = 'ascendente',
       page = 1,
       limit = 5,
     } = req.query

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { data } from 'react-router'
+import qs from 'qs'
 
 class Api {
   constructor() {
@@ -131,6 +132,22 @@ class Api {
       })
       .catch((error) => {
         console.error('Error fetching accommodation:', error)
+        throw error
+      })
+  }
+
+  async obtenerAlojamientos(filters) {
+    return await this.axiosInstance
+      .get('/alojamientos', {
+        baseURL: 'http://localhost:6969',
+        params: filters,
+        paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'repeat' }),
+      })
+      .then((response) => {
+        return response.data
+      })
+      .catch((error) => {
+        console.error('Error al buscar alojamientos:', error)
         throw error
       })
   }

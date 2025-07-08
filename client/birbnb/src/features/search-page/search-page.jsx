@@ -11,7 +11,7 @@ export default function SearchPage() {
   const searchValue = searchParams.get('ciudad') || ''
   const [sortOption, setSortOption] = useState('Menor precio')
   const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 10
+  const itemsPerPage = 5
 
   const [rangoPrecio, setRangoPrecio] = useState([0, 250])
   const [servicios, setServicios] = useState({
@@ -37,22 +37,18 @@ export default function SearchPage() {
     })
   }, [sortOption, alojamientos, rangoPrecio])
 
-  // Calcular los alojamientos que se deben mostrar en la página actual
-  const paginatedAlojamientos = useMemo(() => {
-    const startIndex = (currentPage - 1) * itemsPerPage
-    const endIndex = startIndex + itemsPerPage
-    return sortedAlojamientos.slice(startIndex, endIndex)
-  }, [sortedAlojamientos, currentPage])
-
   const handleSortChange = (option) => {
     setSortOption(option)
+    if (currentPage !== 1) {
+      handlePageChange(1)
+    }
   }
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage)
   }
 
-  const totalPages = Math.ceil(sortedAlojamientos.length / itemsPerPage)
+  const totalPages = alojamientos?.total_pages
 
   const transformarServicios = (servicios) => {
     const caracteristicas = []
@@ -69,14 +65,16 @@ export default function SearchPage() {
     const params = new Map()
     params.set('precioGt', rangoPrecio[0])
     params.set('precioLt', rangoPrecio[1])
-
+    params.set('page', currentPage)
     params.set('caracteristicas', transformarServicios(servicios))
+    params.set('sortBy', sortOption === 'Menor precio' ? 'ascendente' : 'descendente')
+    console.log(params)
     aplicarFiltros(params)
   }
 
   useEffect(() => {
     handlerFiltros()
-  }, [servicios, rangoPrecio])
+  }, [servicios, rangoPrecio, currentPage, sortOption])
 
   useEffect(() => {
     setServicios({
@@ -104,7 +102,7 @@ export default function SearchPage() {
           <SortButton currentSortOption={sortOption} onSortChange={handleSortChange} />
         </div>
         <div className="search-results">
-          {paginatedAlojamientos.map((result) => (
+          {sortedAlojamientos.map((result) => (
             <SearchCard
               key={result.idAlojamiento} // Esta línea es importante para que React no llore
               idAlojamiento={result.idAlojamiento}
