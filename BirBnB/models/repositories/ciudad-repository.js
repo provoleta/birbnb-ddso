@@ -5,19 +5,17 @@ export default class CiudadRepository {
     this.model = CiudadModel
   }
 
-  async yaExiste(ciudad) {
+  async yaExiste(nombreCiudad) {
     const existingCity = await this.model.findOne({
-      nombre: ciudad.nombre,
-      pais: ciudad.pais,
+      nombre: nombreCiudad,
     })
     return existingCity !== null
   }
 
-  async addCity(ciudad) {
-    if (!this.yaExiste(ciudad))
+  async addCity(nombreCiudad) {
+    if (!(await this.yaExiste(nombreCiudad)))
       return await this.model.create({
-        nombre: ciudad.nombre,
-        pais: ciudad.pais,
+        nombre: nombreCiudad,
       })
   }
 
