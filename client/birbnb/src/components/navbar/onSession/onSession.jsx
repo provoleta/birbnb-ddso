@@ -77,9 +77,6 @@ export function OnSession() {
         className={`session-buttons${menuOpen ? ' open' : ''}`}
         ref={sessionButtonsRef}
       >
-        <IconButton onClick={nuevoAlojamiento}>
-          <PlusIcon />
-        </IconButton>
         <IconButton onClick={() => verPerfil('/notificaciones')}>
           <NotificationIcon />
         </IconButton>
@@ -87,9 +84,14 @@ export function OnSession() {
           <BookmarkIcon />
         </IconButton>
         {tipoUsuario === 'ANFITRION' && (
-          <IconButton onClick={() => verPerfil('/alojamientos')}>
-            <HomeIcon />
-          </IconButton>
+          <>
+            <IconButton onClick={() => verPerfil('/alojamientos')}>
+              <HomeIcon />
+            </IconButton>
+            <IconButton onClick={nuevoAlojamiento}>
+              <PlusIcon />
+            </IconButton>
+          </>
         )}
       </div>
       <div className="user-info">

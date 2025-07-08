@@ -32,7 +32,7 @@ export default class UsuarioService {
     return token
   }
 
-  async signupAnfitrion(email, password, nombre, telefono, alojamiento) {
+  async signupAnfitrion(email, password, nombre, biografia, profileImage = null) {
     const existeEmail = await this.usuarioRepository.findByEmail(email)
     if (existeEmail) throw new EmailException()
 
@@ -40,11 +40,10 @@ export default class UsuarioService {
       email,
       bcrypt.hashSync(password),
       nombre,
+      profileImage,
       'ANFITRION',
+      biografia,
     )
-
-    // TODO
-    this.alojamientoRepository.save(this.alojamientoFromDTO(alojamiento, usuario))
 
     const token = jwt.sign(
       { id: usuario.id },

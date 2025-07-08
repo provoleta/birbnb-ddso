@@ -29,8 +29,8 @@ export default class UsuarioController {
   }
 
   async singupAnfitrion(req, res) {
-    const { email, password, name, telefono, alojamiento } = req.body
-    if (!email || !password || !name) {
+    const { email, password, name, biografia, profileImage } = req.body
+    if (!email || !password || !name || !biografia) {
       return res.status(400).json({ message: 'Todos los campos son obligatorios' })
     }
 
@@ -38,8 +38,8 @@ export default class UsuarioController {
       email,
       password,
       name,
-      telefono,
-      alojamiento,
+      biografia,
+      profileImage,
     )
     return res.status(201).json({ token })
   }

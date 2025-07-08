@@ -94,7 +94,7 @@ export default function UploadAlojamientoForm() {
   return (
     <div className="container">
       <form onSubmit={handleSubmit} className="upload-alojamiento">
-        <div className="nombre-container">
+        <div className="input-container">
           <AlojamientoTextField
             id="nombre"
             label="Nombre del Alojamiento"
@@ -104,7 +104,7 @@ export default function UploadAlojamientoForm() {
           />
         </div>
 
-        <div className="descripcion-container">
+        <div className="input-container">
           <AlojamientoTextField
             id="descripcion"
             label="Descipcion"
@@ -114,7 +114,7 @@ export default function UploadAlojamientoForm() {
           />
         </div>
 
-        <div className="precio-container">
+        <div className="input-container">
           <AlojamientoMonedaField
             id="moneda"
             label="Moneda"
@@ -138,7 +138,7 @@ export default function UploadAlojamientoForm() {
           />
         </div>
 
-        <div className="lugar-container">
+        <div className="input-container">
           <AlojamientoTextField
             id="ciudad"
             label="Ciudad"
@@ -155,7 +155,7 @@ export default function UploadAlojamientoForm() {
           />
         </div>
 
-        <div className="direccion-container">
+        <div className="input-container">
           <AlojamientoTextField
             id="calle"
             label="Calle"
@@ -173,7 +173,7 @@ export default function UploadAlojamientoForm() {
           />
         </div>
 
-        <div className="horario-container">
+        <div className="input-container">
           <AlojamientoTextField
             id="horario-check-in"
             label="Horario Check In"
@@ -196,18 +196,30 @@ export default function UploadAlojamientoForm() {
           />
         </div>
 
-        <div className="imagen-container">
+        <div className="image-container">
           {imagePreview.length > 0 && (
             <div className="imagenes-preview-list">
               {imagePreview.map((img, idx) => (
-                <img
-                  key={idx}
-                  src={img}
-                  alt={`Alojamiento preview ${idx + 1}`}
-                  className="imagen-preview"
-                  style={{ width: 100, height: 100, objectFit: 'cover', marginRight: 8 }}
-                  onClick={handleImageDelete}
-                />
+                <div className="imagen-preview-container">
+                  <img
+                    key={idx}
+                    src={img}
+                    alt={`Alojamiento preview ${idx + 1}`}
+                    className="imagen-preview"
+                    style={{
+                      width: 100,
+                      height: 100,
+                      objectFit: 'cover',
+                    }}
+                    onClick={handleImageDelete}
+                  />
+                  <button
+                    className="delete-icon"
+                    onClick={() => handleImageDelete({ target: { src: img } })}
+                  >
+                    🗑️
+                  </button>
+                </div>
               ))}
             </div>
           )}
@@ -219,7 +231,7 @@ export default function UploadAlojamientoForm() {
             required
           />
         </div>
-        <div className="caracteristicas-container">
+        <div className="input-container">
           <AlojamientoCaracteristicasField
             caracteristicas={caracteristicas}
             onChange={handleCaracteristicas}

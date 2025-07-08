@@ -48,6 +48,28 @@ class Api {
     return this.tokenAuth
   }
 
+  async registerAnfitrion(name, email, password, biografia, profileImage) {
+    await this.axiosInstance
+      .post('/usuarios/signup-anfitrion', {
+        name: name,
+        email: email,
+        password: password,
+        biografia: biografia,
+        profileImage: profileImage,
+      })
+      .then((response) => {
+        const { token } = response.data
+
+        this.tokenAuth = token
+      })
+      .catch((error) => {
+        console.error('Registration failed:', error)
+        alert('Registration failed. Please check your details and try again.')
+      })
+
+    return this.tokenAuth
+  }
+
   async getProfile() {
     return await this.axiosInstance
       .get('/usuarios/perfil', {
