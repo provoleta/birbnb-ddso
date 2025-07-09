@@ -29,6 +29,8 @@ export function SearchProvider({ children }) {
         setAlojamientos(alojamientosNew)
       } catch (error) {
         console.error('Error fetching alojamientos:', error)
+      } finally {
+        setLoading(false) // Desactiva el loader
       }
     }
 
