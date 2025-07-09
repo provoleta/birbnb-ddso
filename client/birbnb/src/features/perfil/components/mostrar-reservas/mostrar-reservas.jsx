@@ -8,6 +8,7 @@ import '../../perfil.css'
 
 const MostrarReservas = () => {
   const [reservas, setReservas] = useState([])
+  const [reservasAlojamiento, setReservasAlojamiento] = useState([])
   const [loading, setLoading] = useState(true)
   const { logueado, loadingAuth } = useAuthContext()
   const navigate = useNavigate()
@@ -52,8 +53,9 @@ const MostrarReservas = () => {
               estado={result.estado}
               fechaAlta={result.fechaAlta}
               rangoFechas={result.rangoFechas}
-              idReserva={result.idReserva}
+              idReserva={result._id}
               onReservaCancelada={fetchReservas}
+              reservas={reservas}
             />
           ))}
         </div>

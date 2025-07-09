@@ -34,6 +34,14 @@ const NotificationCard = ({
     )
   }
 
+  const formatMessage = (m) => {
+    const isoDateRegex = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/g
+
+    return m.replace(isoDateRegex, (match) => {
+      return formatDate(match)
+    })
+  }
+
   return (
     <div className="card-container">
       <CircleNotificationsIcon
@@ -43,7 +51,7 @@ const NotificationCard = ({
       <div className="notification-card-content">
         <div className="notification-info">
           <MessageIcon style={{ color: '#2196F3' }} />
-          <h3>{mensaje}</h3>
+          <h3>{formatMessage(mensaje)}</h3>
         </div>
         <div className="notification-info">
           <CalendarTodayIcon style={{ color: '#666' }} />

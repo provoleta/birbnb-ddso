@@ -1,6 +1,7 @@
-import mongoose from 'mongoose'
+import mongoose, { Mongoose } from 'mongoose'
 import { Usuario } from '../entities/usuario.js'
 import { notificacionSchema } from './notificacion-schema.js'
+import { reservaSchema } from './reserva-schema.js'
 
 const usuarioSchema = new mongoose.Schema({
   nombre: {
@@ -36,6 +37,11 @@ const usuarioSchema = new mongoose.Schema({
     type: String,
     default: null,
     trim: true,
+  },
+  reservas: {
+    type: [mongoose.Schema.ObjectId],
+    default: [],
+    ref: 'Reserva',
   },
 })
 

@@ -38,4 +38,39 @@ export default class UsuarioRepository {
       { new: true },
     )
   }
+
+  async addReserva(usuarioId, reservaId) {
+    await this.model.findByIdAndUpdate(
+      usuarioId,
+      { $push: { reservas: reservaId } },
+      { new: true },
+    )
+  }
+
+  async getReservas(usuarioId) {
+    const usuario = await this.model.findById(usuarioId).populate({
+      path: 'reservas',
+      populate: { path: 'alojamiento' },
+    })
+    if (!usuario) {
+      return []
+    }
+    const hoy = new Date()
+    // Filtra reservas cuya fecha de inicio es mayor a hoy
+    return (usuario.reservas || []).filter(
+      (reserva) =>
+        reserva.rangoFechas &&
+        reserva.rangoFechas.fechaInicio &&
+        new Date(reserva.rangoFechas.fechaInicio) > hoy,
+    )
+  }
+
+  async removeReserva(reservaId) {
+    const reservaEliminada = await this.model.findOneAndUpdate(
+      { reservas: reservaId },
+      { $pull: { reservas: reservaId } },
+      { new: true },
+    )
+    return reservaEliminada
+  }
 }

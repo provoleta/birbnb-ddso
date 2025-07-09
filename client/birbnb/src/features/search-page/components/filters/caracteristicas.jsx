@@ -40,7 +40,7 @@ const FiltrosCaracteristicas = ({ servicios, setServicios }) => {
       icono: <PoolIcon sx={{ color: '#673ab7' }} fontSize="small" />,
     },
     {
-      nombre: 'mascotas',
+      nombre: 'mascotas_permitidas',
       label: 'Mascotas permitidas',
       icono: <PetsIcon sx={{ color: '#673ab7' }} fontSize="small" />,
     },

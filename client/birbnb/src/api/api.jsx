@@ -195,7 +195,7 @@ class Api {
       .catch((error) => {
         error.status === 410
           ? alert('No se pudo cancelar la reserva ya que se excede el tiempo minimo')
-          : console.error('Error en la cancelacion de la reserva: ', error)
+          : console.error('Error en la cancelacion de la reserva: ', error.message)
       })
   }
   async marcarComoLeida(idNotificacion) {
