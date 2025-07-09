@@ -22,7 +22,6 @@ class Api {
         this.tokenAuth = token
       })
       .catch((error) => {
-        console.error('Login failed:', error)
         throw error
       })
     return this.tokenAuth

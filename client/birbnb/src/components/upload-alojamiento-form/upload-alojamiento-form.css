@@ -10,8 +10,8 @@
   flex-direction: column;
   align-items: center;
   gap: 24px;
-  width: 100%;
-  max-width: 500px;
+  width: 110%;
+  max-width: 650px;
   margin: 0 auto;
   background: #ffffff;
   border-radius: 18px;
@@ -39,6 +39,10 @@
 .alojamiento-text-field > .MuiTextField-root,
 .alojamiento-number-field > .MuiTextField-root,
 .alojamiento-moneda-field > .MuiTextField-root {
+  width: 100%;
+}
+
+.image-container {
   width: 100%;
 }
 
