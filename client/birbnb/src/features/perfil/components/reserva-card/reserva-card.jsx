@@ -39,12 +39,15 @@ const ReservaCard = ({
   const [alojamientoConReserva, setAlojamientoConReserva] = useState(null)
   const [reservasFiltradas, setReservasFiltradas] = useState([])
   const [showConfirmacionCambio, setShowConfirmacionCambio] = useState(false)
+  const [cont, setCont] = useState(0)
 
   const CancelarReservaHandler = async () => {
     try {
-      onReservaCancelada()
+      setCont((prevCont) => prevCont + 1)
+      console.log('Llamando a cancelar reserva por ' + cont + ' vez')
       setShowCancelarReserva(false)
       await api.cancelarReserva(idReserva, motivo)
+      onReservaCancelada()
     } catch (error) {
       alert('Error al cancelar la reserva:', error)
     }
