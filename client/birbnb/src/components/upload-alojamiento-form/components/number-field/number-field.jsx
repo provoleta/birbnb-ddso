@@ -1,5 +1,5 @@
 import { TextField } from '@mui/material'
-import '../upload-alojamiento-form.css'
+import '../../upload-alojamiento-form.css'
 
 export default function AlojamientoNumberField({ id, label, value, onChange }) {
   return (

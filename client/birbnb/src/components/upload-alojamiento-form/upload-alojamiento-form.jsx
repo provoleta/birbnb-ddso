@@ -1,12 +1,13 @@
-import AlojamientoCaracteristicasField from './form-fields/caracteristicas-field'
-import AlojamientoTextField from './form-fields/text-field'
-import AlojamientoNumberField from './form-fields/number-field'
-import AlojamientoMonedaField from './form-fields/moneda-field'
-import AlojamientoImageField from './form-fields/image-field'
+import AlojamientoCaracteristicasField from './components/caracteristicas-field/caracteristicas-field'
+import AlojamientoTextField from './components/text-field/text-field'
+import AlojamientoNumberField from './components/number-field/number-field'
+import AlojamientoMonedaField from './components/moneda-field/moneda-field'
+import AlojamientoImageField from './components/image-field/image-field'
 import api from '../../api/api'
 import { useState } from 'react'
 import { handleHorarioChange, handleHorarioBlur } from './utils'
 import './upload-alojamiento-form.css'
+import VentanaFlotante from './components/ventana-flotante-alojamiento/ventanaFlotante'
 
 export default function UploadAlojamientoForm() {
   const [nombre, setNombre] = useState('')
@@ -29,6 +30,7 @@ export default function UploadAlojamientoForm() {
     PISCINA: false,
     ESTACIONAMIENTO: false,
   })
+  const [showConfirmacionAlojamiento, setConfirmacionAlojamiento] = useState(false)
 
   const handleCaracteristicas = (e) => {
     const { name, checked } = e.target
@@ -89,6 +91,7 @@ export default function UploadAlojamientoForm() {
       fotos: Array.isArray(imageBase64) ? imageBase64 : [imageBase64],
     }
     await api.subirAlojamiento(alojamientoData)
+    setConfirmacionAlojamiento(true)
   }
 
   return (
@@ -241,6 +244,17 @@ export default function UploadAlojamientoForm() {
         <button className="submit-button" type="submit">
           Subir Alojamiento
         </button>
+        {showConfirmacionAlojamiento && (
+          <div>
+            <VentanaFlotante
+              mensaje={'¡Alojamiento registrado con éxito!'}
+              onClose={() => {
+                setConfirmacionAlojamiento(false)
+                window.location.reload()
+              }}
+            />
+          </div>
+        )}
       </form>
     </div>
   )

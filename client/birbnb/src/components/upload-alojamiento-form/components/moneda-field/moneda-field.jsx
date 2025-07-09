@@ -1,5 +1,5 @@
 import { TextField, MenuItem } from '@mui/material'
-import '../upload-alojamiento-form.css'
+import '../../upload-alojamiento-form.css'
 
 const currencies = [
   {
