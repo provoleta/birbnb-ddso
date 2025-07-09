@@ -14,7 +14,8 @@ import CancelIcon from '@mui/icons-material/Cancel'
 import VentanaFlotanteReserva from '../../../detail-page/components/ventana-flotante/ventanaFlotante.jsx'
 
 const formatDate = (dateString) => {
-  const date = new Date(dateString)
+  const fechaStr = dateString.split('T')[0]
+  const date = new Date(fechaStr + 'T00:00:00')
   const day = String(date.getDate()).padStart(2, '0')
   const month = String(date.getMonth() + 1).padStart(2, '0')
   const year = date.getFullYear()

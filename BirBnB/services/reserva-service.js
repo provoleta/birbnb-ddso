@@ -128,10 +128,6 @@ export default class ReservaService {
 
     if (!alojamientoSinReserva) throw new NotFoundException()
 
-    const reservaEliminada = await this.usuarioRepository.removeReserva(reservaId)
-
-    if (!reservaEliminada) throw new NotFoundException()
-
     const rangoFormateado = new RangoFechas(
       dayjs(reservaAeliminar.rangoFechas.fechaInicio, 'DD/MM/YYYY'),
       dayjs(reservaAeliminar.rangoFechas.fechaFin, 'DD/MM/YYYY'),
