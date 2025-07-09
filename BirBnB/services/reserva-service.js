@@ -43,8 +43,10 @@ export default class ReservaService {
     }
 
     reservaAModificar.rangoFechas = rangoFechas
+    reservaAModificar.estado = EstadoReserva.PENDIENTE
 
     const reservaModificada = await this.reservaRepository.save(reservaAModificar)
+    this.notificarReserva(alojamiento.anfitrion, reservaAModificar, '')
 
     return this.toDTO(reservaModificada)
   }
