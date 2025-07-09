@@ -70,7 +70,6 @@ export default function SearchPage() {
     params.set('page', currentPage)
     params.set('caracteristicas', transformarServicios(servicios))
     params.set('sortBy', sortOption === 'Menor precio' ? 'ascendente' : 'descendente')
-    console.log(params)
     aplicarFiltros(params)
   }
 
