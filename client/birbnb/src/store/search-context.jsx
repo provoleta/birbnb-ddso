@@ -1,6 +1,5 @@
-import axios from 'axios'
 import { createContext, useState, useContext } from 'react'
-import qs from 'qs'
+import api from '../api/api'
 
 const SearchContext = createContext()
 
@@ -22,21 +21,17 @@ export function SearchProvider({ children }) {
       filtrosJson.checkOut = convertirFecha(filtrosJson.checkOut)
     }
 
-    axios
-      .get('/alojamientos', {
-        baseURL: 'http://localhost:6969',
-        params: filtrosJson,
-        paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'repeat' }),
-      })
-      .then((response) => {
-        setAlojamientos(response.data)
-      })
-      .catch((error) => {
-        console.error('Error al buscar alojamientos:', error)
-        setAlojamientos([])
-      })
-  }
+    const getAlojamientos = async () => {
+      try {
+        const alojamientosNew = await api.obtenerAlojamientos(filtrosJson)
+        setAlojamientos(alojamientosNew)
+      } catch (error) {
+        console.error('Error fetching alojamientos:', error)
+      }
+    }
 
+    getAlojamientos()
+  }
   const aplicarFiltros = (filtros) => {
     filtros.forEach((filtro, nombre) => {
       const valor = filtro instanceof Date ? convertirFecha(filtro) : filtro // Convertir fechas al formato DD-MM-YYYY
