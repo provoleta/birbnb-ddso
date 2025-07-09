@@ -139,7 +139,6 @@ class Api {
   async obtenerAlojamientos(filters) {
     return await this.axiosInstance
       .get('/alojamientos', {
-        baseURL: 'http://localhost:6969',
         params: filters,
         paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'repeat' }),
       })
@@ -302,6 +301,19 @@ class Api {
       })
       .catch((error) => {
         console.error('Error actualizando fechas de reserva: ', error)
+        throw error
+      })
+  }
+
+  async obtenerCiudades() {
+    return await this.axiosInstance
+      .get('/ciudades')
+      .then((response) => {
+        console.log('Response:', response)
+        return response.data
+      })
+      .catch((error) => {
+        console.error('Error fetching cities:', error)
         throw error
       })
   }

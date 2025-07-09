@@ -4,6 +4,7 @@ import { useSearchContext } from '../../store/search-context'
 import CityInput from './city-input/city-input'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import api from '../../api/api'
 
 function SearchBar() {
   const { limpiarFiltros, aplicarFiltros } = useSearchContext()
@@ -16,17 +17,14 @@ function SearchBar() {
 
   useEffect(() => {
     const getCiudades = async () => {
-      axios
-        .get('/ciudades', {
-          baseURL: 'http://localhost:6969',
-        })
-        .then((response) => {
-          setCiudades(response.data)
-        })
-        .catch((error) => {
-          console.error('Error fetching cities:', error)
-        })
+      try {
+        const ciudadesNew = await api.obtenerCiudades()
+        setCiudades(ciudadesNew)
+      } catch (error) {
+        console.error('Error fetching cities:', error)
+      }
     }
+
     getCiudades()
   }, [])
 
