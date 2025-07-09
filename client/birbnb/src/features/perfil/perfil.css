@@ -89,7 +89,7 @@ h3 + h3 {
 .opcion-button-style {
   font-size: 150%;
   height: 64px;
-  width: 100%;
+  width: 110%;
   border-radius: 36px;
   margin-left: 2px;
   border: 0.1px solid #787879;
@@ -104,7 +104,7 @@ h3 + h3 {
   background-color: #b494ff4f;
   font-size: 150%;
   height: 64px;
-  width: 100%;
+  width: 110%;
   border-radius: 36px;
   margin-left: 2px;
   border-color: #6750a4;
@@ -139,7 +139,6 @@ h3 + h3 {
 
   .opcion-button-style,
   .opcion-button-style-activo {
-
     width: 100%;
 
     font-size: 1rem;
