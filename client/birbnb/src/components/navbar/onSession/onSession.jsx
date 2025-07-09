@@ -11,6 +11,7 @@ import { useAuthContext } from '../../../store/auth-context'
 import { useState, useEffect, useRef } from 'react'
 import MenuIcon from '@mui/icons-material/Menu'
 import CloseIcon from '@mui/icons-material/Close'
+import AddHomeIcon from '@mui/icons-material/AddHome'
 
 export function OnSession() {
   const { handleLogout, user } = useAuthContext()
@@ -89,7 +90,7 @@ export function OnSession() {
               <HomeIcon />
             </IconButton>
             <IconButton onClick={nuevoAlojamiento}>
-              <PlusIcon />
+              <AddHomeIcon />
             </IconButton>
           </>
         )}
