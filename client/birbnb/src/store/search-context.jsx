@@ -12,8 +12,10 @@ export function SearchProvider({ children }) {
   const [searchParams, setSearchParams] = useState(new Map())
   const [alojamientos, setAlojamientos] = useState([])
   const [switchLimpiar, setSwitchLimpiar] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const search = () => {
+    setLoading(true) // Activa el loader
     let filtrosJson = Object.fromEntries(searchParams)
     if (filtrosJson.checkIn) {
       filtrosJson.checkIn = convertirFecha(filtrosJson.checkIn)
@@ -34,6 +36,9 @@ export function SearchProvider({ children }) {
       .catch((error) => {
         console.error('Error al buscar alojamientos:', error)
         setAlojamientos([])
+      })
+      .finally(() => {
+        setLoading(false) // Desactiva el loader
       })
   }
 
@@ -59,6 +64,7 @@ export function SearchProvider({ children }) {
         aplicarFiltros,
         alojamientos,
         searchParams,
+        loading,
       }}
     >
       {children}

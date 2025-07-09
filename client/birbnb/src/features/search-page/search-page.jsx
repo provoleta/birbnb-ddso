@@ -3,11 +3,13 @@ import SearchCard from './components/search-card/search-card.jsx'
 import SortButton from './components/sort-button/sort-button.jsx'
 import SliderPrecio from './components/filters/slider-precio.jsx'
 import FiltrosCaracteristicas from './components/filters/caracteristicas.jsx'
+import Loader from '../../components/loader/loader.jsx'
 import { useState, useMemo, useEffect } from 'react'
 import { useSearchContext } from '../../store/search-context.jsx'
 
 export default function SearchPage() {
-  const { switchLimpiar, alojamientos, aplicarFiltros, searchParams } = useSearchContext() // Obtener los alojamientos del contexto
+  const { switchLimpiar, alojamientos, aplicarFiltros, searchParams, loading } =
+    useSearchContext() // Agregar loading del contexto
   const searchValue = searchParams.get('ciudad') || ''
   const [sortOption, setSortOption] = useState('Menor precio')
   const [currentPage, setCurrentPage] = useState(1)
@@ -101,18 +103,22 @@ export default function SearchPage() {
         <div className="button-container">
           <SortButton currentSortOption={sortOption} onSortChange={handleSortChange} />
         </div>
-        <div className="search-results">
-          {sortedAlojamientos.map((result) => (
-            <SearchCard
-              key={result.idAlojamiento} // Esta línea es importante para que React no llore
-              idAlojamiento={result.idAlojamiento}
-              nombre={result.nombre}
-              descripcion={result.descripcion}
-              precioPorNoche={result.precioPorNoche}
-              fotos={result.fotos?.[0]?.path}
-            />
-          ))}
-        </div>
+        {loading ? (
+          <Loader />
+        ) : (
+          <div className="search-results">
+            {sortedAlojamientos.map((result) => (
+              <SearchCard
+                key={result.idAlojamiento} // Esta línea es importante para que React no llore
+                idAlojamiento={result.idAlojamiento}
+                nombre={result.nombre}
+                descripcion={result.descripcion}
+                precioPorNoche={result.precioPorNoche}
+                fotos={result.fotos?.[0]?.path}
+              />
+            ))}
+          </div>
+        )}
         <div className="pagination-container">
           {Array.from({ length: totalPages }, (_, index) => (
             <button

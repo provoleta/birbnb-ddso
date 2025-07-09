@@ -19,6 +19,7 @@
 .search-results-container {
   flex: 1;
   overflow: hidden;
+  min-height: 60px;
 }
 
 .search-header {
