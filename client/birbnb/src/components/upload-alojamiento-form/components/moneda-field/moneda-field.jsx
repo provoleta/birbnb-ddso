@@ -4,11 +4,15 @@ import '../../upload-alojamiento-form.css'
 const currencies = [
   {
     value: 'DOLAR_USA',
-    label: '$',
+    label: 'US$',
   },
   {
     value: 'PESO_ARG',
     label: 'AR$',
+  },
+  {
+    value: 'REALES',
+    label: 'R$',
   },
 ]
 
