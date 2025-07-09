@@ -19,7 +19,7 @@ export default function SearchPage() {
   const [servicios, setServicios] = useState({
     estacionamiento: false,
     piscina: false,
-    mascotas: false,
+    mascotas_permitidas: false,
     wifi: false,
   })
 
@@ -82,7 +82,7 @@ export default function SearchPage() {
     setServicios({
       estacionamiento: false,
       piscina: false,
-      mascotas: false,
+      mascotas_permitidas: false,
       wifi: false,
     })
     setRangoPrecio([0, 250])
