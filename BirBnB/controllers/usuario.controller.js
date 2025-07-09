@@ -64,8 +64,13 @@ export default class UsuarioController {
     if (!email || !password) {
       return res.status(400).json({ message: 'Email y contraseña son obligatorios' })
     }
-
     const token = await this.usuarioService.login(email, password)
+
+    if (!token) {
+      console.log('Email o contraseña incorrectos')
+      return res.status(401).json({ message: 'Email o contraseña incorrectos' })
+    }
+
     return res.status(200).json({ token })
   }
 

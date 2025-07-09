@@ -14,6 +14,8 @@ const SesionFlotante = ({ isOpen, onClose, initialMode }) => {
   const [imageBase64, setImageBase64] = useState(null)
   const [biografia, setBiografia] = useState('')
   const { handleNewToken } = useAuthContext()
+  const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(false) // Estado para manejar el loader
 
   useEffect(() => {
     if (initialMode) {
@@ -36,6 +38,7 @@ const SesionFlotante = ({ isOpen, onClose, initialMode }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setLoading(true) // Activa el loader
     try {
       let token
       if (mode === 'login') {
@@ -51,8 +54,22 @@ const SesionFlotante = ({ isOpen, onClose, initialMode }) => {
         onClose()
       }
     } catch (error) {
-      console.error('Error en autenticación:', error)
+      switch (error.response.status) {
+        case 401:
+          setError('Contraseña incorrecta')
+          break
+        case 404:
+          setError('Email incorrecto')
+          break
+      }
+    } finally {
+      setLoading(false) // Desactiva el loader
     }
+  }
+
+  const handleClose = () => {
+    setError(null)
+    onClose()
   }
 
   if (!isOpen) return null
@@ -61,7 +78,7 @@ const SesionFlotante = ({ isOpen, onClose, initialMode }) => {
     <div className="modal-overlay">
       <div className="auth-modal">
         <div className="modal-header">
-          <button className="close-button" onClick={onClose}>
+          <button className="close-button" onClick={handleClose}>
             &times;
           </button>
           <h2>{mode === 'login' ? 'Iniciar Sesión' : 'Crear Cuenta'}</h2>
@@ -165,8 +182,15 @@ const SesionFlotante = ({ isOpen, onClose, initialMode }) => {
                 />
               </div>
             )}
-            <button type="submit" className="auth-button">
-              {mode === 'login' ? 'Iniciar Sesión' : 'Registrarse'}
+            {error && <div className="error-message">{error}</div>}
+            <button type="submit" className="auth-button" disabled={loading}>
+              {loading ? (
+                <div className="loader"></div> // Loader mientras se procesa
+              ) : mode === 'login' ? (
+                'Iniciar Sesión'
+              ) : (
+                'Registrarse'
+              )}
             </button>
           </form>
 
