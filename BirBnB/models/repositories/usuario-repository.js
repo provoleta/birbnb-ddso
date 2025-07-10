@@ -56,13 +56,17 @@ export default class UsuarioRepository {
       return []
     }
     const hoy = new Date()
-    // Filtra reservas cuya fecha de inicio es mayor a hoy
-    return (usuario.reservas || []).filter(
-      (reserva) =>
-        reserva.rangoFechas &&
-        reserva.rangoFechas.fechaInicio &&
-        new Date(reserva.rangoFechas.fechaInicio) > hoy,
-    )
+    hoy.setHours(0, 0, 0, 0) // Establecer la hora a medianoche para comparar solo fechas
+
+    // Filtra reservas cuya fecha de inicio es mayor o igual a hoy
+    return (usuario.reservas || []).filter((reserva) => {
+      if (!reserva.rangoFechas || !reserva.rangoFechas.fechaInicio) {
+        return false
+      }
+      const fechaInicio = new Date(reserva.rangoFechas.fechaInicio)
+      fechaInicio.setHours(0, 0, 0, 0) // Establecer la hora a medianoche
+      return fechaInicio >= hoy
+    })
   }
 
   async removeReserva(reservaId) {

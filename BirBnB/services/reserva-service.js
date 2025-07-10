@@ -111,10 +111,7 @@ export default class ReservaService {
       throw new UnauthorizedException()
     }
 
-    if (
-      dayjs().isAfter(reservaAeliminar.rangoFechas.fechaInicio, 'DD/MM/YYYY') &&
-      dayjs().isBefore(reservaAeliminar.rangoFechas.fechaFin, 'DD/MM/YYYY')
-    ) {
+    if (dayjs().isAfter(reservaAeliminar.rangoFechas.fechaInicio)) {
       throw new ExcededTimeException()
     }
 

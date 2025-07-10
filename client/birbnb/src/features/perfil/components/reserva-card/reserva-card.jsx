@@ -43,8 +43,6 @@ const ReservaCard = ({
 
   const CancelarReservaHandler = async () => {
     try {
-      setCont((prevCont) => prevCont + 1)
-      console.log('Llamando a cancelar reserva por ' + cont + ' vez')
       setShowCancelarReserva(false)
       await api.cancelarReserva(idReserva, motivo)
       onReservaCancelada()
@@ -96,6 +94,10 @@ const ReservaCard = ({
     setShowConfirmacionCambio(true)
   }
 
+  const estaEnCurso = () => {
+    return new Date(rangoFechas.fechaInicio) >= new Date()
+  }
+
   return (
     <div className="card-container">
       <div>
@@ -127,33 +129,47 @@ const ReservaCard = ({
           <h3>Fecha Check-out: {formatDate(rangoFechas.fechaFin)}</h3>
         </div>
       </div>
-      <Button
-        variant="contained"
-        style={{
-          position: 'relative',
-          marginTop: 'auto',
-          backgroundColor: '#FFD700',
-          color: '#000',
-        }}
-        startIcon={<DeleteIcon />}
-        onClick={handleCancelarReserva}
-      >
-        Cancelar Reserva
-      </Button>
-
-      <Button
-        variant="contained"
-        style={{
-          position: 'relative',
-          marginTop: 'auto',
-          backgroundColor: '#FFD700',
-          color: '#000',
-        }}
-        startIcon={<CalendarTodayIcon />}
-        onClick={handlerModificarFecha}
-      >
-        Modificar Reserva
-      </Button>
+      <div className="botones-container">
+        <Button
+          variant="contained"
+          startIcon={<DeleteIcon />}
+          onClick={handleCancelarReserva}
+          disabled={!estaEnCurso()}
+          sx={{
+            backgroundColor: estaEnCurso() ? '#FFD700' : '#CCCCCC',
+            color: estaEnCurso() ? '#000' : '#666666',
+            minHeight: '48px',
+            cursor: estaEnCurso() ? 'pointer' : 'not-allowed',
+            '&:hover': {
+              backgroundColor: estaEnCurso() ? '#E6C200' : '#CCCCCC',
+            },
+            '&:disabled': {
+              cursor: 'not-allowed',
+              backgroundColor: '#CCCCCC',
+            },
+          }}
+        >
+          Cancelar Reserva
+        </Button>
+        <>
+          <Button
+            variant="contained"
+            startIcon={<CalendarTodayIcon />}
+            onClick={handlerModificarFecha}
+            disabled={!estaEnCurso()}
+            style={{
+              backgroundColor: estaEnCurso() ? '#FFD700' : '#CCCCCC',
+              color: estaEnCurso() ? '#000' : '#666666',
+              minHeight: '48px',
+              '&:hover': {
+                backgroundColor: estaEnCurso() ? '#E6C200' : '#CCCCCC',
+              },
+            }}
+          >
+            Modificar Reserva
+          </Button>
+        </>
+      </div>
 
       {showCancelarReserva && (
         <VentanaConfirmacion
@@ -163,7 +179,6 @@ const ReservaCard = ({
           setMotivo={setMotivo}
         />
       )}
-
       {showCalendario && (
         <div className="calendario-container">
           <ReservationCalendar
@@ -178,7 +193,6 @@ const ReservaCard = ({
           </div>
         </div>
       )}
-
       {showConfirmacionCambio && (
         <VentanaFlotanteReserva
           mensaje="reserva modificada correctamente"
