@@ -13,6 +13,7 @@ import PendingIcon from '@mui/icons-material/Pending'
 import CancelIcon from '@mui/icons-material/Cancel'
 import DoneIcon from '@mui/icons-material/Done'
 import ClearIcon from '@mui/icons-material/Clear'
+import Loader from '../../../../components/loader/loader.jsx'
 
 const formatDate = (dateString) => {
   const date = new Date(dateString)
@@ -35,24 +36,29 @@ const ReservasPendientesCard = ({
   const [showConfirmarReserva, setShowConfirmarReserva] = useState(false)
   // const [motivoCancelacion, setMotivoCancelacion] = useState("")
   const [motivo, setMotivo] = useState('')
+  const [loader, setLoader] = useState(false)
 
   const CancelarReservaHandler = async () => {
     try {
+      setShowCancelarReserva(false)
+      setLoader(true)
       await Api.modificarEstadoReserva(idReserva, motivo, 'CANCELADA')
       onReservaCancelada()
-      setShowCancelarReserva(false)
     } catch (error) {
       alert('Error al cancelar la reserva:', error)
+      setLoader(false)
     }
   }
 
   const ConfirmarReservaHandler = async () => {
     try {
+      setShowConfirmarReserva(false)
+      setLoader(true)
       await Api.modificarEstadoReserva(idReserva, motivo, 'CONFIRMADA')
       onReservaConfirmada()
-      setShowConfirmarReserva(false)
     } catch (error) {
       alert('Error al confirmar la reserva:', error)
+      setLoader(false)
     }
   }
 
@@ -79,48 +85,68 @@ const ReservasPendientesCard = ({
 
   return (
     <div className="card-container">
-      <div>
-        <img
-          className="imagen-reserva"
-          src={`data:image/jpeg;base64,${alojamiento.fotos[0]?.path}`}
-          alt={alojamiento.nombre}
-        />
-      </div>
-      <div className="reserva-content">
-        <h3>{alojamiento.nombre}</h3>
-        <div className="reserva-info">
-          {iconoSegunEstado(estado)}
-          <h3>Estado: {estado}</h3>
-        </div>
+      {loader ? (
+        <Loader />
+      ) : (
+        <>
+          <div>
+            <img
+              className="imagen-reserva"
+              src={`data:image/jpeg;base64,${alojamiento.fotos[0]?.path}`}
+              alt={alojamiento.nombre}
+            />
+          </div>
+          <div className="reserva-content">
+            <h3>{alojamiento.nombre}</h3>
+            <div className="reserva-info">
+              {iconoSegunEstado(estado)}
+              <h3>Estado: {estado}</h3>
+            </div>
 
-        <div className="reserva-info">
-          <CalendarTodayIcon style={{ color: '#666' }} />
-          <h3>Fecha Alta: {formatDate(fechaAlta)}</h3>
-        </div>
+            <div className="reserva-info">
+              <CalendarTodayIcon style={{ color: '#666' }} />
+              <h3>Fecha Alta: {formatDate(fechaAlta)}</h3>
+            </div>
 
-        <div className="reserva-info">
-          <LoginIcon style={{ color: '#4CAF50' }} />
-          <h3>Fecha Check-in: {formatDate(rangoFechas.fechaInicio)}</h3>
-        </div>
+            <div className="reserva-info">
+              <LoginIcon style={{ color: '#4CAF50' }} />
+              <h3>Fecha Check-in: {formatDate(rangoFechas.fechaInicio)}</h3>
+            </div>
 
-        <div className="reserva-info">
-          <LogoutIcon style={{ color: '#F44336' }} />
-          <h3>Fecha Check-out: {formatDate(rangoFechas.fechaFin)}</h3>
-        </div>
-      </div>
-      <Button
-        variant="contained"
-        style={{
-          position: 'relative',
-          marginTop: 'auto',
-          backgroundColor: '#FFD700',
-          color: '#000',
-        }}
-        startIcon={<DoneIcon />}
-        onClick={handleConfirmarReserva}
-      >
-        Confirmar reserva
-      </Button>
+            <div className="reserva-info">
+              <LogoutIcon style={{ color: '#F44336' }} />
+              <h3>Fecha Check-out: {formatDate(rangoFechas.fechaFin)}</h3>
+            </div>
+          </div>
+          <Button
+            variant="contained"
+            style={{
+              position: 'relative',
+              marginTop: 'auto',
+              backgroundColor: '#FFD700',
+              color: '#000',
+            }}
+            startIcon={<DoneIcon />}
+            onClick={handleConfirmarReserva}
+          >
+            Confirmar reserva
+          </Button>
+          <Button
+            variant="contained"
+            style={{
+              position: 'relative',
+              marginTop: 'auto',
+              backgroundColor: '#FFD700',
+              color: '#000',
+            }}
+            startIcon={<ClearIcon />}
+            onClick={handleCancelarReserva}
+          >
+            Rechazar reserva
+          </Button>
+        </>
+      )}
+
       {showConfirmarReserva && (
         <VentanaConfirmarReserva
           mensaje="¿Estás seguro de que deseas cancelar esta negro?"
@@ -129,19 +155,6 @@ const ReservasPendientesCard = ({
           setMotivo={setMotivo}
         />
       )}
-      <Button
-        variant="contained"
-        style={{
-          position: 'relative',
-          marginTop: 'auto',
-          backgroundColor: '#FFD700',
-          color: '#000',
-        }}
-        startIcon={<ClearIcon />}
-        onClick={handleCancelarReserva}
-      >
-        Rechazar reserva
-      </Button>
       {showCancelarReserva && (
         <VentanaConfirmacion
           mensaje="¿Estás seguro de que deseas cancelar esta reserva?"
