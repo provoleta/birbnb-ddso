@@ -9,8 +9,8 @@ function ReservationCalendar({ reservas, onFechas }) {
 
   // Fechas ocupadas ==> Hay que setearlas segun las reservas del alojamiento
   const occupiedDates = reservas.map((reserva) => ({
-    start: new Date(reserva.rangoFechas.fechaInicio),
-    end: new Date(reserva.rangoFechas.fechaFin),
+    start: new Date(reserva.rangoFechas.fechaInicio.split('T')[0] + 'T00:00:00'),
+    end: new Date(reserva.rangoFechas.fechaFin.split('T')[0] + 'T00:00:00'),
   }))
 
   const estaOcupada = (fecha) => {
@@ -49,7 +49,6 @@ function ReservationCalendar({ reservas, onFechas }) {
     if (fechas[0] && fechas[1]) {
       const inicio = fechas[0].toISOString().split('T')[0]
       const fin = fechas[1].toISOString().split('T')[0]
-      console.log(`Fecha de inicio: ${inicio}, Fecha de fin: ${fin}`)
     }
   }
 

@@ -5,12 +5,12 @@ import '../../perfil.css'
 import { useNavigate } from 'react-router'
 import api from '../../../../api/api'
 import { useAuthContext } from '../../../../store/auth-context'
-
+import Loader from '../../../../components/loader/loader.jsx'
 const MostrarNotificaciones = () => {
   const [sortOption, setSortOption] = useState('No leidas') // Inicialmente se ordena por no leidas
   const [notificaciones, setNotificaciones] = useState([])
   const [loading, setLoading] = useState(true)
-  const { token, logueado } = useAuthContext()
+  const { token, logueado, loadingAuth } = useAuthContext()
   const [leida, setLeida] = useState(false) //Por defecto quiero mostrar las no leidas
 
   const handleSortChange = (option) => {
@@ -21,38 +21,34 @@ const MostrarNotificaciones = () => {
 
   useEffect(() => {
     sortOption === 'Leidas' ? setLeida(true) : setLeida(false)
+    setLoading(true) // Activa el loader cuando cambia el filtro
   }, [sortOption])
 
   useEffect(() => {
-    const fetchNotificaciones = async () => {
-      try {
-        const response = await api.getNotificaciones(leida)
-        setNotificaciones(response)
-      } catch (error) {
-        console.error('Error al obtener las notificaciones:', error)
-      } finally {
-        setLoading(false)
+    if (!loadingAuth && logueado) {
+      const fetchNotificaciones = async () => {
+        try {
+          const response = await api.getNotificaciones(leida)
+          setNotificaciones(Array.isArray(response) ? response : [])
+        } catch (error) {
+          console.error('Error al obtener las notificaciones:', error.message)
+        } finally {
+          setLoading(false)
+        }
       }
+      fetchNotificaciones()
     }
+  }, [token, leida, loadingAuth, logueado])
 
-    fetchNotificaciones()
-  }, [token, leida])
-
-  if (!logueado) {
-    navigate('/')
-  }
-
-  if (loading) {
-    return <div>Cargando notificaciones...</div>
-  }
+  useEffect(() => {
+    if (!logueado && !loadingAuth) {
+      navigate('/')
+    }
+  }, [logueado, loadingAuth, navigate])
 
   const handlerMarcarLeida = async (idNotificacion) => {
-    const notificacionActualizada = await api.marcarComoLeida(idNotificacion)
-
-    console.log('Notificación actualizada:', notificacionActualizada)
-
+    await api.marcarComoLeida(idNotificacion)
     const response = await api.getNotificaciones(token, leida)
-    // const data = await response.json()
     setNotificaciones(response)
   }
 
@@ -62,22 +58,28 @@ const MostrarNotificaciones = () => {
       <div className="button-container">
         <SortButton currentSortOption={sortOption} onSortChange={handleSortChange} />
       </div>
-      {notificaciones.length > 0 && (
-        <div className="fondo-gris">
-          {notificaciones.map((result) => (
-            <NotificationCard
-              key={result.idNotificacion}
-              mensaje={result.mensaje}
-              fechaAlta={result.fechaAlta}
-              leida={result.leida}
-              fechaLeida={result.fechaLeida}
-              idNotificacion={result.idNotificacion}
-              handlerMarcarLeida={handlerMarcarLeida}
-            />
-          ))}
-        </div>
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          {notificaciones.length > 0 && (
+            <div className="fondo-gris">
+              {notificaciones.map((result) => (
+                <NotificationCard
+                  key={result.idNotificacion}
+                  mensaje={result.mensaje}
+                  fechaAlta={result.fechaAlta}
+                  leida={result.leida}
+                  fechaLeida={result.fechaLeida}
+                  idNotificacion={result.idNotificacion}
+                  handlerMarcarLeida={handlerMarcarLeida}
+                />
+              ))}
+            </div>
+          )}
+          {notificaciones.length === 0 && <p>Sin notificaciones.</p>}
+        </>
       )}
-      {notificaciones.length === 0 && <p>Sin notificaciones.</p>}
     </>
   )
 }

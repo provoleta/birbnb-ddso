@@ -2,29 +2,47 @@ import './onSession.css'
 import Avatar from '@mui/material/Avatar'
 import IconButton from '@mui/material/IconButton'
 import NotificationIcon from '@mui/icons-material/Notifications'
+import HomeIcon from '@mui/icons-material/Home'
 import BookmarkIcon from '@mui/icons-material/Bookmark'
-import LogoutIcon from '@mui/icons-material/Logout' // Importa el ícono de logout
+import LogoutIcon from '@mui/icons-material/Logout'
+import PlusIcon from '@mui/icons-material/Add'
 import { useNavigate } from 'react-router'
 import { useAuthContext } from '../../../store/auth-context'
-import { useState } from 'react'
-import { useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import MenuIcon from '@mui/icons-material/Menu'
+import CloseIcon from '@mui/icons-material/Close'
+import AddHomeIcon from '@mui/icons-material/AddHome'
 
 export function OnSession() {
-  const { handleLogout } = useAuthContext() //TODO: terminar de hacerlo andar
-
+  const { handleLogout, user } = useAuthContext()
+  const tipoUsuario = user?.tipo
   const navigate = useNavigate()
   const [profileMenuOpen, setProfileMenuOpen] = useState(false)
-
-  const verPerfil = (opcion) => {
-    navigate(`/usuarios/perfil${opcion}`)
-  }
+  const [menuOpen, setMenuOpen] = useState(false)
 
   const menuRef = useRef(null)
   const avatarRef = useRef(null)
+  const sessionButtonsRef = useRef(null)
+
+  const nuevoAlojamiento = () => {
+    navigate('/upload')
+  }
+
+  const verPerfil = (opcion) => {
+    navigate(`/usuarios/perfil${opcion}`)
+    setMenuOpen(false)
+  }
+
+  const getImageSrc = (base64String) => {
+    if (!base64String) return null
+    if (base64String.startsWith('data:')) return base64String
+    return `data:image/jpeg;base64,${base64String}`
+  }
 
   useEffect(() => {
     function handleClickOutside(event) {
       if (
+        profileMenuOpen &&
         menuRef.current &&
         !menuRef.current.contains(event.target) &&
         avatarRef.current &&
@@ -32,40 +50,67 @@ export function OnSession() {
       ) {
         setProfileMenuOpen(false)
       }
+      if (
+        menuOpen &&
+        sessionButtonsRef.current &&
+        !sessionButtonsRef.current.contains(event.target) &&
+        !event.target.closest('.hamburger-menu')
+      ) {
+        setMenuOpen(false)
+      }
     }
-    if (profileMenuOpen) {
+    if (profileMenuOpen || menuOpen) {
       document.addEventListener('mousedown', handleClickOutside)
     }
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [profileMenuOpen])
+  }, [profileMenuOpen, menuOpen])
 
   return (
     <div className="onSession">
-      <IconButton onClick={() => verPerfil('/notificaciones')}>
-        <NotificationIcon />
-      </IconButton>
-      <IconButton onClick={() => verPerfil('/reservas')}>
-        <BookmarkIcon />
-      </IconButton>
+      <div className="hamburger-menu">
+        <IconButton onClick={() => setMenuOpen(!menuOpen)}>
+          {menuOpen ? <CloseIcon /> : <MenuIcon />}
+        </IconButton>
+      </div>
+      <div
+        className={`session-buttons${menuOpen ? ' open' : ''}`}
+        ref={sessionButtonsRef}
+      >
+        <IconButton onClick={() => verPerfil('/notificaciones')}>
+          <NotificationIcon />
+        </IconButton>
+        <IconButton onClick={() => verPerfil('/reservas')}>
+          <BookmarkIcon />
+        </IconButton>
+        {tipoUsuario === 'ANFITRION' && (
+          <>
+            <IconButton onClick={() => verPerfil('/alojamientos')}>
+              <HomeIcon />
+            </IconButton>
+            <IconButton onClick={nuevoAlojamiento}>
+              <AddHomeIcon />
+            </IconButton>
+          </>
+        )}
+      </div>
       <div className="user-info">
         <Avatar
           alt="User Avatar"
-          src="/images/user-avatar.png"
+          src={getImageSrc(user?.profileImage)}
           ref={avatarRef}
           onClick={() => setProfileMenuOpen(!profileMenuOpen)}
         />
-        {profileMenuOpen && (
-          <div className="profile-menu" ref={menuRef}>
-            <IconButton className="menu-button" onClick={handleLogout}>
-              <p className="logOut-titulo" style={{ marginRight: '10px' }}>
-                Log out{' '}
-              </p>
-              <LogoutIcon />
-            </IconButton>
-          </div>
-        )}
+        <div className={`profile-menu${profileMenuOpen ? ' open' : ''}`} ref={menuRef}>
+          <div className="profile-name">{user?.nombre}</div>
+          <IconButton className="menu-button" onClick={handleLogout}>
+            <p className="logOut-titulo" style={{ marginRight: '10px' }}>
+              Cerrar sesión{' '}
+            </p>
+            <LogoutIcon />
+          </IconButton>
+        </div>
       </div>
     </div>
   )

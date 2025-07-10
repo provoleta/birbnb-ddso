@@ -12,7 +12,7 @@ function formatDateToDDMMYYYY(date) {
 const useCreacionReserva = (fechas, alojamientoId, setConfirmacionReserva) => {
   const { user } = useAuthContext()
 
-  const procesarReserva = () => {
+  const procesarReserva = async () => {
     if (!user) {
       alert('Espera un momento mientras cargamos tu información...')
       return
@@ -27,13 +27,11 @@ const useCreacionReserva = (fechas, alojamientoId, setConfirmacionReserva) => {
       },
     }
 
-    console.log('Reserva a procesar:', reserva)
-
     try {
-      api.crearReserva(reserva)
+      await api.crearReserva(reserva)
       setConfirmacionReserva(true)
     } catch (error) {
-      console.error('Error al procesar la reserva:', error)
+      console.error('Error al procesar la reserva:', error.message)
       alert('Error al procesar la reserva. Por favor, inténtalo de nuevo más tarde.')
       return
     }

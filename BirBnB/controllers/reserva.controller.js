@@ -24,23 +24,36 @@ export default class ReservaController {
   async delete(req, res) {
     const reservaId = req.params.id
     const huespedReservadorId = req.user.id
+    const motivo = req.body.motivo
+
     validarObjectId(reservaId)
-    await this.reservaService.delete(reservaId, huespedReservadorId)
+    await this.reservaService.delete(reservaId, huespedReservadorId, motivo)
     res.status(204).json({
       message: 'Reserva eliminada correctamente',
     })
   }
 
   async update(req, res) {
-    const reserva = req.body
+    const { estado, rangoFechas, motivo } = req.body
     const huespedReservadorId = req.user.id
-    const { id, rangoFechas } = reserva
+    const reservaId = req.params.id
 
-    if (!id || !rangoFechas) {
-      return res.status(400).json({ error: 'Reserva mal formada' })
+    validarObjectId(reservaId)
+    validarObjectId(huespedReservadorId)
+    let nuevo
+    if (!estado && !rangoFechas)
+      return res.status(400).json({ error: 'Campos faltantes para actualizar reserva' })
+
+    if (rangoFechas != null) {
+      nuevo = await this.reservaService.updateDate(
+        reservaId,
+        huespedReservadorId,
+        rangoFechas,
+      )
+    } else {
+      nuevo = await this.reservaService.updateState(reservaId, estado, motivo)
     }
-    validarObjectId(id)
-    const nuevo = await this.reservaService.update(reserva, huespedReservadorId)
-    res.status(204).json(nuevo)
+
+    res.status(200).json(nuevo)
   }
 }

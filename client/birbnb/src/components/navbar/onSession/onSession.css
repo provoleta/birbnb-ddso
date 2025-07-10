@@ -6,11 +6,14 @@
   gap: 10px;
 }
 
+.user-info {
+  cursor: pointer;
+}
+
 .profile-menu {
   position: absolute;
-
-  right: 0; /* Pegado a la derecha */
-  margin-top: 8px; /* Un pequeño espacio opcional */
+  right: 0;
+  margin-top: 8px;
   margin-right: 8px;
   background: #fff;
   border-radius: 8px;
@@ -19,6 +22,31 @@
   flex-direction: column;
   justify-content: center;
   z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-10px);
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.profile-menu.open {
+  cursor: default;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch; /* Cambia a stretch para ocupar todo el ancho */
+  gap: 0;
+}
+
+.profile-name {
+  font-size: 16px;
+  font-weight: bold;
+  padding: 12px 12px;
+  color: #333;
+  text-align: center;
+  border-bottom: 1px solid #eee;
 }
 
 .menu-button {
@@ -26,17 +54,19 @@
   align-items: center;
   justify-content: center;
   border: none;
-  height: 60px;
-  padding: 8px 16px !important;
+  height: 48px;
+  padding: 8px 24px !important;
   color: #333 !important;
   text-decoration: none;
   font-size: 14px;
   font-weight: bold;
   cursor: pointer;
+  background: none;
+  transition: background 0.2s;
 }
 
 .menu-button:hover {
-  background-color: #c4c4c4;
+  background-color: #f0f0f0;
   border-radius: 8px;
 }
 
@@ -44,4 +74,47 @@
   font-size: 16px;
   font-weight: light;
   padding-right: 0px;
+}
+
+.hamburger-menu {
+  display: none;
+}
+
+.session-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+@media (max-width: 600px) {
+  .onSession {
+    flex-direction: row;
+    align-items: center;
+  }
+  .hamburger-menu {
+    display: block;
+  }
+  .session-buttons {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-10px);
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-direction: row;
+    gap: 12px;
+    position: absolute;
+    top: 60px;
+    right: 10px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    padding: 16px;
+    z-index: 1000;
+  }
+  .session-buttons.open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+    display: flex;
+  }
 }

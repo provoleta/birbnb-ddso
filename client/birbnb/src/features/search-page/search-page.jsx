@@ -3,21 +3,23 @@ import SearchCard from './components/search-card/search-card.jsx'
 import SortButton from './components/sort-button/sort-button.jsx'
 import SliderPrecio from './components/filters/slider-precio.jsx'
 import FiltrosCaracteristicas from './components/filters/caracteristicas.jsx'
+import Loader from '../../components/loader/loader.jsx'
 import { useState, useMemo, useEffect } from 'react'
 import { useSearchContext } from '../../store/search-context.jsx'
 
 export default function SearchPage() {
-  const { switchLimpiar, alojamientos, aplicarFiltros, searchParams } = useSearchContext() // Obtener los alojamientos del contexto
+  const { switchLimpiar, alojamientos, aplicarFiltros, searchParams, loading } =
+    useSearchContext() // Agregar loading del contexto
   const searchValue = searchParams.get('ciudad') || ''
   const [sortOption, setSortOption] = useState('Menor precio')
   const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 10
+  const itemsPerPage = 5
 
   const [rangoPrecio, setRangoPrecio] = useState([0, 250])
   const [servicios, setServicios] = useState({
     estacionamiento: false,
     piscina: false,
-    mascotas: false,
+    mascotas_permitidas: false,
     wifi: false,
   })
 
@@ -37,22 +39,18 @@ export default function SearchPage() {
     })
   }, [sortOption, alojamientos, rangoPrecio])
 
-  // Calcular los alojamientos que se deben mostrar en la página actual
-  const paginatedAlojamientos = useMemo(() => {
-    const startIndex = (currentPage - 1) * itemsPerPage
-    const endIndex = startIndex + itemsPerPage
-    return sortedAlojamientos.slice(startIndex, endIndex)
-  }, [sortedAlojamientos, currentPage])
-
   const handleSortChange = (option) => {
     setSortOption(option)
+    if (currentPage !== 1) {
+      handlePageChange(1)
+    }
   }
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage)
   }
 
-  const totalPages = Math.ceil(sortedAlojamientos.length / itemsPerPage)
+  const totalPages = alojamientos?.total_pages
 
   const transformarServicios = (servicios) => {
     const caracteristicas = []
@@ -69,20 +67,21 @@ export default function SearchPage() {
     const params = new Map()
     params.set('precioGt', rangoPrecio[0])
     params.set('precioLt', rangoPrecio[1])
-
+    params.set('page', currentPage)
     params.set('caracteristicas', transformarServicios(servicios))
+    params.set('sortBy', sortOption === 'Menor precio' ? 'ascendente' : 'descendente')
     aplicarFiltros(params)
   }
 
   useEffect(() => {
     handlerFiltros()
-  }, [servicios, rangoPrecio])
+  }, [servicios, rangoPrecio, currentPage, sortOption])
 
   useEffect(() => {
     setServicios({
       estacionamiento: false,
       piscina: false,
-      mascotas: false,
+      mascotas_permitidas: false,
       wifi: false,
     })
     setRangoPrecio([0, 250])
@@ -103,18 +102,22 @@ export default function SearchPage() {
         <div className="button-container">
           <SortButton currentSortOption={sortOption} onSortChange={handleSortChange} />
         </div>
-        <div className="search-results">
-          {paginatedAlojamientos.map((result) => (
-            <SearchCard
-              key={result.id} // Esta línea es importante para que React pueda identificar cada elemento de la lista
-              id={result.idAlojamiento}
-              nombre={result.nombre}
-              descripcion={result.descripcion}
-              precioPorNoche={result.precioPorNoche}
-              fotos={result.fotos?.[0]?.path}
-            />
-          ))}
-        </div>
+        {loading ? (
+          <Loader />
+        ) : (
+          <div className="search-results">
+            {sortedAlojamientos.map((result) => (
+              <SearchCard
+                key={result.idAlojamiento} // Esta línea es importante para que React no llore
+                idAlojamiento={result.idAlojamiento}
+                nombre={result.nombre}
+                descripcion={result.descripcion}
+                precioPorNoche={result.precioPorNoche}
+                fotos={result.fotos?.[0]?.path}
+              />
+            ))}
+          </div>
+        )}
         <div className="pagination-container">
           {Array.from({ length: totalPages }, (_, index) => (
             <button

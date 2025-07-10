@@ -2,14 +2,18 @@ import { useState } from 'react'
 import '../../perfil.css'
 import { useNavigate } from 'react-router-dom'
 import './botones.css'
+import { useAuthContext } from '../../../../store/auth-context.jsx'
 
 function BotonesGrupo({ mostrarEnPantalla }) {
   const [activo, setActivo] = useState(mostrarEnPantalla)
+  const { esAnfitrion } = useAuthContext()
   const navigate = useNavigate()
   const handleClick = (nombreBoton) => {
     setActivo(nombreBoton)
     navigate(`/usuarios/perfil/${nombreBoton}`)
   }
+  const { user } = useAuthContext()
+  const tipoUsuario = user?.tipo
 
   const path = window.location.pathname.split('/').pop()
 
@@ -31,30 +35,32 @@ function BotonesGrupo({ mostrarEnPantalla }) {
       >
         Reservas
       </button>
-      <button
-        className={
-          path === 'alojamientos' ? 'opcion-button-style-activo' : 'opcion-button-style'
-        }
-        onClick={() => handleClick('alojamientos')}
-      >
-        Alojamientos
-      </button>
+
+      {tipoUsuario === 'ANFITRION' && (
+        <button
+          className={
+            path === 'alojamientos' ? 'opcion-button-style-activo' : 'opcion-button-style'
+          }
+          onClick={() => handleClick('alojamientos')}
+        >
+          Alojamientos
+        </button>
+      )}
+
+      {tipoUsuario === 'ANFITRION' && (
+        <button
+          className={
+            path === 'reservas-pendientes'
+              ? 'opcion-button-style-activo'
+              : 'opcion-button-style'
+          }
+          onClick={() => handleClick('reservas-pendientes')}
+        >
+          Reservas pendientes
+        </button>
+      )}
     </div>
   )
 }
 
 export default BotonesGrupo
-
-//        {botones.map((texto, idx) => (
-//   <button
-//   key={idx}
-//   onClick={() => setActivo(idx)}
-//   className={
-//     activo === idx
-//       ? 'notification-button-style-activo'
-//       : 'notification-button-style'
-//   }
-// >
-//   {texto}
-// </button>
-// ))}

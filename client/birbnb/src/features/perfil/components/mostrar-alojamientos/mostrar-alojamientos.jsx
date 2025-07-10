@@ -4,13 +4,14 @@ import api from '../../../../api/api'
 import { useAuthContext } from '../../../../store/auth-context'
 import '../../perfil.css'
 import AlojamientoCard from '../alojamiento-card/alojamiento-card'
+//import './alojamientos.css'
 
 import CircularIndeterminate from '../../../../components/loader/loader'
 
 const MostrarAlojamientos = () => {
   const [alojamientos, setAlojamientos] = useState([])
   const [loading, setLoading] = useState(true)
-  const { logueado } = useAuthContext()
+  const { logueado, loadingAuth } = useAuthContext()
   const navigate = useNavigate()
 
   const fetchAlojamientos = async () => {
@@ -18,22 +19,25 @@ const MostrarAlojamientos = () => {
       const response = await api.getAlojamientosAnfitrion()
       setAlojamientos(response)
     } catch (error) {
-      console.log('Error al obtener los alojamientos del anfitrion')
+      console.log(error.message)
     } finally {
       setLoading(false)
     }
   }
 
   useEffect(() => {
-    fetchAlojamientos()
-  }, [])
+    if (!loadingAuth && logueado) {
+      fetchAlojamientos()
+    }
+  }, [loadingAuth, logueado])
 
-  if (!logueado) {
-    navigate('/')
-  }
+  useEffect(() => {
+    if (!loadingAuth && !logueado) {
+      navigate('/')
+    }
+  }, [logueado, navigate, loadingAuth])
 
   if (loading) {
-    // Falta bajarlo un poco
     return <CircularIndeterminate />
   }
   return (
@@ -47,7 +51,7 @@ const MostrarAlojamientos = () => {
           ))}
         </div>
       )}
-      {alojamientos.length === 0 && <p>No contas con alojamientos a tu nombre</p>}
+      {alojamientos.length === 0 && <p>Todavia no tenes alojamientos.</p>}
     </>
   )
 }

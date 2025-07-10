@@ -15,7 +15,8 @@ const NotificationCard = ({
   handlerMarcarLeida,
 }) => {
   const formatDate = (dateString) => {
-    const date = new Date(dateString)
+    const fechaStr = dateString.split('T')[0]
+    const date = new Date(fechaStr + 'T00:00:00')
     const day = String(date.getDate()).padStart(2, '0')
     const month = String(date.getMonth() + 1).padStart(2, '0')
     const year = date.getFullYear()
@@ -23,7 +24,6 @@ const NotificationCard = ({
   }
 
   const onMarcarLeida = async () => {
-    console.log('Id de la notificacion a leer: ', idNotificacion)
     await handlerMarcarLeida(idNotificacion)
   }
 
@@ -35,6 +35,14 @@ const NotificationCard = ({
     )
   }
 
+  const formatMessage = (m) => {
+    const isoDateRegex = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/g
+
+    return m.replace(isoDateRegex, (match) => {
+      return formatDate(match)
+    })
+  }
+
   return (
     <div className="card-container">
       <CircleNotificationsIcon
@@ -44,7 +52,7 @@ const NotificationCard = ({
       <div className="notification-card-content">
         <div className="notification-info">
           <MessageIcon style={{ color: '#2196F3' }} />
-          <h3>{mensaje}</h3>
+          <h3>{formatMessage(mensaje)}</h3>
         </div>
         <div className="notification-info">
           <CalendarTodayIcon style={{ color: '#666' }} />

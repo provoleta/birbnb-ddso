@@ -5,7 +5,7 @@ export default class UsuarioRepository {
     this.model = UsuarioModel
   }
 
-  async signup(email, password, nombre) {
+  async signup(email, password, nombre, profileImage, tipo, biografia) {
     const usuarioExistente = await this.model.findOne({ email })
     if (usuarioExistente) {
       return null
@@ -16,7 +16,9 @@ export default class UsuarioRepository {
       email,
       password,
       notificaciones: [],
-      tipo: 'HUESPED', // Por defecto, el tipo es HUESPED
+      tipo: tipo,
+      profileImage: profileImage,
+      biografia: biografia || null,
     })
     return await usuario.save()
   }
@@ -35,5 +37,40 @@ export default class UsuarioRepository {
       { $push: { notificaciones: notificacion } },
       { new: true },
     )
+  }
+
+  async addReserva(usuarioId, reservaId) {
+    await this.model.findByIdAndUpdate(
+      usuarioId,
+      { $push: { reservas: reservaId } },
+      { new: true },
+    )
+  }
+
+  async getReservas(usuarioId) {
+    const usuario = await this.model.findById(usuarioId).populate({
+      path: 'reservas',
+      populate: { path: 'alojamiento' },
+    })
+    if (!usuario) {
+      return []
+    }
+    const hoy = new Date()
+    // Filtra reservas cuya fecha de inicio es mayor a hoy
+    return (usuario.reservas || []).filter(
+      (reserva) =>
+        reserva.rangoFechas &&
+        reserva.rangoFechas.fechaInicio &&
+        new Date(reserva.rangoFechas.fechaInicio) > hoy,
+    )
+  }
+
+  async removeReserva(reservaId) {
+    const reservaEliminada = await this.model.findOneAndUpdate(
+      { reservas: reservaId },
+      { $pull: { reservas: reservaId } },
+      { new: true },
+    )
+    return reservaEliminada
   }
 }

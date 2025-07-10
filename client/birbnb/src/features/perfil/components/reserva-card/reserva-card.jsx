@@ -1,18 +1,21 @@
 import './reserva-card.css'
-import Api from '../../../../api/api'
+import api from '../../../../api/api'
 import Button from '@mui/material/Button'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { useState } from 'react'
-import VentanaConfirmacion from '../ventana-confirmacion/ventana-confirmacion.jsx'
+import { VentanaConfirmacion } from '../ventana-confirmacion/ventana-confirmacion.jsx'
+import ReservationCalendar from '../../../detail-page/components/calendario-reserva/calendario-reserva.jsx'
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
 import LoginIcon from '@mui/icons-material/Login'
 import LogoutIcon from '@mui/icons-material/Logout'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import PendingIcon from '@mui/icons-material/Pending'
 import CancelIcon from '@mui/icons-material/Cancel'
+import VentanaFlotanteReserva from '../../../detail-page/components/ventana-flotante/ventanaFlotante.jsx'
 
 const formatDate = (dateString) => {
-  const date = new Date(dateString)
+  const fechaStr = dateString.split('T')[0]
+  const date = new Date(fechaStr + 'T00:00:00')
   const day = String(date.getDate()).padStart(2, '0')
   const month = String(date.getMonth() + 1).padStart(2, '0')
   const year = date.getFullYear()
@@ -26,17 +29,27 @@ const ReservaCard = ({
   rangoFechas,
   idReserva,
   onReservaCancelada,
+  reservas,
 }) => {
   const [showCancelarReserva, setShowCancelarReserva] = useState(false)
+  // const [motivoCancelacion, setMotivoCancelacion] = useState("")
+  const [motivo, setMotivo] = useState('')
+  const [fechas, setFechas] = useState([null, null])
+  const [showCalendario, setShowCalendario] = useState(false)
+  const [alojamientoConReserva, setAlojamientoConReserva] = useState(null)
+  const [reservasFiltradas, setReservasFiltradas] = useState([])
+  const [showConfirmacionCambio, setShowConfirmacionCambio] = useState(false)
+  const [cont, setCont] = useState(0)
 
   const CancelarReservaHandler = async () => {
     try {
-      const response = await Api.cancelarReserva(idReserva)
-      console.log(response)
-      onReservaCancelada()
+      setCont((prevCont) => prevCont + 1)
+      console.log('Llamando a cancelar reserva por ' + cont + ' vez')
       setShowCancelarReserva(false)
+      await api.cancelarReserva(idReserva, motivo)
+      onReservaCancelada()
     } catch (error) {
-      console.error('Error al cancelar la reserva:', error)
+      alert('Error al cancelar la reserva:', error)
     }
   }
 
@@ -57,12 +70,38 @@ const ReservaCard = ({
     setShowCancelarReserva(true)
   }
 
+  const handlerFechas = (nuevasFechas) => {
+    setFechas(nuevasFechas)
+  }
+
+  const handlerModificarFecha = async () => {
+    try {
+      const alojamientoNIGA = await api.obtenerAlojamiento(alojamiento._id)
+      const reservasSinReservaId = alojamientoNIGA.reservas.filter(
+        (reserva) => reserva._id !== idReserva,
+      )
+      setReservasFiltradas(reservasSinReservaId)
+      setShowCalendario(true)
+    } catch (error) {
+      console.error('Error al obtener las reservas:', error)
+    }
+  }
+
+  const handlerModificarReserva = async () => {
+    const fechasAMandar = {
+      fechaInicio: fechas[0],
+      fechaFin: fechas[1],
+    }
+    await api.modificarFechasReserva(idReserva, fechasAMandar)
+    setShowConfirmacionCambio(true)
+  }
+
   return (
     <div className="card-container">
       <div>
         <img
           className="imagen-reserva"
-          src={alojamiento.fotos[0].path}
+          src={`data:image/jpeg;base64,${alojamiento.fotos[0]?.path}`}
           alt={alojamiento.nombre}
         />
       </div>
@@ -101,11 +140,52 @@ const ReservaCard = ({
       >
         Cancelar Reserva
       </Button>
+
+      <Button
+        variant="contained"
+        style={{
+          position: 'relative',
+          marginTop: 'auto',
+          backgroundColor: '#FFD700',
+          color: '#000',
+        }}
+        startIcon={<CalendarTodayIcon />}
+        onClick={handlerModificarFecha}
+      >
+        Modificar Reserva
+      </Button>
+
       {showCancelarReserva && (
         <VentanaConfirmacion
           mensaje="¿Estás seguro de que deseas cancelar esta reserva?"
           onConfirm={CancelarReservaHandler}
           onCancel={() => setShowCancelarReserva(false)}
+          setMotivo={setMotivo}
+        />
+      )}
+
+      {showCalendario && (
+        <div className="calendario-container">
+          <ReservationCalendar
+            reservas={reservasFiltradas || []}
+            onFechas={handlerFechas}
+          />
+          <div className="calendario-botones">
+            <button onClick={() => setShowCalendario(false)}>Cerrar calendario</button>
+            <button onClick={handlerModificarReserva} disabled={!fechas[0] || !fechas[1]}>
+              Confirmar cambio
+            </button>
+          </div>
+        </div>
+      )}
+
+      {showConfirmacionCambio && (
+        <VentanaFlotanteReserva
+          mensaje="reserva modificada correctamente"
+          onClose={() => {
+            setShowConfirmacionCambio(false)
+            window.location.reload()
+          }}
         />
       )}
     </div>

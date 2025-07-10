@@ -1,19 +1,30 @@
 import NotFoundException from '../exceptions/not-found-exception.js'
+import { Alojamiento } from '../models/entities/alojamiento.js'
 
 export default class AlojamientoService {
-  constructor(alojamientoRepository, usuarioRepository) {
+  constructor(alojamientoRepository, usuarioRepository, ciudadRepository) {
     this.alojamientoRepository = alojamientoRepository
     this.usuarioRepository = usuarioRepository
+    this.ciudadRepository = ciudadRepository
   }
 
-  async findAll(filters = {}, page = 1, limit = 10) {
+  setearOrden(filters) {
+    if (filters.sortBy === 'descendente') {
+      filters.sortBy = -1
+    } else {
+      filters.sortBy = 1
+    }
+    return filters
+  }
+  async findAll(filters = {}, page = 1, limit = 5) {
     // Se le pasan los parametros de busqueda y paginacion a la funcion. Si no se pasan, se le asignan los valores por defecto indicados.
     const pageNum = Math.max(Number(page), 1)
     const limitNum = Math.min(Math.max(Number(limit), 1), 100)
 
+    const filtersSeteados = this.setearOrden(filters)
     // TODO : Cambiar implementacion cuando se utilice la base de datos
     const alojamientosFiltrados = await this.alojamientoRepository.filterBy(
-      filters,
+      filtersSeteados,
       pageNum,
       limitNum,
     )
@@ -22,8 +33,6 @@ export default class AlojamientoService {
     const total_pages = Math.ceil(total / limitNum)
 
     const data = alojamientosFiltrados.map((alojamiento) => this.toDTO(alojamiento)) // Se mapean los alojamientos filtrados a un formato DTO para ser devueltos al cliente.
-
-    //console.log('Alojamientos :', data)
 
     return {
       page: pageNum,
@@ -40,9 +49,18 @@ export default class AlojamientoService {
     return this.toDTO(alojamiento)
   }
 
+  // TODO Cuando se implemente la agregación de alojamientos, guardar en el repositorio de ciudades la ciudad del alojamiento
   async getCities() {
-    const ciudades = await this.alojamientoRepository.getCities()
-    return ciudades
+    const ciudades = await this.ciudadRepository.getCities()
+    return ciudades.map((ciudad) => ciudad.nombre)
+  }
+
+  async create(alojamiento, anfitrion) {
+    await this.ciudadRepository.addCity(alojamiento.direccion.ciudad)
+    const nuevoAlojamiento = await this.alojamientoRepository.save(
+      this.fromDTO(alojamiento, anfitrion),
+    )
+    return this.toDTO(nuevoAlojamiento)
   }
 
   async findByUserId(userId) {
@@ -75,5 +93,27 @@ export default class AlojamientoService {
       reservas: alojamiento.reservas,
       fotos: alojamiento.fotos,
     }
+  }
+
+  fromDTO(alojamientoDTO, anfitrion) {
+    return new Alojamiento(
+      anfitrion,
+      alojamientoDTO.nombre,
+      alojamientoDTO.descripcion,
+      alojamientoDTO.precioPorNoche,
+      alojamientoDTO.moneda,
+      alojamientoDTO.horarioCheckIn,
+      alojamientoDTO.horarioCheckOut,
+      alojamientoDTO.direccion,
+      alojamientoDTO.cantHuespedesMax,
+      alojamientoDTO.caracteristicas || [],
+      [],
+      alojamientoDTO.fotos.map((foto) => {
+        return {
+          descripcion: 'hola',
+          path: foto,
+        }
+      }),
+    )
   }
 }

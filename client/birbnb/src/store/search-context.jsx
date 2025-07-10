@@ -1,6 +1,5 @@
-import axios from 'axios'
 import { createContext, useState, useContext } from 'react'
-import qs from 'qs'
+import api from '../api/api'
 
 const SearchContext = createContext()
 
@@ -12,8 +11,10 @@ export function SearchProvider({ children }) {
   const [searchParams, setSearchParams] = useState(new Map())
   const [alojamientos, setAlojamientos] = useState([])
   const [switchLimpiar, setSwitchLimpiar] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const search = () => {
+    setLoading(true) // Activa el loader
     let filtrosJson = Object.fromEntries(searchParams)
     if (filtrosJson.checkIn) {
       filtrosJson.checkIn = convertirFecha(filtrosJson.checkIn)
@@ -21,24 +22,20 @@ export function SearchProvider({ children }) {
     if (filtrosJson.checkOut) {
       filtrosJson.checkOut = convertirFecha(filtrosJson.checkOut)
     }
-    //console.log('Filtros a aplicar: ', filtrosJson)
 
-    axios
-      .get('/alojamientos', {
-        baseURL: 'http://localhost:6969',
-        params: filtrosJson,
-        paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'repeat' }),
-      })
-      .then((response) => {
-        setAlojamientos(response.data)
-        //console.log('Alojamientos filtrados', response.data)
-      })
-      .catch((error) => {
-        console.error('Error al buscar alojamientos:', error)
-        setAlojamientos([])
-      })
+    const getAlojamientos = async () => {
+      try {
+        const alojamientosNew = await api.obtenerAlojamientos(filtrosJson)
+        setAlojamientos(alojamientosNew)
+      } catch (error) {
+        console.error('Error fetching alojamientos:', error)
+      } finally {
+        setLoading(false) // Desactiva el loader
+      }
+    }
+
+    getAlojamientos()
   }
-
   const aplicarFiltros = (filtros) => {
     filtros.forEach((filtro, nombre) => {
       const valor = filtro instanceof Date ? convertirFecha(filtro) : filtro // Convertir fechas al formato DD-MM-YYYY
@@ -61,6 +58,7 @@ export function SearchProvider({ children }) {
         aplicarFiltros,
         alojamientos,
         searchParams,
+        loading,
       }}
     >
       {children}

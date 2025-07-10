@@ -1,11 +1,22 @@
 import RangoFechas from '../entities/rango-fechas.js'
 import { AlojamientoModel } from '../schemas/alojamiento-schema.js'
-
 export default class AlojamientoRepository {
-  ciudades = ['Buenos Aires', 'Mar del Plata']
+  // ciudades = ['Buenos Aires', 'Mar del Plata']
 
   constructor() {
     this.model = AlojamientoModel
+  }
+
+  async save(alojamiento) {
+    const query = alojamiento.id ? { _id: alojamiento.id } : { _id: new this.model()._id }
+
+    return await this.model
+      .findOneAndUpdate(query, alojamiento, {
+        new: true,
+        runValidators: true,
+        upsert: true,
+      })
+      .populate(['anfitrion'])
   }
 
   async filterBy(filters = {}, pageNum, limitNum) {
@@ -65,6 +76,7 @@ export default class AlojamientoRepository {
 
     const alojamientosFiltrados = await this.model
       .find(query)
+      .sort({ precioPorNoche: filters.sortBy })
       .populate(['anfitrion', 'reservas'])
       .skip((pageNum - 1) * limitNum)
       .limit(limitNum)
@@ -104,10 +116,6 @@ export default class AlojamientoRepository {
   async countAll() {
     const totalAlojamientos = await this.model.countDocuments()
     return totalAlojamientos
-  }
-
-  async getCities() {
-    return this.ciudades
   }
 
   async filterByUserId(userId) {

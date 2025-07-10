@@ -22,6 +22,7 @@ const AlojamientoDetail = () => {
   const { id } = useParams()
   const [alojamiento, setAlojamiento] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [loadingReserva, setLoadingReserva] = useState(false) // Nuevo estado para loading de reserva
   const [fechas, setFechas] = useState([null, null])
   const [showConfirmacionReserva, setConfirmacionReserva] = useState(false)
   const { procesarReserva } = useCreacionReserva(fechas, id, setConfirmacionReserva)
@@ -30,12 +31,19 @@ const AlojamientoDetail = () => {
   const [showSesionFlotante, setShowSesionFlotante] = useState(false)
   const [initialMode, setInitialMode] = useState('login')
 
-  const handlerReservar = () => {
+  const handlerReservar = async () => {
     if (!logueado) {
       setShowSesionFlotante(true)
       setInitialMode('register')
     } else {
-      procesarReserva()
+      setLoadingReserva(true) // Activa el loader
+      try {
+        await procesarReserva()
+      } catch (error) {
+        console.error('Error al procesar reserva:', error)
+      } finally {
+        setLoadingReserva(false) // Desactiva el loader
+      }
     }
   }
   useEffect(() => {
@@ -108,10 +116,10 @@ const AlojamientoDetail = () => {
             <button
               className="boton-reservar"
               onClick={handlerReservar}
-              disabled={!fechas[0] || !fechas[1]}
+              disabled={!fechas[0] || !fechas[1] || loading || loadingReserva}
               type="button"
             >
-              Reservar
+              {loadingReserva ? <div className="loader"></div> : 'Reservar'}
             </button>
           </section>
         </div>

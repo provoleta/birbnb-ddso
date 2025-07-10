@@ -18,8 +18,9 @@ export default class AlojamientoController {
       moneda,
       checkIn,
       checkOut,
+      sortBy = 'ascendente',
       page = 1,
-      limit = 10,
+      limit = 5,
     } = req.query
 
     const filters = {
@@ -36,6 +37,7 @@ export default class AlojamientoController {
       moneda,
       checkIn,
       checkOut,
+      sortBy,
     }
 
     const alojamientosPaginados = await this.alojamientoService.findAll(
@@ -62,10 +64,21 @@ export default class AlojamientoController {
   async findCiudades(req, res) {
     try {
       const ciudades = await this.alojamientoService.getCities()
-      //console.log('Ciudades obtenidas:', ciudades)
       res.json(ciudades)
     } catch (error) {
       res.status(500).json({ error: 'Error al obtener las ciudades' })
     }
+  }
+
+  async create(req, res) {
+    const alojamiento = req.body
+    const anfitrion = req.user.id
+
+    if (!alojamiento || !anfitrion) {
+      return res.status(400).json({ error: 'Alojamiento mal formado' })
+    }
+
+    const nuevo = await this.alojamientoService.create(alojamiento, anfitrion)
+    res.status(201).json(nuevo)
   }
 }

@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import api from '../../api/api'
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const { handleNewToken } = useAuthContext()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -17,7 +17,6 @@ export default function LoginPage() {
     if (email && password && name) {
       let token = await api.register(name, email, password)
       await handleNewToken(token)
-      //console.log('Token post handle:', token)
       navigate('/')
     }
   }

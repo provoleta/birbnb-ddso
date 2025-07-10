@@ -22,46 +22,87 @@ export default class ReservaService {
     this.usuarioRepository = usuarioRepository
   }
 
-  async update(reserva, solicitanteId) {
-    const reservaAmodificar = await this.reservaRepository.findById(reserva.id)
-    if (!reservaAmodificar) throw new NotFoundException()
+  async updateDate(reservaId, huespedReservadorId, rangoFechas) {
+    const reservaAModificar = await this.reservaRepository.findById(reservaId)
+    if (!reservaAModificar) throw new NotFoundException()
 
-    if (reservaAeliminar.huespedReservador.id !== solicitanteId) {
+    if (reservaAModificar.huespedReservador.id !== huespedReservadorId) {
       throw new UnauthorizedException()
     }
 
     const alojamiento = await this.alojamientoRepository.findById(
-      reservaAmodificar.alojamiento.id,
+      reservaAModificar.alojamiento.id,
     )
 
-    const disponibilidad = alojamiento.estasDisponibleParaCambiar(
-      reserva.rangoFechas,
-      reserva.id,
-    )
+    const disponibilidad = alojamiento.estasDisponibleParaCambiar(rangoFechas, reservaId)
 
-    if (!disponibilidad) throw new DisponibilidadException(reserva.alojamiento)
+    if (!disponibilidad) throw new DisponibilidadException(reservaAModificar.alojamiento)
 
-    const nuevoRangoDeFechas = new RangoFechas(
-      dayjs(reserva.rangoFechas.fechaInicio, 'DD/MM/YYYY'),
-      dayjs(reserva.rangoFechas.fechaFin, 'DD/MM/YYYY'),
-    )
-
-    // Verifico que si la quiero actualizar, no este iniciada la misma
-    if (dayjs().isAfter(reservaAmodificar.rangoFechas.fechaInicio)) {
+    if (dayjs().isAfter(reservaAModificar.rangoFechas.fechaInicio)) {
       throw new ExcededTimeException()
     }
 
-    reservaAmodificar.rangoFechas = new RangoFechas(
-      nuevoRangoDeFechas.fechaInicio.toISOString(),
-      nuevoRangoDeFechas.fechaFin.toISOString(),
-    )
+    reservaAModificar.rangoFechas = rangoFechas
+    reservaAModificar.estado = EstadoReserva.PENDIENTE
 
-    const reservaModificada = await this.reservaRepository.save(reservaAmodificar)
+    const reservaModificada = await this.reservaRepository.save(reservaAModificar)
+    this.notificarReserva(alojamiento.anfitrion, reservaAModificar, '')
 
     return this.toDTO(reservaModificada)
   }
 
-  async delete(reservaId, solicitanteId) {
+  // TODO: Ver que devolver cuando eliminamos la reserva
+  // TODO: Implementar corroboracion de que el tipo que la cancela es el dueño del alojamiento
+
+  async updateState(reservaId, nuevoEstado, motivo) {
+    const reservaAModificar = await this.reservaRepository.findById(reservaId)
+
+    if (!reservaAModificar) throw new NotFoundException()
+
+    reservaAModificar.estado = nuevoEstado
+
+    if (nuevoEstado === 'CANCELADA') {
+      if (
+        dayjs().isAfter(reservaAModificar.rangoFechas.fechaInicio, 'DD/MM/YYYY') &&
+        dayjs().isBefore(reservaAModificar.rangoFechas.fechaFin, 'DD/MM/YYYY')
+      ) {
+        throw new ExcededTimeException()
+      }
+
+      await this.notificarReserva(
+        reservaAModificar.huespedReservador,
+        reservaAModificar,
+        motivo,
+      )
+
+      const eliminada = await this.reservaRepository.delete(reservaId)
+      await this.usuarioRepository.removeReserva(reservaId)
+      if (!eliminada) throw new NotFoundException()
+
+      const alojamientoSinReserva = await this.alojamientoRepository.removeReserva(
+        reservaAModificar.alojamiento.id,
+        reservaId,
+      )
+
+      if (!alojamientoSinReserva) throw new NotFoundException()
+    } else {
+      const notificacion = FactoryNotificacion.crearSegunReserva(
+        reservaAModificar,
+        motivo,
+      )
+
+      await this.notificarReserva(
+        reservaAModificar.huespedReservador,
+        reservaAModificar,
+        motivo,
+      )
+
+      const reservaModificada = await this.reservaRepository.save(reservaAModificar)
+      return this.toDTO(reservaModificada)
+    }
+  }
+
+  async delete(reservaId, solicitanteId, motivo) {
     const reservaAeliminar = await this.reservaRepository.findById(reservaId)
 
     if (!reservaAeliminar) throw new NotFoundException()
@@ -79,6 +120,8 @@ export default class ReservaService {
 
     const eliminada = await this.reservaRepository.delete(reservaId)
     if (!eliminada) throw new NotFoundException()
+    const reservaUsuarioEliminada = await this.usuarioRepository.removeReserva(reservaId)
+    if (!reservaUsuarioEliminada) throw new NotFoundException()
 
     const alojamientoSinReserva = await this.alojamientoRepository.removeReserva(
       reservaAeliminar.alojamiento.id,
@@ -105,7 +148,7 @@ export default class ReservaService {
     )
     reservaANotificar.estado = EstadoReserva.CANCELADA
 
-    await this.notificarReserva(anfitrion, reservaANotificar)
+    await this.notificarReserva(anfitrion, reservaANotificar, motivo)
   }
 
   async create(reserva) {
@@ -143,19 +186,20 @@ export default class ReservaService {
     const reservaCreada = await this.reservaRepository.save(reservaACrear)
 
     this.alojamientoRepository.addReserva(alojamientoId, reservaCreada.id)
+    this.usuarioRepository.addReserva(huespedReservador.id, reservaCreada.id)
 
-    this.notificarReserva(alojamiento.anfitrion, reservaACrear)
+    this.notificarReserva(alojamiento.anfitrion, reservaACrear, '')
 
     return reservaCreada.id
   }
 
   async findByUserId(userId) {
-    const usuario = await this.usuarioRepository.findById(userId)
-    if (!usuario) throw new NotFoundException()
+    // const usuario = await this.usuarioRepository.findById(userId)
+    // if (!usuario) throw new NotFoundException()
 
     // Solo trae las reservas que no estan caducadas. Si se quisiera traer todas, habria que pasar true
     // como segundo parametro en filterByUserId
-    const reservas = await this.reservaRepository.filterByUserId(userId)
+    const reservas = await this.usuarioRepository.getReservas(userId)
 
     if (!reservas) throw new NotFoundException()
 
@@ -164,8 +208,8 @@ export default class ReservaService {
     return historialReservas
   }
 
-  async notificarReserva(usuario, reserva) {
-    const notificacion = FactoryNotificacion.crearSegunReserva(reserva)
+  async notificarReserva(usuario, reserva, motivo) {
+    const notificacion = FactoryNotificacion.crearSegunReserva(reserva, motivo)
     await this.usuarioRepository.findAndUpdate(usuario, notificacion)
   }
 

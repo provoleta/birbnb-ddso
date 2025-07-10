@@ -24,8 +24,24 @@ export default class UsuarioController {
   }
 
   async findReservas(req, res) {
-    const reserva = await this.reservaService.findByUserId(req.user.id)
-    res.status(200).json(reserva)
+    const reservas = await this.usuarioService.getReservas(req.user.id)
+    res.status(200).json(reservas)
+  }
+
+  async singupAnfitrion(req, res) {
+    const { email, password, name, biografia, profileImage } = req.body
+    if (!email || !password || !name || !biografia) {
+      return res.status(400).json({ message: 'Todos los campos son obligatorios' })
+    }
+
+    const token = await this.usuarioService.signupAnfitrion(
+      email,
+      password,
+      name,
+      biografia,
+      profileImage,
+    )
+    return res.status(201).json({ token })
   }
 
   async findAlojamientos(req, res) {
@@ -34,12 +50,12 @@ export default class UsuarioController {
   }
 
   async signup(req, res) {
-    const { email, password, name } = req.body
+    const { email, password, name, profileImage } = req.body
     if (!email || !password || !name) {
       return res.status(400).json({ message: 'Todos los campos son obligatorios' })
     }
 
-    const token = await this.usuarioService.signup(email, password, name)
+    const token = await this.usuarioService.signup(email, password, name, profileImage)
     return res.status(201).json({ token })
   }
 
@@ -48,14 +64,18 @@ export default class UsuarioController {
     if (!email || !password) {
       return res.status(400).json({ message: 'Email y contraseña son obligatorios' })
     }
-
     const token = await this.usuarioService.login(email, password)
+
+    if (!token) {
+      console.log('Email o contraseña incorrectos')
+      return res.status(401).json({ message: 'Email o contraseña incorrectos' })
+    }
+
     return res.status(200).json({ token })
   }
 
   async getProfile(req, res) {
     const id = req.user.id
-    //console.log('Id', id)
     const usuario = await this.usuarioService.getProfile(id)
     return res.status(200).json(usuario)
   }

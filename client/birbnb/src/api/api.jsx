@@ -1,10 +1,12 @@
 import axios from 'axios'
+import { data } from 'react-router'
+import qs from 'qs'
 
 class Api {
   constructor() {
     this.tokenAuth = null
     this.axiosInstance = axios.create({
-      baseURL: 'http://localhost:6969',
+      baseURL: process.env.REACT_APP_IP_BACK || 'http://localhost:6969',
     })
   }
 
@@ -20,18 +22,40 @@ class Api {
         this.tokenAuth = token
       })
       .catch((error) => {
-        console.error('Login failed:', error)
         throw error
       })
     return this.tokenAuth
   }
 
-  async register(name, email, password) {
+  async register(name, email, password, profileImage) {
     await this.axiosInstance
       .post('/usuarios/signup', {
         name: name,
         email: email,
         password: password,
+        profileImage: profileImage,
+      })
+      .then((response) => {
+        const { token } = response.data
+
+        this.tokenAuth = token
+      })
+      .catch((error) => {
+        console.error('Registration failed:', error)
+        alert('Registration failed. Please check your details and try again.')
+      })
+
+    return this.tokenAuth
+  }
+
+  async registerAnfitrion(name, email, password, biografia, profileImage) {
+    await this.axiosInstance
+      .post('/usuarios/signup-anfitrion', {
+        name: name,
+        email: email,
+        password: password,
+        biografia: biografia,
+        profileImage: profileImage,
       })
       .then((response) => {
         const { token } = response.data
@@ -78,7 +102,7 @@ class Api {
         notificaciones = response.data
       })
       .catch((error) => {
-        console.error('Error fetching notifications:', error)
+        console.error('Error fetching notifications:', error.message)
       })
     return notificaciones
   }
@@ -91,7 +115,6 @@ class Api {
         },
       })
       .then((response) => {
-        console.log(response.data)
         return response.data
       })
       .catch((error) => {
@@ -108,6 +131,21 @@ class Api {
       })
       .catch((error) => {
         console.error('Error fetching accommodation:', error)
+        throw error
+      })
+  }
+
+  async obtenerAlojamientos(filters) {
+    return await this.axiosInstance
+      .get('/alojamientos', {
+        params: filters,
+        paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'repeat' }),
+      })
+      .then((response) => {
+        return response.data
+      })
+      .catch((error) => {
+        console.error('Error al buscar alojamientos:', error)
         throw error
       })
   }
@@ -135,15 +173,18 @@ class Api {
         return response.data
       })
       .catch((error) => {
-        console.error('Error fetching reservations:', error)
+        console.error('Error fetching reservations:', error.message)
         throw error
       })
   }
-  async cancelarReserva(idReserva) {
+  async cancelarReserva(idReserva, motivo) {
     return await this.axiosInstance
       .delete(`/reservas/${idReserva}`, {
         headers: {
           Authorization: `Bearer ${this.tokenAuth}`,
+        },
+        data: {
+          motivo: motivo,
         },
       })
       .then((response) => {
@@ -152,7 +193,7 @@ class Api {
       .catch((error) => {
         error.status === 410
           ? alert('No se pudo cancelar la reserva ya que se excede el tiempo minimo')
-          : console.error('Error en la cancelacion de la reserva: ', error)
+          : console.error('Error en la cancelacion de la reserva: ', error.message)
       })
   }
   async marcarComoLeida(idNotificacion) {
@@ -178,7 +219,99 @@ class Api {
         return response.data
       })
       .catch((error) => {
+        console.error('Error fetching alojamientos:', error.message)
+        throw error
+      })
+  }
+
+  async subirAlojamiento(alojamiento) {
+    return await this.axiosInstance
+      .post('/alojamientos', alojamiento, {
+        headers: {
+          Authorization: `Bearer ${this.tokenAuth}`,
+        },
+      })
+      .then((response) => {
+        return response.data
+      })
+      .catch((error) => {
         console.error('Error fetching alojamientos:', error)
+        throw error
+      })
+  }
+
+  async obtenerCoordenadas(direccion) {
+    return await this.axiosInstance
+      .get('/geocode', {
+        params: {
+          calle: direccion.calle,
+          numero: direccion.numero,
+          ciudad: direccion.ciudad,
+          pais: direccion.pais,
+        },
+      })
+      .then((response) => {
+        return response.data
+      })
+      .catch((error) => {
+        console.error('Error fetching coordinates:', error)
+        throw error
+      })
+  }
+
+  async modificarEstadoReserva(reservaId, motivo, estado) {
+    return await this.axiosInstance
+      .patch(
+        `/reservas/${reservaId}`,
+        {
+          motivo: motivo,
+          estado: estado,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${this.tokenAuth}`,
+          },
+        },
+      )
+      .then((response) => {
+        return response.data
+      })
+      .catch((error) => {
+        console.error('Error actualizando estado reservas:', error)
+        throw error
+      })
+  }
+
+  async modificarFechasReserva(reservaId, rangoFechas) {
+    return await this.axiosInstance
+      .patch(
+        `/reservas/${reservaId}`,
+        {
+          rangoFechas: rangoFechas,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${this.tokenAuth}`,
+          },
+        },
+      )
+      .then((response) => {
+        return response.data
+      })
+      .catch((error) => {
+        console.error('Error actualizando fechas de reserva: ', error)
+        throw error
+      })
+  }
+
+  async obtenerCiudades() {
+    return await this.axiosInstance
+      .get('/ciudades')
+      .then((response) => {
+        return response.data
+      })
+      .catch((error) => {
+        console.error('Error fetching cities:', error)
         throw error
       })
   }
