@@ -1,6 +1,9 @@
+import { slowCypressDown } from 'cypress-slow-down'
+
 describe('Integration-E2E-BirBnB-Test', () => {
   it('passes', () => {
     cy.visit('http://localhost:3000')
+    slowCypressDown(300)
 
     const botonLog = cy.get('.app-nav-links button')
     botonLog.click()
@@ -15,8 +18,8 @@ describe('Integration-E2E-BirBnB-Test', () => {
     userLoginButton.click()
 
     const busquedaCiudad = cy.get('input[placeholder = "Buscar ciudad"]')
-    busquedaCiudad.type('Buenos Aires')
-    busquedaCiudad.should('have.value', 'Buenos Aires')
+    busquedaCiudad.type('CABA')
+    busquedaCiudad.should('have.value', 'CABA')
 
     const checkInDate = cy.get('.search-bar > div:nth-child(3)')
     checkInDate.click()
@@ -56,7 +59,7 @@ describe('Integration-E2E-BirBnB-Test', () => {
     botonLog.click()
 
     const userEmail = cy.get('.auth-form > div:nth-child(1) input')
-    userEmail.type('jijo123@gmail.com')
+    userEmail.type('lucas@gmail.com')
 
     const userPass = cy.get('.auth-form > div:nth-child(2) input')
     userPass.type('1')
