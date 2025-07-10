@@ -135,17 +135,12 @@ const ReservaCard = ({
           startIcon={<DeleteIcon />}
           onClick={handleCancelarReserva}
           disabled={!estaEnCurso()}
-          sx={{
+          style={{
             backgroundColor: estaEnCurso() ? '#FFD700' : '#CCCCCC',
             color: estaEnCurso() ? '#000' : '#666666',
             minHeight: '48px',
-            cursor: estaEnCurso() ? 'pointer' : 'not-allowed',
             '&:hover': {
               backgroundColor: estaEnCurso() ? '#E6C200' : '#CCCCCC',
-            },
-            '&:disabled': {
-              cursor: 'not-allowed',
-              backgroundColor: '#CCCCCC',
             },
           }}
         >
