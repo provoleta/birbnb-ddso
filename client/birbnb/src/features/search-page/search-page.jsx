@@ -6,7 +6,6 @@ import FiltrosCaracteristicas from './components/filters/caracteristicas.jsx'
 import Loader from '../../components/loader/loader.jsx'
 import { useState, useMemo, useEffect, use } from 'react'
 import { useSearchContext } from '../../store/search-context.jsx'
-import { set } from 'mongoose'
 
 export default function SearchPage() {
   const {
