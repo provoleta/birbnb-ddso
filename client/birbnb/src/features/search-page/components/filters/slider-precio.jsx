@@ -13,7 +13,7 @@ const SliderPrecio = ({ rangoPrecio, setRangoPrecio }) => {
       <Box sx={{ width: '100%', padding: '0 10px' }}>
         <Slider
           value={rangoPrecio}
-          onChange={handlePriceChange}
+          onChangeCommitted={handlePriceChange}
           valueLabelDisplay="auto"
           min={0}
           max={250}
