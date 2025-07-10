@@ -12,6 +12,7 @@ export function SearchProvider({ children }) {
   const [alojamientos, setAlojamientos] = useState([])
   const [switchLimpiar, setSwitchLimpiar] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [totalPages, setTotalPages] = useState(alojamientos?.total_pages || 0)
 
   const search = () => {
     setLoading(true) // Activa el loader
@@ -27,6 +28,9 @@ export function SearchProvider({ children }) {
       try {
         const alojamientosNew = await api.obtenerAlojamientos(filtrosJson)
         setAlojamientos(alojamientosNew)
+        if (totalPages !== alojamientosNew?.total_pages) {
+          setTotalPages(alojamientosNew?.total_pages || 0)
+        }
       } catch (error) {
         console.error('Error fetching alojamientos:', error)
       } finally {
@@ -59,6 +63,7 @@ export function SearchProvider({ children }) {
         alojamientos,
         searchParams,
         loading,
+        totalPages,
       }}
     >
       {children}

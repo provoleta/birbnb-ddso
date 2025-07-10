@@ -20,6 +20,60 @@ export default class AlojamientoRepository {
   }
 
   async filterBy(filters = {}, pageNum, limitNum) {
+    const query = this.mapFiltros(filters)
+
+    const alojamientosFiltrados = await this.model
+      .find(query)
+      .sort({ precioPorNoche: filters.sortBy })
+      .populate(['anfitrion', 'reservas'])
+      .skip((pageNum - 1) * limitNum)
+      .limit(limitNum)
+
+    if (filters.checkIn !== '' && filters.checkOut !== '') {
+      let alojamientosARetornar = null
+      let rangoFechas = new RangoFechas(filters.checkIn, filters.checkOut)
+      alojamientosARetornar = alojamientosFiltrados.filter((alojamiento) =>
+        alojamiento.estasDisponibleEn(rangoFechas),
+      )
+      return alojamientosARetornar
+    } else {
+      return alojamientosFiltrados
+    }
+  }
+
+  async addReserva(alojamientoId, reservaId) {
+    return await this.model.findByIdAndUpdate(
+      alojamientoId,
+      { $push: { reservas: reservaId } },
+      { new: true, runValidators: true },
+    )
+  }
+
+  async removeReserva(alojamientoId, reservaId) {
+    return await this.model.findByIdAndUpdate(
+      alojamientoId,
+      { $pull: { reservas: reservaId } },
+      { new: true, runValidators: true },
+    )
+  }
+
+  async findById(alojamientoId) {
+    return await this.model.findById(alojamientoId).populate(['anfitrion', 'reservas'])
+  }
+
+  async countAll(filters) {
+    const query = this.mapFiltros(filters)
+    const totalAlojamientos = await this.model.countDocuments(query)
+    return totalAlojamientos
+  }
+
+  async filterByUserId(userId) {
+    return await this.model
+      .find({ anfitrion: userId })
+      .populate(['anfitrion', 'reservas'])
+  }
+
+  mapFiltros(filters) {
     const query = {}
 
     if (filters.ciudad && filters.ciudad !== '') {
@@ -74,53 +128,6 @@ export default class AlojamientoRepository {
       query.moneda = { $regex: filters.moneda, $options: 'i' }
     }
 
-    const alojamientosFiltrados = await this.model
-      .find(query)
-      .sort({ precioPorNoche: filters.sortBy })
-      .populate(['anfitrion', 'reservas'])
-      .skip((pageNum - 1) * limitNum)
-      .limit(limitNum)
-
-    if (filters.checkIn !== '' && filters.checkOut !== '') {
-      let alojamientosARetornar = null
-      let rangoFechas = new RangoFechas(filters.checkIn, filters.checkOut)
-      alojamientosARetornar = alojamientosFiltrados.filter((alojamiento) =>
-        alojamiento.estasDisponibleEn(rangoFechas),
-      )
-      return alojamientosARetornar
-    } else {
-      return alojamientosFiltrados
-    }
-  }
-
-  async addReserva(alojamientoId, reservaId) {
-    return await this.model.findByIdAndUpdate(
-      alojamientoId,
-      { $push: { reservas: reservaId } },
-      { new: true, runValidators: true },
-    )
-  }
-
-  async removeReserva(alojamientoId, reservaId) {
-    return await this.model.findByIdAndUpdate(
-      alojamientoId,
-      { $pull: { reservas: reservaId } },
-      { new: true, runValidators: true },
-    )
-  }
-
-  async findById(alojamientoId) {
-    return await this.model.findById(alojamientoId).populate(['anfitrion', 'reservas'])
-  }
-
-  async countAll() {
-    const totalAlojamientos = await this.model.countDocuments()
-    return totalAlojamientos
-  }
-
-  async filterByUserId(userId) {
-    return await this.model
-      .find({ anfitrion: userId })
-      .populate(['anfitrion', 'reservas'])
+    return query
   }
 }

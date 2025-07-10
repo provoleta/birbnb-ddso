@@ -29,7 +29,7 @@ export default class AlojamientoService {
       limitNum,
     )
     if (!alojamientosFiltrados) throw new NotFoundException()
-    const total = await this.alojamientoRepository.countAll()
+    const total = await this.alojamientoRepository.countAll(filtersSeteados)
     const total_pages = Math.ceil(total / limitNum)
 
     const data = alojamientosFiltrados.map((alojamiento) => this.toDTO(alojamiento)) // Se mapean los alojamientos filtrados a un formato DTO para ser devueltos al cliente.
