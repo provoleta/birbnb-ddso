@@ -1,0 +1,31 @@
+describe('template spec', () => {
+  it('passes', () => {
+    cy.visit('http://localhost:3000')
+
+    const botonLog = cy.get('.app-nav-links button')
+    botonLog.click()
+    cy.get('.auth-form > div:nth-child(1) input').type('huesped@gmail.com')
+    cy.get('.auth-form > div:nth-child(2) input').type('1')
+    cy.get('.auth-form button').click()
+
+    cy.get('input[placeholder = "Buscar ciudad"]')
+      .type('Buenos Aires')
+      .should('have.value', 'Buenos Aires')
+    cy.get('.search-bar > div:nth-child(3)').click().type('2025-07-08')
+    cy.get('.search-bar > div:nth-child(5)').click().type('2025-07-14')
+    cy.get('.search-bar > div:nth-child(7) > input')
+      .click()
+      .type('{uparrow}')
+      .type('{uparrow}')
+      .trigger('change')
+      .should('have.value', '3')
+    cy.get('button[class="search-button"]').click()
+
+    cy.get('.search-card-container').first().click()
+    cy.get('.react-datepicker__day--008').click()
+    cy.get('.react-datepicker__day--012').click()
+    cy.get('.boton-reservar').click()
+    cy.get('.boton-cerrar-ventana').click()
+    cy.get('.onSession > :nth-child(2)').click()
+  })
+})
