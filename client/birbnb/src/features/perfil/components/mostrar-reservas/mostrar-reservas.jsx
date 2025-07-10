@@ -15,6 +15,7 @@ const MostrarReservas = () => {
 
   const fetchReservas = async () => {
     try {
+      setLoading(true)
       const response = await api.getReservas()
       setReservas(response)
     } catch (error) {
@@ -40,7 +41,17 @@ const MostrarReservas = () => {
     <>
       <h2>Tus reservas</h2>
       {loading ? (
-        <Loader />
+        <div
+          style={{
+            position: 'fixed',
+            top: '50%',
+            left: '55%',
+            transform: 'translate(-50%, -50%)',
+            zIndex: 1000,
+          }}
+        >
+          <Loader />
+        </div>
       ) : (
         <>
           {reservas.length > 0 && (
