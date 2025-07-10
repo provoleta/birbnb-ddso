@@ -1,7 +1,14 @@
 import './slider.css'
 import { Slider, Typography, Box } from '@mui/material'
+import { useState } from 'react'
 
 const SliderPrecio = ({ rangoPrecio, setRangoPrecio }) => {
+  const [rangoVisual, setRangoVisual] = useState(rangoPrecio)
+
+  const handleChange = (event, newValue) => {
+    setRangoVisual(newValue)
+  }
+
   const handlePriceChange = (event, newValue) => {
     setRangoPrecio(newValue)
   }
@@ -12,8 +19,9 @@ const SliderPrecio = ({ rangoPrecio, setRangoPrecio }) => {
       </Typography>
       <Box sx={{ width: '100%', padding: '0 10px' }}>
         <Slider
-          value={rangoPrecio}
-          onChange={handlePriceChange}
+          value={rangoVisual}
+          onChangeCommitted={handlePriceChange}
+          onChange={handleChange}
           valueLabelDisplay="auto"
           min={0}
           max={250}
