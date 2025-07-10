@@ -45,30 +45,42 @@ const MostrarReservasPendientes = (usuarioId) => {
     }
   }, [logueado, navigate, loadingAuth])
 
-  if (loading) {
-    return <CircularIndeterminate />
-  }
-
   return (
     <>
       <h2>Tus reservas pendientes de confirmacion</h2>
-      {reservasPendientes.length > 0 && (
-        <div className="fondo-gris">
-          {reservasPendientes.map((result) => (
-            <ReservasPendientesCard
-              key={result.idReserva}
-              alojamiento={result.alojamiento}
-              estado={result.estado}
-              fechaAlta={result.fechaAlta}
-              rangoFechas={result.rangoFechas}
-              idReserva={result._id}
-              onReservaCancelada={fetchReservasPendientes}
-              onReservaConfirmada={fetchReservasPendientes}
-            />
-          ))}
+      {loading ? (
+        <div
+          style={{
+            position: 'fixed',
+            top: '50%',
+            left: '55%',
+            transform: 'translate(-50%, -50%)',
+            zIndex: 1000,
+          }}
+        >
+          <CircularIndeterminate />
         </div>
+      ) : (
+        <>
+          {reservasPendientes.length > 0 && (
+            <div className="fondo-gris">
+              {reservasPendientes.map((result) => (
+                <ReservasPendientesCard
+                  key={result.idReserva}
+                  alojamiento={result.alojamiento}
+                  estado={result.estado}
+                  fechaAlta={result.fechaAlta}
+                  rangoFechas={result.rangoFechas}
+                  idReserva={result._id}
+                  onReservaCancelada={fetchReservasPendientes}
+                  onReservaConfirmada={fetchReservasPendientes}
+                />
+              ))}
+            </div>
+          )}
+          {reservasPendientes.length === 0 && <p>Todavia no se realizaron reservas.</p>}
+        </>
       )}
-      {reservasPendientes.length === 0 && <p>Todavia no se realizaron reservas.</p>}
     </>
   )
 }

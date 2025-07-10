@@ -10,6 +10,7 @@ const MostrarNotificaciones = () => {
   const [sortOption, setSortOption] = useState('No leidas') // Inicialmente se ordena por no leidas
   const [notificaciones, setNotificaciones] = useState([])
   const [loading, setLoading] = useState(true)
+  const [loadingNotifications, setLoadingNotifications] = useState({}) // Estado para loaders individuales
   const { token, logueado, loadingAuth } = useAuthContext()
   const [leida, setLeida] = useState(false) //Por defecto quiero mostrar las no leidas
 
@@ -47,9 +48,19 @@ const MostrarNotificaciones = () => {
   }, [logueado, loadingAuth, navigate])
 
   const handlerMarcarLeida = async (idNotificacion) => {
-    await api.marcarComoLeida(idNotificacion)
-    const response = await api.getNotificaciones(token, leida)
-    setNotificaciones(response)
+    try {
+      // Activar loader para esta notificación específica
+      setLoadingNotifications((prev) => ({ ...prev, [idNotificacion]: true }))
+
+      await api.marcarComoLeida(idNotificacion)
+      const response = await api.getNotificaciones(token, leida)
+      setNotificaciones(response)
+    } catch (error) {
+      console.error('Error al marcar como leída:', error)
+    } finally {
+      // Desactivar loader para esta notificación específica
+      setLoadingNotifications((prev) => ({ ...prev, [idNotificacion]: false }))
+    }
   }
 
   return (
@@ -59,7 +70,17 @@ const MostrarNotificaciones = () => {
         <SortButton currentSortOption={sortOption} onSortChange={handleSortChange} />
       </div>
       {loading ? (
-        <Loader />
+        <div
+          style={{
+            position: 'fixed',
+            top: '50%',
+            left: '55%',
+            transform: 'translate(-50%, -50%)',
+            zIndex: 1000,
+          }}
+        >
+          <Loader />
+        </div>
       ) : (
         <>
           {notificaciones.length > 0 && (
@@ -73,6 +94,7 @@ const MostrarNotificaciones = () => {
                   fechaLeida={result.fechaLeida}
                   idNotificacion={result.idNotificacion}
                   handlerMarcarLeida={handlerMarcarLeida}
+                  isLoading={loadingNotifications[result.idNotificacion] || false}
                 />
               ))}
             </div>
