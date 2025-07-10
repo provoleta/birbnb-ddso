@@ -110,7 +110,7 @@ export default function UploadAlojamientoForm() {
         <div className="input-container-upload">
           <AlojamientoTextField
             id="descripcion"
-            label="Descipcion"
+            label="Descripcion"
             value={descripcion}
             onChange={handleChange(setDescripcion)}
             required

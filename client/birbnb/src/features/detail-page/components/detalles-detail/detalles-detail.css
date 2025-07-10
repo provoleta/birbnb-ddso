@@ -18,6 +18,15 @@
   align-self: center;
 }
 
+.huespedes-max {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+  margin-top: 4px;
+  font-size: 18px;
+}
+
 .caracteristica-item {
   font-size: 21px;
   font-weight: normal;

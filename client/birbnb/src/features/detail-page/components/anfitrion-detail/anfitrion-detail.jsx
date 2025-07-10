@@ -10,7 +10,7 @@ const Anfitrion = ({ alojamiento }) => {
 
   return (
     <div className="anfitrion">
-      <h2>Anfitrion</h2>
+      <h2>Anfitrión</h2>
       <div className="perfil">
         {getImageSrc(alojamiento.anfitrion.profileImage) ? (
           <img

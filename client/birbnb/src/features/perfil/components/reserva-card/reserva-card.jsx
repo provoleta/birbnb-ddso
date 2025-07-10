@@ -12,6 +12,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import PendingIcon from '@mui/icons-material/Pending'
 import CancelIcon from '@mui/icons-material/Cancel'
 import VentanaFlotanteReserva from '../../../detail-page/components/ventana-flotante/ventanaFlotante.jsx'
+import Loader from '../../../../components/loader/loader.jsx'
 
 const formatDate = (dateString) => {
   const fechaStr = dateString.split('T')[0]
@@ -40,14 +41,17 @@ const ReservaCard = ({
   const [reservasFiltradas, setReservasFiltradas] = useState([])
   const [showConfirmacionCambio, setShowConfirmacionCambio] = useState(false)
   const [cont, setCont] = useState(0)
+  const [loader, setLoader] = useState(false)
 
   const CancelarReservaHandler = async () => {
     try {
       setShowCancelarReserva(false)
+      setLoader(true)
       await api.cancelarReserva(idReserva, motivo)
       onReservaCancelada()
     } catch (error) {
       alert('Error al cancelar la reserva:', error)
+      setLoader(false)
     }
   }
 
@@ -100,71 +104,77 @@ const ReservaCard = ({
 
   return (
     <div className="card-container">
-      <div>
-        <img
-          className="imagen-reserva"
-          src={`data:image/jpeg;base64,${alojamiento.fotos[0]?.path}`}
-          alt={alojamiento.nombre}
-        />
-      </div>
-      <div className="reserva-content">
-        <h3>{alojamiento.nombre}</h3>
-        <div className="reserva-info">
-          {iconoSegunEstado(estado)}
-          <h3>Estado: {estado}</h3>
-        </div>
-
-        <div className="reserva-info">
-          <CalendarTodayIcon style={{ color: '#666' }} />
-          <h3>Fecha Alta: {formatDate(fechaAlta)}</h3>
-        </div>
-
-        <div className="reserva-info">
-          <LoginIcon style={{ color: '#4CAF50' }} />
-          <h3>Fecha Check-in: {formatDate(rangoFechas.fechaInicio)}</h3>
-        </div>
-
-        <div className="reserva-info">
-          <LogoutIcon style={{ color: '#F44336' }} />
-          <h3>Fecha Check-out: {formatDate(rangoFechas.fechaFin)}</h3>
-        </div>
-      </div>
-      <div className="botones-container">
-        <Button
-          variant="contained"
-          startIcon={<DeleteIcon />}
-          onClick={handleCancelarReserva}
-          disabled={!estaEnCurso()}
-          style={{
-            backgroundColor: estaEnCurso() ? '#FFD700' : '#CCCCCC',
-            color: estaEnCurso() ? '#000' : '#666666',
-            minHeight: '48px',
-            '&:hover': {
-              backgroundColor: estaEnCurso() ? '#E6C200' : '#CCCCCC',
-            },
-          }}
-        >
-          Cancelar Reserva
-        </Button>
+      {loader ? (
+        <Loader />
+      ) : (
         <>
-          <Button
-            variant="contained"
-            startIcon={<CalendarTodayIcon />}
-            onClick={handlerModificarFecha}
-            disabled={!estaEnCurso()}
-            style={{
-              backgroundColor: estaEnCurso() ? '#FFD700' : '#CCCCCC',
-              color: estaEnCurso() ? '#000' : '#666666',
-              minHeight: '48px',
-              '&:hover': {
-                backgroundColor: estaEnCurso() ? '#E6C200' : '#CCCCCC',
-              },
-            }}
-          >
-            Modificar Reserva
-          </Button>
+          <div>
+            <img
+              className="imagen-reserva"
+              src={`data:image/jpeg;base64,${alojamiento.fotos[0]?.path}`}
+              alt={alojamiento.nombre}
+            />
+          </div>
+          <div className="reserva-content">
+            <h3>{alojamiento.nombre}</h3>
+            <div className="reserva-info">
+              {iconoSegunEstado(estado)}
+              <h3>Estado: {estado}</h3>
+            </div>
+
+            <div className="reserva-info">
+              <CalendarTodayIcon style={{ color: '#666' }} />
+              <h3>Fecha Alta: {formatDate(fechaAlta)}</h3>
+            </div>
+
+            <div className="reserva-info">
+              <LoginIcon style={{ color: '#4CAF50' }} />
+              <h3>Fecha Check-in: {formatDate(rangoFechas.fechaInicio)}</h3>
+            </div>
+
+            <div className="reserva-info">
+              <LogoutIcon style={{ color: '#F44336' }} />
+              <h3>Fecha Check-out: {formatDate(rangoFechas.fechaFin)}</h3>
+            </div>
+          </div>
+          <div className="botones-container">
+            <Button
+              variant="contained"
+              startIcon={<DeleteIcon />}
+              onClick={handleCancelarReserva}
+              disabled={!estaEnCurso()}
+              style={{
+                backgroundColor: estaEnCurso() ? '#FFD700' : '#CCCCCC',
+                color: estaEnCurso() ? '#000' : '#666666',
+                minHeight: '48px',
+                '&:hover': {
+                  backgroundColor: estaEnCurso() ? '#E6C200' : '#CCCCCC',
+                },
+              }}
+            >
+              Cancelar Reserva
+            </Button>
+            <>
+              <Button
+                variant="contained"
+                startIcon={<CalendarTodayIcon />}
+                onClick={handlerModificarFecha}
+                disabled={!estaEnCurso()}
+                style={{
+                  backgroundColor: estaEnCurso() ? '#FFD700' : '#CCCCCC',
+                  color: estaEnCurso() ? '#000' : '#666666',
+                  minHeight: '48px',
+                  '&:hover': {
+                    backgroundColor: estaEnCurso() ? '#E6C200' : '#CCCCCC',
+                  },
+                }}
+              >
+                Modificar Reserva
+              </Button>
+            </>
+          </div>
         </>
-      </div>
+      )}
 
       {showCancelarReserva && (
         <VentanaConfirmacion
