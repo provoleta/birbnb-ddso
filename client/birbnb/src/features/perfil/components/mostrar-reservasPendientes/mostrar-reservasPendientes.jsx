@@ -24,7 +24,6 @@ const MostrarReservasPendientes = (usuarioId) => {
       const reservasPendientes = todasLasReservas.filter(
         (reserva) => reserva.estado === 'PENDIENTE',
       )
-      console.log(reservasPendientes)
       setReservasPendientes(reservasPendientes)
     } catch (error) {
       console.log(error.message)
