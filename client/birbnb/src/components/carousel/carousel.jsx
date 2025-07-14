@@ -71,9 +71,9 @@ export default function Carousel({ alojamientos }) {
             transform: `translateX(-${currentIndex * (100 / itemsPerPage)}%)`,
           }}
         >
-          {alojamientos.map((home) => (
+          {alojamientos.map((home, index) => (
             <div key={home.idAlojamiento} className="carousel-item">
-              <Alojamiento alojamiento={home} />
+              <Alojamiento alojamiento={home} index={index + 1} />
             </div>
           ))}
         </div>

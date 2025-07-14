@@ -3,7 +3,7 @@ import Card from '@mui/material/Card'
 import { useNavigate } from 'react-router'
 import './alojamiento.css'
 
-export default function Alojamiento({ alojamiento }) {
+export default function Alojamiento({ alojamiento, index }) {
   const navigate = useNavigate()
   const irAlAlojamiento = () => {
     navigate(`/alojamientos/${alojamiento.idAlojamiento}`)
@@ -20,7 +20,7 @@ export default function Alojamiento({ alojamiento }) {
       <img
         className="alojamiento-foto"
         src={getImageSrc(alojamiento.fotos?.[0]?.path)}
-        alt={alojamiento.nombre}
+        alt={`Imagen del alojamiento numero: ${index}`}
         onClick={irAlAlojamiento}
       />
       <div className="alojamiento-footer">

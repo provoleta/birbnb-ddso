@@ -78,7 +78,6 @@ function SearchBar() {
             query={query}
             resultados={resultados}
             ciudades={ciudades}
-            aria-label="Ingrese la ciudad de destino"
           />
         </div>
         <div className="divider" role="separator"></div>
