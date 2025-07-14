@@ -28,9 +28,16 @@ function LogoConAudio() {
     <div>
       <img
         src="/images/logo.png"
-        alt="Logo"
+        alt="BirBnB - Inicio. Haga clic para ir a la página principal"
         onClick={handleLogoClick}
         style={{ cursor: 'pointer', width: 'auto', height: '50px' }}
+        role="button"
+        tabIndex="0"
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            handleLogoClick()
+          }
+        }}
       />
       <audio ref={audioRef} src="/sounds/doh_r4RZcVw.mp3" />
     </div>

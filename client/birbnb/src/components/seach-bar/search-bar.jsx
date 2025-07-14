@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react'
 import { useSearchContext } from '../../store/search-context'
 import CityInput from './city-input/city-input'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
 import api from '../../api/api'
 
 function SearchBar() {
@@ -62,47 +61,63 @@ function SearchBar() {
   }
 
   return (
-    <div className="search-bar-container">
-      <div className="search-bar">
+    <div className="search-bar-container" role="search" aria-label="Buscar alojamientos">
+      <form
+        id="search-form"
+        className="search-bar"
+        onSubmit={(e) => {
+          e.preventDefault()
+          handleSearch()
+        }}
+      >
         <div className="search-section">
-          <label>Destino</label>
+          <label htmlFor="destino-input">Destino</label>
           <CityInput
+            id="destino-input"
             handleChange={handleChange}
             query={query}
             resultados={resultados}
             ciudades={ciudades}
+            aria-label="Ingrese la ciudad de destino"
           />
         </div>
-        <div className="divider"></div>
+        <div className="divider" role="separator"></div>
         <div className="search-section">
-          <label>Check in</label>
+          <label htmlFor="checkin-input">Check in</label>
           <input
+            id="checkin-input"
             type="date"
             placeholder="Agregar fechas"
             value={checkIn}
             onChange={(e) => setCheckIn(e.target.value)}
+            aria-label="Fecha de entrada"
           />
         </div>
-        <div className="divider"></div>
+        <div className="divider" role="separator"></div>
         <div className="search-section">
-          <label>Check out</label>
+          <label htmlFor="checkout-input">Check out</label>
           <input
+            id="checkout-input"
             type="date"
             placeholder="Agregar fechas"
             value={checkOut}
             onChange={(e) => setCheckOut(e.target.value)}
+            aria-label="Fecha de salida"
           />
         </div>
-        <div className="divider"></div>
+        <div className="divider" role="separator"></div>
         <div className="search-section">
-          <label>Huéspedes</label>
+          <label htmlFor="huespedes-input">Huéspedes</label>
           <input
+            id="huespedes-input"
             type="number"
             placeholder="Agregar huespedes"
             value={huespedes}
             onChange={(e) => setHuespedes(e.target.value)}
             min="1"
+            max="20"
             readOnly={false}
+            aria-label="Número de huéspedes"
             // Bloqueo que escriban o modifiquen el numero de huespedes sin usar la flecha
             onKeyDown={(e) => {
               if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown' && e.key !== 'Tab') {
@@ -112,13 +127,20 @@ function SearchBar() {
             onPaste={(e) => e.preventDefault()}
           />
         </div>
-        <button className="search-button" onClick={handleSearch}>
+        <button
+          type="submit"
+          className="search-button"
+          onClick={handleSearch}
+          aria-label="Buscar alojamientos disponibles"
+        >
           <svg
             width="20"
             height="20"
             viewBox="0 0 20 20"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            focusable="false"
           >
             <path
               d="M19 19L13 13M15 8C15 11.866 11.866 15 8 15C4.134 15 1 11.866 1 8C1 4.134 4.134 1 8 1C11.866 1 15 4.134 15 8Z"
@@ -128,7 +150,7 @@ function SearchBar() {
             />
           </svg>
         </button>
-      </div>
+      </form>
     </div>
   )
 }
