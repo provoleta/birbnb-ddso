@@ -54,6 +54,9 @@ export function Offline() {
               <button className="menu-button" onClick={register}>
                 Crear Cuenta
               </button>
+              <button className="menu-button" onClick={registerAnfitrion}>
+                ¿Sos Anfitrion?
+              </button>
             </div>
           </>
         )}

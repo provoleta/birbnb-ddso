@@ -4,12 +4,19 @@ import SortButton from './components/sort-button/sort-button.jsx'
 import SliderPrecio from './components/filters/slider-precio.jsx'
 import FiltrosCaracteristicas from './components/filters/caracteristicas.jsx'
 import Loader from '../../components/loader/loader.jsx'
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect, use } from 'react'
 import { useSearchContext } from '../../store/search-context.jsx'
 
 export default function SearchPage() {
-  const { switchLimpiar, alojamientos, aplicarFiltros, searchParams, loading } =
-    useSearchContext() // Agregar loading del contexto
+  const {
+    switchLimpiar,
+    alojamientos,
+    aplicarFiltros,
+    searchParams,
+    loading,
+    totalPages,
+  } = useSearchContext() // Agregar loading del contexto
+
   const searchValue = searchParams.get('ciudad') || ''
   const [sortOption, setSortOption] = useState('Menor precio')
   const [currentPage, setCurrentPage] = useState(1)
@@ -22,6 +29,10 @@ export default function SearchPage() {
     mascotas_permitidas: false,
     wifi: false,
   })
+
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [totalPages])
 
   const sortedAlojamientos = useMemo(() => {
     const alojamientosCopy = Array.isArray(alojamientos?.data)
@@ -50,8 +61,6 @@ export default function SearchPage() {
     setCurrentPage(newPage)
   }
 
-  const totalPages = alojamientos?.total_pages
-
   const transformarServicios = (servicios) => {
     const caracteristicas = []
 
@@ -70,7 +79,7 @@ export default function SearchPage() {
     params.set('page', currentPage)
     params.set('caracteristicas', transformarServicios(servicios))
     params.set('sortBy', sortOption === 'Menor precio' ? 'ascendente' : 'descendente')
-    console.log(params)
+
     aplicarFiltros(params)
   }
 

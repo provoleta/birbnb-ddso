@@ -37,21 +37,33 @@ const MostrarAlojamientos = () => {
     }
   }, [logueado, navigate, loadingAuth])
 
-  if (loading) {
-    return <CircularIndeterminate />
-  }
   return (
     <>
       <h2>Tus Alojamientos</h2>
-
-      {alojamientos.length > 0 && (
-        <div className="fondo-gris">
-          {alojamientos.map((result) => (
-            <AlojamientoCard key={result.idAlojamiento} alojamiento={result} />
-          ))}
+      {loading ? (
+        <div
+          style={{
+            position: 'fixed',
+            top: '50%',
+            left: '55%',
+            transform: 'translate(-50%, -50%)',
+            zIndex: 1000,
+          }}
+        >
+          <CircularIndeterminate />
         </div>
+      ) : (
+        <>
+          {alojamientos.length > 0 && (
+            <div className="fondo-gris">
+              {alojamientos.map((result) => (
+                <AlojamientoCard key={result.idAlojamiento} alojamiento={result} />
+              ))}
+            </div>
+          )}
+          {alojamientos.length === 0 && <p>Todavia no tenes alojamientos.</p>}
+        </>
       )}
-      {alojamientos.length === 0 && <p>Todavia no tenes alojamientos.</p>}
     </>
   )
 }

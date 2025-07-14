@@ -43,8 +43,10 @@ export default class ReservaService {
     }
 
     reservaAModificar.rangoFechas = rangoFechas
+    reservaAModificar.estado = EstadoReserva.PENDIENTE
 
     const reservaModificada = await this.reservaRepository.save(reservaAModificar)
+    this.notificarReserva(alojamiento.anfitrion, reservaAModificar, '')
 
     return this.toDTO(reservaModificada)
   }
@@ -109,10 +111,7 @@ export default class ReservaService {
       throw new UnauthorizedException()
     }
 
-    if (
-      dayjs().isAfter(reservaAeliminar.rangoFechas.fechaInicio, 'DD/MM/YYYY') &&
-      dayjs().isBefore(reservaAeliminar.rangoFechas.fechaFin, 'DD/MM/YYYY')
-    ) {
+    if (dayjs().isAfter(reservaAeliminar.rangoFechas.fechaInicio)) {
       throw new ExcededTimeException()
     }
 

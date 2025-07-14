@@ -308,7 +308,6 @@ class Api {
     return await this.axiosInstance
       .get('/ciudades')
       .then((response) => {
-        console.log('Response:', response)
         return response.data
       })
       .catch((error) => {

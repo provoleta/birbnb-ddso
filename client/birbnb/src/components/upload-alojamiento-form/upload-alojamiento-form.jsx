@@ -8,6 +8,7 @@ import { useState } from 'react'
 import { handleHorarioChange, handleHorarioBlur } from './utils'
 import './upload-alojamiento-form.css'
 import VentanaFlotante from './components/ventana-flotante-alojamiento/ventanaFlotante'
+import Loader from '../loader/loader'
 
 export default function UploadAlojamientoForm() {
   const [nombre, setNombre] = useState('')
@@ -31,6 +32,7 @@ export default function UploadAlojamientoForm() {
     ESTACIONAMIENTO: false,
   })
   const [showConfirmacionAlojamiento, setConfirmacionAlojamiento] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const handleCaracteristicas = (e) => {
     const { name, checked } = e.target
@@ -63,35 +65,44 @@ export default function UploadAlojamientoForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setLoading(true)
 
-    const { lat, long } = await api.obtenerCoordenadas({
-      calle,
-      numero: altura,
-      ciudad,
-      pais,
-    })
-
-    const alojamientoData = {
-      nombre,
-      descripcion,
-      precioPorNoche: Number(precio),
-      moneda,
-      horarioCheckIn: horarioCheckIn || '12:00',
-      horarioCheckOut: horarioCheckOut || '12:00',
-      direccion: {
+    try {
+      const { lat, long } = await api.obtenerCoordenadas({
         calle,
-        numero: Number(altura),
+        numero: altura,
         ciudad,
         pais,
-        lat,
-        long,
-      },
-      caracteristicas: Object.keys(caracteristicas).filter((key) => caracteristicas[key]),
-      cantHuespedesMax: Number(cantHuespedesMax),
-      fotos: Array.isArray(imageBase64) ? imageBase64 : [imageBase64],
+      })
+
+      const alojamientoData = {
+        nombre,
+        descripcion,
+        precioPorNoche: Number(precio),
+        moneda,
+        horarioCheckIn: horarioCheckIn || '12:00',
+        horarioCheckOut: horarioCheckOut || '12:00',
+        direccion: {
+          calle,
+          numero: Number(altura),
+          ciudad,
+          pais,
+          lat,
+          long,
+        },
+        caracteristicas: Object.keys(caracteristicas).filter(
+          (key) => caracteristicas[key],
+        ),
+        cantHuespedesMax: Number(cantHuespedesMax),
+        fotos: Array.isArray(imageBase64) ? imageBase64 : [imageBase64],
+      }
+      await api.subirAlojamiento(alojamientoData)
+      setConfirmacionAlojamiento(true)
+    } catch (error) {
+      console.error('Error al subir alojamiento:', error)
+    } finally {
+      setLoading(false)
     }
-    await api.subirAlojamiento(alojamientoData)
-    setConfirmacionAlojamiento(true)
   }
 
   return (
@@ -110,7 +121,7 @@ export default function UploadAlojamientoForm() {
         <div className="input-container-upload">
           <AlojamientoTextField
             id="descripcion"
-            label="Descipcion"
+            label="Descripcion"
             value={descripcion}
             onChange={handleChange(setDescripcion)}
             required
@@ -241,8 +252,41 @@ export default function UploadAlojamientoForm() {
           />
         </div>
 
-        <button className="submit-button" type="submit">
-          Subir Alojamiento
+        <button
+          className="submit-button"
+          type="submit"
+          disabled={loading}
+          style={{
+            opacity: loading ? 0.7 : 1,
+            cursor: loading ? 'not-allowed' : 'pointer',
+            position: 'relative',
+          }}
+        >
+          {loading ? (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                fontSize: '14px',
+              }}
+            >
+              <div
+                style={{
+                  width: '16px',
+                  height: '16px',
+                  border: '2px solid transparent',
+                  borderTop: '2px solid white',
+                  borderRadius: '50%',
+                  animation: 'spin 1s linear infinite',
+                }}
+              ></div>
+              <span>Subiendo...</span>
+            </div>
+          ) : (
+            'Subir Alojamiento'
+          )}
         </button>
         {showConfirmacionAlojamiento && (
           <div>

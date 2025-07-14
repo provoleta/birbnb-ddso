@@ -25,6 +25,12 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1); /* Agrega sombra para emprolijar */
 }
 
+.botones-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .reservas-lista {
   background-color: #00000013;
   padding: 20px; /* Mejora el espaciado interno */
