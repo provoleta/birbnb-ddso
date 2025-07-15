@@ -111,13 +111,25 @@ const SesionFlotante = ({ isOpen, onClose, initialMode }) => {
                     accept="image/*"
                     onChange={handleImageChange}
                   />
-                  <label htmlFor="profileImage" className="file-input-button">
+                  <div
+                    className="file-input-button"
+                    role="button"
+                    tabIndex="0"
+                    onClick={() => document.getElementById('profileImage').click()}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault()
+                        document.getElementById('profileImage').click()
+                      }
+                    }}
+                  >
                     <svg
                       width="20"
                       height="20"
                       viewBox="0 0 24 24"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
                     >
                       <path
                         d="M12 16L7 11L8.4 9.6L11 12.2V4H13V12.2L15.6 9.6L17 11L12 16Z"
@@ -126,7 +138,7 @@ const SesionFlotante = ({ isOpen, onClose, initialMode }) => {
                       <path d="M20 18H4V20H20V18Z" fill="currentColor" />
                     </svg>
                     {profileImage ? profileImage.name : 'Seleccionar imagen'}
-                  </label>
+                  </div>
                 </div>
                 {imagePreview && (
                   <div className="image-preview">

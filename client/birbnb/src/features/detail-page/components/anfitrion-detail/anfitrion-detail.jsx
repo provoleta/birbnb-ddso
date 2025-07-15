@@ -23,7 +23,7 @@ const Anfitrion = ({ alojamiento }) => {
         )}
 
         <div className="informacion-perfil">
-          <h4>{alojamiento.anfitrion.nombre}</h4>
+          <h3>{alojamiento.anfitrion.nombre}</h3>
           <p className="biografia">{alojamiento.anfitrion.biografia}</p>
         </div>
       </div>

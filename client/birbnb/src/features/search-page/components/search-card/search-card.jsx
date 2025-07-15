@@ -17,10 +17,10 @@ const SearchCard = ({ idAlojamiento, nombre, descripcion, precioPorNoche, fotos 
   return (
     <div className="search-card-container" onClick={handleViewMore}>
       <div className="card-fotos">
-        <img src={getImageSrc(fotos)} alt={nombre} />
+        <img src={getImageSrc(fotos)} alt={`Imagen del alojamiento ${nombre}`} />
       </div>
       <div className="card-content">
-        <h3>{nombre}</h3>
+        <h2>{nombre}</h2>
         <p>{descripcion}</p>
         <p className="card-precioPorNoche">${precioPorNoche} por noche</p>
       </div>

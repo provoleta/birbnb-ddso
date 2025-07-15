@@ -25,7 +25,7 @@ export default function Alojamiento({ alojamiento, index }) {
       />
       <div className="alojamiento-footer">
         <div className="alojamiento-footer-data">
-          <h3>{alojamiento.nombre}</h3>
+          <h2>{alojamiento.nombre}</h2>
           <p>{alojamiento.descripcion}</p>
         </div>
         <div className="alojamiento-footer-actions">

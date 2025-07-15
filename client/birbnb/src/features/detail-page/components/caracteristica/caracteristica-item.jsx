@@ -11,7 +11,7 @@ const CaracteristicaItem = ({ caracteristica }) => {
       case 'PISCINA':
         return <PoolIcon />
       case 'ESTACIONAMIENTO':
-        return <img src={LocalParkingIcon} alt="estacionamiento disponible" />
+        return <img src={LocalParkingIcon} alt="Icono estacionamiento" />
       case 'MASCOTAS_PERMITIDAS':
         return <PetsIcon />
       default:
@@ -28,12 +28,14 @@ const CaracteristicaItem = ({ caracteristica }) => {
 
   return (
     <div className="caracteristica-item">
-      <p className="parrafo-caracteristica">
+      <div className="parrafo-caracteristica" role="text">
         {getIcon && (
-          <span className="icono-caracteristica">{getIcon(caracteristica)}</span>
+          <span className="icono-caracteristica sr-only-icon">
+            {getIcon(caracteristica)}
+          </span>
         )}
-        {formatearPalabra(caracteristica)}
-      </p>
+        <span>{formatearPalabra(caracteristica)}</span>
+      </div>
     </div>
   )
 }

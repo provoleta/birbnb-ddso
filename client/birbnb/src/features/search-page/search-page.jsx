@@ -100,7 +100,6 @@ export default function SearchPage() {
   return (
     <div className="search-page-container">
       <div className="search-filters-container">
-        <h2></h2>
         <SliderPrecio rangoPrecio={rangoPrecio} setRangoPrecio={setRangoPrecio} />
         <FiltrosCaracteristicas servicios={servicios} setServicios={setServicios} />
       </div>
