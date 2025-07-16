@@ -46,7 +46,7 @@ const AlojamientoCard = ({ alojamiento }) => {
         <img
           className="imagen-alojamiento"
           src={getImageSrc(alojamiento.fotos[0]?.path)}
-          alt={alojamiento.nombre}
+          alt={`Imagen del alojamiento: ${alojamiento.nombre}`}
         />
       </div>
       <div className="alojamiento-content">

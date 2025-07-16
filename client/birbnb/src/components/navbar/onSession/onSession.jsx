@@ -70,7 +70,10 @@ export function OnSession() {
   return (
     <div className="onSession">
       <div className="hamburger-menu">
-        <IconButton onClick={() => setMenuOpen(!menuOpen)}>
+        <IconButton
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
+        >
           {menuOpen ? <CloseIcon /> : <MenuIcon />}
         </IconButton>
       </div>
@@ -78,18 +81,24 @@ export function OnSession() {
         className={`session-buttons${menuOpen ? ' open' : ''}`}
         ref={sessionButtonsRef}
       >
-        <IconButton onClick={() => verPerfil('/notificaciones')}>
+        <IconButton
+          onClick={() => verPerfil('/notificaciones')}
+          aria-label="Ver notificaciones"
+        >
           <NotificationIcon />
         </IconButton>
-        <IconButton onClick={() => verPerfil('/reservas')}>
+        <IconButton onClick={() => verPerfil('/reservas')} aria-label="Ver reservas">
           <BookmarkIcon />
         </IconButton>
         {tipoUsuario === 'ANFITRION' && (
           <>
-            <IconButton onClick={() => verPerfil('/alojamientos')}>
+            <IconButton
+              onClick={() => verPerfil('/alojamientos')}
+              aria-label="Ver mis alojamientos"
+            >
               <HomeIcon />
             </IconButton>
-            <IconButton onClick={nuevoAlojamiento}>
+            <IconButton onClick={nuevoAlojamiento} aria-label="Agregar nuevo alojamiento">
               <AddHomeIcon />
             </IconButton>
           </>
@@ -97,14 +106,22 @@ export function OnSession() {
       </div>
       <div className="user-info">
         <Avatar
-          alt="User Avatar"
+          alt="Foto de perfil del usuario"
           src={getImageSrc(user?.profileImage)}
           ref={avatarRef}
           onClick={() => setProfileMenuOpen(!profileMenuOpen)}
+          style={{ cursor: 'pointer' }}
+          role="button"
+          tabIndex={0}
+          aria-label="Abrir menú de perfil"
         />
         <div className={`profile-menu${profileMenuOpen ? ' open' : ''}`} ref={menuRef}>
           <div className="profile-name">{user?.nombre}</div>
-          <IconButton className="menu-button" onClick={handleLogout}>
+          <IconButton
+            className="menu-button"
+            onClick={handleLogout}
+            aria-label="Cerrar sesión"
+          >
             <p className="logOut-titulo" style={{ marginRight: '10px' }}>
               Cerrar sesión{' '}
             </p>

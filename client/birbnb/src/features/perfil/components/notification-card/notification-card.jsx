@@ -82,8 +82,18 @@ const NotificationCard = ({
             </div>
           </div>
           <div className="card-end">
-            <h4>{leida ? '' : 'Marcar como leída'}</h4>
-            <Checkbox checked={leida} onChange={onMarcarLeida} disabled={leida} />
+            {!leida && (
+              <label htmlFor={`checkbox-${idNotificacion}`}>
+                <h4>Marcar como leída</h4>
+              </label>
+            )}
+            <Checkbox
+              id={`checkbox-${idNotificacion}`}
+              checked={leida}
+              onChange={onMarcarLeida}
+              disabled={leida}
+              aria-label="Marcar como leída"
+            />
           </div>
         </div>
       )}

@@ -16,17 +16,10 @@ const currencies = [
   },
 ]
 
-export default function AlojamientoMonedaField({ id, label, onChange }) {
+export default function AlojamientoMonedaField({ id, onChange }) {
   return (
     <div className="alojamiento-moneda-field">
-      <TextField
-        id={id}
-        select
-        label={label}
-        defaultValue="PESO_ARG"
-        onChange={onChange}
-        variant="outlined"
-      >
+      <TextField id={id} select defaultValue="PESO_ARG" onChange={onChange}>
         {currencies.map((option) => (
           <MenuItem key={option.value} value={option.value}>
             {option.label}

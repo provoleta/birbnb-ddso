@@ -210,13 +210,12 @@ export default function UploadAlojamientoForm() {
           />
         </div>
 
-        <div className="image-container">
+        <div className="image-container" aria-label="Imagenes del alojamiento">
           {imagePreview.length > 0 && (
             <div className="imagenes-preview-list">
               {imagePreview.map((img, idx) => (
-                <div className="imagen-preview-container">
+                <div key={idx} className="imagen-preview-container">
                   <img
-                    key={idx}
                     src={img}
                     alt={`Alojamiento preview ${idx + 1}`}
                     className="imagen-preview"
@@ -230,6 +229,8 @@ export default function UploadAlojamientoForm() {
                   <button
                     className="delete-icon"
                     onClick={() => handleImageDelete({ target: { src: img } })}
+                    aria-label={`Eliminar imagen ${idx + 1}`}
+                    type="button"
                   >
                     🗑️
                   </button>
