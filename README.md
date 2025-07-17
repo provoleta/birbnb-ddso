@@ -1,6 +1,6 @@
 # BIRBNB
 
-[https://birbnb-ddso.netlify.app/]
+https://birbnb-ddso.netlify.app/
 
 ### Integrantes
 
