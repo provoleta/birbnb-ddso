@@ -1,10 +1,18 @@
 # BIRBNB
 
-### Jeremias Bartolsic, Thiago Perez Giacchetta, Lucas Sebastian Arias, Tomás Bühler, Nicolas Agüero
+[https://birbnb-ddso.netlify.app/]
+
+### Integrantes
+
+Jeremias Bartolsic, Thiago Perez Giacchetta, Lucas Sebastian Arias, Tomás Bühler, Nicolas Agüero
 
 [Changelog](./CHANGELOG.md)
 
-## Guia de uso de BirBnB
+## Introducción
+
+El objetivo del trabajo practico fue diseñar e implementar un Sistema de Reservas llamado Birbnb, que proporciona una experiencia fluida y confiable para la gestión de alojamientos temporales. Con este fin, llevamos a cabo la implementación tanto del backend como del frontend de la aplicacion web. Algunas de las tecnologias usadas en el proyecto incluyen: Javascript, React, MongoDB, Node.Js, Render, entre otras.
+
+## Guia de uso de BirBnB - Backend
 
 1. Instalar dependencias mediante el comando `npm install`
 2. Para levantar el servidor, ejecutar el comando `npm start`
